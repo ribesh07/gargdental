@@ -1,0 +1,68 @@
+###GET for banners
+GET https://garg.omsok.com/api/v1/banners HTTP/1.1
+
+###GET for cards
+# GET http://192.168.1.64:8000/api/v1/banners/get-cards HTTP/1.1
+GET https://garg.omsok.com/api/v1/banners/get-cards HTTP/1.1
+
+### for brands
+GET https://garg.omsok.com/api/v1/brands HTTP/1.1
+
+### for categories
+GET https://garg.omsok.com/api/v1/categories HTTP/1.1
+
+### for latest products
+GET https://garg.omsok.com/api/v1/products/latest HTTP/1.1
+###
+GET https://garg.omsok.com/api/v1/products/latest
+
+###Get details
+GET https://garg.omsok.com/api/v1/products/details/P00002
+
+###POST
+POST http://192.168.1.64:8000/api/v1/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "first_name" : "rk",
+    "last_name" : "sah",
+    "password"  : "12345678",
+    "email" : "rk@gmail.com",
+    "phone" : "9812457898"
+}
+
+###Post verify-account
+POST http://192.168.1.64:8000/api/v1/verify-account HTTP/1.1
+Content-Type: application/json
+
+{
+    "email" : "rk@gmail.com",
+    "user_verification_code" : "137033"
+}
+
+###Post resend code
+POST http://192.168.1.64:8000/api/v1/resend-code HTTP/1.1
+Content-Type: application/json
+
+{
+    "email" : "rk@gmail.com",
+    "user_verification_code" : "137033"
+}
+
+###Post login
+POST http://192.168.1.64:8000/api/v1/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email" : "rk@gmail.com",
+    "password" : "12345678"
+}
+
+### cart data
+GET https://garg.omsok.com/api/v1/customer/auth/cart/list HTTP/1.1
+Content-Type: application/json
+Authorization: token eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiODQwNDhlNWNlNjM1ODNkNDNhNzNjYzRlZDYwZGI5MjdlNzgwNGM3M2MwOWQ1MzNiZDE4MjBiNDY5ZTJiOWUyOThlM2U0NWRhOGYwYzRlY2EiLCJpYXQiOjE3NTAzOTc4MDUuODg5NDQ5LCJuYmYiOjE3NTAzOTc4MDUuODg5NDUyLCJleHAiOjE3ODE5MzM4MDUuNjM2NzYxLCJzdWIiOiI0MCIsInNjb3BlcyI6W119.fXRs2xlNmzt_HSnoaLuWH4XFSNc3ulIRvBIFgtxrQs7EpweNyv5od9FCL8oWGZMNh151zVY1HyLiSnm4cqxlUnQ-DSqf31IK2RaAsMLGAhuOGRqfxZY4Aw_gRUHt85odiVJQZQgSfqqMRahTyu0a809xpANZHext0F4Xd9j34DmMByiy5Xa4UYzwa0lcxZfG6pNo4a6Z6hlrN4DImsCFpXYwG814wmG19zVHcA7RTGFAeyalr4rHMvZH7OYJxVgzVHxPgOEhvsDvjRGmPqbnhxY55Hj02fRYUpiO9aoRcmawabY0YmsA4cCQjn5yySua3dh9hMQL7OFMuDfklWcu_VcnjYccXu4eW0Sft6aBmXmUjcG3P_4j-53wNFwS8ftWq4HwI4UePZbLTHIqWSxUF0G9AIBTnF6yz12aSuIHyyqCFuAB448AMVacAhfjtY2vb7sxyF_RsWIZ1KwxB4kyxH0N42Lj-6gdTgZxQQN515veIOf2Byj7_QUyT1eT9xUjfllO5jQQiY8iL2sOL_b76w5zShpNCPumH6nA3me3AWIVCQwDOJ4lc7JtfNxdZVWpx1Rt7Agcvnl4a1CK7T942QaLfLf2QLsJoRRXcFfhZ1zo75wu8CiyhnhP-NO2YdDD43I5TVEdKN6GJUOM3pKgyjeg3K2Tv-i-7_QB4Ih1zvA
+
+
+### Delete user
+DELETE http://192.168.1.64:8000/api/v1/

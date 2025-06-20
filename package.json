@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.4"
+    "lucide-react": "^0.517.0",
+    "next": "^15.4.0-canary.87",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.5.2",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
