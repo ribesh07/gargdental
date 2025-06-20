@@ -16,7 +16,7 @@ const DentalSuppliesListing = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isReady, setIsReady] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(9); // Number of products to display initially
+  const [visibleCount, setVisibleCount] = useState(6); // Number of products to display initially
   var visibleProducts = [];
   // const API_URL = "http://192.168.1.64:8000/api/v1/products/latest";
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -84,7 +84,7 @@ const DentalSuppliesListing = () => {
   useEffect(() => {
     setIsReady(true);
     fetchProducts();
-  }, []);
+  }, [visibleCount]);
 
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
@@ -369,6 +369,18 @@ const DentalSuppliesListing = () => {
             ))}
           </div>
         </div>
+
+        {/* load more */}
+        {visibleCount && (
+          <div className="text-center mt-6">
+            <button
+              onClick={() => handleLoadMore()}
+              className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+            >
+              Load More
+            </button>
+          </div>
+        )}
 
         {/* No Results */}
         {filteredAndSortedProducts.length === 0 && (

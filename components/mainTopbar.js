@@ -28,7 +28,7 @@ export default function MainTopBar() {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-blue-900 text-white py-2 text-xs">
+      <div className=" bg-blue-900 text-white py-2 relative text-xs">
         <div className="max-w-5xl mx-auto px-5 flex justify-end items-center">
           <div className="flex items-center space-x-6">
             <div className="text-[12px]">
