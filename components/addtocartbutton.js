@@ -31,10 +31,26 @@ export function AddToCart({ product }) {
     <button
       onClick={() => handleAdd()}
       // disabled={added}
-      className="btn w-full bg-blue-700 hover:bg-blue-800 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors duration-200 mt-auto"
+      className="btn bg-gray-500 md:w-auto hover:bg-blue-800 text-white px-1 py-1 rounded-md font-medium flex items-center justify-center space-x-2 transition-colors duration-200"
     >
-      <ShoppingCart className="w-5 h-5 m-2" />
+      <ShoppingCart className="w-4 h-4 mr-3" />
       Add to Cart
+    </button>
+  );
+}
+
+export function AddtoCartFeatured({ product }) {
+  const addToCart = useCartStore((state) => state.addToCart);
+  const handleAdd = () => {
+    addToCart(product);
+    toast.success(`${product.product_name} added to cart!`);
+  };
+  return (
+    <button
+      onClick={() => handleAdd()}
+      className="md:w-auto my-2 bg-gray-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded transition-colors"
+    >
+      ADD TO CART
     </button>
   );
 }

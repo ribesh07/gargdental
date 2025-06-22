@@ -61,7 +61,7 @@ const DentalSuppliesListing = () => {
           sell_price: product.sell_price,
           image_url:
             product.image_full_url ||
-            "http://192.168.1.64:8000/storage/backend/carousel_files/garg1.png",
+            "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
           description: product.product_description,
           available_quantity: product.available_quantity,
           unit_info: product.unit_info,
@@ -318,7 +318,7 @@ const DentalSuppliesListing = () => {
                     onClick={() => handleCardClick(product)}
                     src={product.image_url}
                     alt={product.product_name}
-                    className="w-full h-48 object-cover rounded-lg"
+                    className="w-full h-48 object-cover p-2 rounded-lg"
                   />
                   {parseFloat(product.actual_price) >
                     parseFloat(product.sell_price) && (
