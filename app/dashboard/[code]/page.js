@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import AddToCartButton, { AddToCart } from "@/components/addtocartbutton";
-import MainTopBar from "@/components/mainTopbar";
+// import MainTopBar from "@/components/mainTopbar";
 import ProductTabs from "@/components/ProductTabsDes";
 // import { AddToCart } from "@/components/addtocartbutton";
 
@@ -121,7 +121,7 @@ export async function getProductByCode(code) {
       sell_price: product.sell_price,
       image_url:
         product.image_full_url ||
-        "https://garg.omsok.com/storage/backend/carousel_files/garg1.png",
+        "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
       description: product.product_description,
       available_quantity: product.available_quantity,
       unit_info: product.unit_info,
@@ -159,8 +159,6 @@ export default async function ProductPage({ params }) {
 
   return (
     <>
-      <MainTopBar />
-
       {/* Product Details */}
       <div className="max-w-6xl h-max-screen mx-auto mb-20 py-20 px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

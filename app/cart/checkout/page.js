@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Trash2, Mail } from "lucide-react";
-import MainTopBar from "@/components/mainTopbar";
+// import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
   const [couponCode, setCouponCode] = useState("");
@@ -22,7 +22,7 @@ export default function OrderSummary() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <MainTopBar />
+      {/* <MainTopBar /> */}
       <div className="max-w-4xl mx-auto my-5 border border-gray-200 bg-white rounded-lg shadow-sm hover:shadow-xl">
         <div className="p-8">
           {/* Header */}

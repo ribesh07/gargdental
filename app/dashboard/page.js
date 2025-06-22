@@ -4,10 +4,11 @@ import { Search, ShoppingCart, User, Lock } from "lucide-react";
 import Link from "next/link";
 import DentalSuppliesListing from "@/app/listings/page";
 import { useRouter } from "next/navigation";
-import MainTopBar from "@/components/mainTopbar";
+// import MainTopBar from "@/components/mainTopbar";
 import BannerGarg from "@/components/bannerGarg";
 import ProductShowcase from "@/components/FeaturedProduct";
-import HeaderBarNew from "@/components/HeaderBarNew";
+// import HeaderBarNew from "@/components/HeaderBarNew";
+import CategoriesViews from "../page";
 
 const GargDental = () => {
   const [products, setProducts] = useState([]);
@@ -92,10 +93,25 @@ const GargDental = () => {
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
       {/* Top Bar */}
-      {/* <MainTopBar /> */}
-      <HeaderBarNew />
 
-      {/* Breadcrumb */}
+      {/* categories */}
+      <CategoriesViews />
+
+      {/* Browse more */}
+      <div className="text-center text-2xl font-bold">
+        <div className="max-w-full px-4 py-8 text-center">
+          <div className="relative max-w-7xl h-[100px] mx-auto">
+            <img
+              src="https://www.henryschein.com/us-en/images/dental/pageheader/default.png"
+              alt="Garg Logo"
+              className="w-full h-full object-cover rounded"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-trasparent bg-opacity-40 text-white text-sm font-semibold">
+              <h1 className="text-3xl font-bold mt-4">BROWSE MORE PRODUCTS</h1>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Image Slider */}
       <div

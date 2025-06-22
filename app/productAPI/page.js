@@ -11,8 +11,9 @@ import {
 import { useRouter } from "next/navigation";
 import useSelectedProductStore from "@/stores/sendingProduct";
 import { AddToCart } from "@/components/addtocartbutton";
-import MainTopBar from "@/components/mainTopbar";
+// import MainTopBar from "@/components/mainTopbar";
 import { usePathname } from "next/navigation";
+// import HeaderBarNew from "@/components/HeaderBarNew";
 
 const ProductAPIRequest = () => {
   const [products, setProducts] = useState([]);
@@ -31,6 +32,9 @@ const ProductAPIRequest = () => {
     router.push(`/dashboard/${product.product_code}`);
   };
 
+  const formatPrice = (price) => {
+    return `Rs.${parseFloat(price).toFixed(2)}`;
+  };
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
@@ -61,7 +65,9 @@ const ProductAPIRequest = () => {
           item_number: `#${product.product_code}`,
           actual_price: product.actual_price,
           sell_price: product.sell_price,
-          image_url: product.image_full_url,
+          image_url:
+            product.image_full_url ||
+            "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
           description: product.product_description,
           available_quantity: product.available_quantity,
           unit_info: product.unit_info,
@@ -99,8 +105,8 @@ const ProductAPIRequest = () => {
   console.warn(`pathname: ${pathname}`);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <MainTopBar />
+    <div className="min-h-screen bg-gray-100 p-6">
+      {/* <MainTopBar /> */}
       <div className="max-w-7xl my-6 mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -122,12 +128,6 @@ const ProductAPIRequest = () => {
               Refresh
             </button>
           </div>
-
-          {/* <div className="bg-white p-4 rounded-lg border-gray-300 shadow-sm border">
-            <p className="text-sm text-gray-600 mb-2">
-              <strong>API Endpoint:</strong> GET {API_URL}
-            </p>
-          </div> */}
         </div>
 
         {/* Filters */}
@@ -189,85 +189,63 @@ const ProductAPIRequest = () => {
 
         {/* Products Grid */}
         {!loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-200 border border-gray-200"
-              >
-                <div className="relative">
-                  <img
-                    src={product.image_url}
-                    onClick={() => handleCardClick(product)}
-                    alt={product.product_name}
-                    className="w-full h-48 p-0.5 object-cover rounded-t-lg hover:scale-105 transition-transform duration-300"
-                  />
-                  {!product.flash_sale && (
-                    <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                      SALE
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900 line-clamp-2">
-                      {product.product_name}
-                    </h3>
-                    <span className="text-xs text-gray-500 ml-2 flex-shrink-0">
-                      {product.item_number}
-                    </span>
-                  </div>
-
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Tag className="h-3 w-3" />
-                      <span>{product.brand}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Package className="h-3 w-3" />
-                      <span>{product.category}</span>
-                    </div>
-
-                    {product.available_quantity && (
-                      <div className="text-sm text-gray-600">
-                        Stock:{" "}
-                        <span className="font-medium">
-                          {product.available_quantity} {product.unit_info}
-                        </span>
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-grey-50 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full cursor-pointer"
+                >
+                  {/* Product Image */}
+                  <div className="relative hover:scale-105 transition-transform duration-300 p-4 pb-0">
+                    <img
+                      onClick={() => handleCardClick(product)}
+                      src={product.image_url}
+                      alt={product.product_name}
+                      className="w-full h-48 object-contain p-4 rounded-lg"
+                    />
+                    {parseFloat(product.actual_price) >
+                      parseFloat(product.sell_price) && (
+                      <div className="absolute top-6 left-6 bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
+                        SALE
                       </div>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-bold text-green-600">
-                        Rs.{product.sell_price}
-                      </span>
-                      {product.actual_price !== product.sell_price &&
-                        product.actual_price !== "0.00" && (
-                          <span className="text-sm text-gray-500 line-through">
-                            Rs.{product.actual_price}
-                          </span>
-                        )}
-                    </div>
-                  </div>
-
-                  {product.description && (
-                    <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+                  {/* Product Info - Flexible container */}
+                  <div
+                    className="p-4 flex flex-col flex-grow"
+                    onClick={() => handleCardClick(product)}
+                  >
+                    <h3 className="text-lg font-semibold text-blue-800 mb-1">
+                      {product.product_name}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-2">
+                      {product.brand} - Item {product.item_number}
+                    </p>
+                    <p className="text-gray-500 text-sm mb-3 flex-grow">
                       {product.description}
                     </p>
-                  )}
 
-                  {/* <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
-                    <ShoppingCart className="h-4 w-4" />
-                    Add to Cart
-                  </button> */}
-                  <AddToCart product={product} />
+                    {/* Price */}
+                    <div className="mb-4">
+                      <span className="text-[16px] font-italic text-red-600">
+                        {formatPrice(product.sell_price)}
+                      </span>
+                      {parseFloat(product.actual_price) >
+                        parseFloat(product.sell_price) && (
+                        <span className="text-gray-500 text-[12px] line-through ml-2">
+                          {formatPrice(product.actual_price)}
+                        </span>
+                      )}
+                    </div>
+
+                    <AddToCart product={product} />
+                    {/* <AddToCartButton product={product} /> */}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
 

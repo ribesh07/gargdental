@@ -3,6 +3,7 @@ import Toast from "@/components/Toast";
 import { Toaster } from "react-hot-toast";
 import FooterBar from "@/components/FooterBar";
 import "./globals.css";
+import HeaderBarNew from "@/components/HeaderBarNew";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <HeaderBarNew />
         {children}
         <FooterBar />
         <Toaster position="bottom-right" />

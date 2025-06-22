@@ -28,6 +28,7 @@ const DentalSuppliesListing = () => {
   //handle load more
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 6); // load 3 more
+    router.push("/productAPI");
   };
   const fetchProducts = async () => {
     setLoading(true);
@@ -201,7 +202,7 @@ const DentalSuppliesListing = () => {
     <>
       <div className="max-w-7xl mx-auto -my-6 p-6">
         {/* Header */}
-        <div className="bg-gray-50 p-5 rounded-lg mb-5 shadow">
+        <div className="bg-gray-100 p-5 rounded-lg mb-5 shadow">
           <h1 className="text-2xl font-bold text-blue-900 mb-2.5">
             Browse Supplies Results
           </h1>
@@ -310,7 +311,7 @@ const DentalSuppliesListing = () => {
             {filteredAndSortedProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-grey-50 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full"
+                className="bg-gray-100 rounded-lg shadow  hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full"
               >
                 {/* Product Image */}
                 <div className="relative hover:scale-105 transition-transform duration-300 p-4 pb-0">
@@ -318,7 +319,7 @@ const DentalSuppliesListing = () => {
                     onClick={() => handleCardClick(product)}
                     src={product.image_url}
                     alt={product.product_name}
-                    className="w-full h-48 object-cover p-2 rounded-lg"
+                    className="w-full h-48 object-contain p-2 rounded-lg"
                   />
                   {parseFloat(product.actual_price) >
                     parseFloat(product.sell_price) && (
@@ -352,16 +353,6 @@ const DentalSuppliesListing = () => {
                       </span>
                     )}
                   </div>
-
-                  {/* Add to Cart Button - Fixed at bottom */}
-                  {/* <button
-                    className="w-full bg-blue-700 hover:bg-blue-800 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors duration-200 mt-auto"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-
-                    <span className="text-sm">Add to Cart</span>
-                  </button> */}
                   <AddToCart product={product} />
                   {/* <AddToCartButton product={product} /> */}
                 </div>
@@ -372,10 +363,10 @@ const DentalSuppliesListing = () => {
 
         {/* load more */}
         {visibleCount && (
-          <div className="text-center mt-6">
+          <div className="text-center mt-8">
             <button
               onClick={() => handleLoadMore()}
-              className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+              className="bg-[#bf0000] text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
             >
               Load More
             </button>

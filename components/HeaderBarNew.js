@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import {
   Search,
@@ -9,12 +10,21 @@ import {
   HelpCircle,
   ChevronDown,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import useCartStore from "@/stores/useCartStore";
 
 const HeaderBarNew = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSuppliesDropdownOpen, setIsSuppliesDropdownOpen] = useState(false);
   const menuRef = useRef(null);
   const suppliesRef = useRef(null);
+  const pathname = usePathname();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const cartCount = useCartStore((state) => state.getCartCount());
+  const cartTotal = useCartStore((state) => state.getCartTotal());
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -29,7 +39,7 @@ const HeaderBarNew = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [pathname]);
 
   const menuItems = [
     { label: "Dental Supplies", href: "#", hasSubmenu: true },
@@ -49,6 +59,13 @@ const HeaderBarNew = () => {
     { label: "Web Priced Products", href: "#", color: "text-blue-600" },
     { label: "Top Categories", href: "#", color: "text-blue-600" },
   ];
+  // Search functionality
+  const handleSearch = () => {
+    if (searchTerm) {
+      router.push(`/productAPI/`);
+      router.refresh();
+    }
+  };
 
   return (
     // <div className="w-full bg-white shadow-sm sticky top-0 z-50">
@@ -87,40 +104,49 @@ const HeaderBarNew = () => {
                 className="h-22 w-30 cursor-pointer"
               />
             </div>
-            <div className="hover:bg-red-600 text-white px-3 py-1 bg-blue-600 rounded-full text-sm font-medium cursor-pointer">
+            <div className="bg-[#bf0000] text-white ml-5 px-3 py-1  shadow-lg transform hover:scale-105 rounded-full text-sm font-medium cursor-pointer">
               Rely on Us
             </div>
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-2xl mx-8">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="What can we help you find?"
-                className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <button className="absolute right-0 top-0 bg-blue-600 text-white px-4 py-2 flex items-center justify-center rounded-r-md hover:bg-blue-700 transition-colors">
-                <Search className="w-5 h-5" />
-              </button>
+          {pathname === "/productAPI" && <br />}
+
+          {pathname !== "/productAPI" && (
+            <div className="flex-1 max-w-2xl mx-8">
+              <div className="relative flex">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="What can we help you find?"
+                  className="w-full px-4 py-2 flex items-center border border-gray-300 rounded-l-md focus:outline-none focus:border-gray-300 "
+                />
+                <button
+                  onClick={() => handleSearch()}
+                  className="absolute right-0 top-0 bg-[#0072bc] text-white px-4 py-2 flex items-center justify-center rounded-r-md hover:bg-[#0072bc] transition-colors"
+                >
+                  <Search />
+                </button>
+              </div>
+              <div className="mt-5">
+                <label className="flex items-center text-sm text-gray-600 hover:text-red-600">
+                  <input type="checkbox" className="mr-2 cursor-pointer" />
+                  Within Items Purchased
+                </label>
+              </div>
             </div>
-            <div className="mt-5">
-              <label className="flex items-center text-sm text-gray-600 hover:text-red-600">
-                <input type="checkbox" className="mr-2 cursor-pointer" />
-                Within Items Purchased
-              </label>
-            </div>
-          </div>
+          )}
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {/* Menu Button with Dropdown */}
-            <div className="relative" ref={menuRef}>
+            <div className="relative transform hover:scale-105" ref={menuRef}>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer"
               >
-                <div className="bg-blue-100 p-2 rounded-lg mb-1 transform hover:scale-105">
+                <div className="bg-blue-100 p-2 rounded-lg mb-1 ">
                   <Menu className="w-6 h-6 text-blue-600" />
                 </div>
                 <span className="text-xs">Menu</span>
@@ -186,11 +212,14 @@ const HeaderBarNew = () => {
             </div>
 
             {/* Shop Button */}
-            <button className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer">
-              <div className="bg-red-100 p-2 rounded-lg mb-1 relative transform hover:scale-105">
+            <button
+              onClick={() => router.push("/cart")}
+              className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer transform hover:scale-105"
+            >
+              <div className="bg-red-100 p-2 rounded-lg mb-1 relative ">
                 <ShoppingBag className="w-6 h-6 text-red-600" />
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  0
+                  {cartCount}
                 </span>
               </div>
               <span className="text-xs">Shop</span>
@@ -218,14 +247,17 @@ const HeaderBarNew = () => {
             </a>
           </div>
 
-          <div className="flex items-center space-x-2 hover:underline">
+          <div
+            className="flex items-center space-x-2 hover:underline"
+            onClick={() => router.push("/cart")}
+          >
             <span className="text-gray-700">My Order:</span>
-            <span className="font-bold text-lg">$0.00</span>
+            <span className="font-bold text-lg">{cartTotal.toFixed(2)}</span>
             <button className="bg-gray-800 text-white px-3 py-1 rounded hover:bg-gray-900 transition-colors relative cursor-pointer">
               <ShoppingBag className="w-4 h-4" />
-              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                0
-              </span>
+              {/* <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                {cartCount}
+              </span> */}
             </button>
           </div>
         </div>

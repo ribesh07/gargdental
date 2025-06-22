@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Minus, Plus, Trash2, ArrowLeft } from "lucide-react";
-import MainTopBar from "@/components/mainTopbar";
+// import MainTopBar from "@/components/mainTopbar";
 import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -88,9 +88,9 @@ export default function ShoppingCart() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <MainTopBar />
+      {/* <MainTopBar /> */}
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
+      {/* <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
         <div className="max-w-7xl mx-auto px-5 text-sm">
           <Link href="/dashboard" className="text-blue-900 hover:underline">
             Home
@@ -100,7 +100,7 @@ export default function ShoppingCart() {
             Cart
           </Link>
         </div>
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-light text-gray-500 text-center mb-12">
