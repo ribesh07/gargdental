@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function ShoppingCart() {
   const cart = useCartStore((state) => state.cart);
+  const cartTotal = useCartStore((state) => state.getCartTotal());
   const router = useRouter();
 
   const [cartItems, setCartItems] = useState([

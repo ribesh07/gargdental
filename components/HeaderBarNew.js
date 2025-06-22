@@ -248,7 +248,7 @@ const HeaderBarNew = () => {
           </div>
 
           <div
-            className="flex items-center space-x-2 hover:underline"
+            className="flex items-center space-x-2 hover:underline cursor-pointer"
             onClick={() => router.push("/cart")}
           >
             <span className="text-gray-700">My Order:</span>

@@ -156,7 +156,7 @@ export default function OrderSummary() {
                   disabled={isProcessing}
                   className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
                     isProcessing
-                      ? "bg-blue-500 text-red-500 cursor-not-allowed"
+                      ? "bg-green-500 text-white cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-white-300"
                   }`}
                 >

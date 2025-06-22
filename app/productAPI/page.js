@@ -215,7 +215,7 @@ const ProductAPIRequest = () => {
                   {/* Product Info - Flexible container */}
                   <div
                     className="p-4 flex flex-col flex-grow"
-                    onClick={() => handleCardClick(product)}
+                    // onClick={() => handleCardClick(product)}
                   >
                     <h3 className="text-lg font-semibold text-blue-800 mb-1">
                       {product.product_name}
