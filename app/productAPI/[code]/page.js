@@ -99,9 +99,9 @@ const ProductAPIRequest = () => {
   const categories = [...new Set(products.map((p) => p.category))];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen origin-top scale-80 bg-gray-50 p-6">
       {/* <MainTopBar /> */}
-      <div className="max-w-7xl origin-top scale-90 my-6 mx-auto ">
+      <div className="max-w-7xl  my-6 mx-auto ">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -188,8 +188,8 @@ const ProductAPIRequest = () => {
 
         {/* Products Grid */}
         {!loading && (
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="max-w-7xl mx-auto px-4 mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}

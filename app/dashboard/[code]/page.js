@@ -6,6 +6,8 @@ import { ShoppingCart } from "lucide-react";
 import AddToCartButton, { AddToCart } from "@/components/addtocartbutton";
 // import MainTopBar from "@/components/mainTopbar";
 import ProductTabs from "@/components/ProductTabsDes";
+import VideoToggle from "./OverViewProject";
+import OverViewProject from "./OverViewProject";
 // import { AddToCart } from "@/components/addtocartbutton";
 
 const saampledata = {
@@ -161,24 +163,19 @@ export default async function ProductPage({ params }) {
     <>
       {/* Product Details */}
       <div className="max-w-6xl h-max-screen mx-auto mb-20 py-20 px-4">
+        <h1 className="text-2xl text-[#0072bc] font-semibold underline mb-8 -mt-15 flex justify-center">
+          Product Details
+        </h1>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Product Image */}
-          <div className="flex flex-col items-center">
-            <div className="w-full h-full relative m-5 mr-10 hover:shadow-2xl">
-              <Image
-                src={product.image_url}
-                alt={product.product_name}
-                fill
-                className="object-contain rounded"
-                priority
-              />
-            </div>
-          </div>
+          <OverViewProject product={product} />
+
           {/* Product Details */}
           <div>
             <h1 className="text-2xl font-bold mb-2">{product.product_name}</h1>
             <div className="flex items-baseline space-x-4 mb-2">
-              <span className="text-2xl font-semibold text-blue-900">
+              <span className="text-2xl font-semibold text-red-600">
                 {product.sell_price}
               </span>
               <span className="text-lg text-gray-400 line-through">
