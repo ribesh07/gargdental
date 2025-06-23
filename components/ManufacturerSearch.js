@@ -98,7 +98,7 @@ export default function ManufacturerFilter() {
               className={`w-8 h-8 rounded-full text-sm font-medium ${
                 selectedLetter === letter
                   ? "bg-[#0072bc] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  : "bg-gray-100 text-gray-600 hover:bg-orange-300"
               }`}
             >
               {letter}

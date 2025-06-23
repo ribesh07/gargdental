@@ -101,7 +101,7 @@ const ProductAPIRequest = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* <MainTopBar /> */}
-      <div className="max-w-7xl my-6 mx-auto">
+      <div className="max-w-7xl origin-top scale-90 my-6 mx-auto ">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -188,86 +188,6 @@ const ProductAPIRequest = () => {
 
         {/* Products Grid */}
         {!loading && (
-          // <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          //   {filteredProducts.map((product) => (
-          //     <div
-          //       key={product.id}
-          //       className="bg-white rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-200 border border-gray-200"
-          //     >
-          //       <div className="relative">
-          //         <img
-          //           src={product.image_url}
-          //           onClick={() => handleCardClick(product)}
-          //           alt={product.product_name}
-          //           className="w-full h-48 p-5 object-contain rounded-t-lg hover:scale-105 transition-transform duration-300"
-          //         />
-          //         {!product.flash_sale && (
-          //           <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-          //             SALE
-          //           </div>
-          //         )}
-          //       </div>
-
-          //       <div className="p-4">
-          //         <div className="flex items-start justify-between mb-2">
-          //           <h3 className="font-semibold text-gray-900 line-clamp-2">
-          //             {product.product_name}
-          //           </h3>
-          //           <span className="text-xs text-gray-500 ml-2 flex-shrink-0">
-          //             {product.item_number}
-          //           </span>
-          //         </div>
-
-          //         <div className="space-y-2 mb-4">
-          //           <div className="flex items-center gap-2 text-sm text-gray-600">
-          //             <Tag className="h-3 w-3" />
-          //             <span>{product.brand}</span>
-          //           </div>
-
-          //           <div className="flex items-center gap-2 text-sm text-gray-600">
-          //             <Package className="h-3 w-3" />
-          //             <span>{product.category}</span>
-          //           </div>
-
-          //           {product.available_quantity && (
-          //             <div className="text-sm text-gray-600">
-          //               Stock:{" "}
-          //               <span className="font-medium">
-          //                 {product.available_quantity} {product.unit_info}
-          //               </span>
-          //             </div>
-          //           )}
-          //         </div>
-
-          //         <div className="flex items-center justify-between mb-3">
-          //           <div className="flex items-center gap-2">
-          //             <span className="text-lg font-bold text-green-600">
-          //               Rs.{product.sell_price}
-          //             </span>
-          //             {product.actual_price !== product.sell_price &&
-          //               product.actual_price !== "0.00" && (
-          //                 <span className="text-sm text-gray-500 line-through">
-          //                   Rs.{product.actual_price}
-          //                 </span>
-          //               )}
-          //           </div>
-          //         </div>
-
-          //         {product.description && (
-          //           <p className="text-sm text-gray-600 line-clamp-2 mb-3">
-          //             {product.description}
-          //           </p>
-          //         )}
-
-          //         {/* <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
-          //           <ShoppingCart className="h-4 w-4" />
-          //           Add to Cart
-          //         </button> */}
-          //         <AddToCart product={product} />
-          //       </div>
-          //     </div>
-          //   ))}
-          // </div>
           <div className="max-w-7xl mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product) => (

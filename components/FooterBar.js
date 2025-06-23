@@ -29,10 +29,10 @@ export default function FooterBar() {
   };
 
   return (
-    <footer className="relative w-full ">
+    <footer className="relative w-full  ">
       {/* Main Footer */}
-      <div className="bg-gradient-to-r from-[#446c87] via-[#76b9e6] to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="bg-gradient-to-r from-[#446c87] via-[#76b9e6] to-blue-600 text-white ">
+        <div className="max-w-7xl mx-auto px-4 scale-[0.9] sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Contact Us Section */}
             <div className="space-y-4">

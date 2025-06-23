@@ -2,8 +2,11 @@
 import React, { useState } from "react";
 import { Star, Truck, Shield, Headphones } from "lucide-react";
 import { AddtoCartFeatured } from "./addtocartbutton";
+import fetchProducts from "@/utils/apiHelper";
+import { useRouter } from "next/navigation";
 
 const ProductCard = ({ product, showDiscount = false }) => {
+  const router = useRouter();
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -19,11 +22,12 @@ const ProductCard = ({ product, showDiscount = false }) => {
     <div className="bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-4">
       <div className="relative mb-4">
         <img
-          src={product.image}
-          alt={product.name}
+          src={product.image_url}
+          alt={product.product_name}
+          onClick={() => router.push(`/dashboard/${product.product_code}`)}
           className="w-full h-32 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
         />
-        {showDiscount && product.originalPrice && (
+        {showDiscount && product.actual_price && (
           <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
             SALE
           </div>
@@ -33,7 +37,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
       <div className="space-y-2">
         <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
         <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
-          {product.name}
+          {product.product_name}
         </h3>
 
         <div className="flex items-center space-x-1">
@@ -44,14 +48,14 @@ const ProductCard = ({ product, showDiscount = false }) => {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through">
-                Rs. {product.originalPrice}
+          <div className="flex items-center space-x-1">
+            {product.actual_price && (
+              <span className="text-[12px] text-gray-400 line-through">
+                Rs. {product.actual_price}
               </span>
             )}
-            <span className="text-lg font-bold text-red-600">
-              Rs. {product.price}
+            <span className="text-lg text-[14px] mr-1 font-bold text-red-600">
+              Rs. {product.sell_price}
             </span>
           </div>
           {/* <button className="md:w-auto my-2 bg-gray-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded transition-colors">
@@ -98,153 +102,305 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 export default function ProductShowcase() {
   const featuredProducts = [
     {
-      brand: "Articulating",
-      name: "Articulating Paper",
-      price: 900,
-      originalPrice: 1100,
-      rating: 0,
-      reviews: 0,
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
-    },
-    {
-      brand: "Articulating",
-      name: "Articulating Paper",
-      price: 900,
-      originalPrice: 1100,
-      rating: 0,
-      reviews: 0,
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
-    },
-    {
-      brand: "Bausch",
-      name: "Bausch Progress 100",
-      price: 900,
-      originalPrice: 1100,
-      rating: 0,
-      reviews: 0,
-      image:
+      id: 1,
+      product_name: "Articulating Paper 200 strips",
+      product_code: "HE00005",
+      brand: "Meta",
+      category: "category 1",
+      item_number: "#HE00005",
+      actual_price: "0.00",
+
+      rating: 2,
+      reviews: 18,
+      sell_price: "600.00",
+      image_url:
         "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
+      description: "Articulating Paper 200 strips",
+      available_quantity: "100.00",
+      unit_info: "PCS",
+      flash_sale: true,
+      delivery_days: null,
     },
     {
-      brand: "Strips",
-      name: "Fleximeter Strips BK",
-      price: 900,
-      originalPrice: 1100,
-      rating: 0,
-      reviews: 0,
-      image:
+      id: 2,
+      product_name: "Articulating Paper Forceps",
+      product_code: "A300001",
+      brand: "No Brand",
+      category: "Category 2",
+      item_number: "#A300001",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      rating: 4,
+      reviews: 10,
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+      description: "Articulating Paper Forceps",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
+    },
+    {
+      id: 3,
+      product_name: "Bausch Progress 100",
+      product_code: "A500002",
+      brand: "No Brand",
+      rating: 3,
+      reviews: 8,
+      category: "category 1",
+      item_number: "#A500002",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
+      description: "Bausch Progress 100",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
+    },
+    {
+      id: 4,
+      product_name: "Fleximeter Strips BK 253",
+      product_code: "A200001",
+      brand: "No Brand",
+      category: "category 1",
+
+      rating: 5,
+      reviews: 12,
+      item_number: "#A200001",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
         "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
+      description: "Fleximeter Strips BK 253",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
     {
-      brand: "Articulating",
-      name: "Bausch articulating",
-      price: 900,
-      originalPrice: 1100,
-      rating: 0,
-      reviews: 0,
-      image:
+      id: 5,
+      product_name: "Bausch articulating paper BK 81",
+      product_code: "A200002",
+      brand: "No Brand",
+      category: "category 1",
+
+      rating: 1,
+      reviews: 5,
+      item_number: "#A200002",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
         "https://garg.omsok.com/storage/app/public/backend/productimages/A200002/bausch_articulating_paper_bk_81.jpeg",
+      description: "Bausch articulating paper BK 81",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
     {
-      brand: "Strips",
-      name: "Arti Spot 2",
-      price: 900,
-      originalPrice: 1100,
-      rating: 0,
-      reviews: 0,
-      image:
+      id: 6,
+      product_name: "Arti Spot 2",
+      product_code: "A500003",
+      brand: "No Brand",
+      category: "Sub Sub category 1",
+
+      rating: 3,
+      reviews: 8,
+      item_number: "#A500003",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
         "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
+      description: "Arti Spot 2",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
   ];
 
   const specialProducts = [
     {
-      brand: "Articulating",
-      name: "Articulating Paper 200 strips",
-      price: "900.00",
-      originalPrice: "1100.00",
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
+      id: 2,
+      product_name: "Articulating Paper Forceps",
+      product_code: "A300001",
+      brand: "No Brand",
+      category: "Category 2",
+      item_number: "#A300001",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      rating: 4,
+      reviews: 10,
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+      description: "Articulating Paper Forceps",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
     {
-      brand: "Articulating",
-      name: "Articulating Paper Forceps",
-      price: "900.00",
-      originalPrice: "1100.00",
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200002/bausch_articulating_paper_bk_81.jpeg",
+      id: 3,
+      product_name: "Bausch Progress 100",
+      product_code: "A500002",
+      brand: "No Brand",
+      rating: 3,
+      reviews: 8,
+      category: "category 1",
+      item_number: "#A500002",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
+      description: "Bausch Progress 100",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
     {
-      brand: "Bausch",
-      name: "Bausch Progress 100",
-      price: "900.00",
-      originalPrice: "1100.00",
-      image:
+      id: 4,
+      product_name: "Fleximeter Strips BK 253",
+      product_code: "A200001",
+      brand: "No Brand",
+      category: "category 1",
+
+      rating: 5,
+      reviews: 12,
+      item_number: "#A200001",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
         "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
+      description: "Fleximeter Strips BK 253",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
   ];
 
   const weeklyProducts = [
     {
-      brand: "Articulating",
-      name: "Articulating Paper 200 strips",
-      price: "900.00",
-      originalPrice: "1100.00",
-      image:
+      id: 2,
+      product_name: "Articulating Paper Forceps",
+      product_code: "A300001",
+      brand: "No Brand",
+      category: "Category 2",
+      item_number: "#A300001",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      rating: 4,
+      reviews: 10,
+      image_url:
         "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+      description: "Articulating Paper Forceps",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
     {
-      brand: "Articulating",
-      name: "Articulating Paper Forceps",
-      price: "900.00",
-      originalPrice: "1100.00",
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A800001/arti_spot.jpeg",
+      id: 4,
+      product_name: "Fleximeter Strips BK 253",
+      product_code: "A200001",
+      brand: "No Brand",
+      category: "category 1",
+
+      rating: 5,
+      reviews: 12,
+      item_number: "#A200001",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
+      description: "Fleximeter Strips BK 253",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
     {
-      brand: "Bausch",
-      name: "Bausch Progress 100",
-      price: "900.00",
-      originalPrice: "1100.00",
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A700001/bio_ink_flow.jpeg",
+      id: 6,
+      product_name: "Arti Spot 2",
+      product_code: "A500003",
+      brand: "No Brand",
+      category: "Sub Sub category 1",
+
+      rating: 3,
+      reviews: 8,
+      item_number: "#A500003",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
+      description: "Arti Spot 2",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
   ];
 
   const flashProducts = [
     {
-      brand: "Strips",
-      name: "Fleximeter Strips",
-      price: "900.00",
-      originalPrice: "1100.00",
-      rating: 0,
-      reviews: 0,
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A700001/bio_ink_flow.jpeg",
-    },
-    {
-      brand: "Articulating",
-      name: "Articulating Paper Forceps",
-      price: "900.00",
-      originalPrice: "1100.00",
-      rating: 0,
-      reviews: 0,
-      image:
+      id: 6,
+      product_name: "Arti Spot 2",
+      product_code: "A500003",
+      brand: "No Brand",
+      category: "Sub Sub category 1",
+
+      rating: 3,
+      reviews: 8,
+      item_number: "#A500003",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
         "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
+      description: "Arti Spot 2",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
     {
-      brand: "Strips",
-      name: "Fleximeter Strips Blue",
-      price: "900.00",
-      originalPrice: "1100.00",
-      rating: 0,
-      reviews: 0,
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200002/bausch_articulating_paper_bk_81.jpeg",
+      id: 1,
+      product_name: "Articulating Paper 200 strips",
+      product_code: "HE00005",
+      brand: "Meta",
+      category: "category 1",
+      item_number: "#HE00005",
+      actual_price: "0.00",
+      sell_price: "600.00",
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
+      description: "Articulating Paper 200 strips",
+      available_quantity: "100.00",
+      unit_info: "PCS",
+      flash_sale: true,
+      delivery_days: null,
+    },
+    {
+      id: 2,
+      product_name: "Articulating Paper Forceps",
+      product_code: "A300001",
+      brand: "No Brand",
+      category: "Category 2",
+      item_number: "#A300001",
+      actual_price: "1000.00",
+      sell_price: "900.00",
+      image_url:
+        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+      description: "Articulating Paper Forceps",
+      available_quantity: "50.00",
+      unit_info: null,
+      flash_sale: false,
+      delivery_days: null,
     },
   ];
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -274,23 +430,28 @@ export default function ProductShowcase() {
             <div className="space-y-4">
               {specialProducts.map((product, index) => (
                 <div
+                  onClick={() =>
+                    router.push(`/dashboard/${product.product_code}`)
+                  }
                   key={index}
                   className="bg-white rounded-lg shadow-md hover:shadow-2xl p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={product.image_url}
+                    alt={product.product_name}
                     className="w-16 h-16 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
                   />
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">{product.brand}</p>
-                    <h3 className="text-sm font-medium">{product.name}</h3>
-                    <div className="flex items-center space-x-2">
+                    <h3 className="text-sm font-medium">
+                      {product.product_name}
+                    </h3>
+                    <div className="flex items-center space-x-1">
                       <span className="text-sm text-gray-400 line-through">
-                        {product.originalPrice}
+                        {product.actual_price}
                       </span>
                       <span className="text-red-600 font-bold">
-                        {product.price}
+                        {product.sell_price}
                       </span>
                     </div>
                   </div>
@@ -307,23 +468,28 @@ export default function ProductShowcase() {
             <div className="space-y-4">
               {weeklyProducts.map((product, index) => (
                 <div
+                  onClick={() =>
+                    router.push(`/dashboard/${product.product_code}`)
+                  }
                   key={index}
                   className="bg-white rounded-lg shadow-md hover:shadow-2xl  p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={product.image_url}
+                    alt={product.product_name}
                     className="w-16 h-16 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
                   />
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">{product.brand}</p>
-                    <h3 className="text-sm font-medium">{product.name}</h3>
+                    <h3 className="text-sm font-medium">
+                      {product.product_name}
+                    </h3>
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-gray-400 line-through">
-                        {product.originalPrice}
+                        {product.actual_price}
                       </span>
                       <span className="text-red-600 font-bold">
-                        {product.price}
+                        {product.sell_price}
                       </span>
                     </div>
                   </div>
@@ -340,28 +506,29 @@ export default function ProductShowcase() {
             <div className="space-y-4">
               {flashProducts.map((product, index) => (
                 <div
+                  onClick={() =>
+                    router.push(`/dashboard/${product.product_code}`)
+                  }
                   key={index}
                   className="bg-white rounded-lg shadow-md hover:shadow-2xl  p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={product.image_url}
+                    alt={product.product_name}
                     className="w-16 h-16 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
                   />
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">{product.brand}</p>
-                    <h3 className="text-sm font-medium">{product.name}</h3>
-                    <div className="flex items-center mb-1">
-                      {Array.from({ length: 5 }, (_, i) => (
-                        <Star key={i} className="w-3 h-3 text-gray-300" />
-                      ))}
-                    </div>
+                    <h3 className="text-sm font-medium">
+                      {product.product_name}
+                    </h3>
+
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-gray-400 line-through">
-                        {product.originalPrice}
+                        {product.actual_price}
                       </span>
                       <span className="text-red-600 font-bold">
-                        {product.price}
+                        {product.sell_price}
                       </span>
                     </div>
                   </div>

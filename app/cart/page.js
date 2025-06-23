@@ -88,7 +88,7 @@ export default function ShoppingCart() {
   const total = subtotal + shipping;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen scale-[0.90] bg-gray-50">
       {/* <MainTopBar /> */}
       {/* Breadcrumb */}
       {/* <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
@@ -103,12 +103,12 @@ export default function ShoppingCart() {
         </div>
       </div> */}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-light text-gray-500 text-center mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-light text-gray-500 text-center mb-1">
           YOUR SHOPPING CART
         </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8  p-6">
+        <div className="grid grid-cols-1 scale-[0.9] lg:grid-cols-3 gap-4  p-6">
           {/* Cart Items */}
           <div className=" relative lg:col-span-2  border border-gray-200 bg-white rounded-lg  p-6 shadow-lg hover:shadow-2xl">
             {cart.length == 0 && (

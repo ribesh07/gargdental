@@ -19,6 +19,7 @@ const AddToCartButton = ({ product }) => {
 
 export default AddToCartButton;
 
+//using toast
 export function AddToCart({ product }) {
   const addToCart = useCartStore((state) => state.addToCart);
   const handleAdd = () => {
