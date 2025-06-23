@@ -9,6 +9,7 @@ import ProductTabs from "@/components/ProductTabsDes";
 import VideoToggle from "./OverViewProject";
 import OverViewProject from "./OverViewProject";
 import CatalogButton from "./Catalog";
+import ProductImageZoomSeparate from "./ProductView";
 // import { AddToCart } from "@/components/addtocartbutton";
 
 const saampledata = {
@@ -171,6 +172,7 @@ export default async function ProductPage({ params }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Product Image */}
           <OverViewProject product={product} />
+          {/* <ProductImageZoomSeparate product={product} /> */}
 
           {/* Product Details */}
           <div>

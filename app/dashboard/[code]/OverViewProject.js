@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import ProductImageZoomSeparate from "./ProductView";
 
 const OverViewProject = ({ product }) => {
   const [isVideo, setIsVideo] = useState(false);
@@ -38,6 +39,7 @@ const OverViewProject = ({ product }) => {
               className={`object-contain rounded w-full h-full ${effect}`}
               priority
             />
+            // <ProductImageZoomSeparate product={product} />
           )}
         </div>
 

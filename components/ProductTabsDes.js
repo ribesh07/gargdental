@@ -62,9 +62,60 @@ export default function ProductTabs({ product }) {
         )}
         {activeTab === "specifications" && (
           <div>
-            <p>No specifications yet!</p>
-            <br />
-            <strong>{product.slug}</strong>
+            <div className="p-4">
+              <table className="min-w-full table-auto border-gray-300">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="text-[#0072bc] px-4 py-2 text-left">
+                      Feature
+                    </th>
+                    <th className=" px-4 py-2 text-[#0072bc] text-left">
+                      Details
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className=" px-4 py-2">Product Name</td>
+                    <td className=" px-4 py-2">Fleximeter Strips BK 253</td>
+                  </tr>
+                  <tr>
+                    <td className=" px-4 py-2">Material</td>
+                    <td className=" px-4 py-2">Flexible plastic or polymer</td>
+                  </tr>
+                  <tr>
+                    <td className=" px-4 py-2">Thickness Range</td>
+                    <td className=" px-4 py-2">
+                      0.05 mm, 0.10 mm, 0.20 mm (varies by set)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className=" px-4 py-2">Color Coding</td>
+                    <td className=" px-4 py-2">
+                      Color-coded for easy thickness identification
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className=" px-4 py-2">Application</td>
+                    <td className=" px-4 py-2">
+                      Checking prosthetic fit, occlusal clearance, marginal fit
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className=" px-4 py-2">Packaging</td>
+                    <td className=" px-4 py-2">
+                      Set of strips with multiple thickness options
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className=" px-4 py-2">Sterilization</td>
+                    <td className=" px-4 py-2">
+                      Disposable, not intended for sterilization
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
