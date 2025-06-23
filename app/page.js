@@ -65,14 +65,14 @@ const categories = [
 
 const manufacturers = [
   "A B Dental Trends Inc",
-  "A&A Global",
-  "A&T Surgical Mfg. Co., Inc.",
+  "Global",
+  "Surgical Mfg. Co., Inc.",
   "A-dec/W&H",
-  "A. Titan Instruments",
+  "B. Titan Instruments",
   "Abbott Laboratories",
   "Abbott Rapid DX N.America",
   "Abbvie Laboratories",
-  "Abc Compounding Co.,Inc.",
+  "Compounding Co.,Inc.",
   "AbilityOne",
   "Abm North America Corp",
   "Acacia Pharma Inc",
@@ -86,7 +86,7 @@ const manufacturers = [
   "Accutron, Inc.",
   "Ace Surgical",
   "Acella Pharmaceuticals",
-  "ACI Healthcare USA",
+  "Healthcare USA",
   "Ackuretta Technolies",
 ];
 

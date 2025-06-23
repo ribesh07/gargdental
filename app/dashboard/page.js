@@ -161,13 +161,13 @@ const GargDental = () => {
           <p className="text-gray-600 text-xs mb-4">Total: 10</p>
           <div className="grid grid-cols-2 gap-1 text-xs">
             {manufacturers.map((manufacturer, index) => (
-              <a
+              <Link
                 key={index}
                 href="#"
                 className="block py-1.5 px-2 hover:border-l-2  text-gray-700 hover:bg-gray-100 hover:text-red-600 transition-colors duration-200"
               >
                 {manufacturer}
-              </a>
+              </Link>
             ))}
           </div>
         </aside>

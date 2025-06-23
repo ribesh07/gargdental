@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
+import Link from "next/link";
 
 const HeaderBarNew = () => {
   const router = useRouter();
@@ -68,10 +69,10 @@ const HeaderBarNew = () => {
   };
 
   return (
-    // <div className="w-full bg-white shadow-sm sticky top-0 z-50">
-    <div className="w-full bg-white shadow-sm relative">
+    <div className="w-full bg-white shadow-sm sticky top-0 z-50">
+      {/* <div className="w-full bg-white shadow-sm relative"> */}
       {/* Top Navigation Bar */}
-      <div className="bg-gray-200 border-b-blue-100 ">
+      <div className="bg-gray-50 border-b-blue-100 ">
         {/* <div className="bg-gradient-to-r from-blue-500 from-20% to-blue-400 text-white"> */}
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-end items-center py-2 space-x-4 text-sm">
@@ -92,7 +93,7 @@ const HeaderBarNew = () => {
       </div>
 
       {/* Main Header */}
-      <div className="max-w-7xl mx-auto mb-2 px-4 bg-gray-50 border-gray-500 shadow-sm">
+      <div className="max-w-7xl mx-auto mb-2 px-4 bg-white">
         <div className="flex items-center justify-between py-4">
           {/* Logo and Rely on Us */}
           <div className="flex items-center space-x-4">
@@ -158,7 +159,7 @@ const HeaderBarNew = () => {
                   <div className="py-2">
                     {menuItems.map((item, index) => (
                       <div key={index} className="relative">
-                        <a
+                        <Link
                           href={item.href}
                           className={`flex items-center justify-between px-4 py-2 text-gray-700 transition-all duration-200 ${
                             item.hasSubmenu && isSuppliesDropdownOpen
@@ -180,7 +181,7 @@ const HeaderBarNew = () => {
                           {item.hasSubmenu && (
                             <ChevronDown className="w-4 h-4" />
                           )}
-                        </a>
+                        </Link>
                       </div>
                     ))}
                   </div>
@@ -198,13 +199,13 @@ const HeaderBarNew = () => {
                       Supplies & Small Equipment
                     </div>
                     {suppliesSubmenu.map((item, index) => (
-                      <a
+                      <Link
                         key={index}
                         href={item.href}
                         className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200${item.color}`}
                       >
                         {item.label}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -242,9 +243,12 @@ const HeaderBarNew = () => {
               <User className="w-3 h-3 mr-1" />
               LOGIN
             </button>
-            <a href="#" className="text-[#0072bc] hover:underline text-[14px]">
+            <Link
+              href="#"
+              className="text-[#0072bc] hover:underline text-[14px]"
+            >
               Create an Online Account
-            </a>
+            </Link>
           </div>
 
           <div
@@ -269,18 +273,22 @@ const HeaderBarNew = () => {
           <h1 className="text-3xl font-bold">BROWSE SUPPLIES RESULTS</h1>
         </div>
       </div> */}
-      <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
+      {/* Breadcrumb  */}
+      {/* <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
         <div className="max-w-7xl mx-auto px-5 text-sm">
-          <a href="#" className="text-blue-900 hover:underline">
-            Supplies & Small Equipment
-          </a>{" "}
+          <Link href="/dashboard" className="text-blue-900 hover:underline">
+            Home
+          </Link>{" "}
           /
-          <a href="#" className="text-blue-900 hover:underline ml-1">
+          <Link
+            href="/productAPI"
+            className="text-blue-900 hover:underline ml-1"
+          >
             Browse Supplies
-          </a>{" "}
+          </Link>{" "}
           /<span className="ml-1 text-gray-600">Browse Supplies Results</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

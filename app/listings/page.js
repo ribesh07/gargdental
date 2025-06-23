@@ -16,7 +16,7 @@ const DentalSuppliesListing = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isReady, setIsReady] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(6); // Number of products to display initially
+  const [visibleCount, setVisibleCount] = useState(12); // Number of products to display initially
   var visibleProducts = [];
   // const API_URL = "http://192.168.1.64:8000/api/v1/products/latest";
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -27,7 +27,7 @@ const DentalSuppliesListing = () => {
 
   //handle load more
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 6); // load 3 more
+    setVisibleCount((prev) => prev + 4); // load 3 more
     router.push("/productAPI");
   };
   const fetchProducts = async () => {
@@ -307,54 +307,53 @@ const DentalSuppliesListing = () => {
 
         {/* Product Grid */}
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredAndSortedProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-gray-100 rounded-lg shadow  hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full"
+                className="bg-gray-100 rounded-lg shadow border-gray-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full max-w-[220px] mx-auto p-2"
               >
                 {/* Product Image */}
-                <div className="relative hover:scale-105 transition-transform duration-300 p-4 pb-0">
+                <div className="relative hover:scale-105 transition-transform duration-300 p-2 pb-0">
                   <img
                     onClick={() => handleCardClick(product)}
                     src={product.image_url}
                     alt={product.product_name}
-                    className="w-full h-48 object-contain p-2 rounded-lg"
+                    className="w-full h-32 object-contain p-1 rounded-lg"
                   />
                   {parseFloat(product.actual_price) >
                     parseFloat(product.sell_price) && (
-                    <div className="absolute top-6 left-6 bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
+                    <div className="absolute top-4 left-4 bg-red-500 text-white px-1 py-0.5 rounded text-xs font-bold">
                       SALE
                     </div>
                   )}
                 </div>
 
-                {/* Product Info - Flexible container */}
-                <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="text-lg font-semibold text-blue-800 mb-1">
+                {/* Product Info */}
+                <div className="p-2 flex flex-col flex-grow">
+                  <h3 className="text-sm font-semibold text-blue-800 mb-1 truncate">
                     {product.product_name}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-2">
-                    {product.brand} - Item {product.item_number}
+                  <p className="text-gray-600 text-xs mb-1">
+                    {product.brand} - {product.item_number}
                   </p>
-                  <p className="text-gray-500 text-sm mb-3 flex-grow">
+                  <p className="text-gray-500 text-xs mb-2 flex-grow line-clamp-2">
                     {product.description}
                   </p>
 
                   {/* Price */}
-                  <div className="mb-4">
-                    <span className="text-[16px] font-italic text-red-600">
+                  <div className="mb-2">
+                    <span className="text-sm font-italic text-red-600">
                       {formatPrice(product.sell_price)}
                     </span>
                     {parseFloat(product.actual_price) >
                       parseFloat(product.sell_price) && (
-                      <span className="text-gray-500 text-[12px] line-through ml-2">
+                      <span className="text-gray-500 text-xs line-through ml-1">
                         {formatPrice(product.actual_price)}
                       </span>
                     )}
                   </div>
                   <AddToCart product={product} />
-                  {/* <AddToCartButton product={product} /> */}
                 </div>
               </div>
             ))}

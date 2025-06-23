@@ -189,59 +189,54 @@ const ProductAPIRequest = () => {
 
         {/* Products Grid */}
         {!loading && (
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="max-w-[1400px] mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-grey-50 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full cursor-pointer"
+                  className="bg-gray-100 rounded-lg shadow border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full p-2"
                 >
                   {/* Product Image */}
-                  <div className="relative hover:scale-105 transition-transform duration-300 p-4 pb-0">
+                  <div className="relative hover:scale-105 transition-transform duration-300 p-2 pb-0">
                     <img
                       onClick={() => handleCardClick(product)}
                       src={product.image_url}
                       alt={product.product_name}
-                      className="w-full h-48 object-contain p-4 rounded-lg"
+                      className="w-full h-52 object-fill mix-blend-multiply p-1 rounded-lg"
                     />
                     {parseFloat(product.actual_price) >
                       parseFloat(product.sell_price) && (
-                      <div className="absolute top-6 left-6 bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
+                      <div className="absolute top-4 left-4 bg-red-500 text-white px-1 py-0.5 rounded text-xs font-bold">
                         SALE
                       </div>
                     )}
                   </div>
 
-                  {/* Product Info - Flexible container */}
-                  <div
-                    className="p-4 flex flex-col flex-grow"
-                    // onClick={() => handleCardClick(product)}
-                  >
-                    <h3 className="text-lg font-semibold text-blue-800 mb-1">
+                  {/* Product Info */}
+                  <div className="p-2 flex flex-col flex-grow">
+                    <h3 className="text-sm font-semibold text-blue-800 mb-1 truncate">
                       {product.product_name}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-2">
-                      {product.brand} - Item {product.item_number}
+                    <p className="text-gray-600 text-xs mb-1">
+                      {product.brand} - {product.item_number}
                     </p>
-                    <p className="text-gray-500 text-sm mb-3 flex-grow">
+                    <p className="text-gray-500 text-xs mb-2 flex-grow line-clamp-2">
                       {product.description}
                     </p>
 
                     {/* Price */}
-                    <div className="mb-4">
-                      <span className="text-[16px] font-italic text-red-600">
+                    <div className="mb-2">
+                      <span className="text-sm font-italic text-red-600">
                         {formatPrice(product.sell_price)}
                       </span>
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
-                        <span className="text-gray-500 text-[12px] line-through ml-2">
+                        <span className="text-gray-500 text-xs line-through ml-1">
                           {formatPrice(product.actual_price)}
                         </span>
                       )}
                     </div>
-
                     <AddToCart product={product} />
-                    {/* <AddToCartButton product={product} /> */}
                   </div>
                 </div>
               ))}

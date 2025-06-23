@@ -11,6 +11,7 @@ import {
   ArrowUp,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 export default function FooterBar() {
   const [email, setEmail] = useState("");
@@ -28,9 +29,9 @@ export default function FooterBar() {
   };
 
   return (
-    <footer className="relative">
+    <footer className="relative w-full ">
       {/* Main Footer */}
-      <div className="bg-gradient-to-r from-[#0072bc] via-[#0072bc] to-blue-600 text-white">
+      <div className="bg-gradient-to-r from-[#446c87] via-[#76b9e6] to-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Contact Us Section */}
@@ -49,41 +50,41 @@ export default function FooterBar() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-blue-200 flex-shrink-0" />
-                  <a
+                  <Link
                     href="mailto:info@gargdental.com"
                     className="text-sm hover:text-red-400  transition-colors"
                   >
                     info@gargdental.com
-                  </a>
+                  </Link>
                 </div>
               </div>
 
               {/* Social Media Icons */}
               <div className="flex space-x-4 pt-4">
-                <a
+                <Link
                   href="#"
                   className="w-8 h-8 bg-blue-500 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors"
                 >
                   <Facebook className="w-4 h-4" />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="w-8 h-8 bg-blue-500 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors"
                 >
                   <Twitter className="w-4 h-4" />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="w-8 h-8 bg-blue-500 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors"
                 >
                   <Youtube className="w-4 h-4" />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="w-8 h-8 bg-blue-500 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors"
                 >
                   <Instagram className="w-4 h-4" />
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -92,36 +93,36 @@ export default function FooterBar() {
               <h3 className="text-xl font-semibold mb-6">Information</h3>
               <ul className="space-y-3">
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     Cart
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     Services
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     Appointments
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     FAQ
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -131,36 +132,36 @@ export default function FooterBar() {
               <h3 className="text-xl font-semibold mb-6">Our Company</h3>
               <ul className="space-y-3">
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     About us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="#"
                     className="text-sm hover:text-blue-200 transition-colors"
                   >
                     Terms of Conditions
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

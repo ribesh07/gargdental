@@ -230,13 +230,13 @@ export default function ShoppingCart() {
             {/* Action Buttons */}
             {/* Fixed at bottom */}
             <div className="absolute bottom-0 left-0 w-full flex justify-between items-center p-4 bg-white">
-              <a
+              <Link
                 href="/dashboard"
                 className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>CONTINUE SHOPPING</span>
-              </a>
+              </Link>
 
               {cart.length > 0 && (
                 <button
