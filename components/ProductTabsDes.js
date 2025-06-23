@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function ProductTabs({ product }) {
   const [activeTab, setActiveTab] = useState("description");
+  const [review, setReview] = useState("");
 
   if (!product) {
     return <div>Loading...</div>;
@@ -55,7 +56,33 @@ export default function ProductTabs({ product }) {
         )}
         {activeTab === "reviews" && (
           <div>
-            <p>No reviews yet. Be the first to write one!</p>
+            <p className="mb-4">No reviews yet. Be the first to write one!</p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert(
+                  "Thanks for your review! (Functionality not connected to backend yet)"
+                );
+                setReview(""); // clear after "submit"
+              }}
+            >
+              <label className="block mb-2 font-semibold">
+                Write your review:
+              </label>
+              <textarea
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                placeholder="Your thoughts about the product..."
+                className="w-full border border-gray-300 p-2 rounded-md"
+                rows="4"
+              ></textarea>
+              <button
+                type="submit"
+                className="mt-3 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800"
+              >
+                Submit Review
+              </button>
+            </form>
             <br />
             <strong>Slug: {product.slug}</strong>
           </div>
