@@ -8,6 +8,7 @@ import AddToCartButton, { AddToCart } from "@/components/addtocartbutton";
 import ProductTabs from "@/components/ProductTabsDes";
 import VideoToggle from "./OverViewProject";
 import OverViewProject from "./OverViewProject";
+import CatalogButton from "./Catalog";
 // import { AddToCart } from "@/components/addtocartbutton";
 
 const saampledata = {
@@ -162,8 +163,8 @@ export default async function ProductPage({ params }) {
   return (
     <>
       {/* Product Details */}
-      <div className="max-w-6xl h-max-screen mx-auto mb-20 py-20 px-4">
-        <h1 className="text-2xl text-[#0072bc] font-semibold underline mb-8 -mt-15 flex justify-center">
+      <div className="max-w-6xl h-max-screen scale-90 origin-top mx-auto mb-20 py-20 px-4">
+        <h1 className="text-2xl text-[#0072bc] font-semibold tracking-wide mb-8 -mt-15 flex justify-center">
           Product Details
         </h1>
 
@@ -201,7 +202,52 @@ export default async function ProductPage({ params }) {
               Add to Cart
             </button> */}
             {/* <AddToCartButton product={product} /> */}
+            <div className="mb-4">
+              <p className="font-semibold mb-2">Size:</p>
+              <div className="flex items-center space-x-4">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="size"
+                    value="XL"
+                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                  />
+                  <span className="ml-2">XL</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="size"
+                    value="L"
+                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                  />
+                  <span className="ml-2">L</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="size"
+                    value="XXL"
+                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                  />
+                  <span className="ml-2">LX</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="size"
+                    value="XXXL"
+                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                  />
+                  <span className="ml-2">LXX</span>
+                </label>
+              </div>
+            </div>
             <br />
+            <CatalogButton />
+
+            <br />
+
             <br />
 
             <AddToCart product={product} />

@@ -32,6 +32,17 @@ export default function ProductTabs({ product }) {
         >
           REVIEWS (0)
         </button>
+
+        <button
+          onClick={() => setActiveTab("specifications")}
+          className={`px-4 py-2 font-semibold ${
+            activeTab === "specifications"
+              ? "border-b-2 border-blue-700 text-blue-700"
+              : "text-gray-600"
+          }`}
+        >
+          SPECIFICATIONS
+        </button>
       </div>
 
       {/* Content */}
@@ -47,6 +58,13 @@ export default function ProductTabs({ product }) {
             <p>No reviews yet. Be the first to write one!</p>
             <br />
             <strong>Slug: {product.slug}</strong>
+          </div>
+        )}
+        {activeTab === "specifications" && (
+          <div>
+            <p>No specifications yet!</p>
+            <br />
+            <strong>{product.slug}</strong>
           </div>
         )}
       </div>

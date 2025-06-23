@@ -17,9 +17,9 @@ const OverViewProject = ({ product }) => {
   }
 
   return (
-    <div>
-      <div className="flex flex-col items-center">
-        <div className="w-full max-w-[350px] aspect-square relative m-5 mr-10 hover:shadow-2xl border-2 border-gray-300 rounded">
+    <div className="w-full flex">
+      <div className="flex flex-col items-center w-full">
+        <div className="w-full max-w-[80%] aspect-square relative -mt-1 mr-5 mb-4 hover:shadow-md border-2 border-gray-300 rounded">
           {isVideo ? (
             <iframe
               src="https://www.youtube.com/embed/gRF6DdP85IY"
@@ -31,7 +31,6 @@ const OverViewProject = ({ product }) => {
             ></iframe>
           ) : (
             <Image
-              onClick={() => handleClick()}
               src={product.image_url}
               alt={product.product_name}
               width={500}
@@ -42,7 +41,7 @@ const OverViewProject = ({ product }) => {
           )}
         </div>
 
-        <div className="w-2/3 flex gap-2">
+        <div className="w-2/3 flex gap-2 ">
           <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-2 rounded">
             <Image
               filter="blur(2px)"
@@ -56,7 +55,7 @@ const OverViewProject = ({ product }) => {
           </div>
           <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-2 rounded">
             <Image
-              onClick={() => handleClick("grayscale-50")}
+              onClick={() => handleClick("invert")}
               src={product.image_url}
               alt={product.product_name}
               width={45}
@@ -66,7 +65,7 @@ const OverViewProject = ({ product }) => {
           </div>
           <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-2 rounded">
             <Image
-              onClick={() => handleClick()}
+              onClick={() => handleClick("sepia")}
               src={product.image_url}
               alt={product.product_name}
               width={45}
@@ -102,7 +101,7 @@ const OverViewProject = ({ product }) => {
 
           <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-2 rounded">
             <Image
-              onClick={() => handleClick()}
+              onClick={() => handleClick("saturate-200")}
               src={product.image_url}
               alt={product.product_name}
               width={45}
