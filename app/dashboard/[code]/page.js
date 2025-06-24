@@ -7,7 +7,8 @@ import ProductTabs from "@/components/ProductTabsDes";
 import OverViewProject from "./OverViewProject";
 import CatalogButton from "./Catalog";
 import RecommendedProducts from "./Recommendation";
-import { Star } from "lucide-react";
+import { Star, Share2 } from "lucide-react";
+import ButtonForShare from "./ButtonForShare";
 // import { AddToCart } from "@/components/addtocartbutton";
 
 const saampledata = {
@@ -172,7 +173,7 @@ export default async function ProductPage({ params }) {
   return (
     <>
       {/* Product Details */}
-      <div className="max-w-6xl h-max-screen scale-100 origin-top mx-auto mb-20 py-20 px-4">
+      <div className="max-w-6xl h-max-screen scale-100 origin-top mx-auto mb-10 pt-20 px-4">
         <h1 className="text-2xl text-[#0072bc] font-semibold tracking-wide mb-8 -mt-15 flex justify-center">
           Product Details
         </h1>
@@ -184,7 +185,10 @@ export default async function ProductPage({ params }) {
 
           {/* Product Details */}
           <div>
-            <h1 className="text-2xl font-bold mb-2">{product.product_name}</h1>
+            <div className="flex flex-col-2 justify-between space-x-2 mb-2">
+              <h1 className="text-2xl font-bold">{product.product_name}</h1>
+              <ButtonForShare product={product} />
+            </div>
             <div className="flex items-center space-x-1 mt-3 mb-3">
               {renderStars(Math.floor(Math.random() * 5) + 1)}
               <span className="text-[12px] text-gray-500">

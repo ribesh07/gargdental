@@ -65,7 +65,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
   );
 };
 const ProductSection = ({ title, products, showDiscount = false }) => (
-  <div className="mb-12">
+  <div className="mb-2">
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       {products.map((product, index) => (
         <ProductCard
