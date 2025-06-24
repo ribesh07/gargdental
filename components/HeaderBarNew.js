@@ -72,8 +72,8 @@ const HeaderBarNew = () => {
   };
 
   return (
-    <div className="w-full bg-white shadow-sm sticky top-0 z-50">
-      <div className="w-full scale-[0.9] md:scale-90">
+    <div className="w-full bg-white sticky top-0 z-50">
+      <div className="w-full scale-[0.9] md:scale-90 lg:scale-100">
         {/* Top Navigation Bar - Hidden on mobile */}
         <div className="bg-gray-50 border-b-blue-100 hidden md:block">
           <div className="max-w-7xl mx-auto px-4">
@@ -104,7 +104,7 @@ const HeaderBarNew = () => {
                   onClick={() => router.push("/dashboard")}
                   src="/assets/logo.png"
                   alt="Garg Dental Logo"
-                  className="h-16 w-20 md:h-22 md:w-30 cursor-pointer"
+                  className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
                 />
               </div>
               {/* Hide "Rely on Us" on mobile */}
@@ -280,9 +280,9 @@ const HeaderBarNew = () => {
           )}
 
           {/* Desktop Login Section */}
-          <div className="hidden md:flex items-center justify-between py-3 border-t">
+          <div className="hidden md:flex items-center justify-between py-1 border-t">
             <div className="flex items-center space-x-4">
-              <button className="bg-[#bf0000] text-white text-[12px] h-8 px-2 py-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer">
+              <button className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer">
                 <User className="w-3 h-3 mr-1" />
                 LOGIN
               </button>
@@ -298,10 +298,12 @@ const HeaderBarNew = () => {
               className="flex items-center space-x-2 hover:underline cursor-pointer"
               onClick={() => router.push("/cart")}
             >
-              <span className="text-gray-700">My Order:</span>
-              <span className="font-bold text-lg">{cartTotal.toFixed(2)}</span>
-              <button className="bg-gray-800 text-white px-3 py-1 rounded hover:bg-gray-900 transition-colors relative cursor-pointer">
-                <ShoppingBag className="w-4 h-4" />
+              <span className="text-gray-700 text-[12px]">My Order:</span>
+              <span className="font-bold text-lg text-[12px]">
+                {cartTotal.toFixed(2)}
+              </span>
+              <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
+                <ShoppingBag className="w-4 h-4 cursor-pointer" />
               </button>
             </div>
           </div>

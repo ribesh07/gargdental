@@ -14,10 +14,6 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    // Add the IP or hostname you access from
-    allowedDevOrigins: ["http://172.23.112.1:3000"],
-  },
 };
 
 export default nextConfig;
