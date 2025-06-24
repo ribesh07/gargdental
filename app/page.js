@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ManufacturerFilter from "@/components/ManufacturerSearch";
 import { useRouter } from "next/navigation";
+import GargDental from "./dashboard/page";
 
 const categories = [
   {
@@ -306,5 +307,5 @@ export function CategoriesViews() {
 }
 
 export default function Home() {
-  return <CategoriesViews />;
+  return <GargDental />;
 }
