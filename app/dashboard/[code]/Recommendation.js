@@ -34,8 +34,11 @@ const ProductCard = ({ product, showDiscount = false }) => {
           </div>
         )}
       </div>
-      <div className="flex-1 flex flex-col justify-between">
-        <div className="space-y-1">
+      <div
+        className="flex-1 flex flex-col justify-between cursor-pointer"
+        onClick={() => router.push(`/dashboard/${product.product_code}`)}
+      >
+        <div className="space-y-1 hover:underline">
           <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
           <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
             {product.product_name}
@@ -58,8 +61,10 @@ const ProductCard = ({ product, showDiscount = false }) => {
               Rs. {product.sell_price}
             </span>
           </div>
-          <AddtoCartFeatured product={product} fullWidth />
         </div>
+      </div>
+      <div>
+        <AddtoCartFeatured product={product} fullWidth />
       </div>
     </div>
   );

@@ -36,8 +36,11 @@ const ProductCard = ({ product, showDiscount = false }) => {
           </div>
         )}
       </div>
-      <div className="flex-1 flex flex-col justify-between">
-        <div className="space-y-1">
+      <div className="flex-1 flex flex-col justify-between cursor-pointer">
+        <div
+          className="space-y-1 hover:underline  "
+          onClick={() => router.push(`/dashboard/${product.product_code}`)}
+        >
           <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
           <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
             {product.product_name}
@@ -50,7 +53,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
           </div>
         </div>
         <div className="mt-2  justify-center">
-          <div className="flex items-center  space-x-2 mb-2">
+          <div className="flex items-center  space-x-2 mb-2 curson-pointer">
             {product.actual_price && product.actual_price !== "0.00" && (
               <span className="text-xs text-gray-400 line-through">
                 Rs. {product.actual_price}
@@ -433,7 +436,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md hover:shadow-2xl p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}
@@ -471,7 +474,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md hover:shadow-2xl  p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl  p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}
@@ -509,7 +512,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md hover:shadow-2xl  p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl  p-4 flex items-center space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}

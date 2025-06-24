@@ -330,7 +330,10 @@ const DentalSuppliesListing = () => {
                 </div>
 
                 {/* Product Info */}
-                <div className="p-2 flex flex-col flex-grow">
+                <div
+                  className="p-2 flex flex-col flex-grow cursor-pointer hover:underline"
+                  onClick={() => handleCardClick(product)}
+                >
                   <h3 className="text-sm font-semibold text-blue-800 mb-1 truncate">
                     {product.product_name}
                   </h3>
@@ -353,6 +356,8 @@ const DentalSuppliesListing = () => {
                       </span>
                     )}
                   </div>
+                </div>
+                <div>
                   <AddToCart product={product} />
                 </div>
               </div>
