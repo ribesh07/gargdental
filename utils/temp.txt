@@ -1,0 +1,22 @@
+{/* Blue Banner */}
+        {/* <div className="bg-gradient-to-r from-blue-300 from-20% to-blue-500 text-white">
+        <div className="max-w-7xl mx-auto px-4 py-8 text-center">
+          <h1 className="text-3xl font-bold">BROWSE SUPPLIES RESULTS</h1>
+        </div>
+      </div> */}
+        {/* Breadcrumb  */}
+        {/* <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
+        <div className="max-w-7xl mx-auto px-5 text-sm">
+          <Link href="/dashboard" className="text-blue-900 hover:underline">
+            Home
+          </Link>{" "}
+          /
+          <Link
+            href="/productAPI"
+            className="text-blue-900 hover:underline ml-1"
+          >
+            Browse Supplies
+          </Link>{" "}
+          /<span className="ml-1 text-gray-600">Browse Supplies Results</span>
+        </div>
+      </div> */}

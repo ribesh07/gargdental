@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 const ProductCard = ({ product, showDiscount = false }) => {
   const router = useRouter();
+
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -19,12 +20,14 @@ const ProductCard = ({ product, showDiscount = false }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-4">
-      <div className="relative mb-4">
+    <div className="flex flex-col h-full bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-4">
+      <div
+        className="relative mb-4 cursor-pointer"
+        onClick={() => router.push(`/dashboard/${product.product_code}`)}
+      >
         <img
           src={product.image_url}
           alt={product.product_name}
-          onClick={() => router.push(`/dashboard/${product.product_code}`)}
           className="w-full h-32 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
         />
         {showDiscount && product.actual_price && (
@@ -33,35 +36,31 @@ const ProductCard = ({ product, showDiscount = false }) => {
           </div>
         )}
       </div>
-
-      <div className="space-y-2">
-        <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
-        <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
-          {product.product_name}
-        </h3>
-
-        <div className="flex items-center space-x-1">
-          {renderStars(product.rating || 0)}
-          <span className="text-xs text-gray-500">
-            ({product.reviews || 0})
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between">
+      <div className="flex-1 flex flex-col justify-between">
+        <div className="space-y-1">
+          <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
+          <h3 className="text-sm font-medium text-gray-800 line-clamp-2">
+            {product.product_name}
+          </h3>
           <div className="flex items-center space-x-1">
-            {product.actual_price && (
-              <span className="text-[12px] text-gray-400 line-through">
+            {renderStars(product.rating || 0)}
+            <span className="text-xs text-gray-500">
+              ({product.reviews || 0})
+            </span>
+          </div>
+        </div>
+        <div className="mt-2  justify-center">
+          <div className="flex items-center  space-x-2 mb-2">
+            {product.actual_price && product.actual_price !== "0.00" && (
+              <span className="text-xs text-gray-400 line-through">
                 Rs. {product.actual_price}
               </span>
             )}
-            <span className="text-lg text-[14px] mr-1 font-bold text-red-600">
+            <span className="text-base font-bold text-red-600">
               Rs. {product.sell_price}
             </span>
           </div>
-          {/* <button className="md:w-auto my-2 bg-gray-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded transition-colors">
-            ADD TO CART
-          </button> */}
-          <AddtoCartFeatured product={product} />
+          <AddtoCartFeatured product={product} fullWidth />
         </div>
       </div>
     </div>

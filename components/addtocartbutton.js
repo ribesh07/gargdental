@@ -47,11 +47,14 @@ export function AddtoCartFeatured({ product }) {
     toast.success(`${product.product_name} added to cart!`);
   };
   return (
-    <button
-      onClick={() => handleAdd()}
-      className="md:w-auto my-2 bg-gray-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded transition-colors"
-    >
-      ADD TO CART
-    </button>
+    <div className="flex justify-center">
+      <button
+        onClick={() => handleAdd()}
+        className="bg-gray-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded transition-colors flex items-center"
+      >
+        <ShoppingCart className="w-4 h-4 mr-2" />
+        ADD TO CART
+      </button>
+    </div>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const manufacturers = [
   "A B Dental Trends Inc",
@@ -31,6 +33,7 @@ const manufacturers = [
 export default function ManufacturerFilter() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLetter, setSelectedLetter] = useState("");
+  const router = useRouter();
 
   const filteredManufacturers = manufacturers.filter((manufacturer) => {
     const matchesSearch = manufacturer
@@ -112,9 +115,12 @@ export default function ManufacturerFilter() {
         {filteredManufacturers.map((manufacturer, index) => (
           <div
             key={index}
+            onClick={() => router.push(`/productAPI`)}
             className="p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-white border-gray-200 hover:border-gray-300"
           >
-            <span className="text-sm font-medium">{manufacturer}</span>
+            <Link href={`/productAPI`}>
+              <span className="text-sm font-medium">{manufacturer}</span>
+            </Link>
           </div>
         ))}
         {filteredManufacturers.length === 0 && (

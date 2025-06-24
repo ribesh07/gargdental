@@ -52,6 +52,16 @@ export default function ProductTabs({ product }) {
           <div>
             <br />
             <strong>{product.description}</strong>
+            <br />
+            <br />
+            <p className="bg-gray-100">
+              Fleximeter Strips BK 253 are precision-engineered dental strips
+              used for measuring and checking the clearance and contact points
+              between teeth. They assist in verifying occlusal space, ensuring
+              proper fit for crowns, bridges, and other prosthetic work. Made
+              from high-quality, flexible material, these strips provide
+              accurate, reliable results without damaging tooth surfaces.
+            </p>
           </div>
         )}
         {activeTab === "reviews" && (

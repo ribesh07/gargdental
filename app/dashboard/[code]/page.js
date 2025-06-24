@@ -1,15 +1,13 @@
 // "use client";
 
 import React from "react";
-import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
 import AddToCartButton, { AddToCart } from "@/components/addtocartbutton";
 // import MainTopBar from "@/components/mainTopbar";
 import ProductTabs from "@/components/ProductTabsDes";
-import VideoToggle from "./OverViewProject";
 import OverViewProject from "./OverViewProject";
 import CatalogButton from "./Catalog";
-import ProductImageZoomSeparate from "./ProductView";
+import RecommendedProducts from "./Recommendation";
+import { Star } from "lucide-react";
 // import { AddToCart } from "@/components/addtocartbutton";
 
 const saampledata = {
@@ -160,16 +158,26 @@ export default async function ProductPage({ params }) {
       </div>
     );
   }
+  const renderStars = (rating) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`w-5 h-5 ${
+          i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+        }`}
+      />
+    ));
+  };
 
   return (
     <>
       {/* Product Details */}
-      <div className="max-w-6xl h-max-screen scale-90 origin-top mx-auto mb-20 py-20 px-4">
+      <div className="max-w-6xl h-max-screen scale-100 origin-top mx-auto mb-20 py-20 px-4">
         <h1 className="text-2xl text-[#0072bc] font-semibold tracking-wide mb-8 -mt-15 flex justify-center">
           Product Details
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 scale-90 origin-top">
           {/* Product Image */}
           <OverViewProject product={product} />
           {/* <ProductImageZoomSeparate product={product} /> */}
@@ -177,6 +185,12 @@ export default async function ProductPage({ params }) {
           {/* Product Details */}
           <div>
             <h1 className="text-2xl font-bold mb-2">{product.product_name}</h1>
+            <div className="flex items-center space-x-1 mt-3 mb-3">
+              {renderStars(Math.floor(Math.random() * 5) + 1)}
+              <span className="text-[12px] text-gray-500">
+                ({Math.floor(Math.random() * 100) + 1})
+              </span>
+            </div>
             <div className="flex items-baseline space-x-4 mb-2">
               <span className="text-2xl font-semibold text-red-600">
                 {product.sell_price}
@@ -257,6 +271,8 @@ export default async function ProductPage({ params }) {
             <ProductTabs product={product} />
           </div>
         </div>
+        <br />
+        <RecommendedProducts />
       </div>
     </>
   );

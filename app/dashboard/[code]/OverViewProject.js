@@ -33,7 +33,7 @@ const OverViewProject = ({ product }) => {
           ) : (
             <Image
               src={product.image_url}
-              alt={product.product_name}
+              alt={product.product_name || ""}
               width={500}
               height={500}
               className={`object-contain rounded w-full h-full ${effect}`}
@@ -49,7 +49,7 @@ const OverViewProject = ({ product }) => {
               filter="blur(2px)"
               onClick={() => handleClick("grayscale-25")}
               src={product.image_url}
-              alt={product.product_name}
+              alt={product.product_name || ""}
               width={50}
               height={50}
               className="object-contain rounded "
@@ -59,7 +59,7 @@ const OverViewProject = ({ product }) => {
             <Image
               onClick={() => handleClick("invert")}
               src={product.image_url}
-              alt={product.product_name}
+              alt={product.product_name || ""}
               width={45}
               height={45}
               className="object-contain rounded"
@@ -69,7 +69,7 @@ const OverViewProject = ({ product }) => {
             <Image
               onClick={() => handleClick("sepia")}
               src={product.image_url}
-              alt={product.product_name}
+              alt={product.product_name || ""}
               width={45}
               height={45}
               className="object-contain rounded"
@@ -78,7 +78,7 @@ const OverViewProject = ({ product }) => {
           <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-2 rounded relative w-fit">
             <Image
               src={product.image_url}
-              alt={product.product_name}
+              alt={product.product_name || ""}
               width={45}
               height={45}
               className="object-contain rounded"
@@ -105,7 +105,7 @@ const OverViewProject = ({ product }) => {
             <Image
               onClick={() => handleClick("saturate-200")}
               src={product.image_url}
-              alt={product.product_name}
+              alt={product.product_name || ""}
               width={45}
               height={45}
               className="object-contain rounded"

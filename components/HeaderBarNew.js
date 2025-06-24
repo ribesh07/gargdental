@@ -9,6 +9,7 @@ import {
   Phone,
   HelpCircle,
   ChevronDown,
+  X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -19,6 +20,7 @@ const HeaderBarNew = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSuppliesDropdownOpen, setIsSuppliesDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const suppliesRef = useRef(null);
   const pathname = usePathname();
@@ -60,6 +62,7 @@ const HeaderBarNew = () => {
     { label: "Web Priced Products", href: "#", color: "text-blue-600" },
     { label: "Top Categories", href: "#", color: "text-blue-600" },
   ];
+
   // Search functionality
   const handleSearch = () => {
     if (searchTerm) {
@@ -69,12 +72,10 @@ const HeaderBarNew = () => {
   };
 
   return (
-    <div className="w-full bg-white shadow-sm sticky top-0 z-50  ">
-      {/* <div className="w-full bg-white shadow-sm relative"> */}
-      <div className="w-full scale-[0.9]">
-        {/* Top Navigation Bar */}
-        <div className="bg-gray-50 border-b-blue-100 ">
-          {/* <div className="bg-gradient-to-r from-blue-500 from-20% to-blue-400 text-white"> */}
+    <div className="w-full bg-white shadow-sm sticky top-0 z-50">
+      <div className="w-full scale-[0.9] md:scale-100">
+        {/* Top Navigation Bar - Hidden on mobile */}
+        <div className="bg-gray-50 border-b-blue-100 hidden md:block">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex justify-end items-center py-2 space-x-4 text-sm">
               <div className="flex items-center space-x-2">
@@ -94,35 +95,60 @@ const HeaderBarNew = () => {
         </div>
 
         {/* Main Header */}
-        <div className="max-w-7xl mx-auto mb-2 px-4 bg-white">
-          <div className="flex items-center justify-between py-4">
+        <div className="max-w-7xl mx-auto mb-2 px-2 md:px-4 bg-white">
+          <div className="flex items-center justify-between py-2 md:py-4">
             {/* Logo and Rely on Us */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-4">
               <div className="flex items-center">
                 <img
                   onClick={() => router.push("/dashboard")}
                   src="/assets/logo.png"
                   alt="Garg Dental Logo"
-                  className="h-22 w-30 cursor-pointer"
+                  className="h-16 w-20 md:h-22 md:w-30 cursor-pointer"
                 />
               </div>
-              <div className="bg-[#bf0000] text-white ml-5 px-3 py-1  shadow-lg transform hover:scale-105 rounded-full text-sm font-medium cursor-pointer">
+              {/* Hide "Rely on Us" on mobile */}
+              <div className="hidden md:block bg-[#bf0000] text-white ml-5 px-3 py-1 shadow-lg transform hover:scale-105 rounded-full text-sm font-medium cursor-pointer">
                 Rely on Us
               </div>
             </div>
 
-            {/* Search Bar */}
-            {pathname === "/productAPI" && <br />}
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center space-x-2">
+              {/* Mobile Cart Icon */}
+              <button
+                onClick={() => router.push("/cart")}
+                className="relative p-2 text-gray-600 hover:text-red-600"
+              >
+                <ShoppingBag className="w-6 h-6" />
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              </button>
 
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 text-gray-600 hover:text-red-600"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+
+            {/* Desktop Search Bar */}
             {pathname !== "/productAPI" && (
-              <div className="flex-1 max-w-2xl mx-8">
+              <div className="hidden md:block flex-1 max-w-2xl mx-8">
                 <div className="relative flex">
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="What can we help you find?"
-                    className="w-full px-4 py-2 flex items-center border border-gray-300 rounded-l-md focus:outline-none focus:border-gray-300 "
+                    className="w-full px-4 py-2 flex items-center border border-gray-300 rounded-l-md focus:outline-none focus:border-gray-300"
                   />
                   <button
                     onClick={() => handleSearch()}
@@ -140,15 +166,15 @@ const HeaderBarNew = () => {
               </div>
             )}
 
-            {/* Right Side Actions */}
-            <div className="flex items-center space-x-4">
+            {/* Desktop Right Side Actions */}
+            <div className="hidden md:flex items-center space-x-4">
               {/* Menu Button with Dropdown */}
               <div className="relative transform hover:scale-105" ref={menuRef}>
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer"
                 >
-                  <div className="bg-blue-100 p-2 rounded-lg mb-1 ">
+                  <div className="bg-blue-100 p-2 rounded-lg mb-1">
                     <Menu className="w-6 h-6 text-blue-600" />
                   </div>
                   <span className="text-xs">Menu</span>
@@ -167,16 +193,10 @@ const HeaderBarNew = () => {
                                 ? "border-l-2 border-blue-500 text-red-600"
                                 : " hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
                             }`}
-                            //   onMouseEnter={() =>
-                            //     item.hasSubmenu && setIsSuppliesDropdownOpen(true)
-                            //   }
                             onClick={() =>
                               item.hasSubmenu &&
                               setIsSuppliesDropdownOpen(!isSuppliesDropdownOpen)
                             }
-                            //   onMouseLeave={() =>
-                            //     item.hasSubmenu && setIsSuppliesDropdownOpen(false)
-                            //   }
                           >
                             <span>{item.label}</span>
                             {item.hasSubmenu && (
@@ -188,22 +208,23 @@ const HeaderBarNew = () => {
                     </div>
                   </div>
                 )}
-                {/* Supplies Dropdown (shown in image) */}
+
+                {/* Supplies Dropdown */}
                 {isSuppliesDropdownOpen && (
                   <div
                     ref={suppliesRef}
-                    className="absolute top-full right-0  mt-2 w-56 bg-white border-2 border-gray-100 shadow-lg z-50"
+                    className="absolute top-full right-0 mt-2 w-56 bg-white border-2 border-gray-100 shadow-lg z-50"
                     onClick={() => setIsMenuOpen(!isSuppliesDropdownOpen)}
                   >
                     <div className="py-2">
-                      <div className="px-4 py-2 bg-gray-50 font-semibold text-red-600 ">
+                      <div className="px-4 py-2 bg-gray-50 font-semibold text-red-600">
                         Supplies & Small Equipment
                       </div>
                       {suppliesSubmenu.map((item, index) => (
                         <Link
                           key={index}
                           href={item.href}
-                          className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200${item.color}`}
+                          className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200 ${item.color}`}
                         >
                           {item.label}
                         </Link>
@@ -218,7 +239,7 @@ const HeaderBarNew = () => {
                 onClick={() => router.push("/cart")}
                 className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer transform hover:scale-105"
               >
-                <div className="bg-red-100 p-2 rounded-lg mb-1 relative ">
+                <div className="bg-red-100 p-2 rounded-lg mb-1 relative">
                   <ShoppingBag className="w-6 h-6 text-red-600" />
                   <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {cartCount}
@@ -230,15 +251,36 @@ const HeaderBarNew = () => {
               {/* My Account Button */}
               <button className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transform hover:scale-105 transition-colors cursor-pointer">
                 <div className="bg-blue-100 p-2 rounded-lg mb-1">
-                  <Settings className="w-6 h-6 text-blue-600 " />
+                  <Settings className="w-6 h-6 text-blue-600" />
                 </div>
                 <span className="text-xs">My Account</span>
               </button>
             </div>
           </div>
 
-          {/* Login Section */}
-          <div className="flex items-center justify-between py-3 border-t">
+          {/* Mobile Search Bar - Always visible on mobile when not on productAPI page */}
+          {pathname !== "/productAPI" && (
+            <div className="md:hidden px-2 pb-4">
+              <div className="relative flex">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="What can we help you find?"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-l-md focus:outline-none focus:border-gray-300"
+                />
+                <button
+                  onClick={() => handleSearch()}
+                  className="bg-[#0072bc] text-white px-3 py-2 flex items-center justify-center rounded-r-md hover:bg-[#0072bc] transition-colors"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Desktop Login Section */}
+          <div className="hidden md:flex items-center justify-between py-3 border-t">
             <div className="flex items-center space-x-4">
               <button className="bg-[#bf0000] text-white text-[12px] h-8 px-2 py-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer">
                 <User className="w-3 h-3 mr-1" />
@@ -260,36 +302,93 @@ const HeaderBarNew = () => {
               <span className="font-bold text-lg">{cartTotal.toFixed(2)}</span>
               <button className="bg-gray-800 text-white px-3 py-1 rounded hover:bg-gray-900 transition-colors relative cursor-pointer">
                 <ShoppingBag className="w-4 h-4" />
-                {/* <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                {cartCount}
-              </span> */}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Blue Banner */}
-        {/* <div className="bg-gradient-to-r from-blue-300 from-20% to-blue-500 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-8 text-center">
-          <h1 className="text-3xl font-bold">BROWSE SUPPLIES RESULTS</h1>
-        </div>
-      </div> */}
-        {/* Breadcrumb  */}
-        {/* <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
-        <div className="max-w-7xl mx-auto px-5 text-sm">
-          <Link href="/dashboard" className="text-blue-900 hover:underline">
-            Home
-          </Link>{" "}
-          /
-          <Link
-            href="/productAPI"
-            className="text-blue-900 hover:underline ml-1"
-          >
-            Browse Supplies
-          </Link>{" "}
-          /<span className="ml-1 text-gray-600">Browse Supplies Results</span>
-        </div>
-      </div> */}
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40">
+            <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 overflow-y-auto">
+              <div className="p-4">
+                {/* Mobile Menu Header */}
+                <div className="flex items-center justify-between mb-6 border-b pb-4">
+                  <h2 className="text-lg font-semibold">Menu</h2>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 hover:bg-gray-100 rounded"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Mobile Login Section */}
+                <div className="mb-6 pb-4 border-b">
+                  <button className="w-full bg-[#bf0000] text-white text-sm py-3 rounded hover:bg-red-600 transition-colors flex items-center justify-center mb-3">
+                    <User className="w-4 h-4 mr-2" />
+                    LOGIN
+                  </button>
+                  <Link
+                    href="#"
+                    className="block text-center text-[#0072bc] hover:underline text-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Create an Online Account
+                  </Link>
+                </div>
+
+                {/* Mobile Cart Summary */}
+                <div
+                  className="mb-6 pb-4 border-b cursor-pointer"
+                  onClick={() => {
+                    router.push("/cart");
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-700 text-sm">My Order:</span>
+                    <span className="font-bold text-lg">
+                      {cartTotal.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <ShoppingBag className="w-4 h-4 mr-2" />
+                    <span className="text-sm text-gray-600">
+                      {cartCount} items
+                    </span>
+                  </div>
+                </div>
+
+                {/* Mobile Menu Items */}
+                <div className="space-y-2">
+                  {menuItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className="block px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-red-600 rounded transition-colors"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Mobile Contact Info */}
+                <div className="mt-6 pt-4 border-t space-y-3">
+                  <div className="flex items-center space-x-2 text-[#0072bc] text-sm">
+                    <Phone className="w-4 h-4" />
+                    <span>Contact Us</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-[#0072bc] text-sm">
+                    <HelpCircle className="w-4 h-4" />
+                    <span>Help</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
