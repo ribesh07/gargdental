@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import BannerGarg from "@/components/bannerGarg";
 import ProductShowcase from "@/components/FeaturedProduct";
 // import HeaderBarNew from "@/components/HeaderBarNew";
-import CategoriesViews from "../page";
+import { CategoriesViews } from "../page";
 
 const GargDental = () => {
   const [products, setProducts] = useState([]);

@@ -90,7 +90,7 @@ const manufacturers = [
   "Ackuretta Technolies",
 ];
 
-export default function CategoriesViews() {
+export function CategoriesViews() {
   const [activeTab, setActiveTab] = useState("categories");
 
   const router = useRouter();
@@ -303,4 +303,8 @@ export default function CategoriesViews() {
       </div>
     </div>
   );
+}
+
+export default function Home() {
+  return <CategoriesViews />;
 }
