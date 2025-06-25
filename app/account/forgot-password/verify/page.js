@@ -4,18 +4,27 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export default function ResetPasswordPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const code = searchParams.get("code");
   const [formData, setFormData] = useState({
-    email: email || "",
-    resetCode: code || "",
+    email: "",
+    resetCode: "",
     newPassword: "",
     confirmPassword: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const email = searchParams.get("email");
+    const code = searchParams.get("code");
 
-  const router = useRouter();
+    setFormData((prev) => ({
+      ...prev,
+      email: email || "",
+      resetCode: code || "",
+    }));
+  }, [searchParams]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
