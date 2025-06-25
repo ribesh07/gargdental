@@ -282,12 +282,16 @@ const HeaderBarNew = () => {
           {/* Desktop Login Section */}
           <div className="hidden md:flex items-center justify-between py-1 border-t">
             <div className="flex items-center space-x-4">
-              <button className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer">
+              <button
+                onClick={() => router.push("/account")}
+                className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
+              >
                 <User className="w-3 h-3 mr-1" />
                 LOGIN
               </button>
               <Link
-                href="#"
+                href="/account"
+                onClick={() => router.push("/account")}
                 className="text-[#0072bc] hover:underline text-[14px]"
               >
                 Create an Online Account

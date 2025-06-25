@@ -9,6 +9,8 @@ import useSelectedProductStore from "@/stores/sendingProduct";
 import { useRouter } from "next/navigation";
 import { AddToCart } from "@/components/addtocartbutton";
 
+export const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,11 +21,10 @@ const DentalSuppliesListing = () => {
   const [visibleCount, setVisibleCount] = useState(12); // Number of products to display initially
   var visibleProducts = [];
   // const API_URL = "http://192.168.1.64:8000/api/v1/products/latest";
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  console.warn(`Base Api Url: ${baseUrl}`);
+  // console.warn(`Base Api Url: ${baseUrl}`);
 
   // const API_URL = "https://garg.omsok.com/api/v1/products/latest";
-  const API_URL = `${baseUrl}/api/v1/products/latest`;
+  const API_URL = `${baseUrl}/products/latest`;
 
   //handle load more
   const handleLoadMore = () => {
@@ -62,7 +63,7 @@ const DentalSuppliesListing = () => {
           sell_price: product.sell_price,
           image_url:
             product.image_full_url ||
-            "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
+            `https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png`,
           description: product.product_description,
           available_quantity: product.available_quantity,
           unit_info: product.unit_info,
