@@ -1,10 +1,10 @@
 "use client";
-import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
-const searchParams = useSearchParams();
 export default function ResetPasswordPage() {
+  const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const code = searchParams.get("code");
   const [formData, setFormData] = useState({
