@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
+// import { userDetails } from "@/utils/apiHelper";
 
 export default function Profile() {
   const [userData, setUserData] = useState({
@@ -12,6 +13,7 @@ export default function Profile() {
     image_full_url: "",
     created_at: "",
   });
+  const [d1, setD1] = useState([]);
 
   const router = useRouter();
 
@@ -27,6 +29,7 @@ export default function Profile() {
   const getInfo = async () => {
     try {
       const response = await apiRequest("/customer/info");
+
       if (response && response.data) {
         const { id, full_name, phone, email, image_full_url, created_at } =
           response.data;

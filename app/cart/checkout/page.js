@@ -1,19 +1,22 @@
 "use client";
 import React, { useState } from "react";
 import { Trash2, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const router = useRouter();
 
   const handleProceedToPay = () => {
     setIsProcessing(true);
     // Simulate payment processing
     setTimeout(() => {
       setIsProcessing(false);
-      alert("Please add an address to proceed.");
+      // alert("Please add an address to proceed.");
     }, 1000);
+    router.push("/cart/checkout/pay-ops");
   };
 
   const handleRemoveItem = () => {

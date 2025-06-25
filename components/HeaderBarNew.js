@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
+import { userDetails } from "@/utils/apiHelper";
 
 const HeaderBarNew = () => {
   const router = useRouter();
@@ -25,12 +26,27 @@ const HeaderBarNew = () => {
   const suppliesRef = useRef(null);
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
+  const [user, setUser] = useState(null);
+  const [isloggedin, setIsloggedin] = useState(false);
 
   const cartCount = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
 
   // Close dropdowns when clicking outside
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    const getInfo = async () => {
+      const details = await userDetails();
+      if (details) {
+        setUser(details.email);
+      }
+    };
+    if (token) {
+      setIsloggedin(true);
+      getInfo();
+    }
+
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
@@ -249,7 +265,10 @@ const HeaderBarNew = () => {
               </button>
 
               {/* My Account Button */}
-              <button className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transform hover:scale-105 transition-colors cursor-pointer">
+              <button
+                onClick={() => router.push("/myaccount")}
+                className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transform hover:scale-105 transition-colors cursor-pointer"
+              >
                 <div className="bg-blue-100 p-2 rounded-lg mb-1">
                   <Settings className="w-6 h-6 text-blue-600" />
                 </div>
@@ -281,22 +300,36 @@ const HeaderBarNew = () => {
 
           {/* Desktop Login Section */}
           <div className="hidden md:flex items-center justify-between py-1 border-t">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => router.push("/account")}
-                className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
-              >
-                <User className="w-3 h-3 mr-1" />
-                LOGIN
-              </button>
-              <Link
-                href="/account"
-                onClick={() => router.push("/account")}
-                className="text-[#0072bc] hover:underline text-[14px]"
-              >
-                Create an Online Account
-              </Link>
-            </div>
+            {isloggedin && user && (
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => router.push("/account/profile")}
+                  className="bg-[#0072bc] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
+                >
+                  <User className="w-3 h-3 m-1" />
+                  {user}
+                </button>
+              </div>
+            )}
+
+            {!isloggedin && (
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => router.push("/account")}
+                  className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
+                >
+                  <User className="w-3 h-3 mr-1" />
+                  LOGIN
+                </button>
+                <Link
+                  href="/account"
+                  onClick={() => router.push("/account")}
+                  className="text-[#0072bc] hover:underline text-[14px]"
+                >
+                  Create an Online Account
+                </Link>
+              </div>
+            )}
 
             <div
               className="flex items-center space-x-2 hover:underline cursor-pointer"

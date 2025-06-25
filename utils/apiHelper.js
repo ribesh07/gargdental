@@ -1,5 +1,7 @@
 import { useState } from "react";
-const API_URL = "https://garg.omsok.com/api/v1/products/latest";
+import { baseUrl } from "./config";
+import { apiRequest } from "./ApiSafeCalls";
+const API_URL = `${baseUrl}/products/latest`;
 
 const fetchProducts = async (count) => {
   const visibleCount = count;
@@ -59,3 +61,30 @@ const fetchProducts = async (count) => {
 };
 
 export default fetchProducts;
+
+export const userDetails = async () => {
+  try {
+    const response = await apiRequest("/customer/info");
+    if (response && response.data) {
+      const { id, full_name, phone, email, image_full_url, created_at } =
+        response.data;
+
+      return {
+        id,
+        full_name,
+        phone,
+        email,
+        image_full_url: image_full_url || "",
+        created_at,
+      };
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.log(err);
+    alert("Something went wrong. Please try again. Error: " + err.message);
+  }
+};
+
+//  const test = await userDetails();
+//     console.log(test.phone + "test");
