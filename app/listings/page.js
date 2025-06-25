@@ -4,12 +4,11 @@ import { ChevronDown, ShoppingCart } from "lucide-react";
 import useCartStore from "@/stores/useCartStore";
 import useToastStore from "@/stores/toastStore";
 import useSelectedProductStore from "@/stores/sendingProduct";
+import { baseUrl } from "@/utils/config";
 
 // import ProductAPIRequest from "@/components/ProductAPI";
 import { useRouter } from "next/navigation";
 import { AddToCart } from "@/components/addtocartbutton";
-
-export const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
