@@ -22,8 +22,8 @@ const DentalSuppliesListing = () => {
   // const API_URL = "http://192.168.1.64:8000/api/v1/products/latest";
   // console.warn(`Base Api Url: ${baseUrl}`);
 
-  // const API_URL = "https://garg.omsok.com/api/v1/products/latest";
-  const API_URL = `${baseUrl}/products/latest`;
+  const API_URL = "https://garg.omsok.com/api/v1/products/latest";
+  // const API_URL = `${baseUrl}/products/latest`;
 
   //handle load more
   const handleLoadMore = () => {
