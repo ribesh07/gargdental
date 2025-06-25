@@ -71,6 +71,8 @@ export default function AuthPage() {
     e.preventDefault();
 
     try {
+      console.log("Base URL:", baseUrl);
+
       const response = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
         headers: {

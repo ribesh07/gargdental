@@ -27,7 +27,7 @@ const DentalSuppliesListing = () => {
 
   //handle load more
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 4); // load 3 more
+    setVisibleCount((prev) => prev + 4);
     // router.push("/productAPI");
   };
   const fetchProducts = async () => {
