@@ -1,9 +1,9 @@
-import { baseUrl } from "@/app/listings/page";
+import { baseUrl } from "./config";
 
 export const apiRequest = async (url, options = {}) => {
   url = `${baseUrl}${url}`;
   const token = localStorage.getItem("token");
-
+  console.warn(token);
   const headers = {
     "Content-Type": "application/json",
     ...(token && { Authorization: `Bearer ${token}` }),
@@ -20,7 +20,7 @@ export const apiRequest = async (url, options = {}) => {
   }
 };
 
-export const apiPost = async (url, data) =>
+export const apiPostRequest = async (url, data) =>
   apiRequest(url, { method: "POST", body: JSON.stringify(data) });
 
 //const data = await apiRequest("https://api.example.com/profile");

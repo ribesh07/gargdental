@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { baseUrl } from "@/app/listings/page";
+import { baseUrl } from "@/utils/config";
 
 export default function VerifyAccountPage() {
   const searchParams = useSearchParams();
