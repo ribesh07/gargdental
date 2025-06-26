@@ -232,7 +232,9 @@ const DentalSuppliesListing = () => {
         {/* Filters */}
         <div className="mb-6 sm:mb-8 pb-4 sm:pb-6 border-b">
           <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-2 sm:gap-4">
-            <span className="text-gray-700 font-medium text-sm sm:text-base">Refine by:</span>
+            <span className="text-gray-700 font-medium text-sm sm:text-base">
+              Refine by:
+            </span>
 
             {/* Category Filter */}
             <div className="relative w-full sm:w-auto">
@@ -309,12 +311,15 @@ const DentalSuppliesListing = () => {
 
         {/* Product Grid */}
         <div className="max-w-7xl mx-auto px-2 sm:px-4">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm-gap-x-6 gap-x-4 gap-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
             {filteredAndSortedProducts.map((product) => (
               <ProductCardMain
                 key={product.id}
                 product={product}
-                showDiscount={parseFloat(product.actual_price) > parseFloat(product.sell_price)}
+                showDiscount={
+                  parseFloat(product.actual_price) >
+                  parseFloat(product.sell_price)
+                }
               />
             ))}
           </div>
@@ -355,29 +360,40 @@ const DentalSuppliesListing = () => {
 function ProductCardMain({ product, showDiscount }) {
   const router = useRouter();
   return (
-    <div className="flex flex-col h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
-      <div className="flex-1 flex flex-col cursor-pointer" onClick={() => router.push(`/dashboard/${product.product_code}`)}>
+    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+      <div
+        className="flex-1 flex flex-col cursor-pointer"
+        onClick={() => router.push(`/dashboard/${product.product_code}`)}
+      >
         <div className="relative mb-2 sm:mb-3 lg:mb-4">
-          <ProductImageZoom imageUrl={product.image_url} alt={product.product_name} />
+          <ProductImageZoom
+            imageUrl={product.image_url}
+            alt={product.product_name}
+          />
           {showDiscount && product.actual_price && (
-            <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-1 rounded">
+            <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 rounded">
               SALE
             </div>
           )}
         </div>
-        <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
-        <h3 className="text-xs sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
+        <p className="text-[14px] text-gray-500 uppercase">{product.brand}</p>
+        <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
           {product.product_name}
         </h3>
-        <p className="text-gray-500 text-xs mb-2 flex-grow line-clamp-2">{product.description}</p>
+        <p className="text-gray-500 text-[14px] mb-0.5 flex-grow line-clamp-1">
+          {product.description}
+        </p>
         <div className="mt-2 justify-center">
-          <div className="flex items-center space-x-1 sm:space-x-2 mb-2 cursor-pointer">
-            {product.actual_price && product.actual_price !== "0.00" && parseFloat(product.actual_price) > parseFloat(product.sell_price) && (
-              <span className="text-xs text-gray-400 line-through">
-                Rs. {product.actual_price}
-              </span>
-            )}
-            <span className="text-sm sm:text-base font-bold text-red-600">
+          <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
+            {product.actual_price &&
+              product.actual_price !== "0.00" &&
+              parseFloat(product.actual_price) >
+                parseFloat(product.sell_price) && (
+                <span className="text-[14px] text-gray-400 line-through">
+                  Rs. {product.actual_price}
+                </span>
+              )}
+            <span className="text-[14px] sm:text-base font-bold text-red-600">
               Rs. {product.sell_price}
             </span>
           </div>

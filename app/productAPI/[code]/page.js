@@ -99,7 +99,7 @@ const ProductAPIRequest = () => {
   const categories = [...new Set(products.map((p) => p.category))];
 
   return (
-    <div className="min-h-screen origin-top scale-80 bg-gray-50 p-6">
+    <div className="min-h-screen origin-top bg-gray-50 p-6">
       {/* <MainTopBar /> */}
       <div className="max-w-7xl  my-6 mx-auto ">
         {/* Header */}

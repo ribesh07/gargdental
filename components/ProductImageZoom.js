@@ -40,4 +40,4 @@ export default function ProductImageZoom({ imageUrl, alt, className = "" }) {
       />
     </div>
   );
-} 
+}
