@@ -15,6 +15,8 @@ GET https://garg.omsok.com/api/v1/categories HTTP/1.1
 GET https://garg.omsok.com/api/v1/products/latest HTTP/1.1
 ###
 GET https://garg.omsok.com/api/v1/products/latest
+###
+GET https://garg.omsok.com/api/v1/products/details/A500003
 
 ###Get details
 GET https://garg.omsok.com/api/v1/products/details/P00002

@@ -51,9 +51,7 @@ export default function ForgotPasswordPage() {
           setIsCodeSent(true);
           //   alert(`Verification code has been sent to your email ${data.code}!`);
           router.push(
-            `/account/forgot-password/verify?email=${encodeURIComponent(
-              email
-            )}&code=${encodeURIComponent(data.code)}`
+            `/account/forgot-password/verify?email=${encodeURIComponent(email)}`
           );
         } else {
           alert(data.message || "Failed to send verification code");

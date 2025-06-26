@@ -1,12 +1,12 @@
 import { baseUrl } from "./config";
 
-export const apiRequest = async (url, options = {}) => {
+export const apiRequest = async (url, tokenReq = true, options = {}) => {
   url = `${baseUrl}${url}`;
   const token = localStorage.getItem("token");
   console.warn(token);
   const headers = {
     "Content-Type": "application/json",
-    ...(token && { Authorization: `Bearer ${token}` }),
+    ...(tokenReq && token && { Authorization: `Bearer ${token}` }),
     ...options.headers,
   };
 
@@ -23,9 +23,9 @@ export const apiRequest = async (url, options = {}) => {
 export const apiPostRequest = async (url, data) =>
   apiRequest(url, { method: "POST", body: JSON.stringify(data) });
 
-//const data = await apiRequest("https://api.example.com/profile");
+//const data = await apiRequest("/profile");
 
-//const data = await apiPost("https://api.example.com/profile", { name: "John Doe" });
+//const data = await apiPost("/profile", { name: "John Doe" });
 // useEffect(() => {
 //   const token = localStorage.getItem("token");
 

@@ -32,20 +32,23 @@ const HeaderBarNew = () => {
   const cartCount = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
 
-    const getInfo = async () => {
-      const details = await userDetails();
-      if (details) {
-        setUser(details.email);
+      if (token) {
+        setIsloggedin(true);
+        const details = await userDetails();
+        if (details) {
+          setUser(details.email);
+        }
+      } else {
+        setIsloggedin(false);
+        setUser("");
       }
     };
-    if (token) {
-      setIsloggedin(true);
-      getInfo();
-    }
+
+    checkAuth();
 
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -85,6 +88,14 @@ const HeaderBarNew = () => {
       router.push(`/productAPI/`);
       router.refresh();
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsloggedin(false);
+    setUser("");
+    router.refresh();
+    router.push("/dashboard");
   };
 
   return (
@@ -330,18 +341,30 @@ const HeaderBarNew = () => {
                 </Link>
               </div>
             )}
-
-            <div
-              className="flex items-center space-x-2 hover:underline cursor-pointer"
-              onClick={() => router.push("/cart")}
-            >
-              <span className="text-gray-700 text-[12px]">My Order:</span>
-              <span className="font-bold text-lg text-[12px]">
-                {cartTotal.toFixed(2)}
-              </span>
-              <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
-                <ShoppingBag className="w-4 h-4 cursor-pointer" />
-              </button>
+            <div className="flex items-center space-x-2">
+              <div
+                className="flex items-center space-x-2 hover:underline cursor-pointer"
+                onClick={() => router.push("/cart")}
+              >
+                <span className="text-gray-700 text-[12px]">My Order:</span>
+                <span className="font-bold text-lg text-[12px]">
+                  {cartTotal.toFixed(2)}
+                </span>
+                <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
+                  <ShoppingBag className="w-4 h-4 cursor-pointer" />
+                </button>
+              </div>
+              {isloggedin && (
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => handleLogout()}
+                    className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
+                  >
+                    <User className="w-3 h-3 mr-1" />
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

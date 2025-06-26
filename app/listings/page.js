@@ -5,6 +5,7 @@ import useCartStore from "@/stores/useCartStore";
 import useToastStore from "@/stores/toastStore";
 import useSelectedProductStore from "@/stores/sendingProduct";
 import { baseUrl } from "@/utils/config";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 // import ProductAPIRequest from "@/components/ProductAPI";
 import { useRouter } from "next/navigation";
@@ -19,10 +20,8 @@ const DentalSuppliesListing = () => {
   const [isReady, setIsReady] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12); // Number of products to display initially
   var visibleProducts = [];
-  // const API_URL = "http://192.168.1.64:8000/api/v1/products/latest";
   // console.warn(`Base Api Url: ${baseUrl}`);
 
-  const API_URL = "https://garg.omsok.com/api/v1/products/latest";
   // const API_URL = `${baseUrl}/products/latest`;
 
   //handle load more
@@ -35,19 +34,20 @@ const DentalSuppliesListing = () => {
     setError(null);
 
     try {
-      const response = await fetch(API_URL, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
+      // const response = await fetch(API_URL, {
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Accept: "application/json",
+      //   },
+      // });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
 
-      const data = await response.json();
+      // const data = await response.json();
+      const data = await apiRequest("/products/latest", false);
       // const limited = data.products?.slice(0, 10) || [];
       // Transform the API data to match the expected format
       const transformedProducts =

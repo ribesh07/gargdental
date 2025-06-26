@@ -51,6 +51,12 @@ export default function Profile() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.refresh();
+    router.push("/dashboard");
+  };
+
   return (
     <div className="max-w-md mx-auto mt-10 p-4 bg-white shadow rounded">
       <h2 className="text-xl font-bold mb-4">Profile</h2>
@@ -66,6 +72,7 @@ export default function Profile() {
       <p>
         <strong>Joined:</strong> {userData.created_at}
       </p>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }

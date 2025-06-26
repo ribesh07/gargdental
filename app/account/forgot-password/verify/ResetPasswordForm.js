@@ -6,11 +6,10 @@ export default function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const emailParam = searchParams.get("email") || "";
-  const codeParam = searchParams.get("code") || "";
 
   const [formData, setFormData] = useState({
     email: emailParam,
-    resetCode: codeParam,
+    resetCode: "",
     newPassword: "",
     confirmPassword: "",
   });
@@ -20,9 +19,8 @@ export default function ResetPasswordForm() {
     setFormData((prev) => ({
       ...prev,
       email: emailParam,
-      resetCode: codeParam,
     }));
-  }, [emailParam, codeParam]);
+  }, [emailParam]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { Search, ShoppingCart, User, Lock } from "lucide-react";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 import Link from "next/link";
 import DentalSuppliesListing from "@/app/listings/page";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import { CategoriesViews } from "../page";
 
 const GargDental = () => {
   const [products, setProducts] = useState([]);
+  const [slides, setSlides] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [userId, setUserId] = useState("");
@@ -22,12 +23,12 @@ const GargDental = () => {
   // const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const router = useRouter();
-  const slides = [
-    "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg3.png",
-    "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg3.png",
-    "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg1.png",
-    "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg2.png",
-  ];
+
+  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg3.png",
+  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg3.png",
+  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg1.png",
+  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg2.png",
+  // ];
   const manufacturers = [
     "Dentsply Sirona",
     "Kerr",
@@ -41,16 +42,31 @@ const GargDental = () => {
     "Parkell",
   ];
 
+  // Fetch slides
+  useEffect(() => {
+    const fetchSlides = async () => {
+      const data = await apiRequest("/banners", false);
+      if (data) {
+        const mappedSlides = data.banners.map(
+          (item) => item.image_full_url || i
+        );
+        setSlides(mappedSlides);
+      }
+    };
+    fetchSlides();
+  }, []);
+
   // Auto-slide functionality
   useEffect(() => {
+    if (slides.length === 0) return;
+
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 3000);
-    return () => clearInterval(interval);
-  }, [slides.length]);
 
-  // Get unique values for filter options
-  //   const categories = [...new Set(products.map((p) => p.category))];
+    return () => clearInterval(interval);
+  }, [slides]);
+
   const categories = [
     "Pedodontics",
     "Prosthodontics",
