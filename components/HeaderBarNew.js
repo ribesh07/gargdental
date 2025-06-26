@@ -100,7 +100,7 @@ const HeaderBarNew = () => {
 
   return (
     <div className="w-full bg-white sticky top-0 z-50">
-      <div className="w-full scale-[0.9] md:scale-90 lg:scale-100">
+      <div className="w-full">
         {/* Top Navigation Bar - Hidden on mobile */}
         <div className="bg-gray-50 border-b-blue-100 hidden md:block">
           <div className="max-w-7xl mx-auto px-4">

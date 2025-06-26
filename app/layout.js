@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <HeaderBarNew />
-        <div className="origin-top scale-[0.98] w-full">{children}</div>
+        <div className="w-full">{children}</div>
 
         <FooterBar />
         <Toaster position="bottom-right" />

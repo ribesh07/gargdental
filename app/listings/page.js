@@ -200,22 +200,22 @@ const DentalSuppliesListing = () => {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto -my-6 p-6">
+      <div className="max-w-7xl mx-auto -my-3 sm:-my-4 lg:-my-6 p-2 sm:p-4 lg:p-6">
         {/* Header */}
-        <div className="bg-gray-100 p-5 rounded-lg mb-5 shadow">
-          <h1 className="text-2xl font-bold text-blue-900 mb-2.5">
+        <div className="bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-lg mb-3 sm:mb-4 lg:mb-5 shadow">
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900 mb-2 sm:mb-2.5">
             Browse Supplies Results
           </h1>
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-gray-600">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 sm:mb-4 gap-2 sm:gap-0">
+            <span className="text-gray-600 text-sm sm:text-base">
               Showing dental supplies and equipment
             </span>
-            <div className="flex items-center">
-              <span className="mr-2 m-1">Sort by :</span>
+            <div className="flex items-center w-full sm:w-auto">
+              <span className="mr-2 m-1 text-sm">Sort by :</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white"
+                className="appearance-none border border-gray-300 rounded-lg px-2 sm:px-4 py-1 sm:py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-sm flex-1 sm:flex-none"
               >
                 <option>Relevance</option>
                 <option>Price: Low to High</option>
@@ -228,16 +228,16 @@ const DentalSuppliesListing = () => {
         </div>
 
         {/* Filters */}
-        <div className="mb-8 pb-6 border-b">
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="text-gray-700 font-medium">Refine by:</span>
+        <div className="mb-6 sm:mb-8 pb-4 sm:pb-6 border-b">
+          <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-2 sm:gap-4">
+            <span className="text-gray-700 font-medium text-sm sm:text-base">Refine by:</span>
 
             {/* Category Filter */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <select
                 value={filters.category}
                 onChange={(e) => handleFilterChange("category", e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
               >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
@@ -250,11 +250,11 @@ const DentalSuppliesListing = () => {
             </div>
 
             {/* Brand Filter */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <select
                 value={filters.brand}
                 onChange={(e) => handleFilterChange("brand", e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
               >
                 <option value="">All Brands</option>
                 {brands.map((brand) => (
@@ -267,13 +267,13 @@ const DentalSuppliesListing = () => {
             </div>
 
             {/* Price Range Filter */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <select
                 value={filters.priceRange}
                 onChange={(e) =>
                   handleFilterChange("priceRange", e.target.value)
                 }
-                className="appearance-none border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
               >
                 <option value="">All Prices</option>
                 {priceRanges.map((range) => (
@@ -289,7 +289,7 @@ const DentalSuppliesListing = () => {
             {(filters.category || filters.brand || filters.priceRange) && (
               <button
                 onClick={() => clearFilters()}
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base w-full sm:w-auto text-left sm:text-center"
               >
                 Clear all filters
               </button>
@@ -298,32 +298,32 @@ const DentalSuppliesListing = () => {
         </div>
 
         {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600">
+        <div className="mb-4 sm:mb-6">
+          <p className="text-gray-600 text-sm sm:text-base">
             Showing {filteredAndSortedProducts.length} of {products.length}{" "}
             products
           </p>
         </div>
 
         {/* Product Grid */}
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
             {filteredAndSortedProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-gray-100 rounded-lg shadow border-gray-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full max-w-[220px] mx-auto p-2"
+                className="bg-gray-100 rounded-lg shadow border-gray-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full max-w-[220px] mx-auto p-2 sm:p-3"
               >
                 {/* Product Image */}
-                <div className="relative hover:scale-105 transition-transform duration-300 p-2 pb-0">
+                <div className="relative hover:scale-105 transition-transform duration-300 p-1 sm:p-2 pb-0">
                   <img
                     onClick={() => handleCardClick(product)}
                     src={product.image_url}
                     alt={product.product_name}
-                    className="w-full h-32 object-contain p-1 rounded-lg"
+                    className="w-full h-24 sm:h-28 lg:h-32 object-contain p-1 rounded-lg"
                   />
                   {parseFloat(product.actual_price) >
                     parseFloat(product.sell_price) && (
-                    <div className="absolute top-4 left-4 bg-red-500 text-white px-1 py-0.5 rounded text-xs font-bold">
+                    <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-red-500 text-white px-1 py-0.5 rounded text-xs font-bold">
                       SALE
                     </div>
                   )}
@@ -331,10 +331,10 @@ const DentalSuppliesListing = () => {
 
                 {/* Product Info */}
                 <div
-                  className="p-2 flex flex-col flex-grow cursor-pointer hover:underline"
+                  className="p-1 sm:p-2 flex flex-col flex-grow cursor-pointer hover:underline"
                   onClick={() => handleCardClick(product)}
                 >
-                  <h3 className="text-sm font-semibold text-blue-800 mb-1 truncate">
+                  <h3 className="text-xs sm:text-sm font-semibold text-blue-800 mb-1 truncate">
                     {product.product_name}
                   </h3>
                   <p className="text-gray-600 text-xs mb-1">
@@ -346,7 +346,7 @@ const DentalSuppliesListing = () => {
 
                   {/* Price */}
                   <div className="mb-2">
-                    <span className="text-sm font-italic text-red-600">
+                    <span className="text-xs sm:text-sm font-italic text-red-600">
                       {formatPrice(product.sell_price)}
                     </span>
                     {parseFloat(product.actual_price) >
@@ -367,10 +367,10 @@ const DentalSuppliesListing = () => {
 
         {/* load more */}
         {visibleCount && (
-          <div className="text-center mt-8">
+          <div className="text-center mt-6 sm:mt-8">
             <button
               onClick={() => handleLoadMore()}
-              className="bg-[#bf0000] text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+              className="bg-[#bf0000] text-white px-3 sm:px-4 py-2 rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
             >
               Load More
             </button>
@@ -379,13 +379,13 @@ const DentalSuppliesListing = () => {
 
         {/* No Results */}
         {filteredAndSortedProducts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">
+          <div className="text-center py-8 sm:py-12">
+            <p className="text-gray-500 text-base sm:text-lg">
               No products found matching your filters.
             </p>
             <button
               onClick={() => clearFilters}
-              className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
+              className="mt-3 sm:mt-4 text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base"
             >
               Clear all filters to see all products
             </button>

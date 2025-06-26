@@ -10,7 +10,7 @@ const AddToCartButton = ({ product }) => {
   return (
     <button
       onClick={() => addToCart(product)}
-      className="btn w-full bg-cyan-500 hover:bg-blue-800 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors duration-200 mt-auto"
+      className="btn w-full bg-cyan-500 hover:bg-blue-800 text-white px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 mt-auto text-xs sm:text-sm"
     >
       Add to Cart
     </button>
@@ -32,9 +32,9 @@ export function AddToCart({ product }) {
     <button
       onClick={() => handleAdd()}
       // disabled={added}
-      className="btn py-2 bg-gray-500 min-w-[150px] w-full m-2 hover:bg-blue-800 text-white px-1  rounded-md font-medium flex items-center justify-center space-x-2 transition-colors duration-200"
+      className="btn py-1 sm:py-2 bg-gray-500 min-w-[120px] sm:min-w-[150px] w-full m-1 sm:m-2 hover:bg-blue-800 text-white px-1 rounded-md font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 text-xs sm:text-sm"
     >
-      <ShoppingCart className="w-5 h-5 mr-3" />
+      <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-3" />
       Add to Cart
     </button>
   );
@@ -50,9 +50,9 @@ export function AddtoCartFeatured({ product }) {
     <div className="flex justify-center">
       <button
         onClick={() => handleAdd()}
-        className="bg-gray-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded transition-colors flex items-center"
+        className="bg-gray-600 hover:bg-blue-700 text-white text-xs px-2 sm:px-3 py-1 rounded transition-colors flex items-center"
       >
-        <ShoppingCart className="w-4 h-4 mr-2" />
+        <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
         ADD TO CART
       </button>
     </div>
