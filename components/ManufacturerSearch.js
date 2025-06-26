@@ -53,19 +53,19 @@ export default function ManufacturerFilter() {
   return (
     <div>
       {/* Search Bar */}
-      <div className="mb-6">
+      <div className="mb-4 sm:mb-6">
         <input
           type="text"
           placeholder="Find Manufacturer"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
       {/* Alphabet Filter */}
-      <div className="mb-6">
-        <div className="flex flex-wrap gap-2">
+      <div className="mb-4 sm:mb-6">
+        <div className="flex flex-wrap gap-1 sm:gap-2">
           {[
             "A",
             "B",
@@ -98,7 +98,7 @@ export default function ManufacturerFilter() {
             <button
               key={letter}
               onClick={() => setSelectedLetter(letter)}
-              className={`w-8 h-8 rounded-full text-sm font-medium ${
+              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 selectedLetter === letter
                   ? "bg-[#0072bc] text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-orange-300"
@@ -111,20 +111,20 @@ export default function ManufacturerFilter() {
       </div>
 
       {/* Manufacturers Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
         {filteredManufacturers.map((manufacturer, index) => (
           <div
             key={index}
             onClick={() => router.push(`/productAPI`)}
-            className="p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-white border-gray-200 hover:border-gray-300"
+            className="p-2 sm:p-3 lg:p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-white border-gray-200 hover:border-gray-300"
           >
             <Link href={`/productAPI`}>
-              <span className="text-sm font-medium">{manufacturer}</span>
+              <span className="text-xs sm:text-sm font-medium block">{manufacturer}</span>
             </Link>
           </div>
         ))}
         {filteredManufacturers.length === 0 && (
-          <div className="col-span-full text-gray-500 text-center">
+          <div className="col-span-full text-gray-500 text-center py-8 text-sm sm:text-base">
             No manufacturers found.
           </div>
         )}
