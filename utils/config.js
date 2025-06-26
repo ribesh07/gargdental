@@ -4,7 +4,9 @@ if (!baseUrl) {
   console.error("Missing NEXT_PUBLIC_API_URL environment variable!");
 }
 
-export const isTokenValid = () => {
-  const token = localStorage.getItem("token");
-  return !!token;
-};
+// import Cookies from "js-cookie";
+
+// export const isTokenValid = () => {
+//   const token = Cookies.get("token");
+//   return !!token;
+// };

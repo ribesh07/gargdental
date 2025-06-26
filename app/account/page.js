@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { baseUrl } from "@/utils/config";
+import Cookies from "js-cookie";
 // import toast from "react-hot-toast";
 
 export default function AuthPage() {
@@ -60,6 +61,14 @@ export default function AuthPage() {
 
         if (data.token) {
           localStorage.setItem("token", data.token);
+          await fetch("/api/auth/set-token", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token: data.token }),
+          });
+
           console.log("Token saved:", data.token);
         }
 

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-// import { userDetails } from "@/utils/apiHelper";
+import Cookies from "js-cookie";
 
 export default function Profile() {
   const [userData, setUserData] = useState({

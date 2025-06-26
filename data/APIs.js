@@ -21,7 +21,7 @@ Route::group(['namespace' => 'API\V1'], function () {
     Route::group(['prefix' => 'products'], function () {
         Route::get('/latest', [ProductController::class, 'get_latest_products']);   //done
         Route::get('/search', [ProductController::class, 'get_searched_products']);     //done - need update
-        Route::get('/details/{product_code}', [ProductController::class, 'get_product']);       // done - need update
+        Route::get('/details/{product_code}', [ProductController::class, 'get_product']);       // done
         Route::get('/related-products/{product_code}', [ProductController::class, 'get_related_products']);  // done recommended - need update for related in product section
     });
 

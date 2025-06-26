@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { baseUrl } from "./config";
 import { apiRequest } from "./ApiSafeCalls";
@@ -88,3 +89,33 @@ export const userDetails = async () => {
 
 //  const test = await userDetails();
 //     console.log(test.phone + "test");
+
+//for related products
+export const fetchRelatedProducts = async (product_code) => {
+  try {
+    const response = await apiRequest(
+      `/products/related-products/${product_code}`,
+      false
+    );
+    if (
+      response &&
+      response.related_products &&
+      Array.isArray(response.related_products)
+    ) {
+      return response.related_products.map((product) => ({
+        id: product.id,
+        code: product.product_code,
+        brand: product.brand_id, // brand_id is present, actual brand name may need another lookup
+        category: product.category_id, // category_id is present, actual category name may need another lookup
+        image: product.image_full_url,
+        actualprice: product.actual_price,
+        sellprice: product.sell_price,
+      }));
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching related products:", err);
+    return [{ error: err.message }];
+  }
+};

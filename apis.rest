@@ -1,6 +1,12 @@
 ###GET for banners
 GET https://garg.omsok.com/api/v1/banners HTTP/1.1
 
+###GET for serch
+GET https://garg.omsok.com/api/v1/products/search?name=arti HTTP/1.1
+
+###GET for related products
+GET https://garg.omsok.com/api/v1/products/related-products/A100002 HTTP/1.1
+
 ###GET for cards
 # GET http://192.168.1.64:8000/api/v1/banners/get-cards HTTP/1.1
 GET https://garg.omsok.com/api/v1/banners/get-cards HTTP/1.1
@@ -85,3 +91,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 
 ### Delete user
 DELETE http://192.168.1.64:8000/api/v1/
+
+
+### test
+GET http://localhost:3000/api/test HTTP/1.1

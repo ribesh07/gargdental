@@ -333,8 +333,8 @@ const HeaderBarNew = () => {
                   LOGIN
                 </button>
                 <Link
-                  href="/account"
-                  onClick={() => router.push("/account")}
+                  href="/account/signup"
+                  onClick={() => router.push("/account/signup")}
                   className="text-[#0072bc] hover:underline text-[14px]"
                 >
                   Create an Online Account
