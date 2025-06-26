@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import ProductImageZoomSeparate from "./ProductView";
+import ProductImageMagnifier from "@/components/ProductImageMagnifier";
 
 const OverViewProject = ({ product }) => {
   const [isVideo, setIsVideo] = useState(false);
@@ -31,15 +32,16 @@ const OverViewProject = ({ product }) => {
               className="w-full h-full rounded"
             ></iframe>
           ) : (
-            <Image
-              src={product.image_url}
-              alt={product.product_name || ""}
-              width={500}
-              height={500}
-              className={`object-contain rounded w-full h-full ${effect}`}
-              priority
-            />
-            // <ProductImageZoomSeparate product={product} />
+            <>
+              {/* Magnifier integration */}
+              <ProductImageMagnifier
+                imageUrl={product.image_url}
+                alt={product.product_name || ""}
+                boxWidth={400}
+                boxHeight={400}
+                effect={effect}
+              />
+            </>
           )}
         </div>
 

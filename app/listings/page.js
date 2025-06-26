@@ -11,6 +11,7 @@ import { apiRequest } from "@/utils/ApiSafeCalls";
 import { useRouter } from "next/navigation";
 import { AddToCart } from "@/components/addtocartbutton";
 import { ProductCard } from "@/components/FeaturedProduct";
+import ProductImageZoom from "@/components/ProductImageZoom";
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -357,11 +358,7 @@ function ProductCardMain({ product, showDiscount }) {
     <div className="flex flex-col h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div className="flex-1 flex flex-col cursor-pointer" onClick={() => router.push(`/dashboard/${product.product_code}`)}>
         <div className="relative mb-2 sm:mb-3 lg:mb-4">
-          <img
-            src={product.image_url}
-            alt={product.product_name}
-            className="w-full h-20 sm:h-24 lg:h-32 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
-          />
+          <ProductImageZoom imageUrl={product.image_url} alt={product.product_name} />
           {showDiscount && product.actual_price && (
             <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-1 rounded">
               SALE
