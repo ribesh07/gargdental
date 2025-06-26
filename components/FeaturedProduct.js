@@ -5,7 +5,7 @@ import { AddtoCartFeatured } from "./addtocartbutton";
 import fetchProducts from "@/utils/apiHelper";
 import { useRouter } from "next/navigation";
 
-const ProductCard = ({ product, showDiscount = false }) => {
+export const ProductCard = ({ product, showDiscount = false }) => {
   const router = useRouter();
 
   const renderStars = (rating) => {

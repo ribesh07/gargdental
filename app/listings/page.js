@@ -10,6 +10,7 @@ import { apiRequest } from "@/utils/ApiSafeCalls";
 // import ProductAPIRequest from "@/components/ProductAPI";
 import { useRouter } from "next/navigation";
 import { AddToCart } from "@/components/addtocartbutton";
+import { ProductCard } from "@/components/FeaturedProduct";
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -307,60 +308,13 @@ const DentalSuppliesListing = () => {
 
         {/* Product Grid */}
         <div className="max-w-7xl mx-auto px-2 sm:px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm-gap-x-6 gap-x-4 gap-y-4">
             {filteredAndSortedProducts.map((product) => (
-              <div
+              <ProductCardMain
                 key={product.id}
-                className="bg-gray-100 rounded-lg shadow border-gray-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full max-w-[220px] mx-auto p-2 sm:p-3"
-              >
-                {/* Product Image */}
-                <div className="relative hover:scale-105 transition-transform duration-300 p-1 sm:p-2 pb-0">
-                  <img
-                    onClick={() => handleCardClick(product)}
-                    src={product.image_url}
-                    alt={product.product_name}
-                    className="w-full h-24 sm:h-28 lg:h-32 object-contain p-1 rounded-lg"
-                  />
-                  {parseFloat(product.actual_price) >
-                    parseFloat(product.sell_price) && (
-                    <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-red-500 text-white px-1 py-0.5 rounded text-xs font-bold">
-                      SALE
-                    </div>
-                  )}
-                </div>
-
-                {/* Product Info */}
-                <div
-                  className="p-1 sm:p-2 flex flex-col flex-grow cursor-pointer hover:underline"
-                  onClick={() => handleCardClick(product)}
-                >
-                  <h3 className="text-xs sm:text-sm font-semibold text-blue-800 mb-1 truncate">
-                    {product.product_name}
-                  </h3>
-                  <p className="text-gray-600 text-xs mb-1">
-                    {product.brand} - {product.item_number}
-                  </p>
-                  <p className="text-gray-500 text-xs mb-2 flex-grow line-clamp-2">
-                    {product.description}
-                  </p>
-
-                  {/* Price */}
-                  <div className="mb-2">
-                    <span className="text-xs sm:text-sm font-italic text-red-600">
-                      {formatPrice(product.sell_price)}
-                    </span>
-                    {parseFloat(product.actual_price) >
-                      parseFloat(product.sell_price) && (
-                      <span className="text-gray-500 text-xs line-through ml-1">
-                        {formatPrice(product.actual_price)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <AddToCart product={product} />
-                </div>
-              </div>
+                product={product}
+                showDiscount={parseFloat(product.actual_price) > parseFloat(product.sell_price)}
+              />
             ))}
           </div>
         </div>
@@ -395,5 +349,48 @@ const DentalSuppliesListing = () => {
     </>
   );
 };
+
+// Styled product card for main listing (copy style from featured, but only show main listing fields)
+function ProductCardMain({ product, showDiscount }) {
+  const router = useRouter();
+  return (
+    <div className="flex flex-col h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+      <div className="flex-1 flex flex-col cursor-pointer" onClick={() => router.push(`/dashboard/${product.product_code}`)}>
+        <div className="relative mb-2 sm:mb-3 lg:mb-4">
+          <img
+            src={product.image_url}
+            alt={product.product_name}
+            className="w-full h-20 sm:h-24 lg:h-32 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
+          />
+          {showDiscount && product.actual_price && (
+            <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-1 rounded">
+              SALE
+            </div>
+          )}
+        </div>
+        <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
+        <h3 className="text-xs sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
+          {product.product_name}
+        </h3>
+        <p className="text-gray-500 text-xs mb-2 flex-grow line-clamp-2">{product.description}</p>
+        <div className="mt-2 justify-center">
+          <div className="flex items-center space-x-1 sm:space-x-2 mb-2 cursor-pointer">
+            {product.actual_price && product.actual_price !== "0.00" && parseFloat(product.actual_price) > parseFloat(product.sell_price) && (
+              <span className="text-xs text-gray-400 line-through">
+                Rs. {product.actual_price}
+              </span>
+            )}
+            <span className="text-sm sm:text-base font-bold text-red-600">
+              Rs. {product.sell_price}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="mt-auto w-full">
+        <AddToCart product={product} />
+      </div>
+    </div>
+  );
+}
 
 export default DentalSuppliesListing;

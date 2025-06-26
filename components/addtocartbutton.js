@@ -32,7 +32,7 @@ export function AddToCart({ product }) {
     <button
       onClick={() => handleAdd()}
       // disabled={added}
-      className="btn py-1 sm:py-2 bg-gray-500 min-w-[120px] sm:min-w-[150px] w-full m-1 sm:m-2 hover:bg-blue-800 text-white px-1 rounded-md font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 text-xs sm:text-sm"
+      className="btn py-1 sm:py-2 bg-gray-600 hover:bg-blue-700 text-white w-full px-1 rounded-md font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 text-xs sm:text-sm"
     >
       <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-3" />
       Add to Cart
