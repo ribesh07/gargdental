@@ -9,6 +9,7 @@ const useCartStore = create(
         items: [],
         subtotal: 0,
       },
+      selectedItems: [],
 
       setCart: (cartData) =>
         set({
@@ -82,6 +83,8 @@ const useCartStore = create(
         get().cart.items.reduce((acc, item) => acc + item.quantity, 0),
 
       getCartTotal: () => get().cart.subtotal || 0,
+
+      setSelectedItems: (items) => set({ selectedItems: items }),
     }),
     {
       name: "cart-storage",
