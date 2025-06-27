@@ -9,6 +9,8 @@ import {
   MessageSquare,
   RotateCcw,
 } from "lucide-react";
+import EditProfileForm from "./EditProfileForm";
+import EditAddressForm from "./EditAddressForm";
 
 const sidebarItems = [
   { label: "Manage My Account", icon: User },
@@ -18,7 +20,7 @@ const sidebarItems = [
   { label: "My Reviews", icon: MessageSquare },
   { label: "My Cancellations", icon: RotateCcw },
 ];
-function ManageMyAccount() {
+function ManageMyAccount({ onEditProfile, user, address, onEditAddress }) {
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col md:flex-row p-4 sm:p-6">
       {/* Sidebar placeholder if needed */}
@@ -32,41 +34,43 @@ function ManageMyAccount() {
           <div className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition-shadow duration-300">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Personal Profile</span>
-              <a href="#" className="text-blue-500 text-sm underline">
+              <button onClick={onEditProfile} className="text-blue-500 text-sm underline">
                 EDIT
-              </a>
+              </button>
             </div>
-            <div className="text-gray-700 text-sm">Users</div>
-            <div className="text-gray-700 text-sm">users@gmail.com</div>
-            <div className="text-gray-700 text-sm">9821212332</div>
+            <div className="text-gray-700 text-sm">
+              {user.firstName} {user.lastName}
+            </div>
+            <div className="text-gray-700 text-sm">{user.email}</div>
+            <div className="text-gray-700 text-sm">{user.mobile}</div>
           </div>
 
           {/* Address Book */}
           <div className="bg-white rounded-xl shadow p-4">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Address Book</span>
-              <a href="#" className="text-blue-500 text-sm underline">
+              <button onClick={onEditAddress} className="text-blue-500 text-sm underline">
                 EDIT
-              </a>
+              </button>
             </div>
-            <div className="text-gray-700 text-sm">Gaur</div>
+            <div className="text-gray-700 text-sm">{address.fullName}</div>
             <div className="text-gray-700 text-sm">
-              Bagmati Province - Kathmandu Metro 1 - Naxal Area - Durbarmarg
+              {address.province} - {address.city} - {address.zone}
             </div>
-            <div className="text-gray-700 text-sm">9821212332</div>
+            <div className="text-gray-700 text-sm">{address.phone}</div>
             <div className="text-gray-500 text-sm">
-              Default Shipping Address
+              {address.addressType} Address
             </div>
           </div>
 
           {/* Billing Address */}
           <div className="bg-white rounded-xl shadow p-4">
             <div className="font-semibold mb-2">Default Billing Address</div>
-            <div className="text-gray-700 text-sm">Gaur</div>
+            <div className="text-gray-700 text-sm">{address.fullName}</div>
             <div className="text-gray-700 text-sm">
-              Bagmati Province - Kathmandu Metro 1 - Naxal Area - Durbarmarg
+              {address.province} - {address.city} - {address.zone}
             </div>
-            <div className="text-gray-700 text-sm">9821212332</div>
+            <div className="text-gray-700 text-sm">{address.phone}</div>
           </div>
         </div>
 
@@ -101,22 +105,21 @@ function ManageMyAccount() {
   );
 }
 
-function AddressBook() {
+function AddressBook({ address, onEdit }) {
   return (
-    <div className="bg-white rounded shadow p-4">
-      <div className="flex justify-between items-center mb-2">
-        <span className="font-semibold">Address Book</span>
-        <a href="#" className="text-blue-500 text-sm underline">
+    <div className="bg-white rounded shadow p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold text-blue-900">Address Book</h2>
+        <button onClick={onEdit} className="text-blue-500 text-sm underline font-semibold">
           EDIT
-        </a>
+        </button>
       </div>
-      <div className="text-gray-700 text-sm">Gaur</div>
-      <div className="text-gray-700 text-sm">
-        Bagmati Province - Kathmandu Metro 1 - Naxal Area - Durbarmarg
+      <div className="space-y-2 text-gray-700 text-sm">
+        <p><span className="font-semibold">Name:</span> {address.fullName}</p>
+        <p><span className="font-semibold">Address:</span> {address.localAddress}, {address.zone}, {address.city}, {address.province}</p>
+        <p><span className="font-semibold">Phone:</span> {address.phone}</p>
+        <p className="text-gray-500 pt-2">Default Shipping & Billing Address</p>
       </div>
-      <div className="text-gray-700 text-sm">9821212332</div>
-      <div className="text-gray-500 text-sm">Default Shipping Address</div>
-      <div className="text-gray-500 text-sm">Default Billing Address</div>
     </div>
   );
 }
@@ -275,14 +278,79 @@ function MyCancellations() {
 
 const AccountPage = () => {
   const [selected, setSelected] = useState(0);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [userData, setUserData] = useState({
+    firstName: "Gyanendra",
+    lastName: "Sah",
+    mobile: "9821212332",
+    email: "gyanee750@gmail.com",
+    province: "Other",
+    profileImage: "https://via.placeholder.com/150", // Default profile image
+  });
+  const [addressData, setAddressData] = useState({
+    fullName: "Gyanendra Sah",
+    phone: "9821212332",
+    province: "Bagmati",
+    city: "Kathmandu",
+    zone: "Naxal",
+    landmark: "Near Temple",
+    localAddress: "Durbar Marg, Street 1",
+    addressType: "Home",
+  });
+
+  const handleUpdateProfile = (updatedData) => {
+    // In a real app, you'd save this to a backend.
+    // For now, we just update the local state.
+    setUserData((prev) => ({
+      ...prev,
+      ...updatedData,
+    }));
+    setIsEditingProfile(false); // Go back to the main view
+  };
+
+  const handleUpdateAddress = (updatedData) => {
+    setAddressData((prev) => ({
+      ...prev,
+      ...updatedData,
+    }));
+    setIsEditingAddress(false);
+  };
 
   let mainContent;
   switch (selected) {
     case 0:
-      mainContent = <ManageMyAccount />;
+      mainContent = isEditingProfile ? (
+        <EditProfileForm
+          user={userData}
+          onUpdate={handleUpdateProfile}
+          onCancel={() => setIsEditingProfile(false)}
+        />
+      ) : (
+        <ManageMyAccount
+          onEditProfile={() => setIsEditingProfile(true)}
+          user={userData}
+          address={addressData}
+          onEditAddress={() => {
+            setSelected(1); // Switch to AddressBook tab
+            setIsEditingAddress(true); // Open edit form
+          }}
+        />
+      );
       break;
     case 1:
-      mainContent = <AddressBook />;
+      mainContent = isEditingAddress ? (
+        <EditAddressForm
+          address={addressData}
+          onUpdate={handleUpdateAddress}
+          onCancel={() => setIsEditingAddress(false)}
+        />
+      ) : (
+        <AddressBook
+          address={addressData}
+          onEdit={() => setIsEditingAddress(true)}
+        />
+      );
       break;
     case 2:
       mainContent = <MyOrders />;
@@ -305,7 +373,19 @@ const AccountPage = () => {
       <div className="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-4 px-2 sm:px-4 py-6">
         {/* Sidebar */}
         <aside className="w-full md:w-64 flex-shrink-0 mb-4 md:mb-0">
-          <nav className="bg-white rounded-xl shadow p-2 flex md:flex-col flex-row gap-2 md:gap-0">
+          {/* Profile Section in Sidebar */}
+          <div className="bg-white rounded-xl shadow p-4 text-center mb-4">
+            <img
+              src={userData.profileImage}
+              alt="Profile"
+              className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-100 object-cover"
+            />
+            <h3 className="font-bold text-lg text-gray-800">
+              {userData.firstName} {userData.lastName}
+            </h3>
+            <p className="text-sm text-gray-500">{userData.email}</p>
+          </div>
+          <nav className="bg-white rounded-xl shadow p-2 flex flex-col gap-1">
             {sidebarItems.map((item, idx) => (
               <button
                 key={item.label}
