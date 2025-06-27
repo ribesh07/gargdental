@@ -7,13 +7,19 @@ import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 import { updateCart } from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
   const cart = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   const router = useRouter();
+
   const setSelectedItemsStore = useCartStore((state) => state.setSelectedItems);
+
+  const [added, setAdded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -35,13 +41,16 @@ export default function ShoppingCart() {
     };
 
     fetchCart();
-  }, [cart?.subtotal]); // Always pass one item, even if undefined
+    // setIsLoading(false);
+    setAdded(false);
+  }, [added]); // Always pass one item, even if undefined
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
 
   //update cartItems
   const handleUpdateCartItems = async (id, quantity) => {
+    setIsLoading(true);
     const items = [
       {
         item_id: id,
@@ -50,6 +59,11 @@ export default function ShoppingCart() {
     ];
 
     const response = await updateCart(items);
+    setTimeout(() => {
+      setAdded(true);
+      setIsLoading(false);
+    }, 500);
+    // await fetchCart();
 
     if (response.success) {
       console.log(
@@ -60,6 +74,7 @@ export default function ShoppingCart() {
       console.error("Failed to update cart:", response.message);
     }
   };
+
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
     handleUpdateCartItems(id, newQuantity);
@@ -110,6 +125,7 @@ export default function ShoppingCart() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {isLoading && <FullScreenLoader />}
       {/* <MainTopBar /> */}
       {/* Breadcrumb */}
       {/* <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
@@ -237,7 +253,7 @@ export default function ShoppingCart() {
 
                         {/* Total Price */}
                         <div className="text-right font-medium text-green-600">
-                          Rs. {(item.price * item.quantity).toFixed(2)}
+                          Rs. {item.price * item.quantity}
                         </div>
 
                         {/* Remove Button */}

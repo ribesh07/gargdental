@@ -182,26 +182,18 @@ export const updateCart = async (items) => {
     const response = await apiPostRequest("/customer/cart/update", { items });
 
     if (response.success) {
-      const state = useCartStore.getState();
-      const existingCart = state.cart;
+      const mappedCartItems = response.cart.items.map((item) => ({
+        id: item.id,
+        product_code: item.product_code,
+        quantity: item.quantity,
+        price: parseFloat(item.price),
+        // Assuming you store product name/image in frontend, otherwise need to fetch
+      }));
 
-      // Merge updated items into existing cart
-      const updatedItems = existingCart.items.map((item) => {
-        const updated = response.cart.items.find(
-          (u) => u.product_code === item.product_code
-        );
-        if (updated) {
-          return { ...item, quantity: updated.quantity };
-        }
-        return item;
-      });
-
-      useCartStore.setState({
-        cart: {
-          ...existingCart,
-          items: updatedItems,
-          subtotal: response.cart.subtotal || existingCart.subtotal,
-        },
+      useCartStore.getState().setCart({
+        id: response.cart.id,
+        items: mappedCartItems,
+        subtotal: response.cart.subtotal,
       });
 
       return response;

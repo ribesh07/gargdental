@@ -351,7 +351,7 @@ const HeaderBarNew = () => {
               </div>
             )}
             <div className="flex items-center space-x-2">
-              <div
+              {/* <div
                 className="flex items-center space-x-2 hover:underline cursor-pointer"
                 onClick={() => router.push("/cart")}
               >
@@ -362,7 +362,7 @@ const HeaderBarNew = () => {
                 <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
                   <ShoppingBag className="w-4 h-4 cursor-pointer" />
                 </button>
-              </div>
+              </div> */}
               {isloggedin && (
                 <div className="flex items-center space-x-2">
                   <button
