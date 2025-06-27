@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import { ShoppingCart, Download, Minus, Plus } from "lucide-react";
 import CatalogButton from "../dashboard/[code]/Catalog";
-import AddToCartButton, { AddToCart } from "@/components/addtocartbutton";
+import { AddToCart } from "@/components/addtocartbutton";
 
 // Main Product Page Component
 const ProductPage = () => {

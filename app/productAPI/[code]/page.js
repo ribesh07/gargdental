@@ -246,7 +246,6 @@ const ProductAPIRequest = () => {
                           <span className="text-sm">Add to Cart</span>
                         </button> */}
                     <AddToCart product={product} />
-                    {/* <AddToCartButton product={product} /> */}
                   </div>
                 </div>
               ))}

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { baseUrl } from "./config";
-import { apiRequest } from "./ApiSafeCalls";
+import { apiRequest, apiPostRequest } from "./ApiSafeCalls";
 const API_URL = `${baseUrl}/products/latest`;
 
 const fetchProducts = async (count) => {
@@ -116,6 +116,60 @@ export const fetchRelatedProducts = async (product_code) => {
     }
   } catch (err) {
     console.error("Error fetching related products:", err);
+    return [{ error: err.message }];
+  }
+};
+
+//Add to cart
+export const getCartSummary = (cartResponse) => {
+  if (
+    !cartResponse ||
+    !cartResponse.cart ||
+    !Array.isArray(cartResponse.cart.items)
+  ) {
+    return { subtotal: 0, totalItems: 0 };
+  }
+
+  const subtotal = cartResponse.cart.subtotal;
+  const totalItems = cartResponse.cart.items.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+  console.log(subtotal, totalItems);
+  return { subtotal, totalItems }; //return subtotal and total items
+};
+
+export const addToCart = async (product_code, quantity, price) => {
+  try {
+    console.log(product_code, quantity, price);
+    const response = await apiPostRequest("/customer/cart/add", {
+      product_code: product_code,
+      price: price,
+      quantity: quantity,
+    });
+    if (response.success) {
+      console.log(response);
+      alert(response.message);
+      const cartResponse = await getCart();
+      const { subtotal, totalItems } = getCartSummary(cartResponse);
+      console.log(subtotal, totalItems);
+      return response;
+    } else {
+      alert(response.message);
+    }
+  } catch (err) {
+    console.error("Error adding to cart:", err);
+    return [{ error: err.message }];
+  }
+};
+
+//Get cart
+export const getCart = async () => {
+  try {
+    const response = await apiRequest(`/customer/cart/list`, false);
+    return response;
+  } catch (err) {
+    console.error("Error getting cart:", err);
     return [{ error: err.message }];
   }
 };

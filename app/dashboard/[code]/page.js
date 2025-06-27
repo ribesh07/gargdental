@@ -1,7 +1,7 @@
 // "use client";
 
 import React from "react";
-import AddToCartButton, { AddToCart } from "@/components/addtocartbutton";
+import { AddToCart } from "@/components/addtocartbutton";
 // import MainTopBar from "@/components/mainTopbar";
 import ProductTabs from "@/components/ProductTabsDes";
 import OverViewProject from "./OverViewProject";
@@ -9,7 +9,6 @@ import CatalogButton from "./Catalog";
 import RecommendedProducts from "./Recommendation";
 import { Star, Share2 } from "lucide-react";
 import ButtonForShare from "./ButtonForShare";
-// import { AddToCart } from "@/components/addtocartbutton";
 
 const saampledata = {
   id: 1,
@@ -221,7 +220,6 @@ export default async function ProductPage({ params }) {
             >
               Add to Cart
             </button> */}
-            {/* <AddToCartButton product={product} /> */}
             <div className="mb-4">
               <p className="font-semibold mb-2">Size:</p>
               <div className="flex items-center space-x-4">

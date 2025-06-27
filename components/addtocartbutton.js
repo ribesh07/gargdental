@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import useCartStore from "@/stores/useCartStore";
 import { ShoppingCart } from "lucide-react";
+import { addToCart } from "@/utils/apiHelper";
 
 const AddToCartButton = ({ product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
@@ -16,16 +17,23 @@ const AddToCartButton = ({ product }) => {
     </button>
   );
 };
-
 export default AddToCartButton;
 
-//using toast
+//using this only for products
 export function AddToCart({ product }) {
-  const addToCart = useCartStore((state) => state.addToCart);
-  const handleAdd = () => {
+  const handleAdd = async () => {
     // setAdded(true);
-    addToCart(product);
-    toast.success(`${product.product_name} added to cart!`);
+    console.warn(product.sell_price + " inside add to cart ");
+    const response = await addToCart(
+      product.product_code,
+      1,
+      product.sell_price
+    );
+    if (response && response.success) {
+      useCartStore.getState().setCart(response.cart);
+      console.log(response);
+      toast.success(`${product.product_name} added to cart!`);
+    }
   };
 
   return (
@@ -40,11 +48,22 @@ export function AddToCart({ product }) {
   );
 }
 
+//using this for featured products
 export function AddtoCartFeatured({ product }) {
-  const addToCart = useCartStore((state) => state.addToCart);
-  const handleAdd = () => {
-    addToCart(product);
-    toast.success(`${product.product_name} added to cart!`);
+  const handleAdd = async () => {
+    // addToCart(product);
+    console.warn(product.sell_price + " inside add to cart featured");
+    const response = await addToCart(
+      product.product_code,
+      1,
+      product.sell_price
+    );
+
+    if (response && response.success) {
+      useCartStore.getState().setCart(response.cart);
+      console.log(response);
+      toast.success(`${product.product_name} added to cart!`);
+    }
   };
   return (
     <div className="flex justify-center">

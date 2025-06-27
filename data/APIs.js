@@ -40,8 +40,8 @@ Route::group(['namespace' => 'API\V1'], function () {
         Route::delete('remove-account', [CustomerController::class, 'remove_account']);
         
         Route::group(['prefix'=>'cart'], function() {
-            Route::get('list', [CartController::class, 'get_carts']);   
-            Route::post('add', [CartController::class, 'add_to_cart']);
+            Route::post('add', [CartController::class, 'add_to_cart']);       //working on it
+            Route::get('list', [CartController::class, 'get_carts']);       //working on it
             Route::post('update', [CartController::class, 'update_cart']);
             Route::delete('remove-item', [CartController::class, 'remove_cart_item']);
             Route::delete('remove', [CartController::class, 'remove_cart']);
