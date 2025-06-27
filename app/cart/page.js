@@ -14,8 +14,12 @@ export default function ShoppingCart() {
   const cart = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   const router = useRouter();
+
+  const setSelectedItemsStore = useCartStore((state) => state.setSelectedItems);
+
   const [added, setAdded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -152,7 +156,7 @@ export default function ShoppingCart() {
             {cart > 0 && (
               <>
                 {/* Select All */}
-                <div className="bg-white rounded-lg p-6 mb-6">
+                <div className="bg-white rounded-lg p-6 mb-6 flex justify-between items-center">
                   <label className="flex items-center space-x-3 cursor-pointer">
                     <input
                       type="checkbox"
@@ -165,6 +169,12 @@ export default function ShoppingCart() {
                       {cartItems.length !== 1 ? "S" : ""})
                     </span>
                   </label>
+                  <button
+                    className="text-red-600 font-semibold hover:underline"
+                    onClick={clearCart}
+                  >
+                    Clear All
+                  </button>
                 </div>
 
                 {/* Cart Items List */}
@@ -331,8 +341,20 @@ export default function ShoppingCart() {
                     </div>
                   </div>
                   <div className="flex justify-center mt-6">
-                    <button className="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition-colors font-medium">
-                      <Link href="/cart/checkout">PROCEED TO CHECKOUT</Link>
+                    <button
+                      className="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition-colors font-medium"
+                      onClick={() => {
+                        if (selectedItems.size === 0) {
+                          alert("Please select at least one item.");
+                          return;
+                        }
+                        // Save selected items to store
+                        const selectedCartItems = cartItems.filter((item) => selectedItems.has(item.id));
+                        setSelectedItemsStore(selectedCartItems);
+                        router.push("/cart/checkout");
+                      }}
+                    >
+                      PROCEED TO CHECKOUT
                     </button>
                   </div>
                 </div>

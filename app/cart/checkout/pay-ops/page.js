@@ -94,7 +94,8 @@ const PayOpsPage = () => {
           {selected === "esewa" && (
             <>
               {esewaDescription}
-              <button className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors">
+              <button className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors" 
+              onClick={() => alert('field to payment')}> 
                 Pay Now
               </button>
             </>

@@ -2,12 +2,17 @@
 import React, { useState } from "react";
 import { Trash2, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
+import useCartStore from "@/stores/useCartStore";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
+
+  // Get selected items from Zustand store
+  const selectedItems = useCartStore((state) => state.selectedItems);
+  const setSelectedItems = useCartStore((state) => state.setSelectedItems);
 
   const handleProceedToPay = () => {
     setIsProcessing(true);
@@ -22,6 +27,14 @@ export default function OrderSummary() {
   const handleRemoveItem = () => {
     alert("Item removed from cart");
   };
+
+  // Calculate totals from selected items
+  const subtotal = selectedItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const shipping = 0;
+  const total = subtotal + shipping;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -51,32 +64,31 @@ export default function OrderSummary() {
                 </div>
               </div>
 
-              {/* Product Item */}
-              <div className="border border-gray-200 rounded-lg p-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <div className="w-12 h-12 bg-blue-100 rounded flex items-center justify-center">
-                      <img
-                        src="https://garg.omsok.com/storage/app/public/backend/categories/2025-05-01-68134ec252d23.png"
-                        alt="Hola"
-                        className="w-8 h-8 object-cover rounded"
-                      />
+              {/* Product Items */}
+              <div className="border border-gray-200 rounded-lg p-4 space-y-4">
+                {selectedItems.length === 0 ? (
+                  <div className="text-gray-500 text-center">No items selected.</div>
+                ) : (
+                  selectedItems.map((item) => (
+                    <div key={item.id} className="flex items-center space-x-4">
+                      <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="w-12 h-12 bg-blue-100 rounded flex items-center justify-center">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-8 h-8 object-cover rounded"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-800">{item.name}</h3>
+                        <p className="text-sm text-gray-500">Quantity x {item.quantity}</p>
+                        <p className="font-semibold text-gray-800">Rs. {item.price}</p>
+                      </div>
+                      {/* Remove button can be implemented if needed */}
                     </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-800">
-                      Bausch Progress 100
-                    </h3>
-                    <p className="text-sm text-gray-500">Quantity x 1</p>
-                    <p className="font-semibold text-gray-800">Rs. 900.00</p>
-                  </div>
-                  <button
-                    onClick={handleRemoveItem}
-                    className="text-red-500 hover:text-red-700 transition-colors"
-                  >
-                    <Trash2 size={18} />
-                  </button>
-                </div>
+                  ))
+                )}
               </div>
             </div>
 
@@ -115,14 +127,14 @@ export default function OrderSummary() {
                     SUBTOTAL
                   </span>
                   <span className="font-semibold text-gray-800">
-                    Rs. 900.00
+                    Rs. {subtotal.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">
                     SHIPPING
                   </span>
-                  <span className="font-semibold text-gray-800">Rs. 0.00</span>
+                  <span className="font-semibold text-gray-800">Rs. {shipping.toFixed(2)}</span>
                 </div>
                 <hr className="border-gray-200" />
                 <div className="flex justify-between items-center">
@@ -130,7 +142,7 @@ export default function OrderSummary() {
                     GRAND TOTAL
                   </span>
                   <span className="text-lg font-bold text-gray-800">
-                    Rs. 900.00
+                    Rs. {total.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -148,6 +160,14 @@ export default function OrderSummary() {
 
               {/* Proceed to Pay */}
               <div className="space-y-4">
+                <div className="flex justify-end mb-2">
+                  <button
+                    className="text-red-600 font-semibold hover:underline"
+                    onClick={() => setSelectedItems([])}
+                  >
+                    Clear All
+                  </button>
+                </div>
                 <div className="text-center">
                   <p className="text-lg font-semibold text-gray-800 mb-4">
                     PROCEED TO PAY
