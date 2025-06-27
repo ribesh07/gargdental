@@ -35,7 +35,7 @@ Route::group(['namespace' => 'API\V1'], function () {
 
     Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function () {    
         Route::get('info', [CustomerController::class, 'get_info']);            // partially done
-        Route::post('update-profile', [CustomerController::class, 'update_profile']);
+        Route::post('update-profile', [CustomerController::class, 'update_profile']);   
         Route::post('change-password', [CustomerController::class, 'change_password']);
         Route::delete('remove-account', [CustomerController::class, 'remove_account']);
         
