@@ -192,12 +192,6 @@ const DentalSuppliesListing = () => {
     return `Rs.${parseFloat(price).toFixed(2)}`;
   };
 
-  const addToCart = useCartStore((state) => state.addToCart);
-  const showToast = useToastStore((state) => state.showToast);
-  const handleAddToCart = (product) => {
-    addToCart(product);
-    showToast(`${product.product_name} added to cart!`);
-  };
   // if (!isReady) return null; //check for persist zustand to load
 
   return (

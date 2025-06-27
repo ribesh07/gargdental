@@ -148,11 +148,10 @@ export const addToCart = async (product_code, quantity, price) => {
       quantity: quantity,
     });
     if (response.success) {
-      console.log(response);
-      alert(response.message);
       const cartResponse = await getCart();
       const { subtotal, totalItems } = getCartSummary(cartResponse);
       console.log(subtotal, totalItems);
+
       return response;
     } else {
       alert(response.message);
@@ -166,8 +165,10 @@ export const addToCart = async (product_code, quantity, price) => {
 //Get cart
 export const getCart = async () => {
   try {
-    const response = await apiRequest(`/customer/cart/list`, false);
-    return response;
+    const response = await apiRequest(`/customer/cart/list`, true);
+    const cartResponse = getCartSummary(response);
+
+    return cartResponse;
   } catch (err) {
     console.error("Error getting cart:", err);
     return [{ error: err.message }];

@@ -124,7 +124,9 @@ const GargDental = () => {
               className="w-full h-full object-cover rounded"
             />
             <div className="absolute inset-0 flex items-center justify-center bg-trasparent bg-opacity-40 text-white text-xs sm:text-sm font-semibold">
-              <h1 className="text-lg sm:text-xl lg:text-3xl font-bold mt-2 sm:mt-4">BROWSE MORE PRODUCTS</h1>
+              <h1 className="text-lg sm:text-xl lg:text-3xl font-bold mt-2 sm:mt-4">
+                BROWSE MORE PRODUCTS
+              </h1>
             </div>
           </div>
         </div>
@@ -187,7 +189,11 @@ const GargDental = () => {
 
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
           {/* Sidebar */}
-          <aside className={`lg:block ${sidebarOpen ? 'block' : 'hidden'} lg:w-64 xl:w-72`}>
+          <aside
+            className={`lg:block ${
+              sidebarOpen ? "block" : "hidden"
+            } lg:w-64 xl:w-72`}
+          >
             <div className="bg-gray-50 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
               <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                 Categories

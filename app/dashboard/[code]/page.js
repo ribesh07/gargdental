@@ -10,66 +10,6 @@ import RecommendedProducts from "./Recommendation";
 import { Star, Share2 } from "lucide-react";
 import ButtonForShare from "./ButtonForShare";
 
-const saampledata = {
-  id: 1,
-  product_code: "HE00005",
-  product_name: "Articulating Paper 200 strips",
-  slug: "articulating-paper-200-strips",
-  product_description: "Articulating Paper 200 strips",
-  category_id: 1,
-  delivery_target_days: null,
-  discount: null,
-  actual_price: "0.00",
-  sell_price: "600.00",
-  mr_price: "900.00",
-  unit_info: "PCS",
-  available_quantity: "100.00",
-  stock_quantity: "150.00",
-  brand_id: 1,
-  product_location: null,
-  has_variations: 0,
-  flash_sale: "1",
-  status: 1,
-  created_at: "2025-04-11T06:26:40.000000Z",
-  updated_at: "2025-05-18T10:00:36.000000Z",
-  files_full_url: [
-    "http://192.168.1.64:8000/storage/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
-    "http://192.168.1.64:8000/storage/backend/productimages/HE00005/prosthodontics.jpg",
-    "http://192.168.1.64:8000/storage/backend/productimages/HE00005/xiaomi_3d_product_animation2.mp4",
-  ],
-  image_full_url:
-    "https://gargdemo.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
-  category: {
-    id: 1,
-    category_name: "category 1",
-    parent_id: null,
-    image: "2025-05-01-68134ec252d23.png",
-    status: 1,
-    created_at: "2025-05-01T10:08:44.000000Z",
-    updated_at: "2025-05-01T10:36:50.000000Z",
-    image_full_url:
-      "https://gargdemo.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
-    storage: [
-      {
-        id: 49,
-        data_type: "App\\Models\\Category",
-        data_id: "1",
-        key: "image",
-        value: "public",
-        created_at: "2025-05-01 16:21:50",
-        updated_at: "2025-05-01 16:21:50",
-      },
-    ],
-  },
-  brand: {
-    id: 1,
-    brand_name: "Meta",
-    status: 1,
-    created_at: "2025-05-02T06:11:17.000000Z",
-    updated_at: "2025-05-04T07:55:55.000000Z",
-  },
-};
-
 //to transform product
 function transformProduct(product) {
   return {

@@ -16,6 +16,7 @@ import { usePathname } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 import { userDetails } from "@/utils/apiHelper";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 const HeaderBarNew = () => {
   const router = useRouter();
@@ -28,9 +29,6 @@ const HeaderBarNew = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [user, setUser] = useState(null);
   const [isloggedin, setIsloggedin] = useState(false);
-
-  const cartCount = useCartStore((state) => state.getCartCount());
-  const cartTotal = useCartStore((state) => state.getCartTotal());
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -62,6 +60,17 @@ const HeaderBarNew = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [pathname]);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      const cartResponse = await apiRequest(`/customer/cart/list`, true);
+      useCartStore.getState().setCart(cartResponse.cart || []);
+      console.log(cartResponse);
+    };
+    fetchCart();
+  }, []);
+  const cartCount = useCartStore((state) => state.getCartCount());
+  const cartTotal = useCartStore((state) => state.getCartTotal());
 
   const menuItems = [
     { label: "Dental Supplies", href: "#", hasSubmenu: true },
@@ -348,7 +357,7 @@ const HeaderBarNew = () => {
               >
                 <span className="text-gray-700 text-[12px]">My Order:</span>
                 <span className="font-bold text-lg text-[12px]">
-                  {cartTotal.toFixed(2)}
+                  {cartTotal}
                 </span>
                 <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
                   <ShoppingBag className="w-4 h-4 cursor-pointer" />

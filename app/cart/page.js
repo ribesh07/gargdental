@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function ShoppingCart() {
-  const cart = useCartStore((state) => state.cart);
+  const cart = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   const router = useRouter();
 
@@ -111,12 +111,12 @@ export default function ShoppingCart() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4  p-6">
           {/* Cart Items */}
           <div className=" relative lg:col-span-2  border border-gray-200 bg-white rounded-lg  p-6 shadow-lg hover:shadow-2xl">
-            {cart.length == 0 && (
+            {cart == 0 && (
               <div className="text-center py-20 text-gray-500 text-xl">
                 Your cart is empty
               </div>
             )}
-            {cart.length > 0 && (
+            {cart > 0 && (
               <>
                 {/* Select All */}
                 <div className="bg-white rounded-lg p-6 mb-6">
