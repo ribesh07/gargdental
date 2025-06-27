@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { baseUrl } from "./config";
 import { apiRequest, apiPostRequest } from "./ApiSafeCalls";
+import useCartStore from "@/stores/useCartStore";
 const API_URL = `${baseUrl}/products/latest`;
 
 const fetchProducts = async (count) => {
@@ -167,10 +168,49 @@ export const getCart = async () => {
   try {
     const response = await apiRequest(`/customer/cart/list`, true);
     const cartResponse = getCartSummary(response);
-
+    console.log(cartResponse);
     return cartResponse;
   } catch (err) {
     console.error("Error getting cart:", err);
     return [{ error: err.message }];
+  }
+};
+
+//update cart
+export const updateCart = async (items) => {
+  try {
+    const response = await apiPostRequest("/customer/cart/update", { items });
+
+    if (response.success) {
+      const state = useCartStore.getState();
+      const existingCart = state.cart;
+
+      // Merge updated items into existing cart
+      const updatedItems = existingCart.items.map((item) => {
+        const updated = response.cart.items.find(
+          (u) => u.product_code === item.product_code
+        );
+        if (updated) {
+          return { ...item, quantity: updated.quantity };
+        }
+        return item;
+      });
+
+      useCartStore.setState({
+        cart: {
+          ...existingCart,
+          items: updatedItems,
+          subtotal: response.cart.subtotal || existingCart.subtotal,
+        },
+      });
+
+      return response;
+    } else {
+      console.error("Failed to update cart:", response.message);
+      return response;
+    }
+  } catch (err) {
+    console.error("Error updating cart:", err);
+    return { error: err.message };
   }
 };

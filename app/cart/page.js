@@ -1,47 +1,67 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Minus, Plus, Trash2, ArrowLeft } from "lucide-react";
 // import MainTopBar from "@/components/mainTopbar";
-import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { apiRequest } from "@/utils/ApiSafeCalls";
+import { updateCart } from "@/utils/apiHelper";
+import useCartStore from "@/stores/useCartStore";
 
 export default function ShoppingCart() {
+  const [cartItems, setCartItems] = useState([]);
   const cart = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   const router = useRouter();
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Bausch Progress 100",
-      category: "Category 1",
-      price: 900.0,
-      quantity: 1,
-      image:
-        "https://gargdemo.omsok.com/storage/app/public/backend/productimages/S700001/bausch_articulating_paper_bk_17.jpeg",
-    },
-    {
-      id: 2,
-      name: "Articulating Paper Forceps",
-      category: "Category 2",
-      price: 900.0,
-      quantity: 1,
-      image:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
-    },
-  ]);
+  useEffect(() => {
+    const fetchCart = async () => {
+      const response = await apiRequest(`/customer/cart/list`, true);
+      if (response) {
+        const mappedCartItems = response.cart.items.map((item) => ({
+          id: item.id,
+          image: item.product.image_full_url,
+          name: item.product.product_name,
+          product_code: item.product.product_code,
+          quantity: item.quantity,
+          price: item.price,
+          category: item.product.category_id,
+        }));
+
+        console.log(mappedCartItems);
+        setCartItems(mappedCartItems);
+      }
+    };
+
+    fetchCart();
+  }, [cart?.subtotal]); // Always pass one item, even if undefined
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
 
+  //update cartItems
+  const handleUpdateCartItems = async (id, quantity) => {
+    const items = [
+      {
+        item_id: id,
+        quantity: quantity,
+      },
+    ];
+
+    const response = await updateCart(items);
+
+    if (response.success) {
+      console.log(
+        "Cart updated:",
+        response.cart.items.map((item) => item.quantity)
+      );
+    } else {
+      console.error("Failed to update cart:", response.message);
+    }
+  };
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    handleUpdateCartItems(id, newQuantity);
   };
 
   const removeItem = (id) => {
@@ -171,7 +191,7 @@ export default function ShoppingCart() {
                         {/* Price */}
                         <div className="text-right">
                           <div className="text-gray-500 text-sm">
-                            Rs. {item.price.toFixed(2)}
+                            Rs. {item.price}
                           </div>
                         </div>
 

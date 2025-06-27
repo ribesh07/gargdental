@@ -61,16 +61,16 @@ const HeaderBarNew = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [pathname]);
 
+  const cartCount = useCartStore((state) => state.getCartCount());
+  const cartTotal = useCartStore((state) => state.getCartTotal());
   useEffect(() => {
     const fetchCart = async () => {
       const cartResponse = await apiRequest(`/customer/cart/list`, true);
       useCartStore.getState().setCart(cartResponse.cart || []);
-      console.log(cartResponse);
+      console.log("cartResponse from header" + cartResponse);
     };
     fetchCart();
-  }, []);
-  const cartCount = useCartStore((state) => state.getCartCount());
-  const cartTotal = useCartStore((state) => state.getCartTotal());
+  }, [cartCount, cartTotal]);
 
   const menuItems = [
     { label: "Dental Supplies", href: "#", hasSubmenu: true },
