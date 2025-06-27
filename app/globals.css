@@ -22,3 +22,13 @@
 .animate-fade-in-out {
   animation: fade-in-out 3s ease-in-out;
 }
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.slow-spin {
+  animation: spin-slow 2s linear infinite;
+}
