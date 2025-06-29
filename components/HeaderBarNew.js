@@ -66,11 +66,13 @@ const HeaderBarNew = () => {
   useEffect(() => {
     const fetchCart = async () => {
       const cartResponse = await apiRequest(`/customer/cart/list`, true);
-      useCartStore.getState().setCart(cartResponse.cart || []);
-      console.log("cartResponse from header" + cartResponse);
+      if (cartResponse && cartResponse.cart) {
+        useCartStore.getState().setCart(cartResponse.cart);
+      }
+      console.log("cartResponse from header", cartResponse);
     };
     fetchCart();
-  }, [cartCount, cartTotal]);
+  }, [pathname]);
 
   const menuItems = [
     { label: "Dental Supplies", href: "#", hasSubmenu: true },
@@ -351,7 +353,7 @@ const HeaderBarNew = () => {
               </div>
             )}
             <div className="flex items-center space-x-2">
-              {/* <div
+              <div
                 className="flex items-center space-x-2 hover:underline cursor-pointer"
                 onClick={() => router.push("/cart")}
               >
@@ -362,7 +364,7 @@ const HeaderBarNew = () => {
                 <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
                   <ShoppingBag className="w-4 h-4 cursor-pointer" />
                 </button>
-              </div> */}
+              </div>
               {isloggedin && (
                 <div className="flex items-center space-x-2">
                   <button
@@ -419,9 +421,7 @@ const HeaderBarNew = () => {
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-gray-700 text-sm">My Order:</span>
-                    <span className="font-bold text-lg">
-                      {cartTotal.toFixed(2)}
-                    </span>
+                    <span className="font-bold text-lg">{cartTotal}</span>
                   </div>
                   <div className="flex items-center mt-2">
                     <ShoppingBag className="w-4 h-4 mr-2" />
