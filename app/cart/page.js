@@ -5,7 +5,7 @@ import { Minus, Plus, Trash2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-import { updateCart } from "@/utils/apiHelper";
+import { updateCart, removeCartItem, clearCart } from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
 
@@ -67,7 +67,7 @@ export default function ShoppingCart() {
     fetchCart();
     // setIsLoading(false);
     setAdded(false);
-  }, [added]); // Always pass one item, even if undefined
+  }, [added]);
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
@@ -75,14 +75,14 @@ export default function ShoppingCart() {
   //update cartItems
   const handleUpdateCartItems = async (id, quantity) => {
     setIsLoading(true);
-    const items = [
-      {
-        item_id: id,
-        quantity: quantity,
-      },
-    ];
+    // const items = [
+    //   {
+    //     item_id: id,
+    //     quantity: quantity,
+    //   },
+    // ];
 
-    const response = await updateCart(items);
+    const response = await updateCart(id, quantity);
     setTimeout(() => {
       setAdded(true);
       setIsLoading(false);
@@ -104,7 +104,10 @@ export default function ShoppingCart() {
     handleUpdateCartItems(id, newQuantity);
   };
 
-  const removeItem = (id) => {
+  const removeItem = async (id) => {
+    setIsLoading(true);
+    const response = await removeCartItem(id);
+    setIsLoading(false);
     setCartItems((items) => items.filter((item) => item.id !== id));
     setSelectedItems((prev) => {
       const newSet = new Set(prev);
@@ -134,10 +137,20 @@ export default function ShoppingCart() {
     });
   };
 
-  const clearCart = () => {
+  const handleClearCart = async () => {
+    setIsLoading(true);
+    const response = await clearCart();
+    setIsLoading(false);
+
+    // Clear local state
     setCartItems([]);
     setSelectedItems(new Set());
     setSelectAll(false);
+
+    // Also clear the store as backup (in case API call fails but we want to clear UI)
+    if (response && response.success) {
+      useCartStore.getState().clearCart();
+    }
   };
 
   const subtotal = cartItems.reduce(
@@ -195,7 +208,7 @@ export default function ShoppingCart() {
                   </label>
                   <button
                     className="text-red-600 font-semibold hover:underline"
-                    onClick={clearCart}
+                    onClick={handleClearCart}
                   >
                     Clear All
                   </button>
@@ -408,7 +421,9 @@ export default function ShoppingCart() {
                           return;
                         }
                         // Save selected items to store
-                        const selectedCartItems = cartItems.filter((item) => selectedItems.has(item.id));
+                        const selectedCartItems = cartItems.filter((item) =>
+                          selectedItems.has(item.id)
+                        );
                         setSelectedItemsStore(selectedCartItems);
                         // Save selected address to store
                         setSelectedShippingAddress(selectedAddressType === 'home' ? homeAddress : officeAddress);
