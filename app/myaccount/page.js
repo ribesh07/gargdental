@@ -6,3 +6,5 @@ export default async function Page() {
   const token = cookieStore.get("token")?.value || null;
   return <MyAccountPage token={token} />;
 }
+
+//for develop
