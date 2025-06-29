@@ -111,6 +111,15 @@ export default function ShoppingCart() {
       return newSet;
     });
   };
+  const selectedSubtotal = cartItems.reduce((sum, item) => {
+    if (selectedItems.has(item.id)) {
+      return sum + item.price * item.quantity;
+    }
+    return sum;
+  }, 0);
+
+  const shipping = 70;
+  const total = selectedSubtotal + (selectedItems.size > 0 ? shipping : 0);
 
   const handleClearCart = async () => {
     setIsLoading(true);
@@ -127,13 +136,6 @@ export default function ShoppingCart() {
       useCartStore.getState().clearCart();
     }
   };
-
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const shipping = 0;
-  const total = subtotal + shipping;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -330,14 +332,15 @@ export default function ShoppingCart() {
                   <div className="flex justify-between">
                     <span className="font-medium">SUBTOTAL</span>
                     <span className="font-medium">
-                      Rs. {subtotal.toFixed(2)}
+                      Rs. {selectedSubtotal.toFixed(2)}
                     </span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="font-medium">SHIPPING</span>
                     <span className="font-medium">
-                      Rs. {shipping.toFixed(2)}
+                      Rs.{" "}
+                      {selectedItems.size > 0 ? shipping.toFixed(2) : "0.00"}
                     </span>
                   </div>
 
