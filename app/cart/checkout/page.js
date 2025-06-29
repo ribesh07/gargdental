@@ -8,11 +8,36 @@ import useCartStore from "@/stores/useCartStore";
 export default function OrderSummary() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedAddressType, setSelectedAddressType] = useState("");
   const router = useRouter();
 
   // Get selected items from Zustand store
   const selectedItems = useCartStore((state) => state.selectedItems);
   const setSelectedItems = useCartStore((state) => state.setSelectedItems);
+  const selectedShippingAddress = useCartStore((state) => state.selectedShippingAddress);
+  const userProfile = useCartStore((state) => state.userProfile);
+
+  // Demo address data (replace with real user/account data)
+  const homeAddress = {
+    fullName: "Gyanendra Sah",
+    phone: "9821212332",
+    province: "Bagmati",
+    city: "Kathmandu",
+    zone: "Naxal",
+    landmark: "Near Temple",
+    localAddress: "Durbar Marg, Street 1",
+    addressType: "Home",
+  };
+  const officeAddress = {
+    fullName: "Gyanendra Sah",
+    phone: "9821212332",
+    province: "Bagmati",
+    city: "Kathmandu",
+    zone: "Durbarmarg",
+    landmark: "Near Office Building",
+    localAddress: "New Road, Street 5",
+    addressType: "Office",
+  };
 
   const handleProceedToPay = () => {
     setIsProcessing(true);
@@ -57,10 +82,16 @@ export default function OrderSummary() {
                   SHIPPING ADDRESS
                 </h2>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-600">Ship to:</p>
-                  <p className="text-sm text-gray-500">
-                    No Shipping Address available.
-                  </p>
+                  {selectedShippingAddress ? (
+                    <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
+                      <div><span className="font-semibold">Name:</span> {selectedShippingAddress.fullName}</div>
+                      <div><span className="font-semibold">Address:</span> {selectedShippingAddress.localAddress}, {selectedShippingAddress.zone}, {selectedShippingAddress.city}, {selectedShippingAddress.province}</div>
+                      <div><span className="font-semibold">Phone:</span> {selectedShippingAddress.phone}</div>
+                      <div className="text-gray-500 pt-1">{selectedShippingAddress.addressType} Address</div>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">No Shipping Address available.</p>
+                  )}
                 </div>
               </div>
 
@@ -106,16 +137,26 @@ export default function OrderSummary() {
                     </p>
                     <div className="flex items-center space-x-2 text-sm text-gray-500">
                       <Mail size={16} />
-                      <span>rk@gmail.com</span>
+                      <span>{userProfile?.email || "No email available."}</span>
                     </div>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-600 mb-1">
                       Billing Address
                     </p>
-                    <p className="text-sm text-gray-500">
-                      No Billing Address available.
-                    </p>
+                    {userProfile?.billingAddress ? (
+                      <p className="text-sm text-gray-500">
+                        {userProfile.billingAddress.localAddress}, {userProfile.billingAddress.zone}, {userProfile.billingAddress.city}, {userProfile.billingAddress.province} <br/>
+                        {userProfile.billingAddress.fullName} ({userProfile.billingAddress.phone})
+                      </p>
+                    ) : selectedShippingAddress ? (
+                      <p className="text-sm text-gray-500">
+                        {selectedShippingAddress.localAddress}, {selectedShippingAddress.zone}, {selectedShippingAddress.city}, {selectedShippingAddress.province} <br/>
+                        {selectedShippingAddress.fullName} ({selectedShippingAddress.phone})
+                      </p>
+                    ) : (
+                      <p className="text-sm text-gray-500">No Billing Address available.</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -160,14 +201,7 @@ export default function OrderSummary() {
 
               {/* Proceed to Pay */}
               <div className="space-y-4">
-                <div className="flex justify-end mb-2">
-                  <button
-                    className="text-red-600 font-semibold hover:underline"
-                    onClick={() => setSelectedItems([])}
-                  >
-                    Clear All
-                  </button>
-                </div>
+              
                 <div className="text-center">
                   <p className="text-lg font-semibold text-gray-800 mb-4">
                     PROCEED TO PAY

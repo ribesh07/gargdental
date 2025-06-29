@@ -278,3 +278,64 @@ export const clearCart = async () => {
     return { error: err.message };
   }
 };
+
+//get address dropdowns
+export const getAddressDropdowns = async () => {
+  try {
+    const response = await apiRequest(
+      `/customer/address/load-address-dropdowns`,
+      true
+    );
+    console.log("response from getAddressDropdowns", response);
+    return response;
+  } catch (err) {
+    console.error("Error getting address dropdowns:", err);
+    return { error: err.message };
+  }
+};
+
+//sort address dropdowns
+export const sortAddressDropdowns = async () => {
+  const response = await getAddressDropdowns();
+  console.log("response from fetchAddressDropdowns", response);
+  if (response.success && response.data) {
+    // Transform the data to get provinces, cities, and zones
+    const provinces = response.data.map((province) => ({
+      id: province.id,
+      name: province.name,
+    }));
+
+    const cities = response.data.flatMap((province) =>
+      province.cities.map((city) => ({
+        id: city.id,
+        name: city.name,
+        province_id: province.id,
+      }))
+    );
+
+    const zones = response.data.flatMap((province) =>
+      province.cities.flatMap((city) =>
+        city.zones.map((zone) => ({
+          id: zone.id,
+          zone_name: zone.zone_name,
+          city_id: city.id,
+          province_id: province.id,
+        }))
+      )
+    );
+
+    const transformedData = {
+      provinces,
+      cities,
+      zones,
+    };
+
+    console.log("Transformed data:", transformedData);
+    // setAddressDropdowns(transformedData);
+    return transformedData;
+  } else {
+    console.error("Failed to fetch address dropdowns:", response.message);
+    // setAddressDropdowns({});
+    return { error: response.message };
+  }
+};

@@ -10,6 +10,8 @@ const useCartStore = create(
         subtotal: 0,
       },
       selectedItems: [],
+      selectedShippingAddress: null,
+      userProfile: null,
 
       setCart: (cartData) =>
         set({
@@ -85,6 +87,8 @@ const useCartStore = create(
       getCartTotal: () => get().cart.subtotal || 0,
 
       setSelectedItems: (items) => set({ selectedItems: items }),
+      setSelectedShippingAddress: (address) => set({ selectedShippingAddress: address }),
+      setUserProfile: (profile) => set({ userProfile: profile }),
     }),
     {
       name: "cart-storage",
