@@ -26,7 +26,7 @@ const EditAddressForm = ({ address, onUpdate, onCancel }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold text-center text-blue-900 mb-8">
-        EDIT ADDRESS
+        EDIT {formData.addressType.toUpperCase()} ADDRESS
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -197,7 +197,7 @@ const EditAddressForm = ({ address, onUpdate, onCancel }) => {
             type="submit"
             className="bg-blue-900 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-800 transition-colors"
           >
-            UPDATE ADDRESS
+            UPDATE {formData.addressType.toUpperCase()} ADDRESS
           </button>
         </div>
       </form>

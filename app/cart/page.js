@@ -20,6 +20,31 @@ export default function ShoppingCart() {
   const [added, setAdded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [selectedAddressType, setSelectedAddressType] = useState("");
+  const setSelectedShippingAddress = useCartStore((state) => state.setSelectedShippingAddress);
+
+  // Demo address data (replace with real user/account data)
+  const homeAddress = {
+    fullName: "Gyanendra Sah",
+    phone: "9821212332",
+    province: "Bagmati",
+    city: "Kathmandu",
+    zone: "Naxal",
+    landmark: "Near Temple",
+    localAddress: "Durbar Marg, Street 1",
+    addressType: "Home",
+  };
+  const officeAddress = {
+    fullName: "Gyanendra Sah",
+    phone: "9821212332",
+    province: "Bagmati",
+    city: "Kathmandu",
+    zone: "Durbarmarg",
+    landmark: "Near Office Building",
+    localAddress: "New Road, Street 5",
+    addressType: "Office",
+  };
+
   useEffect(() => {
     const fetchCart = async () => {
       const response = await apiRequest(`/customer/cart/list`, true);
@@ -316,9 +341,40 @@ export default function ShoppingCart() {
                 <h3 className="text-lg font-medium text-gray-500 mb-3">
                   Shipping Address
                 </h3>
-                <div className="flex items-center text-gray-400 text-sm">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
-                  No Shipping Address Available.
+                <div className="mb-2">
+                  <label htmlFor="shipping-address-select" className="block text-sm font-medium text-gray-600 mb-1">Choose Address:</label>
+                  <select
+                    id="shipping-address-select"
+                    value={selectedAddressType}
+                    onChange={e => setSelectedAddressType(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm mb-2"
+                  >
+                    <option value="">Select Address</option>
+                    <option value="home">Home Address</option>
+                    <option value="office">Office Address</option>
+                  </select>
+                  {selectedAddressType === "home" && (
+                    <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
+                      <div><span className="font-semibold">Name:</span> {homeAddress.fullName}</div>
+                      <div><span className="font-semibold">Address:</span> {homeAddress.localAddress}, {homeAddress.zone}, {homeAddress.city}, {homeAddress.province}</div>
+                      <div><span className="font-semibold">Phone:</span> {homeAddress.phone}</div>
+                      <div className="text-gray-500 pt-1">{homeAddress.addressType} Address</div>
+                    </div>
+                  )}
+                  {selectedAddressType === "office" && (
+                    <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
+                      <div><span className="font-semibold">Name:</span> {officeAddress.fullName}</div>
+                      <div><span className="font-semibold">Address:</span> {officeAddress.localAddress}, {officeAddress.zone}, {officeAddress.city}, {officeAddress.province}</div>
+                      <div><span className="font-semibold">Phone:</span> {officeAddress.phone}</div>
+                      <div className="text-gray-500 pt-1">{officeAddress.addressType} Address</div>
+                    </div>
+                  )}
+                  {selectedAddressType === "" && (
+                    <div className="flex items-center text-gray-400 text-sm">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
+                      No Shipping Address Available.
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -363,11 +419,17 @@ export default function ShoppingCart() {
                           alert("Please select at least one item.");
                           return;
                         }
+                        if (!selectedAddressType) {
+                          alert("Please select a shipping address.");
+                          return;
+                        }
                         // Save selected items to store
                         const selectedCartItems = cartItems.filter((item) =>
                           selectedItems.has(item.id)
                         );
                         setSelectedItemsStore(selectedCartItems);
+                        // Save selected address to store
+                        setSelectedShippingAddress(selectedAddressType === 'home' ? homeAddress : officeAddress);
                         router.push("/cart/checkout");
                       }}
                     >

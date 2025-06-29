@@ -105,22 +105,37 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress }) {
   );
 }
 
-function AddressBook({ address, onEdit }) {
+function AddressBook({ homeAddress, officeAddress, onEditHome, onEditOffice }) {
   return (
     <div className="bg-white rounded shadow p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-blue-900">Address Book</h2>
-        <button onClick={onEdit} className="text-blue-500 text-sm underline font-semibold">
+        <h2 className="text-xl font-bold text-blue-900">Home Address</h2>
+        <button onClick={onEditHome} className="text-blue-500 text-sm underline font-semibold">
           EDIT
         </button>
       </div>
       <div className="space-y-2 text-gray-700 text-sm">
-        <p><span className="font-semibold">Name:</span> {address.fullName}</p>
-        <p><span className="font-semibold">Address:</span> {address.localAddress}, {address.zone}, {address.city}, {address.province}</p>
-        <p><span className="font-semibold">Phone:</span> {address.phone}</p>
+        <p><span className="font-semibold">Name:</span> {homeAddress.fullName}</p>
+        <p><span className="font-semibold">Address:</span> {homeAddress.localAddress}, {homeAddress.zone}, {homeAddress.city}, {homeAddress.province}</p>
+        <p><span className="font-semibold">Phone:</span> {homeAddress.phone}</p>
         <p className="text-gray-500 pt-2">Default Shipping & Billing Address</p>
       </div>
+      <br></br>
+
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold text-blue-900">Office Address</h2>
+        <button onClick={onEditOffice} className="text-blue-500 text-sm underline font-semibold">
+          EDIT
+        </button>
+      </div>
+      <div className="space-y-2 text-gray-700 text-sm">
+        <p><span className="font-semibold">Name:</span> {officeAddress.fullName}</p>
+        <p><span className="font-semibold">Address:</span> {officeAddress.localAddress}, {officeAddress.zone}, {officeAddress.city}, {officeAddress.province}</p>
+        <p><span className="font-semibold">Phone:</span> {officeAddress.phone}</p>
+        
+      </div>
     </div>
+    
   );
 }
 
@@ -279,7 +294,10 @@ function MyCancellations() {
 const AccountPage = () => {
   const [selected, setSelected] = useState(0);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [isEditingHomeAddress, setIsEditingHomeAddress] = useState(false);
+  const [isEditingOfficeAddress, setIsEditingOfficeAddress] = useState(false);
+  const [editingAddressType, setEditingAddressType] = useState(null);
+  
   const [userData, setUserData] = useState({
     firstName: "Gyanendra",
     lastName: "Sah",
@@ -288,7 +306,8 @@ const AccountPage = () => {
     province: "Other",
     profileImage: "https://via.placeholder.com/150", // Default profile image
   });
-  const [addressData, setAddressData] = useState({
+  
+  const [homeAddressData, setHomeAddressData] = useState({
     fullName: "Gyanendra Sah",
     phone: "9821212332",
     province: "Bagmati",
@@ -297,6 +316,17 @@ const AccountPage = () => {
     landmark: "Near Temple",
     localAddress: "Durbar Marg, Street 1",
     addressType: "Home",
+  });
+
+  const [officeAddressData, setOfficeAddressData] = useState({
+    fullName: "Gyanendra Sah",
+    phone: "9821212332",
+    province: "Bagmati",
+    city: "Kathmandu",
+    zone: "Durbarmarg",
+    landmark: "Near Office Building",
+    localAddress: "New Road, Street 5",
+    addressType: "Office",
   });
 
   const handleUpdateProfile = (updatedData) => {
@@ -310,11 +340,30 @@ const AccountPage = () => {
   };
 
   const handleUpdateAddress = (updatedData) => {
-    setAddressData((prev) => ({
-      ...prev,
-      ...updatedData,
-    }));
-    setIsEditingAddress(false);
+    if (editingAddressType === 'home') {
+      setHomeAddressData((prev) => ({
+        ...prev,
+        ...updatedData,
+      }));
+      setIsEditingHomeAddress(false);
+    } else if (editingAddressType === 'office') {
+      setOfficeAddressData((prev) => ({
+        ...prev,
+        ...updatedData,
+      }));
+      setIsEditingOfficeAddress(false);
+    }
+    setEditingAddressType(null);
+  };
+
+  const handleEditHomeAddress = () => {
+    setEditingAddressType('home');
+    setIsEditingHomeAddress(true);
+  };
+
+  const handleEditOfficeAddress = () => {
+    setEditingAddressType('office');
+    setIsEditingOfficeAddress(true);
   };
 
   let mainContent;
@@ -330,25 +379,31 @@ const AccountPage = () => {
         <ManageMyAccount
           onEditProfile={() => setIsEditingProfile(true)}
           user={userData}
-          address={addressData}
+          address={homeAddressData}
           onEditAddress={() => {
             setSelected(1); // Switch to AddressBook tab
-            setIsEditingAddress(true); // Open edit form
+            handleEditHomeAddress(); // Open edit form for home address
           }}
         />
       );
       break;
     case 1:
-      mainContent = isEditingAddress ? (
+      mainContent = isEditingHomeAddress || isEditingOfficeAddress ? (
         <EditAddressForm
-          address={addressData}
+          address={editingAddressType === 'home' ? homeAddressData : officeAddressData}
           onUpdate={handleUpdateAddress}
-          onCancel={() => setIsEditingAddress(false)}
+          onCancel={() => {
+            setIsEditingHomeAddress(false);
+            setIsEditingOfficeAddress(false);
+            setEditingAddressType(null);
+          }}
         />
       ) : (
         <AddressBook
-          address={addressData}
-          onEdit={() => setIsEditingAddress(true)}
+          homeAddress={homeAddressData}
+          officeAddress={officeAddressData}
+          onEditHome={handleEditHomeAddress}
+          onEditOffice={handleEditOfficeAddress}
         />
       );
       break;
