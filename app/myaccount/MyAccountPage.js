@@ -169,6 +169,126 @@ function AddressBook({ homeAddress, officeAddress, onEditHome, onEditOffice }) {
 
 function MyOrders() {
   const orders = useCartStore((state) => state.orders);
+  //   const orders = [
+  //     {
+  //       id: 1,
+  //       orderStatus: "Processing",
+  //       date: "2025-01-15",
+  //       total: 2500,
+  //       paymentMethod: "Cash on Delivery",
+  //       address: {
+  //         fullName: "Gyanendra Sah",
+  //         localAddress: "Durbar Marg, Street 1",
+  //         zone: "Naxal",
+  //         city: "Kathmandu",
+  //         province: "Bagmati",
+  //         phone: "9841234567",
+  //       },
+  //       items: [
+  //         {
+  //           id: 1,
+  //           name: "Teeth Maintain Pro",
+  //           quantity: 2,
+  //           price: 1200,
+  //           image: "/products/teeth-maintain.jpg",
+  //         },
+  //         {
+  //           id: 2,
+  //           name: "Dental Floss Premium",
+  //           quantity: 1,
+  //           price: 100,
+  //           image: "/products/dental-floss.jpg",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       id: 2,
+  //       orderStatus: "Delivered",
+  //       date: "2025-01-10",
+  //       total: 1800,
+  //       paymentMethod: "Online Payment",
+  //       address: {
+  //         fullName: "Gyanendra Sah",
+  //         localAddress: "Durbar Marg, Street 1",
+  //         zone: "Naxal",
+  //         city: "Kathmandu",
+  //         province: "Bagmati",
+  //         phone: "9841234567",
+  //       },
+  //       items: [
+  //         {
+  //           id: 3,
+  //           name: "Electric Toothbrush",
+  //           quantity: 1,
+  //           price: 1800,
+  //           image: "/products/electric-toothbrush.jpg",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       id: 3,
+  //       orderStatus: "Cancelled",
+  //       date: "2025-01-05",
+  //       total: 950,
+  //       paymentMethod: "Cash on Delivery",
+  //       address: {
+  //         fullName: "Gyanendra Sah",
+  //         localAddress: "Durbar Marg, Street 1",
+  //         zone: "Naxal",
+  //         city: "Kathmandu",
+  //         province: "Bagmati",
+  //         phone: "9841234567",
+  //       },
+  //       items: [
+  //         {
+  //           id: 4,
+  //           name: "Mouthwash Fresh",
+  //           quantity: 1,
+  //           price: 450,
+  //           image: "/products/mouthwash.jpg",
+  //         },
+  //         {
+  //           id: 5,
+  //           name: "Toothpaste Whitening",
+  //           quantity: 1,
+  //           price: 500,
+  //           image: "/products/toothpaste.jpg",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       id: 4,
+  //       orderStatus: "Shipped",
+  //       date: "2025-01-20",
+  //       total: 3200,
+  //       paymentMethod: "Online Payment",
+  //       address: {
+  //         fullName: "Gyanendra Sah",
+  //         localAddress: "Durbar Marg, Street 1",
+  //         zone: "Naxal",
+  //         city: "Kathmandu",
+  //         province: "Bagmati",
+  //         phone: "9841234567",
+  //       },
+  //       items: [
+  //         {
+  //           id: 6,
+  //           name: "Dental Kit Complete",
+  //           quantity: 1,
+  //           price: 2500,
+  //           image: "/products/dental-kit.jpg",
+  //         },
+  //         {
+  //           id: 7,
+  //           name: "Tongue Cleaner",
+  //           quantity: 2,
+  //           price: 350,
+  //           image: "/products/tongue-cleaner.jpg",
+  //         },
+  //       ],
+  //     },
+  //   ];
+
   const cancelOrder = useCartStore((state) => state.cancelOrder);
   return (
     <div className="w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
@@ -195,7 +315,7 @@ function MyOrders() {
                   Placed on {new Date(order.date).toLocaleString()}
                 </div>
                 <div className="text-sm text-gray-600">
-                  Pay Amount <strong>{order.total}</strong>
+                  Pay Amount <strong>Rs. {order.total}</strong>
                 </div>
                 <div className="text-sm text-gray-600">
                   Payment Method <strong>{order.paymentMethod}</strong>
@@ -206,27 +326,32 @@ function MyOrders() {
                   className={`text-sm font-semibold px-3 py-1 rounded-full ${
                     order.orderStatus === "Cancelled"
                       ? "bg-red-100 text-red-600"
+                      : order.orderStatus === "Delivered"
+                      ? "bg-green-100 text-green-600"
+                      : order.orderStatus === "Shipped"
+                      ? "bg-yellow-100 text-yellow-600"
                       : "bg-blue-100 text-blue-600"
                   }`}
                 >
                   {order.orderStatus || "Processing"}
                 </span>
-                {order.orderStatus !== "Cancelled" && (
-                  <button
-                    className="mt-2 text-red-600 text-sm font-bold underline px-5 py-2 rounded-full"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to cancel this order?"
-                        )
-                      ) {
-                        cancelOrder(index);
-                      }
-                    }}
-                  >
-                    Cancel
-                  </button>
-                )}
+                {order.orderStatus !== "Cancelled" &&
+                  order.orderStatus !== "Delivered" && (
+                    <button
+                      className="mt-2 text-red-600 text-sm font-bold underline px-5 py-2 rounded-full"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            "Are you sure you want to cancel this order?"
+                          )
+                        ) {
+                          cancelOrder(index);
+                        }
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  )}
               </div>
             </div>
             {/* Address */}
@@ -430,6 +555,7 @@ function MyCancellations() {
   );
 }
 
+//page
 const AccountPage = ({ token }) => {
   const router = useRouter();
   const [selected, setSelected] = useState(0);
