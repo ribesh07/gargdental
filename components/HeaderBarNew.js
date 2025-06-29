@@ -122,7 +122,7 @@ const HeaderBarNew = () => {
     <div className="w-full bg-white sticky top-0 z-50">
       <div className="w-full">
         {/* Top Navigation Bar - Hidden on mobile */}
-        <div className="bg-gray-50 border-b-blue-100 hidden md:block">
+        <div className="bg-gray-50  hidden md:block">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex justify-end items-center py-2 space-x-4 text-sm">
               <div className="flex items-center space-x-2">
