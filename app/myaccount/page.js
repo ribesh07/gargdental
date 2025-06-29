@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   MapPin,
@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import EditProfileForm from "./EditProfileForm";
 import EditAddressForm from "./EditAddressForm";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
 const sidebarItems = [
   { label: "Manage My Account", icon: User },
@@ -34,7 +35,10 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress }) {
           <div className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition-shadow duration-300">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Personal Profile</span>
-              <button onClick={onEditProfile} className="text-blue-500 text-sm underline">
+              <button
+                onClick={onEditProfile}
+                className="text-blue-500 text-sm underline"
+              >
                 EDIT
               </button>
             </div>
@@ -49,7 +53,10 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress }) {
           <div className="bg-white rounded-xl shadow p-4">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Address Book</span>
-              <button onClick={onEditAddress} className="text-blue-500 text-sm underline">
+              <button
+                onClick={onEditAddress}
+                className="text-blue-500 text-sm underline"
+              >
                 EDIT
               </button>
             </div>
@@ -110,32 +117,52 @@ function AddressBook({ homeAddress, officeAddress, onEditHome, onEditOffice }) {
     <div className="bg-white rounded shadow p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-blue-900">Home Address</h2>
-        <button onClick={onEditHome} className="text-blue-500 text-sm underline font-semibold">
+        <button
+          onClick={onEditHome}
+          className="text-blue-500 text-sm underline font-semibold"
+        >
           EDIT
         </button>
       </div>
       <div className="space-y-2 text-gray-700 text-sm">
-        <p><span className="font-semibold">Name:</span> {homeAddress.fullName}</p>
-        <p><span className="font-semibold">Address:</span> {homeAddress.localAddress}, {homeAddress.zone}, {homeAddress.city}, {homeAddress.province}</p>
-        <p><span className="font-semibold">Phone:</span> {homeAddress.phone}</p>
+        <p>
+          <span className="font-semibold">Name:</span> {homeAddress.fullName}
+        </p>
+        <p>
+          <span className="font-semibold">Address:</span>{" "}
+          {homeAddress.localAddress}, {homeAddress.zone}, {homeAddress.city},{" "}
+          {homeAddress.province}
+        </p>
+        <p>
+          <span className="font-semibold">Phone:</span> {homeAddress.phone}
+        </p>
         <p className="text-gray-500 pt-2">Default Shipping & Billing Address</p>
       </div>
       <br></br>
 
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-blue-900">Office Address</h2>
-        <button onClick={onEditOffice} className="text-blue-500 text-sm underline font-semibold">
+        <button
+          onClick={onEditOffice}
+          className="text-blue-500 text-sm underline font-semibold"
+        >
           EDIT
         </button>
       </div>
       <div className="space-y-2 text-gray-700 text-sm">
-        <p><span className="font-semibold">Name:</span> {officeAddress.fullName}</p>
-        <p><span className="font-semibold">Address:</span> {officeAddress.localAddress}, {officeAddress.zone}, {officeAddress.city}, {officeAddress.province}</p>
-        <p><span className="font-semibold">Phone:</span> {officeAddress.phone}</p>
-        
+        <p>
+          <span className="font-semibold">Name:</span> {officeAddress.fullName}
+        </p>
+        <p>
+          <span className="font-semibold">Address:</span>{" "}
+          {officeAddress.localAddress}, {officeAddress.zone},{" "}
+          {officeAddress.city}, {officeAddress.province}
+        </p>
+        <p>
+          <span className="font-semibold">Phone:</span> {officeAddress.phone}
+        </p>
       </div>
     </div>
-    
   );
 }
 
@@ -297,16 +324,16 @@ const AccountPage = () => {
   const [isEditingHomeAddress, setIsEditingHomeAddress] = useState(false);
   const [isEditingOfficeAddress, setIsEditingOfficeAddress] = useState(false);
   const [editingAddressType, setEditingAddressType] = useState(null);
-  
+
   const [userData, setUserData] = useState({
-    firstName: "Gyanendra",
-    lastName: "Sah",
-    mobile: "9821212332",
-    email: "gyanee750@gmail.com",
-    province: "Other",
-    profileImage: "https://via.placeholder.com/150", // Default profile image
+    firstName: "",
+    lastName: "",
+    mobile: "",
+    email: "",
+    province: "",
+    profileImage: "",
   });
-  
+
   const [homeAddressData, setHomeAddressData] = useState({
     fullName: "Gyanendra Sah",
     phone: "9821212332",
@@ -330,8 +357,6 @@ const AccountPage = () => {
   });
 
   const handleUpdateProfile = (updatedData) => {
-    // In a real app, you'd save this to a backend.
-    // For now, we just update the local state.
     setUserData((prev) => ({
       ...prev,
       ...updatedData,
@@ -340,13 +365,13 @@ const AccountPage = () => {
   };
 
   const handleUpdateAddress = (updatedData) => {
-    if (editingAddressType === 'home') {
+    if (editingAddressType === "home") {
       setHomeAddressData((prev) => ({
         ...prev,
         ...updatedData,
       }));
       setIsEditingHomeAddress(false);
-    } else if (editingAddressType === 'office') {
+    } else if (editingAddressType === "office") {
       setOfficeAddressData((prev) => ({
         ...prev,
         ...updatedData,
@@ -357,12 +382,12 @@ const AccountPage = () => {
   };
 
   const handleEditHomeAddress = () => {
-    setEditingAddressType('home');
+    setEditingAddressType("home");
     setIsEditingHomeAddress(true);
   };
 
   const handleEditOfficeAddress = () => {
-    setEditingAddressType('office');
+    setEditingAddressType("office");
     setIsEditingOfficeAddress(true);
   };
 
@@ -388,24 +413,29 @@ const AccountPage = () => {
       );
       break;
     case 1:
-      mainContent = isEditingHomeAddress || isEditingOfficeAddress ? (
-        <EditAddressForm
-          address={editingAddressType === 'home' ? homeAddressData : officeAddressData}
-          onUpdate={handleUpdateAddress}
-          onCancel={() => {
-            setIsEditingHomeAddress(false);
-            setIsEditingOfficeAddress(false);
-            setEditingAddressType(null);
-          }}
-        />
-      ) : (
-        <AddressBook
-          homeAddress={homeAddressData}
-          officeAddress={officeAddressData}
-          onEditHome={handleEditHomeAddress}
-          onEditOffice={handleEditOfficeAddress}
-        />
-      );
+      mainContent =
+        isEditingHomeAddress || isEditingOfficeAddress ? (
+          <EditAddressForm
+            address={
+              editingAddressType === "home"
+                ? homeAddressData
+                : officeAddressData
+            }
+            onUpdate={handleUpdateAddress}
+            onCancel={() => {
+              setIsEditingHomeAddress(false);
+              setIsEditingOfficeAddress(false);
+              setEditingAddressType(null);
+            }}
+          />
+        ) : (
+          <AddressBook
+            homeAddress={homeAddressData}
+            officeAddress={officeAddressData}
+            onEditHome={handleEditHomeAddress}
+            onEditOffice={handleEditOfficeAddress}
+          />
+        );
       break;
     case 2:
       mainContent = <MyOrders />;
@@ -423,9 +453,18 @@ const AccountPage = () => {
       mainContent = null;
   }
 
+  useEffect(async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const details = await userDetails();
+      setUserData(details);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <div className="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-4 px-2 sm:px-4 py-6">
+        <FullScreenLoader />
         {/* Sidebar */}
         <aside className="w-full md:w-64 flex-shrink-0 mb-4 md:mb-0">
           {/* Profile Section in Sidebar */}

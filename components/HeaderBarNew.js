@@ -27,7 +27,16 @@ const HeaderBarNew = () => {
   const suppliesRef = useRef(null);
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([
+    {
+      id: null,
+      full_name: "",
+      phone: "",
+      email: "",
+      image_full_url: "",
+      created_at: "",
+    },
+  ]);
   const [isloggedin, setIsloggedin] = useState(false);
 
   useEffect(() => {
@@ -38,11 +47,11 @@ const HeaderBarNew = () => {
         setIsloggedin(true);
         const details = await userDetails();
         if (details) {
-          setUser(details.email);
+          setUser(details);
         }
       } else {
         setIsloggedin(false);
-        setUser("");
+        setUser({});
       }
     };
 
@@ -104,7 +113,7 @@ const HeaderBarNew = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsloggedin(false);
-    setUser("");
+    setUser({});
     router.refresh();
     router.push("/dashboard");
   };
@@ -194,12 +203,6 @@ const HeaderBarNew = () => {
                   >
                     <Search />
                   </button>
-                </div>
-                <div className="mt-5">
-                  <label className="flex items-center text-sm text-gray-600 hover:text-red-600">
-                    <input type="checkbox" className="mr-2 cursor-pointer" />
-                    Within Items Purchased
-                  </label>
                 </div>
               </div>
             )}
@@ -328,8 +331,16 @@ const HeaderBarNew = () => {
                   onClick={() => router.push("/account/profile")}
                   className="bg-[#0072bc] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
                 >
-                  <User className="w-3 h-3 m-1" />
-                  {user}
+                  {user.image_full_url && (
+                    <img
+                      src={user.image_full_url}
+                      alt="Profile"
+                      className="w-10 h-10 rounded-full"
+                    />
+                  )}
+                  {!user.image_full_url && <User className="w-3 h-3 m-1" />}
+
+                  <span className="ml-2">{user.full_name}</span>
                 </button>
               </div>
             )}
