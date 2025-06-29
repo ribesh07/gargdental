@@ -335,12 +335,12 @@ const HeaderBarNew = () => {
                     <img
                       src={user.image_full_url}
                       alt="Profile"
-                      className="w-10 h-10 rounded-full"
+                      className="w-7  h-7 rounded-full object-cover"
                     />
                   )}
                   {!user.image_full_url && <User className="w-3 h-3 m-1" />}
 
-                  <span className="ml-2">{user.full_name}</span>
+                  <span className="ml-2">{user.email}</span>
                 </button>
               </div>
             )}
