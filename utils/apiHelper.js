@@ -3,6 +3,8 @@ import { useState } from "react";
 import { baseUrl } from "./config";
 import { apiRequest, apiPostRequest } from "./ApiSafeCalls";
 import useCartStore from "@/stores/useCartStore";
+import { toast } from "react-hot-toast";
+
 const API_URL = `${baseUrl}/products/latest`;
 
 const fetchProducts = async (count) => {
@@ -149,10 +151,21 @@ export const addToCart = async (product_code, quantity, price) => {
       quantity: quantity,
     });
     if (response.success) {
-      const cartResponse = await getCart();
-      const { subtotal, totalItems } = getCartSummary(cartResponse);
-      console.log(subtotal, totalItems);
-
+      // Update the local store after successful API call
+      if (response.cart) {
+        const mappedCartItems = response.cart.items.map((item) => ({
+          id: item.id,
+          product_code: item.product_code,
+          quantity: item.quantity,
+          price: parseFloat(item.price),
+        }));
+        useCartStore.getState().setCart({
+          id: response.cart.id,
+          items: mappedCartItems,
+          subtotal: response.cart.subtotal,
+        });
+      }
+      // toast.success(response.message);
       return response;
     } else {
       alert(response.message);
@@ -177,9 +190,12 @@ export const getCart = async () => {
 };
 
 //update cart
-export const updateCart = async (items) => {
+export const updateCart = async (id, quantity) => {
   try {
-    const response = await apiPostRequest("/customer/cart/update", { items });
+    const response = await apiPostRequest("/customer/cart/update", {
+      item_id: id,
+      quantity: quantity,
+    });
 
     if (response.success) {
       const mappedCartItems = response.cart.items.map((item) => ({
@@ -189,7 +205,7 @@ export const updateCart = async (items) => {
         price: parseFloat(item.price),
         // Assuming you store product name/image in frontend, otherwise need to fetch
       }));
-
+      toast.success(response.message);
       useCartStore.getState().setCart({
         id: response.cart.id,
         items: mappedCartItems,
@@ -203,6 +219,62 @@ export const updateCart = async (items) => {
     }
   } catch (err) {
     console.error("Error updating cart:", err);
+    return { error: err.message };
+  }
+};
+
+//remove cart item
+
+export const removeCartItem = async (item_id) => {
+  try {
+    const response = await apiRequest(`/customer/cart/remove-item`, true, {
+      method: "DELETE",
+      body: JSON.stringify({ item_id }),
+    });
+    if (response.success) {
+      // Update the local store after successful API call
+      if (response.cart) {
+        const mappedCartItems = response.cart.items.map((item) => ({
+          id: item.id,
+          product_code: item.product_code,
+          quantity: item.quantity,
+          price: parseFloat(item.price),
+        }));
+        useCartStore.getState().setCart({
+          id: response.cart.id,
+          items: mappedCartItems,
+          subtotal: response.cart.subtotal,
+        });
+      }
+      toast.success(response.message);
+      return response;
+    } else {
+      console.error("Failed to remove cart item:", response.message);
+      return response;
+    }
+  } catch (err) {
+    console.error("Error removing cart item:", err);
+    return { error: err.message };
+  }
+};
+
+//clear cart
+export const clearCart = async () => {
+  try {
+    const response = await apiRequest(`/customer/cart/remove`, true, {
+      method: "DELETE",
+    });
+    if (response.success) {
+      // Clear the local store after successful API call
+      useCartStore.getState().clearCart();
+      toast.success(response.message);
+      return response;
+    } else {
+      console.error("Failed to clear cart:", response.message);
+      return response;
+    }
+  } catch (err) {
+    console.error("Error clearing cart:", err);
     return { error: err.message };
   }
 };

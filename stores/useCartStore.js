@@ -88,7 +88,7 @@ const useCartStore = create(
     }),
     {
       name: "cart-storage",
-      skipHydration: true, // Optional for Next.js to avoid hydration mismatch
+      skipHydration: true,
     }
   )
 );
