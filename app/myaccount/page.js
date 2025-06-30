@@ -23,20 +23,17 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 const sidebarItems = [
-  { label: "Manage My Account", icon: User },
-  { label: "Address Book", icon: MapPin },
-  { label: "My Orders", icon: List, badge: 0 },
-  { label: "My Wishlist", icon: Heart },
-  { label: "My Reviews", icon: MessageSquare },
-  { label: "My Cancellations", icon: RotateCcw },
+  { key: "account", label: "Manage My Account", icon: User },
+  { key: "address", label: "Address Book", icon: MapPin },
+  { key: "orders", label: "My Orders", icon: List, badge: 0 },
+  { key: "wishlist", label: "My Wishlist", icon: Heart },
+  { key: "reviews", label: "My Reviews", icon: MessageSquare },
+  { key: "cancellations", label: "My Cancellations", icon: RotateCcw },
 ];
 
 function ManageMyAccount({ onEditProfile, user, address, onEditAddress, onChangePassword, onRemoveAccount }) {
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col md:flex-row p-4 sm:p-6">
-      {/* Sidebar placeholder if needed */}
-      {/* <div className="w-full md:w-1/4">Sidebar here</div> */}
-
       {/* Main Content */}
       <div className="flex-1 w-full md:pl-6 flex flex-col">
         {/* Profile / Address Cards */}
@@ -469,10 +466,12 @@ const AccountPage = () => {
       } else {
         toast.error("Failed to load user data");
         console.error("Error loading user data:", result.error);
+        router.push("/account");
       }
     } catch (error) {
       toast.error("An error occurred while loading user data");
       console.error("Error fetching user data:", error);
+      router.push("/account");
     } finally {
       setIsLoading(false);
     }
@@ -561,50 +560,87 @@ const AccountPage = () => {
       />
     );
   }
+  
+  if (showEditAddress) {
+    return (
+        <EditAddressForm
+            address={homeAddress}
+            onUpdate={handleUpdateAddress}
+            onCancel={() => setShowEditAddress(false)}
+        />
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-blue-900">My Account</h1>
-            <button
-              onClick={() => router.push("/dashboard")}
-              className="text-blue-600 hover:text-blue-800 font-medium"
-            >
-              ← Back to Dashboard
-            </button>
+      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
+        {/* Sidebar */}
+        <aside className="w-full md:w-80 flex-shrink-0">
+          <div className="bg-white rounded-xl shadow p-6 text-center">
+            <img
+              src={user.profile_image || "https://via.placeholder.com/120x120?text=Profile"}
+              alt="Profile"
+              className="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-blue-100 object-cover"
+            />
+            <h3 className="font-bold text-xl text-gray-800">
+              {user.full_name}
+            </h3>
+            <p className="text-sm text-gray-500">{user.email}</p>
+            <p className="text-sm text-gray-500 mt-1">{user.phone}</p>
           </div>
-        </div>
-      </div>
+          
+          <nav className="bg-white rounded-xl shadow p-4 mt-6">
+            {sidebarItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => setActiveTab(item.key)}
+                className={`flex items-center w-full px-4 py-3 my-1 rounded-lg transition-colors text-left font-medium space-x-4
+                  ${
+                    activeTab === item.key
+                      ? "bg-blue-50 text-blue-800 font-bold shadow-sm"
+                      : "hover:bg-gray-100 text-gray-700"
+                  }
+                `}
+              >
+                <item.icon className="w-6 h-6" />
+                <span>{item.label}</span>
+                {item.badge !== undefined && (
+                  <span className="ml-auto bg-blue-600 text-white text-xs rounded-full px-2 py-1">
+                    {item.badge}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+        </aside>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === "account" && (
-          <ManageMyAccount
-            onEditProfile={() => setShowEditProfile(true)}
-            user={user}
-            address={address}
-            onEditAddress={() => setShowEditAddress(true)}
-            onChangePassword={handleChangePassword}
-            onRemoveAccount={handleRemoveAccount}
-          />
-        )}
-        {activeTab === "address" && (
-          <AddressBook
-            homeAddress={homeAddress}
-            officeAddress={officeAddress}
-            onEditHome={handleEditHomeAddress}
-            onEditOffice={handleEditOfficeAddress}
-          />
-        )}
-        {activeTab === "orders" && <MyOrders />}
-        {activeTab === "wishlist" && <MyWishlist />}
-        {activeTab === "reviews" && <MyReviews />}
-        {activeTab === "cancellations" && <MyCancellations />}
+        {/* Main Content */}
+        <main className="flex-1 min-w-0 bg-white rounded-xl shadow p-4 sm:p-6 lg:p-8">
+          {activeTab === "account" && (
+            <ManageMyAccount
+              onEditProfile={() => setShowEditProfile(true)}
+              user={user}
+              address={address}
+              onEditAddress={() => setActiveTab('address')}
+              onChangePassword={handleChangePassword}
+              onRemoveAccount={handleRemoveAccount}
+            />
+          )}
+          {activeTab === "address" && (
+            <AddressBook
+              homeAddress={homeAddress}
+              officeAddress={officeAddress}
+              onEditHome={() => setShowEditAddress(true)}
+              onEditOffice={() => setShowEditAddress(true)}
+            />
+          )}
+          {activeTab === "orders" && <MyOrders />}
+          {activeTab === "wishlist" && <MyWishlist />}
+          {activeTab === "reviews" && <MyReviews />}
+          {activeTab === "cancellations" && <MyCancellations />}
+        </main>
       </div>
-
+      
       {/* Remove Account Modal */}
       <RemoveAccountModal
         isOpen={showRemoveAccount}

@@ -48,6 +48,9 @@ const HeaderBarNew = () => {
         const details = await userDetails();
         if (details) {
           setUser(details);
+        } else {
+          // It's possible the token is invalid, so log out.
+          handleLogout();
         }
       } else {
         setIsloggedin(false);
@@ -74,14 +77,17 @@ const HeaderBarNew = () => {
   const cartTotal = useCartStore((state) => state.getCartTotal());
   useEffect(() => {
     const fetchCart = async () => {
-      const cartResponse = await apiRequest(`/customer/cart/list`, true);
-      if (cartResponse && cartResponse.cart) {
-        useCartStore.getState().setCart(cartResponse.cart);
+      const token = localStorage.getItem("token");
+      if (token) {
+        const cartResponse = await apiRequest(`/customer/cart/list`, true);
+        if (cartResponse && cartResponse.cart) {
+          useCartStore.getState().setCart(cartResponse.cart);
+        }
+        console.log("cartResponse from header", cartResponse);
       }
-      console.log("cartResponse from header", cartResponse);
     };
     fetchCart();
-  }, [pathname]);
+  }, [pathname, isloggedin]);
 
   const menuItems = [
     { label: "Dental Supplies", href: "#", hasSubmenu: true },
@@ -114,6 +120,7 @@ const HeaderBarNew = () => {
     localStorage.removeItem("token");
     setIsloggedin(false);
     setUser({});
+    useCartStore.getState().clearCart();
     router.refresh();
     router.push("/dashboard");
   };
