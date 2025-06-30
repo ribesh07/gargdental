@@ -3,6 +3,8 @@
 import { useState } from "react";
 import useCartStore from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
+import useCartStore from "@/stores/useCartStore";
+import { useRouter } from "next/navigation";
 
 const paymentMethods = [
   {
@@ -125,6 +127,7 @@ const PayOpsPage = () => {
               {codDescription}
               <button
                 onClick={handleConfirmOrder}
+                onClick={handleConfirmOrder}
                 className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
               >
                 Confirm Order
@@ -133,6 +136,7 @@ const PayOpsPage = () => {
           )}
         </div>
 
+        {/* Order Summary + Selected Items & Address */}
         {/* Order Summary + Selected Items & Address */}
         <div className="bg-white rounded-xl shadow p-8 flex flex-col justify-center">
           {/* Shipping Address */}
