@@ -71,14 +71,15 @@ export const userDetails = async () => {
   try {
     const response = await getCustomerInfo();
     if (response.success && response.data) {
-      const { id, full_name, phone, email, image_full_url, created_at } = response.data;
+      const { id, full_name, phone, email, image_full_url, created_at } =
+        response.data;
 
       return {
         id,
         full_name,
         phone,
         email,
-        image_full_url: image_full_url || "",
+        image_full_url: image_full_url || null,
         created_at,
       };
     } else {
@@ -344,40 +345,42 @@ export const getFullInfo = async () => {
   try {
     const response = await apiRequest("/customer/info", true);
     if (response.success) {
-      // const { id, full_name, phone, email, image_full_url } = response.data;
+      const details = response.data;
       const addresses = response.addresses || [];
-      if (addresses.length > 0) {
-        const homeAddress = addresses.find((addr) => addr.address_type === "H");
-        const defaultBillingAddress = addresses.find(
-          (addr) => addr.default_billing === "Y"
-        );
-        const allAddresses = addresses.map((addr) => ({
-          id: addr.id,
-          full_name: addr.full_name,
-          phone: addr.phone,
-          address: addr.address,
-          landmark: addr.landmark,
-          address_type: addr.address_type,
-          city_id: addr.city_id,
-          province_id: addr.province_id,
-          zone_id: addr.zone_id,
-          city: addr.city.city,
-          default_billing: addr.default_billing,
-          default_shipping: addr.default_shipping,
-        }));
 
-        console.log(
-          "All addresses:",
-          allAddresses +
-            "home address" +
-            homeAddress +
-            "default billing address" +
-            defaultBillingAddress
-        );
-      } else {
-        return { error: "No addresses found" };
-      }
-      return {};
+      const homeAddress = addresses.find((addr) => addr.address_type === "H");
+      const defaultBillingAddress = addresses.find(
+        (addr) => addr.default_billing === "Y"
+      );
+      const allAddresses = addresses.map((addr) => ({
+        id: addr.id,
+        full_name: addr.full_name,
+        phone: addr.phone,
+        address: addr.address,
+        landmark: addr.landmark,
+        address_type: addr.address_type,
+        city_id: addr.city_id,
+        province_id: addr.province_id,
+        zone_id: addr.zone_id,
+        city: addr.city.city,
+        default_billing: addr.default_billing,
+        default_shipping: addr.default_shipping,
+      }));
+
+      console.log(
+        "All addresses:",
+        allAddresses +
+          "home address" +
+          homeAddress +
+          "default billing address" +
+          defaultBillingAddress
+      );
+      return {
+        data: details,
+        allAddresses,
+        homeAddress,
+        defaultBillingAddress,
+      };
     } else {
       return { error: response.message };
     }

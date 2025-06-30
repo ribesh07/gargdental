@@ -1,6 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { User, Mail, Phone, Calendar, MapPin, Edit, Shield, Trash2 } from "lucide-react";
+import {
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  MapPin,
+  Edit,
+  Shield,
+  Trash2,
+} from "lucide-react";
 import { getCustomerInfo } from "@/utils/customerApi";
 import ChangePasswordForm from "@/components/ChangePasswordForm";
 import RemoveAccountModal from "@/components/RemoveAccountModal";
@@ -26,7 +35,7 @@ export default function CustomerProfilePage() {
       setIsLoading(true);
       const result = await getCustomerInfo();
       console.log("Fetched user profile:", result);
-      
+
       if (result.success) {
         setUser(result.data);
       } else {
@@ -44,6 +53,7 @@ export default function CustomerProfilePage() {
   const handleProfileUpdate = (updatedUser) => {
     setUser(updatedUser);
     setShowEditProfile(false);
+    fetchUserProfile();
     toast.success("Profile updated successfully!");
   };
 
@@ -60,8 +70,12 @@ export default function CustomerProfilePage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Profile Not Found</h2>
-          <p className="text-gray-600 mb-6">Unable to load your profile information.</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Profile Not Found
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Unable to load your profile information.
+          </p>
           <button
             onClick={() => router.push("/account")}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
@@ -98,7 +112,9 @@ export default function CustomerProfilePage() {
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-blue-900">Customer Profile</h1>
+            <h1 className="text-2xl font-bold text-blue-900">
+              Customer Profile
+            </h1>
             <button
               onClick={() => router.push("/myaccount")}
               className="text-blue-600 hover:text-blue-800 font-medium"
@@ -116,7 +132,9 @@ export default function CustomerProfilePage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-800">Personal Information</h2>
+                <h2 className="text-xl font-bold text-gray-800">
+                  Personal Information
+                </h2>
                 <button
                   onClick={() => setShowEditProfile(true)}
                   className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
@@ -129,12 +147,17 @@ export default function CustomerProfilePage() {
               {/* Profile Image */}
               <div className="flex items-center gap-6 mb-8">
                 <img
-                  src={user.image_full_url || "https://via.placeholder.com/120x120?text=Profile"}
+                  src={
+                    user.image_full_url ||
+                    "https://via.placeholder.com/120x120?text=Profile"
+                  }
                   alt="Profile"
                   className="w-24 h-24 rounded-full object-cover border-4 border-blue-100"
                 />
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-800">{user.full_name}</h3>
+                  <h3 className="text-2xl font-bold text-gray-800">
+                    {user.full_name}
+                  </h3>
                   <p className="text-gray-600">Customer ID: #{user.id}</p>
                 </div>
               </div>
@@ -147,7 +170,9 @@ export default function CustomerProfilePage() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Full Name</p>
-                    <p className="font-medium text-gray-800">{user.full_name}</p>
+                    <p className="font-medium text-gray-800">
+                      {user.full_name}
+                    </p>
                   </div>
                 </div>
 
@@ -178,7 +203,9 @@ export default function CustomerProfilePage() {
                   <div>
                     <p className="text-sm text-gray-500">Member Since</p>
                     <p className="font-medium text-gray-800">
-                      {user.created_at ? new Date(user.created_at).toLocaleDateString() : "N/A"}
+                      {user.created_at
+                        ? new Date(user.created_at).toLocaleDateString()
+                        : "N/A"}
                     </p>
                   </div>
                 </div>
@@ -206,12 +233,14 @@ export default function CustomerProfilePage() {
                 <Shield className="w-5 h-5 text-blue-600" />
                 Account Security
               </h3>
-              
+
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                   <div>
                     <h4 className="font-medium text-gray-800">Password</h4>
-                    <p className="text-sm text-gray-600">Last changed: {user.lastPasswordChange || "Never"}</p>
+                    <p className="text-sm text-gray-600">
+                      Last changed: {user.lastPasswordChange || "Never"}
+                    </p>
                   </div>
                   <button
                     onClick={() => setShowChangePassword(true)}
@@ -223,7 +252,9 @@ export default function CustomerProfilePage() {
 
                 <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                   <div>
-                    <h4 className="font-medium text-gray-800">Account Status</h4>
+                    <h4 className="font-medium text-gray-800">
+                      Account Status
+                    </h4>
                     <p className="text-sm text-green-600">Active</p>
                   </div>
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -237,12 +268,15 @@ export default function CustomerProfilePage() {
                 <Trash2 className="w-5 h-5 text-red-600" />
                 Danger Zone
               </h3>
-              
+
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-medium text-gray-800 mb-2">Delete Account</h4>
+                  <h4 className="font-medium text-gray-800 mb-2">
+                    Delete Account
+                  </h4>
                   <p className="text-sm text-gray-600 mb-4">
-                    Once you delete your account, there is no going back. Please be certain.
+                    Once you delete your account, there is no going back. Please
+                    be certain.
                   </p>
                   <button
                     onClick={() => setShowRemoveAccount(true)}
