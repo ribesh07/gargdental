@@ -1,0 +1,93 @@
+{
+  "allAddresses": [
+    {
+      "id": 8,
+      "full_name": "Rks",
+      "phone": "9876543210",
+      "address": "1234567890",
+      "landmark": "ktm",
+      "address_type": "O",
+      "city_id": 1,
+      "province_id": 2,
+      "zone_id": 3,
+      "city": "N/A",
+      "default_billing": null,
+      "default_shipping": null
+    },
+    {
+      "id": 9,
+      "full_name": "Rks",
+      "phone": "9876543210",
+      "address": "1234567890",
+      "landmark": "ktm",
+      "address_type": "H",
+      "city_id": 1,
+      "province_id": 2,
+      "zone_id": 3,
+      "city": {
+        "id": 1,
+        "province_id": 3,
+        "city": "Kathmandu Metro 1 - Naxal Area",
+        "shipping_cost": "70.00",
+        "remarks": null,
+        "status": 1,
+        "created_at": "2024-05-06T06:06:35.000000Z",
+        "updated_at": "2024-05-06T06:06:35.000000Z"
+      },
+      "default_billing": "Y",
+      "default_shipping": "Y"
+    }
+  ],
+  "homeAddress": {
+    "id": 9,
+    "customer_id": 34,
+    "full_name": "Rks",
+    "phone": "9876543210",
+    "address": "1234567890",
+    "landmark": "ktm",
+    "address_type": "H",
+    "city_id": 1,
+    "province_id": 2,
+    "zone_id": 3,
+    "city": {
+      "id": 1,
+      "province_id": 3,
+      "city": "Kathmandu Metro 1 - Naxal Area",
+      "shipping_cost": "70.00",
+      "remarks": null,
+      "status": 1,
+      "created_at": "2024-05-06T06:06:35.000000Z",
+      "updated_at": "2024-05-06T06:06:35.000000Z"
+    },
+    "default_billing": "Y",
+    "default_shipping": "Y",
+    "created_at": "2025-06-29T07:20:34.000000Z",
+    "updated_at": "2025-06-30T05:21:32.000000Z"
+  },
+  "defaultBillingAddress": {
+    "id": 9,
+    "customer_id": 34,
+    "full_name": "Rks",
+    "phone": "9876543210",
+    "address": "1234567890",
+    "landmark": "ktm",
+    "address_type": "H",
+    "city_id": 1,
+    "province_id": 2,
+    "zone_id": 3,
+    "city": {
+      "id": 1,
+      "province_id": 3,
+      "city": "Kathmandu Metro 1 - Naxal Area",
+      "shipping_cost": "70.00",
+      "remarks": null,
+      "status": 1,
+      "created_at": "2024-05-06T06:06:35.000000Z",
+      "updated_at": "2024-05-06T06:06:35.000000Z"
+    },
+    "default_billing": "Y",
+    "default_shipping": "Y",
+    "created_at": "2025-06-29T07:20:34.000000Z",
+    "updated_at": "2025-06-30T05:21:32.000000Z"
+  }
+}

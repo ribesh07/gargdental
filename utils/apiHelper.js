@@ -341,6 +341,7 @@ export const sortAddressDropdowns = async () => {
   }
 };
 
+//get full info
 export const getFullInfo = async () => {
   try {
     const response = await apiRequest("/customer/info", true);
@@ -348,10 +349,13 @@ export const getFullInfo = async () => {
       const details = response.data;
       const addresses = response.addresses || [];
 
-      const homeAddress = addresses.find((addr) => addr.address_type === "H");
-      const defaultBillingAddress = addresses.find(
-        (addr) => addr.default_billing === "Y"
-      );
+      const homeAddress =
+        addresses.find((addr) => addr.address_type === "H") || null;
+      const officeAddress =
+        addresses.find((addr) => addr.address_type === "O") || null;
+      const defaultBillingAddress =
+        addresses.find((addr) => addr.default_billing === "Y") || null;
+
       const allAddresses = addresses.map((addr) => ({
         id: addr.id,
         full_name: addr.full_name,
@@ -362,24 +366,22 @@ export const getFullInfo = async () => {
         city_id: addr.city_id,
         province_id: addr.province_id,
         zone_id: addr.zone_id,
-        city: addr.city.city,
+        city: addr.city?.city || "N/A",
         default_billing: addr.default_billing,
         default_shipping: addr.default_shipping,
       }));
 
-      console.log(
-        "All addresses:",
-        allAddresses +
-          "home address" +
-          homeAddress +
-          "default billing address" +
-          defaultBillingAddress
-      );
+      console.log("All addresses:", allAddresses);
+      console.log("\nhome address", homeAddress);
+      console.log("\ndefault billing address", defaultBillingAddress);
+
       return {
+        success: true,
         data: details,
         allAddresses,
         homeAddress,
         defaultBillingAddress,
+        officeAddress,
       };
     } else {
       return { error: response.message };

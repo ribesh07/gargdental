@@ -337,14 +337,7 @@ const HeaderBarNew = () => {
                   onClick={() => router.push("/account/profile")}
                   className="bg-[#0072bc] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
                 >
-                  {user.image_full_url && (
-                    <img
-                      src={user.image_full_url}
-                      alt="Profile"
-                      className="w-7  h-7 rounded-full object-cover"
-                    />
-                  )}
-                  {!user.image_full_url && <User className="w-3 h-3 m-1" />}
+                  <User className="w-3 h-3 m-1" />
 
                   <span className="ml-2">{user.email}</span>
                 </button>

@@ -68,6 +68,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
           email: formData.email,
           phone: formData.phone,
           profile_photo_path: formData.profile_photo_path,
+          image_full_url: formData.profile_photo_path,
         };
 
         onUpdate(updatedUser);

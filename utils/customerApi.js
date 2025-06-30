@@ -25,9 +25,13 @@ export const getCustomerInfo = async () => {
 // Update customer profile
 export const updateCustomerProfile = async (profileData) => {
   try {
-    const response = await apiPostRequest("/customer/update-profile", profileData, true);
+    const response = await apiPostRequest(
+      "/customer/update-profile",
+      profileData,
+      true
+    );
     // const res = await apiPostRequest("/customer/update-profile", profileData, true);
-    
+
     return {
       success: true,
       data: response.data || response,
@@ -45,7 +49,11 @@ export const updateCustomerProfile = async (profileData) => {
 // Change customer password
 export const changeCustomerPassword = async (passwordData) => {
   try {
-    const response = await apiPostRequest("/customer/change-password", passwordData, true);
+    const response = await apiPostRequest(
+      "/customer/change-password",
+      passwordData,
+      true
+    );
     console.log("Change password response:", response);
     console.log("Change password data:", passwordData);
     return {
@@ -85,19 +93,19 @@ export const removeCustomerAccount = async () => {
 // Helper function to validate profile data
 export const validateProfileData = (data) => {
   const errors = {};
-  
+
   if (!data.full_name || data.full_name.trim().length < 2) {
     errors.full_name = "Full name must be at least 2 characters long";
   }
-  
+
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     errors.email = "Please enter a valid email address";
   }
-  
+
   if (!data.phone || data.phone.length < 10) {
     errors.phone = "Please enter a valid phone number";
   }
-  
+
   return {
     isValid: Object.keys(errors).length === 0,
     errors,
@@ -107,21 +115,24 @@ export const validateProfileData = (data) => {
 // Helper function to validate password data
 export const validatePasswordData = (data) => {
   const errors = {};
-  
+
   if (!data.current_password || data.current_password.length < 6) {
     errors.current_password = "Current password is required";
   }
-  
+
   if (!data.new_password || data.new_password.length < 6) {
     errors.new_password = "New password must be at least 6 characters long";
   }
-  
-  if (!data.new_password_confirmation || data.new_password_confirmation !== data.new_password) {
+
+  if (
+    !data.new_password_confirmation ||
+    data.new_password_confirmation !== data.new_password
+  ) {
     errors.new_password_confirmation = "Passwords do not match";
   }
-  
+
   return {
     isValid: Object.keys(errors).length === 0,
     errors,
   };
-}; 
+};
