@@ -76,17 +76,16 @@ const HeaderBarNew = () => {
   const cartCount = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   useEffect(() => {
-    const fetchCart = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
+    if (isloggedin) {
+      const fetchCart = async () => {
         const cartResponse = await apiRequest(`/customer/cart/list`, true);
         if (cartResponse && cartResponse.cart) {
           useCartStore.getState().setCart(cartResponse.cart);
         }
         console.log("cartResponse from header", cartResponse);
-      }
-    };
-    fetchCart();
+      };
+      fetchCart();
+    }
   }, [pathname, isloggedin]);
 
   const menuItems = [

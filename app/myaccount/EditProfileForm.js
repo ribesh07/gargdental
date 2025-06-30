@@ -1,6 +1,9 @@
 "use client";
-import { useState } from "react";
-import { updateCustomerProfile, validateProfileData } from "@/utils/customerApi";
+import { useState, useEffect } from "react";
+import {
+  updateCustomerProfile,
+  validateProfileData,
+} from "@/utils/customerApi";
 import { toast } from "react-hot-toast";
 
 const EditProfileForm = ({ user, onUpdate, onCancel }) => {
@@ -8,10 +11,12 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
     full_name: user.full_name || "",
     email: user.email || "",
     phone: user.phone || user.mobile || "",
-    profile_photo_path: user.image_full_url || null,
+    profile_photo_path: user.image_full_url || user.profile_image || null,
   });
 
-  const [previewImage, setPreviewImage] = useState(user.image_full_url || null);
+  const [previewImage, setPreviewImage] = useState(
+    user.image_full_url || user.profile_image || null
+  );
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +36,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -40,7 +45,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate form data
     const validation = validateProfileData(formData);
     if (!validation.isValid) {
@@ -49,13 +54,13 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
     }
 
     setIsLoading(true);
-    
+
     try {
       const result = await updateCustomerProfile(formData);
-      
+
       if (result.success) {
         toast.success(result.message || "Profile updated successfully!");
-        
+
         // Transform data back to match the expected format
         const updatedUser = {
           ...user,
@@ -64,7 +69,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
           phone: formData.phone,
           profile_photo_path: formData.profile_photo_path,
         };
-        
+
         onUpdate(updatedUser);
       } else {
         toast.error(result.error || "Failed to update profile");
@@ -76,6 +81,18 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    console.log("user", user);
+
+    setFormData({
+      full_name: user.full_name || "",
+      email: user.email || "",
+      phone: user.phone || user.mobile || "",
+      profile_photo_path: user.image_full_url || user.profile_image || null,
+    });
+    setPreviewImage(user.image_full_url || user.profile_image || null);
+  }, [user]);
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-2xl mx-auto">
@@ -94,7 +111,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
             <img
               src={previewImage}
               alt="Profile Preview"
-              className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+              className="w-24 h-24 min-w-24 min-h-24 rounded-full border-4 border-blue-100 object-cover shrink-0"
             />
             <input
               type="file"
@@ -175,7 +192,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
             <p className="text-red-500 text-sm mt-1">{errors.email}</p>
           )}
         </div>
-       
+
         <div className="flex justify-center items-center gap-4 pt-4">
           <button
             type="button"
@@ -205,4 +222,4 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
   );
 };
 
-export default EditProfileForm; 
+export default EditProfileForm;

@@ -12,7 +12,7 @@ import {
 import EditProfileForm from "./EditProfileForm";
 import EditAddressForm from "./EditAddressForm";
 import FullScreenLoader from "@/components/FullScreenLoader";
-import { userDetails } from "@/utils/apiHelper";
+import { userDetails, getFullInfo } from "@/utils/apiHelper";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 
@@ -169,7 +169,7 @@ function AddressBook({ homeAddress, officeAddress, onEditHome, onEditOffice }) {
 
 function MyOrders() {
   const orders = useCartStore((state) => state.orders);
- 
+
   const cancelOrder = useCartStore((state) => state.cancelOrder);
   return (
     <div className="w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
@@ -585,6 +585,21 @@ const AccountPage = ({ token }) => {
       setIsLoading(false);
       router.push("/dashboard");
     }
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    (async () => {
+      try {
+        console.log("Calling getFullInfo");
+        const response = await getFullInfo();
+        console.log("Response of fullInfo :", response);
+      } catch (error) {
+        console.error("Error fetching full info:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
   return (
