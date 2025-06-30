@@ -3,6 +3,8 @@
 import { useState } from "react";
 import useCartStore from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
+import useCartStore from "@/stores/useCartStore";
+import { useRouter } from "next/navigation";
 
 const paymentMethods = [
   {
@@ -58,21 +60,20 @@ const codDescription = (
 
 const PayOpsPage = () => {
   const [selected, setSelected] = useState("esewa");
-  const selectedItems = useCartStore((state) => state.selectedItems);
+  const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const selectedShippingAddress = useCartStore((state) => state.selectedShippingAddress);
   const addOrder = useCartStore((state) => state.addOrder);
   const router = useRouter();
 
   // Calculate totals from selected items
   const subtotal = selectedItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + (item.price * (item.quantity || 1)),
     0
   );
   const shipping = 0;
   const total = subtotal + shipping;
 
   const handleConfirmOrder = () => {
-    // Save order to Zustand
     addOrder({
       items: selectedItems,
       address: selectedShippingAddress,
@@ -80,7 +81,6 @@ const PayOpsPage = () => {
       total,
       date: new Date().toISOString(),
     });
-    // Redirect to account page or show success
     router.push("/myaccount");
   };
 
@@ -127,6 +127,7 @@ const PayOpsPage = () => {
               {codDescription}
               <button
                 onClick={handleConfirmOrder}
+                onClick={handleConfirmOrder}
                 className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
               >
                 Confirm Order
@@ -135,6 +136,7 @@ const PayOpsPage = () => {
           )}
         </div>
 
+        {/* Order Summary + Selected Items & Address */}
         {/* Order Summary + Selected Items & Address */}
         <div className="bg-white rounded-xl shadow p-8 flex flex-col justify-center">
           {/* Shipping Address */}
@@ -167,7 +169,7 @@ const PayOpsPage = () => {
                       <div className="font-semibold">{item.name}</div>
                       <div className="text-xs text-gray-500">Qty: {item.quantity}</div>
                     </div>
-                    <div className="font-medium text-green-700">Rs. {item.price * item.quantity}</div>
+                    <div className="font-medium text-green-700">Rs. {item.price * (item.quantity || 1)}</div>
                   </li>
                 ))}
               </ul>

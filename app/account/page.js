@@ -75,7 +75,7 @@ export default function AuthPage() {
         // success
         router.push("/dashboard");
       } else {
-        console.error("Login failed:", data);
+        // console.error("Login failed:", data);
         alert(data.message || "Invalid email or password");
       }
     } catch (error) {
