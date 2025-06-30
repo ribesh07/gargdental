@@ -60,14 +60,7 @@ export default function ClientComponent({ token }) {
             Province:{" "}
             {addressDropdowns.provinces
               ? addressDropdowns.provinces
-                  .map(
-                    (province) =>
-                      province.name +
-                      " " +
-                      province.id +
-                      " " +
-                      province.province_id
-                  )
+                  .map((province) => province.name + " " + province.id)
                   .join(", ")
               : "No provinces available"}
           </p>
