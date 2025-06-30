@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import useCartStore from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
@@ -61,13 +60,15 @@ const codDescription = (
 const PayOpsPage = () => {
   const [selected, setSelected] = useState("esewa");
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
-  const selectedShippingAddress = useCartStore((state) => state.selectedShippingAddress);
+  const selectedShippingAddress = useCartStore(
+    (state) => state.selectedShippingAddress
+  );
   const addOrder = useCartStore((state) => state.addOrder);
   const router = useRouter();
 
   // Calculate totals from selected items
   const subtotal = selectedItems.reduce(
-    (sum, item) => sum + (item.price * (item.quantity || 1)),
+    (sum, item) => sum + item.price * (item.quantity || 1),
     0
   );
   const shipping = 0;
@@ -116,8 +117,10 @@ const PayOpsPage = () => {
           {selected === "esewa" && (
             <>
               {esewaDescription}
-              <button className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors" 
-              onClick={() => alert('field to payment')}> 
+              <button
+                className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
+                onClick={() => alert("field to payment")}
+              >
                 Pay Now
               </button>
             </>
@@ -126,7 +129,6 @@ const PayOpsPage = () => {
             <>
               {codDescription}
               <button
-                onClick={handleConfirmOrder}
                 onClick={handleConfirmOrder}
                 className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
               >
@@ -144,13 +146,28 @@ const PayOpsPage = () => {
             <h4 className="font-semibold mb-2">Shipping Address</h4>
             {selectedShippingAddress ? (
               <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700 mb-2">
-                <div><span className="font-semibold">Name:</span> {selectedShippingAddress.fullName}</div>
-                <div><span className="font-semibold">Address:</span> {selectedShippingAddress.localAddress}, {selectedShippingAddress.zone}, {selectedShippingAddress.city}, {selectedShippingAddress.province}</div>
-                <div><span className="font-semibold">Phone:</span> {selectedShippingAddress.phone}</div>
-                <div className="text-gray-500 pt-1">{selectedShippingAddress.addressType} Address</div>
+                <div>
+                  <span className="font-semibold">Name:</span>{" "}
+                  {selectedShippingAddress.fullName}
+                </div>
+                <div>
+                  <span className="font-semibold">Address:</span>{" "}
+                  {selectedShippingAddress.localAddress},{" "}
+                  {selectedShippingAddress.zone}, {selectedShippingAddress.city}
+                  , {selectedShippingAddress.province}
+                </div>
+                <div>
+                  <span className="font-semibold">Phone:</span>{" "}
+                  {selectedShippingAddress.phone}
+                </div>
+                <div className="text-gray-500 pt-1">
+                  {selectedShippingAddress.addressType} Address
+                </div>
               </div>
             ) : (
-              <div className="text-gray-400 text-sm mb-2">No Shipping Address</div>
+              <div className="text-gray-400 text-sm mb-2">
+                No Shipping Address
+              </div>
             )}
           </div>
           {/* Selected Items with Images */}
@@ -161,15 +178,26 @@ const PayOpsPage = () => {
             ) : (
               <ul className="text-sm text-gray-800 space-y-3">
                 {selectedItems.map((item) => (
-                  <li key={item.id} className="flex items-center gap-3 border-b pb-2">
+                  <li
+                    key={item.id}
+                    className="flex items-center gap-3 border-b pb-2"
+                  >
                     <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded" />
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover rounded"
+                      />
                     </div>
                     <div className="flex-1">
                       <div className="font-semibold">{item.name}</div>
-                      <div className="text-xs text-gray-500">Qty: {item.quantity}</div>
+                      <div className="text-xs text-gray-500">
+                        Qty: {item.quantity}
+                      </div>
                     </div>
-                    <div className="font-medium text-green-700">Rs. {item.price * (item.quantity || 1)}</div>
+                    <div className="font-medium text-green-700">
+                      Rs. {item.price * (item.quantity || 1)}
+                    </div>
                   </li>
                 ))}
               </ul>
