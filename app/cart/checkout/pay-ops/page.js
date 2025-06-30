@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
-import { useRouter } from "next/navigation";
 
 const paymentMethods = [
   {
