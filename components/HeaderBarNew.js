@@ -48,6 +48,9 @@ const HeaderBarNew = () => {
         const details = await userDetails();
         if (details) {
           setUser(details);
+        } else {
+          // It's possible the token is invalid, so log out.
+          handleLogout();
         }
       } else {
         setIsloggedin(false);
@@ -73,15 +76,17 @@ const HeaderBarNew = () => {
   const cartCount = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   useEffect(() => {
-    const fetchCart = async () => {
-      const cartResponse = await apiRequest(`/customer/cart/list`, true);
-      if (cartResponse && cartResponse.cart) {
-        useCartStore.getState().setCart(cartResponse.cart);
-      }
-      console.log("cartResponse from header", cartResponse);
-    };
-    fetchCart();
-  }, [pathname]);
+    if (isloggedin) {
+      const fetchCart = async () => {
+        const cartResponse = await apiRequest(`/customer/cart/list`, true);
+        if (cartResponse && cartResponse.cart) {
+          useCartStore.getState().setCart(cartResponse.cart);
+        }
+        console.log("cartResponse from header", cartResponse);
+      };
+      fetchCart();
+    }
+  }, [pathname, isloggedin]);
 
   const menuItems = [
     { label: "Dental Supplies", href: "#", hasSubmenu: true },
@@ -114,6 +119,7 @@ const HeaderBarNew = () => {
     localStorage.removeItem("token");
     setIsloggedin(false);
     setUser({});
+    useCartStore.getState().clearCart();
     router.refresh();
     router.push("/dashboard");
   };
@@ -122,7 +128,7 @@ const HeaderBarNew = () => {
     <div className="w-full bg-white sticky top-0 z-50">
       <div className="w-full">
         {/* Top Navigation Bar - Hidden on mobile */}
-        <div className="bg-gray-50  hidden md:block">
+        <div className="bg-gray-50 border-b-blue-100 hidden md:block">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex justify-end items-center py-2 space-x-4 text-sm">
               <div className="flex items-center space-x-2">

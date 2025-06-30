@@ -12,7 +12,7 @@ import {
 import EditProfileForm from "./EditProfileForm";
 import EditAddressForm from "./EditAddressForm";
 import FullScreenLoader from "@/components/FullScreenLoader";
-import { userDetails } from "@/utils/apiHelper";
+import { userDetails, getFullInfo } from "@/utils/apiHelper";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 
@@ -169,125 +169,6 @@ function AddressBook({ homeAddress, officeAddress, onEditHome, onEditOffice }) {
 
 function MyOrders() {
   const orders = useCartStore((state) => state.orders);
-  //   const orders = [
-  //     {
-  //       id: 1,
-  //       orderStatus: "Processing",
-  //       date: "2025-01-15",
-  //       total: 2500,
-  //       paymentMethod: "Cash on Delivery",
-  //       address: {
-  //         fullName: "Gyanendra Sah",
-  //         localAddress: "Durbar Marg, Street 1",
-  //         zone: "Naxal",
-  //         city: "Kathmandu",
-  //         province: "Bagmati",
-  //         phone: "9841234567",
-  //       },
-  //       items: [
-  //         {
-  //           id: 1,
-  //           name: "Teeth Maintain Pro",
-  //           quantity: 2,
-  //           price: 1200,
-  //           image: "/products/teeth-maintain.jpg",
-  //         },
-  //         {
-  //           id: 2,
-  //           name: "Dental Floss Premium",
-  //           quantity: 1,
-  //           price: 100,
-  //           image: "/products/dental-floss.jpg",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       id: 2,
-  //       orderStatus: "Delivered",
-  //       date: "2025-01-10",
-  //       total: 1800,
-  //       paymentMethod: "Online Payment",
-  //       address: {
-  //         fullName: "Gyanendra Sah",
-  //         localAddress: "Durbar Marg, Street 1",
-  //         zone: "Naxal",
-  //         city: "Kathmandu",
-  //         province: "Bagmati",
-  //         phone: "9841234567",
-  //       },
-  //       items: [
-  //         {
-  //           id: 3,
-  //           name: "Electric Toothbrush",
-  //           quantity: 1,
-  //           price: 1800,
-  //           image: "/products/electric-toothbrush.jpg",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       id: 3,
-  //       orderStatus: "Cancelled",
-  //       date: "2025-01-05",
-  //       total: 950,
-  //       paymentMethod: "Cash on Delivery",
-  //       address: {
-  //         fullName: "Gyanendra Sah",
-  //         localAddress: "Durbar Marg, Street 1",
-  //         zone: "Naxal",
-  //         city: "Kathmandu",
-  //         province: "Bagmati",
-  //         phone: "9841234567",
-  //       },
-  //       items: [
-  //         {
-  //           id: 4,
-  //           name: "Mouthwash Fresh",
-  //           quantity: 1,
-  //           price: 450,
-  //           image: "/products/mouthwash.jpg",
-  //         },
-  //         {
-  //           id: 5,
-  //           name: "Toothpaste Whitening",
-  //           quantity: 1,
-  //           price: 500,
-  //           image: "/products/toothpaste.jpg",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       id: 4,
-  //       orderStatus: "Shipped",
-  //       date: "2025-01-20",
-  //       total: 3200,
-  //       paymentMethod: "Online Payment",
-  //       address: {
-  //         fullName: "Gyanendra Sah",
-  //         localAddress: "Durbar Marg, Street 1",
-  //         zone: "Naxal",
-  //         city: "Kathmandu",
-  //         province: "Bagmati",
-  //         phone: "9841234567",
-  //       },
-  //       items: [
-  //         {
-  //           id: 6,
-  //           name: "Dental Kit Complete",
-  //           quantity: 1,
-  //           price: 2500,
-  //           image: "/products/dental-kit.jpg",
-  //         },
-  //         {
-  //           id: 7,
-  //           name: "Tongue Cleaner",
-  //           quantity: 2,
-  //           price: 350,
-  //           image: "/products/tongue-cleaner.jpg",
-  //         },
-  //       ],
-  //     },
-  //   ];
 
   const cancelOrder = useCartStore((state) => state.cancelOrder);
   return (
@@ -704,6 +585,21 @@ const AccountPage = ({ token }) => {
       setIsLoading(false);
       router.push("/dashboard");
     }
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    (async () => {
+      try {
+        console.log("Calling getFullInfo");
+        const response = await getFullInfo();
+        console.log("Response of fullInfo :", response);
+      } catch (error) {
+        console.error("Error fetching full info:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
   return (
