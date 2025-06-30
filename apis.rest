@@ -62,7 +62,7 @@ Content-Type: application/json
 
 {
     "email" : "rk3@gmail.com",
-    "password" : "12345678"
+    "password" : "Carx#12345"
 }
 
 ### cart data
@@ -189,7 +189,6 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 {
     "full_name": "Rks",
     "phone": "9876543210",
-    "email": "rks@gmail.com",
 }
 
 ###Change password

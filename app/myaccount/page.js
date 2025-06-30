@@ -18,6 +18,7 @@ import ChangePasswordForm from "@/components/ChangePasswordForm";
 import RemoveAccountModal from "@/components/RemoveAccountModal";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { getCustomerInfo } from "@/utils/customerApi";
+import { getFullInfo } from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -31,7 +32,19 @@ const sidebarItems = [
   { key: "cancellations", label: "My Cancellations", icon: RotateCcw },
 ];
 
-function ManageMyAccount({ onEditProfile, user, address, onEditAddress, onChangePassword, onRemoveAccount }) {
+function ManageMyAccount({
+  onEditProfile,
+  user,
+  homeAddress,
+  defaultBillingAddress,
+  onEditAddress,
+  onChangePassword,
+  onRemoveAccount,
+}) {
+  console.log("homeAddress", homeAddress);
+  console.log("defaultBillingAddress", defaultBillingAddress);
+  console.log("user", user);
+
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col md:flex-row p-4 sm:p-6">
       {/* Main Content */}
@@ -50,10 +63,13 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress, onChange
               </button>
             </div>
             <div className="text-gray-700 text-sm">
-              {user.full_name || `${user.firstName || ""} ${user.lastName || ""}`.trim()}
+              {user.full_name ||
+                `${user.firstName || ""} ${user.lastName || ""}`.trim()}
             </div>
             <div className="text-gray-700 text-sm">{user.email}</div>
-            <div className="text-gray-700 text-sm">{user.phone || user.mobile}</div>
+            <div className="text-gray-700 text-sm">
+              {user.phone || user.mobile}
+            </div>
           </div>
 
           {/* Address Book */}
@@ -67,24 +83,39 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress, onChange
                 EDIT
               </button>
             </div>
-            <div className="text-gray-700 text-sm">{address.fullName}</div>
             <div className="text-gray-700 text-sm">
-              {address.province} - {address.city} - {address.zone}
+              {homeAddress?.full_name}
             </div>
-            <div className="text-gray-700 text-sm">{address.phone}</div>
+            <div className="text-gray-700 text-sm">
+              {homeAddress?.province_id}{" "}
+              {homeAddress?.city?.city || homeAddress?.city}{" "}
+              {homeAddress?.zone_id}
+            </div>
+            <div className="text-gray-700 text-sm">{homeAddress?.phone}</div>
             <div className="text-gray-500 text-sm">
-              {address.addressType} Address
+              {homeAddress?.address_type === "H"
+                ? "Home"
+                : homeAddress?.address_type === "O"
+                ? "Office"
+                : ""}{" "}
+              Address
             </div>
           </div>
 
           {/* Billing Address */}
           <div className="bg-white rounded-xl shadow p-4">
             <div className="font-semibold mb-2">Default Billing Address</div>
-            <div className="text-gray-700 text-sm">{address.fullName}</div>
             <div className="text-gray-700 text-sm">
-              {address.province} - {address.city} - {address.zone}
+              {defaultBillingAddress?.full_name}
             </div>
-            <div className="text-gray-700 text-sm">{address.phone}</div>
+            <div className="text-gray-700 text-sm">
+              {defaultBillingAddress?.province_id} -{" "}
+              {defaultBillingAddress?.city?.city || defaultBillingAddress?.city}{" "}
+              - {defaultBillingAddress?.zone_id}
+            </div>
+            <div className="text-gray-700 text-sm">
+              {defaultBillingAddress?.phone}
+            </div>
           </div>
         </div>
 
@@ -102,7 +133,9 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress, onChange
                 </div>
                 <div>
                   <h4 className="font-medium text-gray-800">Password</h4>
-                  <p className="text-sm text-gray-600">Last changed: {user.lastPasswordChange || "Never"}</p>
+                  <p className="text-sm text-gray-600">
+                    Last changed: {user.lastPasswordChange || "Never"}
+                  </p>
                 </div>
               </div>
               <button
@@ -112,7 +145,7 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress, onChange
                 Change
               </button>
             </div>
-            
+
             <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
               <div className="flex items-center gap-3">
                 <div className="bg-red-100 p-2 rounded-full">
@@ -120,7 +153,9 @@ function ManageMyAccount({ onEditProfile, user, address, onEditAddress, onChange
                 </div>
                 <div>
                   <h4 className="font-medium text-gray-800">Account Removal</h4>
-                  <p className="text-sm text-gray-600">Permanently delete your account</p>
+                  <p className="text-sm text-gray-600">
+                    Permanently delete your account
+                  </p>
                 </div>
               </div>
               <button
@@ -178,20 +213,20 @@ function AddressBook({ homeAddress, officeAddress, onEditHome, onEditOffice }) {
       </div>
       <div className="space-y-2 text-gray-700 text-sm">
         <p>
-          <span className="font-semibold">Name:</span> {homeAddress.fullName}
+          <span className="font-semibold">Name:</span> {homeAddress?.full_name}
         </p>
         <p>
-          <span className="font-semibold">Address:</span>{" "}
-          {homeAddress.localAddress}, {homeAddress.zone}, {homeAddress.city},{" "}
-          {homeAddress.province}
+          <span className="font-semibold">Address:</span> {homeAddress?.address}
+          , {homeAddress?.zone_id},{" "}
+          {homeAddress?.city?.city || homeAddress?.city},{" "}
+          {homeAddress?.province_id}
         </p>
         <p>
-          <span className="font-semibold">Phone:</span> {homeAddress.phone}
+          <span className="font-semibold">Phone:</span> {homeAddress?.phone}
         </p>
         <p className="text-gray-500 pt-2">Default Shipping & Billing Address</p>
       </div>
-      <br></br>
-
+      <br />
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-blue-900">Office Address</h2>
         <button
@@ -203,16 +238,27 @@ function AddressBook({ homeAddress, officeAddress, onEditHome, onEditOffice }) {
       </div>
       <div className="space-y-2 text-gray-700 text-sm">
         <p>
-          <span className="font-semibold">Name:</span> {officeAddress.fullName}
+          <span className="font-semibold">Name:</span>{" "}
+          {officeAddress?.full_name}
         </p>
         <p>
           <span className="font-semibold">Address:</span>{" "}
-          {officeAddress.localAddress}, {officeAddress.zone},{" "}
-          {officeAddress.city}, {officeAddress.province}
+          {officeAddress?.address}, {officeAddress?.zone_id},{" "}
+          {officeAddress?.city?.city || officeAddress?.city},{" "}
+          {officeAddress?.province_id}
         </p>
         <p>
-          <span className="font-semibold">Phone:</span> {officeAddress.phone}
+          <span className="font-semibold">Phone:</span> {officeAddress?.phone}
         </p>
+      </div>
+      <div className="flex justify-end">
+        {/* Add Address Button pinned to bottom-right */}
+        <button
+          onClick={onEditHome}
+          className="absolute bottom-6 right-6 text-blue-600 text-lg font-semibold underline hover:text-pink-700 transition"
+        >
+          Add Address
+        </button>
       </div>
     </div>
   );
@@ -227,16 +273,26 @@ function MyOrders() {
         MY ORDERS ({orders.length})
       </h2>
       {orders.length === 0 ? (
-        <div className="text-gray-500 text-center text-lg">No orders found.</div>
+        <div className="text-gray-500 text-center text-lg">
+          No orders found.
+        </div>
       ) : (
         orders.map((order, index) => (
-          <div key={index} className="bg-white rounded-lg shadow p-4 mb-6 border">
+          <div
+            key={index}
+            className="bg-white rounded-lg shadow p-4 mb-6 border"
+          >
             {/* Header: Order ID + Status */}
             <div className="flex justify-between items-center mb-4">
               <div>
-                <span className="text-blue-700 font-semibold block">Order #{index + 1}</span>
+                <span className="text-blue-700 font-semibold block">
+                  Order #{index + 1}
+                </span>
                 {order.accountNumber && (
-                  <div className="text-xs text-gray-400 mb-1">Account Number: <span className="font-mono">{order.accountNumber}</span></div>
+                  <div className="text-xs text-gray-400 mb-1">
+                    Account Number:{" "}
+                    <span className="font-mono">{order.accountNumber}</span>
+                  </div>
                 )}
                 <div className="text-sm text-gray-500">
                   Placed on {new Date(order.date).toLocaleString()}
@@ -249,14 +305,24 @@ function MyOrders() {
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                <span className={`text-sm font-semibold px-3 py-1 rounded-full ${order.orderStatus === 'Cancelled' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
-                  {order.orderStatus || 'Processing'}
+                <span
+                  className={`text-sm font-semibold px-3 py-1 rounded-full ${
+                    order.orderStatus === "Cancelled"
+                      ? "bg-red-100 text-red-600"
+                      : "bg-blue-100 text-blue-600"
+                  }`}
+                >
+                  {order.orderStatus || "Processing"}
                 </span>
-                {order.orderStatus !== 'Cancelled' && (
+                {order.orderStatus !== "Cancelled" && (
                   <button
                     className="mt-2 text-red-600 text-sm font-bold underline px-5 py-2 rounded-full"
                     onClick={() => {
-                      if (window.confirm("Are you sure you want to cancel this order?")) {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to cancel this order?"
+                        )
+                      ) {
                         cancelOrder(index);
                       }
                     }}
@@ -268,22 +334,48 @@ function MyOrders() {
             </div>
             {/* Address */}
             <div className="mb-2 text-sm text-gray-700">
-              <div><span className="font-semibold">Name:</span> {order.address?.fullName}</div>
-              <div><span className="font-semibold">Address:</span> {order.address?.localAddress}, {order.address?.zone}, {order.address?.city}, {order.address?.province}</div>
-              <div><span className="font-semibold">Phone:</span> {order.address?.phone}</div>
+              <div>
+                <span className="font-semibold">Name:</span>{" "}
+                {order.address?.fullName}
+              </div>
+              <div>
+                <span className="font-semibold">Address:</span>{" "}
+                {order.address?.localAddress}, {order.address?.zone},{" "}
+                {order.address?.city}, {order.address?.province}
+              </div>
+              <div>
+                <span className="font-semibold">Phone:</span>{" "}
+                {order.address?.phone}
+              </div>
             </div>
             {/* Product Summary */}
             <div className="border p-4 rounded flex flex-col gap-2">
               {order.items.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-4 border-b pb-2 last:border-b-0 last:pb-0">
+                <div
+                  key={idx}
+                  className="flex items-center gap-4 border-b pb-2 last:border-b-0 last:pb-0"
+                >
                   <div className="w-14 h-14 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover rounded"
+                    />
                   </div>
                   <div className="flex-1">
-                    <div className="text-gray-800 font-semibold">{item.name}</div>
-                    <div className="text-sm text-gray-700">Qty: <span className="text-blue-700 font-bold">{item.quantity}</span></div>
+                    <div className="text-gray-800 font-semibold">
+                      {item.name}
+                    </div>
+                    <div className="text-sm text-gray-700">
+                      Qty:{" "}
+                      <span className="text-blue-700 font-bold">
+                        {item.quantity}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-right font-medium text-green-600">Rs. {item.price * item.quantity}</div>
+                  <div className="text-right font-medium text-green-600">
+                    Rs. {item.price * item.quantity}
+                  </div>
                 </div>
               ))}
             </div>
@@ -327,13 +419,36 @@ function MyWishlist() {
               title="View Product"
             >
               <div className="w-24 h-24 bg-gray-100 rounded flex items-center justify-center overflow-hidden mb-2">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded" onError={e => { e.target.src = '/placeholder.png'; }} />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-cover rounded"
+                  onError={(e) => {
+                    e.target.src = "/placeholder.png";
+                  }}
+                />
               </div>
-              <div className="font-semibold text-gray-800 text-center text-lg mb-1">{item.name}</div>
-              {item.brand && <div className="text-xs text-gray-500 mb-1">Brand: {item.brand}</div>}
-              {item.product_code && <div className="text-xs text-gray-500 mb-1">Code: {item.product_code}</div>}
-              {item.description && <div className="text-xs text-gray-600 mb-2 text-center">{item.description}</div>}
-              <div className="text-green-700 font-bold mt-1 text-lg">Rs. {item.price}</div>
+              <div className="font-semibold text-gray-800 text-center text-lg mb-1">
+                {item.name}
+              </div>
+              {item.brand && (
+                <div className="text-xs text-gray-500 mb-1">
+                  Brand: {item.brand}
+                </div>
+              )}
+              {item.product_code && (
+                <div className="text-xs text-gray-500 mb-1">
+                  Code: {item.product_code}
+                </div>
+              )}
+              {item.description && (
+                <div className="text-xs text-gray-600 mb-2 text-center">
+                  {item.description}
+                </div>
+              )}
+              <div className="text-green-700 font-bold mt-1 text-lg">
+                Rs. {item.price}
+              </div>
             </div>
           ))}
         </div>
@@ -361,16 +476,26 @@ function MyCancellations() {
         MY CANCELLATIONS
       </h2>
       {cancelledOrders.length === 0 ? (
-        <div className="text-gray-500 text-center text-lg">No cancelled orders found.</div>
+        <div className="text-gray-500 text-center text-lg">
+          No cancelled orders found.
+        </div>
       ) : (
         cancelledOrders.map((order, index) => (
-          <div key={index} className="bg-white rounded-lg shadow p-4 mb-6 border">
+          <div
+            key={index}
+            className="bg-white rounded-lg shadow p-4 mb-6 border"
+          >
             {/* Header: Order ID + Status */}
             <div className="flex justify-between items-center mb-4">
               <div>
-                <span className="text-blue-700 font-semibold block">Order #{index + 1}</span>
+                <span className="text-blue-700 font-semibold block">
+                  Order #{index + 1}
+                </span>
                 {order.accountNumber && (
-                  <div className="text-xs text-gray-400 mb-1">Account Number: <span className="font-mono">{order.accountNumber}</span></div>
+                  <div className="text-xs text-gray-400 mb-1">
+                    Account Number:{" "}
+                    <span className="font-mono">{order.accountNumber}</span>
+                  </div>
                 )}
                 <div className="text-sm text-gray-500">
                   Placed on {new Date(order.date).toLocaleString()}
@@ -382,7 +507,10 @@ function MyCancellations() {
                   Payment Method <strong>{order.paymentMethod}</strong>
                 </div>
                 <div className="text-sm text-gray-600">
-                  Cancelled At <strong>{new Date(order.cancelledAt).toLocaleString()}</strong>
+                  Cancelled At{" "}
+                  <strong>
+                    {new Date(order.cancelledAt).toLocaleString()}
+                  </strong>
                 </div>
               </div>
               <span className="bg-red-100 text-red-600 text-sm font-semibold px-3 py-1 rounded-full">
@@ -391,22 +519,48 @@ function MyCancellations() {
             </div>
             {/* Address */}
             <div className="mb-2 text-sm text-gray-700">
-              <div><span className="font-semibold">Name:</span> {order.address?.fullName}</div>
-              <div><span className="font-semibold">Address:</span> {order.address?.localAddress}, {order.address?.zone}, {order.address?.city}, {order.address?.province}</div>
-              <div><span className="font-semibold">Phone:</span> {order.address?.phone}</div>
+              <div>
+                <span className="font-semibold">Name:</span>{" "}
+                {order.address?.fullName}
+              </div>
+              <div>
+                <span className="font-semibold">Address:</span>{" "}
+                {order.address?.localAddress}, {order.address?.zone},{" "}
+                {order.address?.city}, {order.address?.province}
+              </div>
+              <div>
+                <span className="font-semibold">Phone:</span>{" "}
+                {order.address?.phone}
+              </div>
             </div>
             {/* Product Summary */}
             <div className="border p-4 rounded flex flex-col gap-2">
               {order.items.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-4 border-b pb-2 last:border-b-0 last:pb-0">
+                <div
+                  key={idx}
+                  className="flex items-center gap-4 border-b pb-2 last:border-b-0 last:pb-0"
+                >
                   <div className="w-14 h-14 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover rounded"
+                    />
                   </div>
                   <div className="flex-1">
-                    <div className="text-gray-800 font-semibold">{item.name}</div>
-                    <div className="text-sm text-gray-700">Qty: <span className="text-blue-700 font-bold">{item.quantity}</span></div>
+                    <div className="text-gray-800 font-semibold">
+                      {item.name}
+                    </div>
+                    <div className="text-sm text-gray-700">
+                      Qty:{" "}
+                      <span className="text-blue-700 font-bold">
+                        {item.quantity}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-right font-medium text-green-600">Rs. {item.price * item.quantity}</div>
+                  <div className="text-right font-medium text-green-600">
+                    Rs. {item.price * item.quantity}
+                  </div>
                 </div>
               ))}
             </div>
@@ -425,20 +579,22 @@ const AccountPage = () => {
   const [showRemoveAccount, setShowRemoveAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
+    id: "",
     email: "",
-    mobile: "",
     phone: "",
     full_name: "",
-    province: "",
     profileImage: "",
     profile_image: "",
   });
 
+  const [address, setAddress] = useState([]);
+  const [homeAddress, setHomeAddress] = useState(null);
+  const [officeAddress, setOfficeAddress] = useState(null);
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
+
   const router = useRouter();
 
-  // Fetch user data on component mount
+  //all data here
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -446,27 +602,36 @@ const AccountPage = () => {
   const fetchUserData = async () => {
     try {
       setIsLoading(true);
-      const result = await getCustomerInfo();
-      
+      const result = await getFullInfo();
+      console.log("response", result);
+
       if (result.success) {
-        const userData = result.data;
+        const {
+          data: userData,
+          allAddresses,
+          homeAddress,
+          defaultBillingAddress,
+          officeAddress,
+        } = result;
+
         setUser({
-          id: userData.id,
-          firstName: userData.full_name?.split(' ')[0] || "",
-          lastName: userData.full_name?.split(' ').slice(1).join(' ') || "",
+          id: userData.id || "",
           full_name: userData.full_name || "",
           email: userData.email || "",
-          mobile: userData.phone || "",
           phone: userData.phone || "",
-          province: userData.province || "",
           profileImage: userData.image_full_url || "",
           profile_image: userData.image_full_url || "",
-          created_at: userData.created_at,
         });
+        console.log("defaultBillingAddress", defaultBillingAddress);
+
+        setAddress(allAddresses);
+        setHomeAddress(homeAddress);
+        setDefaultBillingAddress(defaultBillingAddress);
+        setOfficeAddress(officeAddress);
       } else {
         toast.error("Failed to load user data");
         console.error("Error loading user data:", result.error);
-        router.push("/account");
+        // router.push("/account");
       }
     } catch (error) {
       toast.error("An error occurred while loading user data");
@@ -477,8 +642,19 @@ const AccountPage = () => {
     }
   };
 
+  //update profile
   const handleUpdateProfile = (updatedData) => {
-    setUser(updatedData);
+    setUser({
+      id: updatedData.id,
+      full_name: updatedData.full_name || "",
+      email: updatedData.email || "",
+      phone: updatedData.phone || "",
+      profileImage:
+        updatedData.image_full_url || updatedData.profile_photo_path || "",
+      profile_image:
+        updatedData.image_full_url || updatedData.profile_photo_path || "",
+      created_at: updatedData.created_at,
+    });
     setShowEditProfile(false);
     toast.success("Profile updated successfully!");
   };
@@ -514,33 +690,33 @@ const AccountPage = () => {
     return <FullScreenLoader />;
   }
 
-  // Mock address data - replace with actual API call
-  const address = {
-    fullName: "John Doe",
-    province: "Bagmati",
-    city: "Kathmandu",
-    zone: "Central",
-    phone: "1234567890",
-    addressType: "Home",
-  };
+  // // Mock address data - replace with actual API call
+  // const address = {
+  //   fullName: "John Doe",
+  //   province: "Bagmati",
+  //   city: "Kathmandu",
+  //   zone: "Central",
+  //   phone: "1234567890",
+  //   addressType: "Home",
+  // };
 
-  const homeAddress = {
-    fullName: "John Doe",
-    localAddress: "123 Main St",
-    zone: "Central",
-    city: "Kathmandu",
-    province: "Bagmati",
-    phone: "1234567890",
-  };
+  // const homeAddress = {
+  //   fullName: "John Doe",
+  //   localAddress: "123 Main St",
+  //   zone: "Central",
+  //   city: "Kathmandu",
+  //   province: "Bagmati",
+  //   phone: "1234567890",
+  // };
 
-  const officeAddress = {
-    fullName: "John Doe",
-    localAddress: "456 Office Ave",
-    zone: "Central",
-    city: "Kathmandu",
-    province: "Bagmati",
-    phone: "1234567890",
-  };
+  // const officeAddress = {
+  //   fullName: "John Doe",
+  //   localAddress: "456 Office Ave",
+  //   zone: "Central",
+  //   city: "Kathmandu",
+  //   province: "Bagmati",
+  //   phone: "1234567890",
+  // };
 
   if (showEditProfile) {
     return (
@@ -560,15 +736,15 @@ const AccountPage = () => {
       />
     );
   }
-  
+
   if (showEditAddress) {
     return (
-        <EditAddressForm
-            address={homeAddress}
-            onUpdate={handleUpdateAddress}
-            onCancel={() => setShowEditAddress(false)}
-        />
-    )
+      <EditAddressForm
+        address={homeAddress}
+        onUpdate={handleUpdateAddress}
+        onCancel={() => setShowEditAddress(false)}
+      />
+    );
   }
 
   return (
@@ -578,7 +754,10 @@ const AccountPage = () => {
         <aside className="w-full md:w-80 flex-shrink-0">
           <div className="bg-white rounded-xl shadow p-6 text-center">
             <img
-              src={user.profile_image || "https://via.placeholder.com/120x120?text=Profile"}
+              src={
+                user.profile_image ||
+                "https://via.placeholder.com/120x120?text=Profile"
+              }
               alt="Profile"
               className="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-blue-100 object-cover"
             />
@@ -588,7 +767,7 @@ const AccountPage = () => {
             <p className="text-sm text-gray-500">{user.email}</p>
             <p className="text-sm text-gray-500 mt-1">{user.phone}</p>
           </div>
-          
+
           <nav className="bg-white rounded-xl shadow p-4 mt-6">
             {sidebarItems.map((item) => (
               <button
@@ -620,8 +799,9 @@ const AccountPage = () => {
             <ManageMyAccount
               onEditProfile={() => setShowEditProfile(true)}
               user={user}
-              address={address}
-              onEditAddress={() => setActiveTab('address')}
+              homeAddress={homeAddress}
+              defaultBillingAddress={defaultBillingAddress}
+              onEditAddress={() => setActiveTab("address")}
               onChangePassword={handleChangePassword}
               onRemoveAccount={handleRemoveAccount}
             />
@@ -640,7 +820,7 @@ const AccountPage = () => {
           {activeTab === "cancellations" && <MyCancellations />}
         </main>
       </div>
-      
+
       {/* Remove Account Modal */}
       <RemoveAccountModal
         isOpen={showRemoveAccount}
