@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { baseUrl } from "./config";
 import { apiRequest, apiPostRequest } from "./ApiSafeCalls";
+import { getCustomerInfo } from "./customerApi";
 import useCartStore from "@/stores/useCartStore";
 import { toast } from "react-hot-toast";
 
@@ -68,10 +69,9 @@ export default fetchProducts;
 
 export const userDetails = async () => {
   try {
-    const response = await apiRequest("/customer/info");
-    if (response && response.data) {
-      const { id, full_name, phone, email, image_full_url, created_at } =
-        response.data;
+    const response = await getCustomerInfo();
+    if (response.success && response.data) {
+      const { id, full_name, phone, email, image_full_url, created_at } = response.data;
 
       return {
         id,
