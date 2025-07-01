@@ -13,7 +13,7 @@ import {
 import { getCustomerInfo } from "@/utils/customerApi";
 import ChangePasswordForm from "@/components/ChangePasswordForm";
 import RemoveAccountModal from "@/components/RemoveAccountModal";
-import EditProfileForm from "@/app/myaccount/EditProfileForm";
+import EditProfileForm from "@/app/myaccount/components/EditProfileForm";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
