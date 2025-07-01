@@ -308,8 +308,8 @@ export const sortAddressDropdowns = async () => {
 
     const cities = response.data.flatMap((province) =>
       province.cities.map((city) => ({
-        id: city.id,
-        name: city.name,
+        id: city.id || "N/A",
+        name: city.name || "N/A",
         province_id: province.id,
       }))
     );
@@ -317,9 +317,9 @@ export const sortAddressDropdowns = async () => {
     const zones = response.data.flatMap((province) =>
       province.cities.flatMap((city) =>
         city.zones.map((zone) => ({
-          id: zone.id,
-          zone_name: zone.zone_name,
-          city_id: city.id,
+          id: zone.id || "N/A",
+          zone_name: zone.zone_name || "N/A",
+          city_id: city.id || "N/A",
           province_id: province.id,
         }))
       )
