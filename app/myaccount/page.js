@@ -43,6 +43,7 @@ const AccountPage = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showRemoveAccount, setShowRemoveAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [addressToEdit, setAddressToEdit] = useState(null);
   const [user, setUser] = useState({
     id: "",
     email: "",
@@ -128,8 +129,17 @@ const AccountPage = () => {
     toast.success("Profile updated successfully!");
   };
 
+  const handleAddAddress = (newAddress) => {
+    console.log("newAddress", newAddress);
+    fetchUserData();
+    setShowEditAddress(false);
+    toast.success("Address added successfully!");
+  };
+
   const handleUpdateAddress = (updatedData) => {
-    // Handle address update logic here
+    console.log("updatedData", updatedData);
+    fetchUserData();
+    setAddressToEdit(null);
     setShowEditAddress(false);
     toast.success("Address updated successfully!");
   };
@@ -181,9 +191,12 @@ const AccountPage = () => {
   if (showEditAddress) {
     return (
       <EditAddressForm
-        address={homeAddress}
+        address={addressToEdit}
         onUpdate={handleUpdateAddress}
         onCancel={() => setShowEditAddress(false)}
+        provinces={provinces}
+        cities={cities}
+        zones={zones}
       />
     );
   }
@@ -251,8 +264,10 @@ const AccountPage = () => {
             <AddressBook
               homeAddress={homeAddress}
               officeAddress={officeAddress}
-              onEditHome={() => setShowEditAddress(true)}
-              onEditOffice={() => setShowEditAddress(true)}
+              onEditHome={(value) => {
+                setAddressToEdit(value);
+                setShowEditAddress(true);
+              }}
               provinces={provinces}
               cities={cities}
               zones={zones}
