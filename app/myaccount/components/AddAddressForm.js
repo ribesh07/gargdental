@@ -1,31 +1,27 @@
-"use client";
 import { useState } from "react";
-import { updateCustomerAddress } from "@/utils/apiHelper";
+import { addCustomerAddress } from "@/utils/apiHelper";
+import { toast } from "react-hot-toast";
 
-const EditAddressForm = ({
-  address,
+export default function AddAddressForm({
   onUpdate,
   onCancel,
   provinces,
   cities,
   zones,
-}) => {
-  console.log("address to edit :", address);
+}) {
   const [formData, setFormData] = useState({
-    full_name: address.full_name || "",
-    phone: address.phone || "",
-    province_id: address.province_id ? address.province_id.toString() : "",
-    city_id: address.city_id ? address.city_id.toString() : "",
-    zone_id: address.zone_id ? address.zone_id.toString() : "",
-    landmark: address.landmark || "",
-    address: address.address || "",
-    address_type: address.address_type || "H",
+    full_name: "",
+    phone: "",
+    province_id: "",
+    city_id: "",
+    zone_id: "",
+    landmark: "",
+    address: "",
+    address_type: "H",
   });
-  const [selectedProvinceId, setSelectedProvinceId] = useState(
-    address.province_id || ""
-  );
-  const [selectedCityId, setSelectedCityId] = useState(address.city_id || "");
-  const [selectedZoneId, setSelectedZoneId] = useState(address.zone_id || "");
+  const [selectedProvinceId, setSelectedProvinceId] = useState("");
+  const [selectedCityId, setSelectedCityId] = useState("");
+  const [selectedZoneId, setSelectedZoneId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,13 +57,13 @@ const EditAddressForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!address.id) return alert("Address ID is required");
     console.log("formData", formData);
 
-    const response = await updateCustomerAddress(address.id, formData);
+    const response = await addCustomerAddress(formData);
     console.log("response from handleSubmit", response);
     if (response.success) {
-      onUpdate(formData);
+      toast.success(response.message);
+      onUpdate(response.data);
     }
   };
 
@@ -259,12 +255,10 @@ const EditAddressForm = ({
             type="submit"
             className="bg-blue-900 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-800 transition-colors"
           >
-            UPDATE ADDRESS
+            ADD ADDRESS
           </button>
         </div>
       </form>
     </div>
   );
-};
-
-export default EditAddressForm;
+}

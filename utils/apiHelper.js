@@ -465,3 +465,43 @@ export const updateCustomerAddress = async (addressId, addressData) => {
     return { success: false, message: "An unexpected error occurred" };
   }
 };
+
+//add address
+export const addCustomerAddress = async (addressData) => {
+  try {
+    const payload = {
+      full_name: addressData.full_name,
+      phone: addressData.phone,
+      province: addressData.province_id,
+      city: addressData.city_id,
+      zone: addressData.zone_id,
+      address: addressData.address,
+      address_type: addressData.address_type || "H",
+      default_shipping: addressData.default_shipping || "Y",
+      default_billing: addressData.default_billing || "Y",
+      landmark: addressData.landmark,
+    };
+    const response = await apiRequest(`/customer/address/add`, true, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    console.log("response from addCustomerAddress", response);
+    if (response.success) {
+      // toast.success(response.message);
+      return {
+        success: true,
+        message: response.message || "Address added successfully",
+        data: response.data,
+      };
+    } else {
+      toast.error(response.message);
+      return {
+        success: false,
+        message: response.message || "Failed to add address",
+      };
+    }
+  } catch (err) {
+    console.error("Error adding address:", err);
+    return { success: false, message: "An unexpected error occurred" };
+  }
+};

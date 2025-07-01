@@ -268,7 +268,6 @@ const AccountPage = () => {
                 setAddressToEdit(value);
                 setShowEditAddress(true);
               }}
-              onAddAddress={handleAddAddress}
               provinces={provinces}
               cities={cities}
               zones={zones}
