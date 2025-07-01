@@ -22,6 +22,7 @@ import { getFullInfo } from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { useAddressStore } from "@/stores/addressStore";
 
 const sidebarItems = [
   { key: "account", label: "Manage My Account", icon: User },
@@ -40,10 +41,19 @@ function ManageMyAccount({
   onEditAddress,
   onChangePassword,
   onRemoveAccount,
+  provinces,
+  cities,
+  zones,
 }) {
   console.log("homeAddress", homeAddress);
   console.log("defaultBillingAddress", defaultBillingAddress);
   console.log("user", user);
+  const provinceName =
+    provinces.find((p) => p.id === homeAddress?.province_id)?.name || "";
+  const cityName =
+    cities.find((c) => c.id === homeAddress?.city_id)?.name || "";
+  const zoneName =
+    zones.find((z) => z.id === homeAddress?.zone_id)?.zone_name || "";
 
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col md:flex-row p-4 sm:p-6">
@@ -87,9 +97,7 @@ function ManageMyAccount({
               {homeAddress?.full_name}
             </div>
             <div className="text-gray-700 text-sm">
-              {homeAddress?.province_id}{" "}
-              {homeAddress?.city?.city || homeAddress?.city}{" "}
-              {homeAddress?.zone_id}
+              {provinceName} - {cityName} - {zoneName}
             </div>
             <div className="text-gray-700 text-sm">{homeAddress?.phone}</div>
             <div className="text-gray-500 text-sm">
@@ -109,9 +117,7 @@ function ManageMyAccount({
               {defaultBillingAddress?.full_name}
             </div>
             <div className="text-gray-700 text-sm">
-              {defaultBillingAddress?.province_id} -{" "}
-              {defaultBillingAddress?.city?.city || defaultBillingAddress?.city}{" "}
-              - {defaultBillingAddress?.zone_id}
+              {provinceName} - {cityName} - {zoneName}
             </div>
             <div className="text-gray-700 text-sm">
               {defaultBillingAddress?.phone}
@@ -572,6 +578,8 @@ function MyCancellations() {
 }
 
 const AccountPage = () => {
+  const { provinces, cities, zones, fetchAddressDropdowns } = useAddressStore();
+
   const [activeTab, setActiveTab] = useState("account");
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showEditAddress, setShowEditAddress] = useState(false);
@@ -593,6 +601,10 @@ const AccountPage = () => {
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
 
   const router = useRouter();
+
+  useEffect(() => {
+    fetchAddressDropdowns();
+  }, [fetchAddressDropdowns]);
 
   //all data here
   useEffect(() => {
@@ -804,6 +816,9 @@ const AccountPage = () => {
               onEditAddress={() => setActiveTab("address")}
               onChangePassword={handleChangePassword}
               onRemoveAccount={handleRemoveAccount}
+              provinces={provinces}
+              cities={cities}
+              zones={zones}
             />
           )}
           {activeTab === "address" && (
