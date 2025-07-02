@@ -68,23 +68,27 @@ export default function AddressBook({
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold text-blue-900">Home Address</h2>
             <div className="flex gap-4">
-              <div className="flex items-center flex-row gap-1 hover:underline">
-                <div className="bg-red-100 p-1 rounded-full">
-                  <Trash2 className="w-3 h-3 text-red-600" />
-                </div>
-                <button
-                  onClick={() => handleDelete(homeAddress.id)}
-                  className="text-red-600 text-sm hover:underline font-semibold"
-                >
-                  DELETE
-                </button>
-              </div>
-              <button
-                onClick={() => onEditHome(homeAddress)}
-                className="text-blue-500 text-sm hover:underline font-semibold"
-              >
-                EDIT
-              </button>
+              {homeAddress && (
+                <>
+                  <div className="flex items-center flex-row gap-1 hover:underline">
+                    <div className="bg-red-100 p-1 rounded-full">
+                      <Trash2 className="w-3 h-3 text-red-600" />
+                    </div>
+                    <button
+                      onClick={() => handleDelete(homeAddress.id)}
+                      className="text-red-600 text-sm hover:underline font-semibold"
+                    >
+                      DELETE
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => onEditHome(homeAddress)}
+                    className="text-blue-500 text-sm hover:underline font-semibold"
+                  >
+                    EDIT
+                  </button>
+                </>
+              )}
             </div>
           </div>
           <div className="space-y-2 text-gray-700 text-sm">
@@ -107,23 +111,27 @@ export default function AddressBook({
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold text-blue-900">Office Address</h2>
             <div className="flex gap-4">
-              <div className="flex items-center flex-row gap-1 hover:underline">
-                <div className="bg-red-100 p-1 rounded-full">
-                  <Trash2 className="w-3 h-3 text-red-600" />
-                </div>
-                <button
-                  onClick={() => handleDelete(officeAddress?.id)}
-                  className="text-red-600 text-sm hover:underline font-semibold"
-                >
-                  DELETE
-                </button>
-              </div>
-              <button
-                onClick={() => onEditHome(officeAddress)}
-                className="text-blue-500 text-sm hover:underline font-semibold"
-              >
-                EDIT
-              </button>
+              {officeAddress && (
+                <>
+                  <div className="flex items-center flex-row gap-1 hover:underline">
+                    <div className="bg-red-100 p-1 rounded-full">
+                      <Trash2 className="w-3 h-3 text-red-600" />
+                    </div>
+                    <button
+                      onClick={() => handleDelete(officeAddress?.id)}
+                      className="text-red-600 text-sm hover:underline font-semibold"
+                    >
+                      DELETE
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => onEditHome(officeAddress)}
+                    className="text-blue-500 text-sm hover:underline font-semibold"
+                  >
+                    EDIT
+                  </button>
+                </>
+              )}
             </div>
           </div>
           <div className="space-y-2 text-gray-700 text-sm">

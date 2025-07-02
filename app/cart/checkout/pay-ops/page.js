@@ -147,20 +147,18 @@ const PayOpsPage = () => {
               <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700 mb-2">
                 <div>
                   <span className="font-semibold">Name:</span>{" "}
-                  {selectedShippingAddress.fullName}
+                  {selectedShippingAddress.full_name}
                 </div>
                 <div>
                   <span className="font-semibold">Address:</span>{" "}
-                  {selectedShippingAddress.localAddress},{" "}
-                  {selectedShippingAddress.zone}, {selectedShippingAddress.city}
-                  , {selectedShippingAddress.province}
+                  {selectedShippingAddress.address}, {selectedShippingAddress.landmark}, {selectedShippingAddress.zone?.zone_name}, {selectedShippingAddress.city?.city}, {selectedShippingAddress.province?.name}
                 </div>
                 <div>
                   <span className="font-semibold">Phone:</span>{" "}
                   {selectedShippingAddress.phone}
                 </div>
                 <div className="text-gray-500 pt-1">
-                  {selectedShippingAddress.addressType} Address
+                  {selectedShippingAddress.address_type} Address
                 </div>
               </div>
             ) : (

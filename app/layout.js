@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
         <div className="w-full">{children}</div>
 
         <FooterBar />
-        <Toaster position="bottom-right" />
+        <Toaster position="top-right" />
         <Toast />
       </body>
     </html>
