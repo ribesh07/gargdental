@@ -5,7 +5,7 @@ import { Minus, Plus, Trash2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-import { updateCart, removeCartItem, clearCart } from "@/utils/apiHelper";
+import { updateCart, removeCartItem, clearCart, getFullInfo } from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
 
@@ -23,27 +23,9 @@ export default function ShoppingCart() {
   const [selectedAddressType, setSelectedAddressType] = useState("");
   const setSelectedShippingAddress = useCartStore((state) => state.setSelectedShippingAddress);
 
-  // Demo address data (replace with real user/account data)
-  const homeAddress = {
-    fullName: "Gyanendra Sah",
-    phone: "9821212332",
-    province: "Bagmati",
-    city: "Kathmandu",
-    zone: "Naxal",
-    landmark: "Near Temple",
-    localAddress: "Durbar Marg, Street 1",
-    addressType: "Home",
-  };
-  const officeAddress = {
-    fullName: "Gyanendra Sah",
-    phone: "9821212332",
-    province: "Bagmati",
-    city: "Kathmandu",
-    zone: "Durbarmarg",
-    landmark: "Near Office Building",
-    localAddress: "New Road, Street 5",
-    addressType: "Office",
-  };
+  // Real address data from server
+  const [homeAddress, setHomeAddress] = useState(null);
+  const [officeAddress, setOfficeAddress] = useState(null);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -67,6 +49,16 @@ export default function ShoppingCart() {
     fetchCart();
     // setIsLoading(false);
     setAdded(false);
+
+    // Fetch addresses from server
+    const fetchAddresses = async () => {
+      const result = await getFullInfo();
+      if (result && result.success) {
+        setHomeAddress(result.homeAddress);
+        setOfficeAddress(result.officeAddress);
+      }
+    };
+    fetchAddresses();
   }, [added]);
 
   const [selectAll, setSelectAll] = useState(false);
@@ -353,20 +345,24 @@ export default function ShoppingCart() {
                     <option value="home">Home Address</option>
                     <option value="office">Office Address</option>
                   </select>
-                  {selectedAddressType === "home" && (
+                  {selectedAddressType === "home" && homeAddress && (
                     <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
-                      <div><span className="font-semibold">Name:</span> {homeAddress.fullName}</div>
-                      <div><span className="font-semibold">Address:</span> {homeAddress.localAddress}, {homeAddress.zone}, {homeAddress.city}, {homeAddress.province}</div>
+                      <div><span className="font-semibold">Name:</span> {homeAddress.full_name}</div>
+                      <div>
+                        <span className="font-semibold">Address:</span> {homeAddress.address}, {homeAddress.landmark}, {homeAddress.zone?.zone_name}, {homeAddress.city?.city}, {homeAddress.province?.name}
+                      </div>
                       <div><span className="font-semibold">Phone:</span> {homeAddress.phone}</div>
-                      <div className="text-gray-500 pt-1">{homeAddress.addressType} Address</div>
+                      <div className="text-gray-500 pt-1">{homeAddress.address_type} Address</div>
                     </div>
                   )}
-                  {selectedAddressType === "office" && (
+                  {selectedAddressType === "office" && officeAddress && (
                     <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
-                      <div><span className="font-semibold">Name:</span> {officeAddress.fullName}</div>
-                      <div><span className="font-semibold">Address:</span> {officeAddress.localAddress}, {officeAddress.zone}, {officeAddress.city}, {officeAddress.province}</div>
+                      <div><span className="font-semibold">Name:</span> {officeAddress.full_name}</div>
+                      <div>
+                        <span className="font-semibold">Address:</span> {officeAddress.address}, {officeAddress.landmark}, {officeAddress.zone?.zone_name}, {officeAddress.city?.city}, {officeAddress.province?.name}
+                      </div>
                       <div><span className="font-semibold">Phone:</span> {officeAddress.phone}</div>
-                      <div className="text-gray-500 pt-1">{officeAddress.addressType} Address</div>
+                      <div className="text-gray-500 pt-1">{officeAddress.address_type} Address</div>
                     </div>
                   )}
                   {selectedAddressType === "" && (
