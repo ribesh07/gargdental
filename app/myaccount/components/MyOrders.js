@@ -76,8 +76,7 @@ export default function MyOrders() {
               </div>
               <div>
                 <span className="font-semibold">Address:</span>{" "}
-                {order.address?.localAddress}, {order.address?.zone},{" "}
-                {order.address?.city}, {order.address?.province}
+                {order.address?.localAddress}, {typeof order.address?.zone === 'object' ? order.address?.zone?.zone_name : order.address?.zone}, {typeof order.address?.city === 'object' ? order.address?.city?.city : order.address?.city}, {typeof order.address?.province === 'object' ? order.address?.province?.name : order.address?.province}
               </div>
               <div>
                 <span className="font-semibold">Phone:</span>{" "}

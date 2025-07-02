@@ -84,10 +84,12 @@ export default function OrderSummary() {
                 <div className="space-y-2">
                   {selectedShippingAddress ? (
                     <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
-                      <div><span className="font-semibold">Name:</span> {selectedShippingAddress.fullName}</div>
-                      <div><span className="font-semibold">Address:</span> {selectedShippingAddress.localAddress}, {selectedShippingAddress.zone}, {selectedShippingAddress.city}, {selectedShippingAddress.province}</div>
+                      <div><span className="font-semibold">Name:</span> {selectedShippingAddress.full_name}</div>
+                      <div>
+                        <span className="font-semibold">Address:</span> {selectedShippingAddress.address}, {selectedShippingAddress.landmark}, {selectedShippingAddress.zone?.zone_name}, {selectedShippingAddress.city?.city}, {selectedShippingAddress.province?.name}
+                      </div>
                       <div><span className="font-semibold">Phone:</span> {selectedShippingAddress.phone}</div>
-                      <div className="text-gray-500 pt-1">{selectedShippingAddress.addressType} Address</div>
+                      <div className="text-gray-500 pt-1">{selectedShippingAddress.address_type} Address</div>
                     </div>
                   ) : (
                     <p className="text-sm text-gray-500">No Shipping Address available.</p>
@@ -146,13 +148,13 @@ export default function OrderSummary() {
                     </p>
                     {userProfile?.billingAddress ? (
                       <p className="text-sm text-gray-500">
-                        {userProfile.billingAddress.localAddress}, {userProfile.billingAddress.zone}, {userProfile.billingAddress.city}, {userProfile.billingAddress.province} <br/>
-                        {userProfile.billingAddress.fullName} ({userProfile.billingAddress.phone})
+                        {userProfile.billingAddress.address}, {userProfile.billingAddress.landmark}, {userProfile.billingAddress.zone?.zone_name}, {userProfile.billingAddress.city?.city}, {userProfile.billingAddress.province?.name} <br/>
+                        {userProfile.billingAddress.full_name} ({userProfile.billingAddress.phone})
                       </p>
                     ) : selectedShippingAddress ? (
                       <p className="text-sm text-gray-500">
-                        {selectedShippingAddress.localAddress}, {selectedShippingAddress.zone}, {selectedShippingAddress.city}, {selectedShippingAddress.province} <br/>
-                        {selectedShippingAddress.fullName} ({selectedShippingAddress.phone})
+                        {selectedShippingAddress.address}, {selectedShippingAddress.landmark}, {selectedShippingAddress.zone?.zone_name}, {selectedShippingAddress.city?.city}, {selectedShippingAddress.province?.name} <br/>
+                        {selectedShippingAddress.full_name} ({selectedShippingAddress.phone})
                       </p>
                     ) : (
                       <p className="text-sm text-gray-500">No Billing Address available.</p>
