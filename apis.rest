@@ -212,3 +212,16 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 # }
 
 
+POST https://gargdental.omsok.com/api/v1/customer/order/add HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYzNiZjViMjM2YmQzODBlNDkyODFhMTQyOTU5OWE2OWU4YmIwYmU1ZWJhNzIxN2ZjNzlkYjA4YjQ4MmRhYzEwMTQ0MzhhNDU3YmQ2N2EyYWEiLCJpYXQiOjE3NTE0NDMzNTYuMzY1ODM0OTUxNDAwNzU2ODM1OTM3NSwibmJmIjoxNzUxNDQzMzU2LjM2NTgzODA1MDg0MjI4NTE1NjI1LCJleHAiOjE3ODI5NzkzNTYuMzY0MzIwMDM5NzQ5MTQ1NTA3ODEyNSwic3ViIjoiNDUiLCJzY29wZXMiOltdfQ.Pd8YDegCZH2naMLknymYnAOOUCmldeEzBk_ySeF93OnHNpoTWfqlpD2zp9XLpuso_jwEIdOjjiLQg1M9V2IpgWCZUIPMpbmQOi_F-8LQz1UiUUkLZhSHHhUn93101Y0PUNh-UbKajmi9cttWwUMy42RJ9DMCReytboqXdawoloey-_5BeRhL1sM4LqXK55ga9q9hp7BidkpXiZaXKT-sFUNqklq-G28wNVyGB38xn9t25LSdLUjPQ2Xxw02uRzy4rv8kdxWfaxdNAxTw2H67QFQS7bZ47_fDNb6_G8mLCueSaPoiGpONuVtjIOYxY7HCWCMXvTBM8g6AZr5tQaK90OoOe-lAEJeQYaNXT_rt9AB9d1uWl_SQO9IBSdTsAvEws8MiVAI_SJuQ9Q8WOCDFraRIn4hzukG9TeSZhMo0ABhoZoZWtcPB7M42vEOYfYh7cUgET99r-PCqenEnn04SmHIQ2EXXPCG0QarYz49iIWMiwjDTWZk4CYXw4Yr53uBjV5mb-de-B5C5SXTxyi6CY3gFlzzkTlEgJMLkvpUp0ibgMAzNIjqaeVZfec9mvYIHGiEaIAcLNPdbe7X7K_jjwNTjubxwWHQZYiheacfOUkFIifmRMxORGHeRJKZs3rnlt4xG01W_IFuIbnpojtUo6N3fJ_dlEW75_HHpm6Y_mYQ
+
+{
+    "payment_method": "C",
+    "billing_address": 9,
+    "shipping_address": 9,
+    "invoice_email": "rk3@gmail.com",
+    "subtotal": 1800,
+    "shipping": 0,
+    "selected_items": "136, 139"
+}
