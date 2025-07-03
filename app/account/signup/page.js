@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { baseUrl } from "@/utils/config";
+import useInfoModalStore from "@/stores/infoModalStore";
+import useWarningModalStore from "@/stores/warningModalStore";
 // import toast from "react-hot-toast";
 
 export default function AuthPage() {
@@ -55,14 +57,13 @@ export default function AuthPage() {
       console.log("Register Response:", data);
 
       if (response.ok) {
-        alert(`Account created Move to Verification ${data.code}! `);
-        router.push(`/account/verify?email=${encodeURIComponent(data.email)}`);
+        useInfoModalStore.getState().open({ title: "Success", message: `Account created. Move to Verification ${data.code}!`, onOkay: () => router.push(`/account/verify?email=${encodeURIComponent(data.email)}`) });
       } else {
-        alert(data.message || "Registration failed");
+        useWarningModalStore.getState().open({ title: "Error", message: data.message || "Registration failed" });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong. Please try again.");
+      useWarningModalStore.getState().open({ title: "Error", message: "Something went wrong. Please try again." });
     }
   };
 

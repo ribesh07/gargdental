@@ -14,6 +14,7 @@ import {
 } from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import useInfoModalStore from "@/stores/infoModalStore";
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -234,7 +235,7 @@ export default function ShoppingCart() {
 
                         {/* Product Image */}
                         <div className="w-[40px] h-[40px] bg-gray-100 rounded-lg flex items-center justify-center">
-                          <div className="w-[40px] h-[40px] bg-white rounded border-1 border-grey-100 flex items-center justify-center">
+                          <div className="w-[40px] h-[40px] bg-white rounded  flex items-center justify-center">
                             <img
                               src={item.image}
                               alt={item.name}
@@ -435,10 +436,13 @@ export default function ShoppingCart() {
                       className="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition-colors font-medium"
                       onClick={() => {
                         if (selectedItems.size === 0) {
-                          alert("Please select at least one item.");
+                          useInfoModalStore.getState().open({ title: "Info", message: "Please select at least one item." });
                           return;
                         }
-
+                        if (!selectedAddressType) {
+                          useInfoModalStore.getState().open({ title: "Info", message: "Please select a shipping address." });
+                          return;
+                        }
                         // Save selected items to store
                         const selectedCartItems = cartItems.filter((item) =>
                           selectedItems.has(item.id)

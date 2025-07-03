@@ -142,8 +142,8 @@ export default function OrderSummary() {
                 ) : (
                   selectedItems.map((item) => (
                     <div key={item.id} className="flex items-center space-x-4">
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <div className="w-12 h-12 bg-blue-100 rounded flex items-center justify-center">
+                      <div className="w-18 h-18  rounded-lg flex items-center justify-center">
+                        <div className="w-16 h-16  rounded flex items-center justify-center">
                           <img
                             src={item.image}
                             alt={item.name}

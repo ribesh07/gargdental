@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 import AddAddressForm from "./AddAddressForm";
 import { useRouter } from "next/navigation";
+import useConfirmModalStore from "@/stores/confirmModalStore";
+import useInfoModalStore from "@/stores/infoModalStore";
 
 export default function AddressBook({
   homeAddress,
@@ -44,21 +46,23 @@ export default function AddressBook({
 
   const handleDelete = async (id) => {
     console.log("delete", id);
-    if (!id) return alert("No address to delete");
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this address?"
-    );
-    if (!confirmDelete) return;
-
-    const response = await deleteCustomerAddress(id);
-    console.log("response from handleDelete", response);
-    if (response.success) {
-      router.refresh();
-      window.location.reload();
-      toast.success(response.message);
-    } else {
-      toast.error(response.message);
-    }
+    if (!id) return useInfoModalStore.getState().open({ title: "Info", message: "No address to delete" });
+    useConfirmModalStore.getState().open({
+      title: "Delete Address",
+      message: "Are you sure you want to delete this address?",
+      onConfirm: async () => {
+        const response = await deleteCustomerAddress(id);
+        console.log("response from handleDelete", response);
+        if (response.success) {
+          router.refresh();
+          window.location.reload();
+          toast.success(response.message);
+        } else {
+          toast.error(response.message);
+        }
+      },
+      onCancel: () => {},
+    });
   };
 
   return (
