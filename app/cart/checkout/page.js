@@ -9,11 +9,13 @@ import { getAddress, userDetails } from "@/utils/apiHelper";
 export default function OrderSummary() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedAddressType, setSelectedAddressType] = useState("");
+  // const [selectedAddressType, setSelectedAddressType] = useState("");
   const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
 
+  const { setSelectedShippingAddress, setSelectedBillingAddress } =
+    useCartStore();
   const router = useRouter();
 
   // Get selected items from Zustand store
@@ -45,13 +47,20 @@ export default function OrderSummary() {
 
   const handleProceedToPay = () => {
     setIsProcessing(true);
-    // Simulate payment processing
+    setSelectedShippingAddress(defaultShippingAddress);
+    setSelectedBillingAddress(defaultBillingAddress);
+    console.log("defaultShippingAddress", defaultShippingAddress);
+    console.log("defaultBillingAddress", defaultBillingAddress);
     setTimeout(() => {
       setIsProcessing(false);
-      // alert("Please add an address to proceed.");
     }, 1000);
     router.push("/cart/checkout/pay-ops");
   };
+
+  // const handleSelectShippingAddress = (defaultShippingAddress) => {
+  //   setSelectedShippingAddress(defaultShippingAddress);
+  //   // router.push("/cart/checkout/pay-ops");
+  // };
 
   const handleRemoveItem = () => {
     alert("Item removed from cart");

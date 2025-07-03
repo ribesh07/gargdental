@@ -280,6 +280,38 @@ export const clearCart = async () => {
   }
 };
 
+//handle order
+export const handleOrder = async (orderData) => {
+  try {
+    const response = await apiRequest("/customer/order/buy-now", true, {
+      method: "POST",
+      body: JSON.stringify(orderData),
+    });
+    console.log("response from handleOrder", orderData);
+    if (response.success) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: response.message || "Order placed successfully",
+      });
+      return response;
+    } else {
+      // alert(response.message);
+      // return { error: response.message };
+      useWarningModalStore.getState().open({
+        title: "Error",
+        message: response.message || "Something went wrong. Please try again.",
+      });
+    }
+  } catch (err) {
+    console.error("Error handling order:", err);
+    useWarningModalStore.getState().open({
+      title: "Error",
+      message: err.message || "Something went wrong. Please try again.",
+    });
+    // alert(err.message);
+    // return { error: err.message };
+  }
+};
 //get address dropdowns
 export const getAddressDropdowns = async () => {
   try {

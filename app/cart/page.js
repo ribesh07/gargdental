@@ -37,40 +37,49 @@ export default function ShoppingCart() {
   const [officeAddress, setOfficeAddress] = useState(null);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      const response = await apiRequest(`/customer/cart/list`, true);
-      if (response) {
-        const mappedCartItems = response.cart.items.map((item) => ({
-          id: item.id,
-          image: item.product.image_full_url,
-          name: item.product.product_name,
-          product_code: item.product.product_code,
-          quantity: item.quantity,
-          price: item.price,
-          category: item.product.category_id,
-        }));
+    const token = localStorage.getItem("token");
+    if (!token) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: "Please login to continue.",
+      });
+      router.push("/account");
+    } else {
+      const fetchCart = async () => {
+        const response = await apiRequest(`/customer/cart/list`, true);
+        if (response) {
+          const mappedCartItems = response.cart.items.map((item) => ({
+            id: item.id,
+            image: item.product.image_full_url,
+            name: item.product.product_name,
+            product_code: item.product.product_code,
+            quantity: item.quantity,
+            price: item.price,
+            category: item.product.category_id,
+          }));
 
-        console.log(mappedCartItems);
-        setCartItems(mappedCartItems);
-      }
-    };
+          console.log(mappedCartItems);
+          setCartItems(mappedCartItems);
+        }
+      };
 
-    fetchCart();
-    // setIsLoading(false);
-    setAdded(false);
+      fetchCart();
+      // setIsLoading(false);
+      setAdded(false);
 
-    // Fetch addresses from server
-    const fetchAddresses = async () => {
-      // const result = await getFullInfo();
-      const { defaultBillingAddress, defaultShippingAddress, allAddresses } =
-        await getAddress();
-      console.log("result", defaultBillingAddress);
-      if (defaultBillingAddress && defaultShippingAddress) {
-        setHomeAddress(defaultBillingAddress);
-        setOfficeAddress(defaultShippingAddress);
-      }
-    };
-    fetchAddresses();
+      // Fetch addresses from server
+      const fetchAddresses = async () => {
+        // const result = await getFullInfo();
+        const { defaultBillingAddress, defaultShippingAddress, allAddresses } =
+          await getAddress();
+        console.log("result", defaultBillingAddress);
+        if (defaultBillingAddress && defaultShippingAddress) {
+          setHomeAddress(defaultBillingAddress);
+          setOfficeAddress(defaultShippingAddress);
+        }
+      };
+      fetchAddresses();
+    }
   }, [added]);
 
   const [selectAll, setSelectAll] = useState(false);
@@ -436,13 +445,13 @@ export default function ShoppingCart() {
                       className="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition-colors font-medium"
                       onClick={() => {
                         if (selectedItems.size === 0) {
-                          useInfoModalStore.getState().open({ title: "Info", message: "Please select at least one item." });
+                          useInfoModalStore.getState().open({
+                            title: "Info",
+                            message: "Please select at least one item.",
+                          });
                           return;
                         }
-                        if (!selectedAddressType) {
-                          useInfoModalStore.getState().open({ title: "Info", message: "Please select a shipping address." });
-                          return;
-                        }
+
                         // Save selected items to store
                         const selectedCartItems = cartItems.filter((item) =>
                           selectedItems.has(item.id)

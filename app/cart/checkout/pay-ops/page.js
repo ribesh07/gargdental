@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
+import { handleOrder } from "@/utils/apiHelper";
+import useWarningModalStore from "@/stores/warningModalStore";
 
 const paymentMethods = [
   {
@@ -62,6 +64,13 @@ const PayOpsPage = () => {
   const selectedShippingAddress = useCartStore(
     (state) => state.selectedShippingAddress
   );
+  const selectedBillingAddress = useCartStore(
+    (state) => state.selectedBillingAddress
+  );
+
+  console.log("selectedShippingAddress", selectedShippingAddress);
+  console.log("selectedBillingAddress", selectedBillingAddress);
+  const email = useCartStore((state) => state.email);
   const addOrder = useCartStore((state) => state.addOrder);
   const router = useRouter();
 
@@ -73,7 +82,26 @@ const PayOpsPage = () => {
   const shipping = 0;
   const total = subtotal + shipping;
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = async () => {
+    // const orderData = {
+    //   payment_method: selected,
+    //   billing_address: selectedBillingAddress.id,
+    //   shipping_address: selectedShippingAddress.id,
+    //   invoice_email: email,
+    //   buy_now_item: {
+    //     product_code: selectedItems[0].product_code,
+    //     quantity: selectedItems[0].quantity,
+    //   },
+    // };
+    // const result = await handleOrder(orderData);
+    // if (result.success) {
+    //   router.push("/myaccount");
+    // } else {
+    //   useWarningModalStore.getState().open({
+    //     title: "Error",
+    //     message: result.message || "Something went wrong. Please try again.",
+    //   });
+    // }
     addOrder({
       items: selectedItems,
       address: selectedShippingAddress,
@@ -151,15 +179,19 @@ const PayOpsPage = () => {
                 </div>
                 <div>
                   <span className="font-semibold">Address:</span>{" "}
-                  {selectedShippingAddress.address}, {selectedShippingAddress.landmark}, {selectedShippingAddress.zone?.zone_name}, {selectedShippingAddress.city?.city}, {selectedShippingAddress.province?.name}
+                  {selectedShippingAddress.address},{" "}
+                  {selectedShippingAddress.landmark},{" "}
+                  {selectedShippingAddress.zone?.zone_name},{" "}
+                  {selectedShippingAddress.city?.city},{" "}
+                  {selectedShippingAddress.province?.province_name}
                 </div>
                 <div>
                   <span className="font-semibold">Phone:</span>{" "}
                   {selectedShippingAddress.phone}
                 </div>
-                <div className="text-gray-500 pt-1">
-                  {selectedShippingAddress.address_type} Address
-                </div>
+                {/* <div className="text-gray-500 pt-1">
+                    {selectedShippingAddress.address_type} Address
+                  </div> */}
               </div>
             ) : (
               <div className="text-gray-400 text-sm mb-2">

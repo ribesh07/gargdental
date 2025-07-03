@@ -11,6 +11,7 @@ const useCartStore = create(
       },
       selectedItems: [],
       selectedShippingAddress: null,
+      selectedBillingAddress: null,
       userProfile: null,
       orders: [],
       cancelledOrders: [],
@@ -18,6 +19,7 @@ const useCartStore = create(
       orders: [],
       cancelledOrders: [],
       wishlist: [],
+      email: null,
 
       setCart: (cartData) =>
         set({
@@ -95,7 +97,10 @@ const useCartStore = create(
       setSelectedItems: (items) => set({ selectedItems: items }),
       setSelectedShippingAddress: (address) =>
         set({ selectedShippingAddress: address }),
+      setSelectedBillingAddress: (address) =>
+        set({ selectedBillingAddress: address }),
       setUserProfile: (profile) => set({ userProfile: profile }),
+      setEmail: (email) => set({ email }),
       addOrder: (order) =>
         set((state) => ({
           orders: [...state.orders, { ...order, orderStatus: "Processing" }],
@@ -127,28 +132,40 @@ const useCartStore = create(
         })),
       setWishlist: (wishlist) => set({ wishlist }),
       setWishlist: (wishlist) => set({ wishlist }),
-      addOrder: (order) => set((state) => {
-        const orderIndex = (state.orders?.length || 0) + 1;
-        const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-        const accountNumber = `ORD${datePart}-${String(orderIndex).padStart(4, "0")}`;
-        return {
-          orders: [
-            ...(state.orders || []),
-            { ...order, orderStatus: 'Processing', accountNumber },
-          ],
-        };
-      }),
-      cancelOrder: (orderIndex) => set((state) => {
-        const orderToCancel = (state.orders || [])[orderIndex];
-        if (!orderToCancel) return {};
-        return {
-          orders: (state.orders || []).filter((_, idx) => idx !== orderIndex),
-          cancelledOrders: [
-            ...(state.cancelledOrders || []),
-            { ...orderToCancel, orderStatus: 'Cancelled', cancelledAt: new Date().toISOString() },
-          ],
-        };
-      }),
+      addOrder: (order) =>
+        set((state) => {
+          const orderIndex = (state.orders?.length || 0) + 1;
+          const datePart = new Date()
+            .toISOString()
+            .slice(0, 10)
+            .replace(/-/g, "");
+          const accountNumber = `ORD${datePart}-${String(orderIndex).padStart(
+            4,
+            "0"
+          )}`;
+          return {
+            orders: [
+              ...(state.orders || []),
+              { ...order, orderStatus: "Processing", accountNumber },
+            ],
+          };
+        }),
+      cancelOrder: (orderIndex) =>
+        set((state) => {
+          const orderToCancel = (state.orders || [])[orderIndex];
+          if (!orderToCancel) return {};
+          return {
+            orders: (state.orders || []).filter((_, idx) => idx !== orderIndex),
+            cancelledOrders: [
+              ...(state.cancelledOrders || []),
+              {
+                ...orderToCancel,
+                orderStatus: "Cancelled",
+                cancelledAt: new Date().toISOString(),
+              },
+            ],
+          };
+        }),
     }),
     {
       name: "cart-storage",
