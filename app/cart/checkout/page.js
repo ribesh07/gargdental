@@ -1,43 +1,47 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Trash2, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
+import { getAddress, userDetails } from "@/utils/apiHelper";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedAddressType, setSelectedAddressType] = useState("");
+  const [addresses, setAddresses] = useState(null);
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
+
   const router = useRouter();
 
   // Get selected items from Zustand store
   const selectedItems = useCartStore((state) => state.selectedItems);
   const setSelectedItems = useCartStore((state) => state.setSelectedItems);
-  const selectedShippingAddress = useCartStore((state) => state.selectedShippingAddress);
-  const userProfile = useCartStore((state) => state.userProfile);
+  const selectedShippingAddress = useCartStore(
+    (state) => state.selectedShippingAddress
+  );
+  const [userProfile, setUserProfile] = useState(null);
 
-  // Demo address data (replace with real user/account data)
-  const homeAddress = {
-    fullName: "Gyanendra Sah",
-    phone: "9821212332",
-    province: "Bagmati",
-    city: "Kathmandu",
-    zone: "Naxal",
-    landmark: "Near Temple",
-    localAddress: "Durbar Marg, Street 1",
-    addressType: "Home",
-  };
-  const officeAddress = {
-    fullName: "Gyanendra Sah",
-    phone: "9821212332",
-    province: "Bagmati",
-    city: "Kathmandu",
-    zone: "Durbarmarg",
-    landmark: "Near Office Building",
-    localAddress: "New Road, Street 5",
-    addressType: "Office",
-  };
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const { email } = await userDetails();
+      setUserProfile(email);
+    };
+    fetchUserProfile();
+
+    const fetchAddresses = async () => {
+      const { allAddresses, defaultBillingAddress, defaultShippingAddress } =
+        await getAddress();
+
+      setAddresses(allAddresses);
+      setDefaultBillingAddress(defaultBillingAddress);
+      setDefaultShippingAddress(defaultShippingAddress);
+      console.log("result", allAddresses);
+    };
+    fetchAddresses();
+  }, []);
 
   const handleProceedToPay = () => {
     setIsProcessing(true);
@@ -58,7 +62,7 @@ export default function OrderSummary() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const shipping = 0;
+  const shipping = 70;
   const total = subtotal + shipping;
 
   return (
@@ -81,18 +85,50 @@ export default function OrderSummary() {
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">
                   SHIPPING ADDRESS
                 </h2>
+                {/* <label
+                  htmlFor="shipping-address-select"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Choose Address:
+                </label> */}
+                {/* <select
+                  id="shipping-address-select"
+                  value={selectedAddressType}
+                  onChange={(e) => setSelectedAddressType(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm mb-2"
+                >
+                  <option value="">Select Address</option>
+                  <option value="home">Home Address</option>
+                  <option value="office">Office Address</option>
+                </select> */}
+
                 <div className="space-y-2">
-                  {selectedShippingAddress ? (
-                    <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
-                      <div><span className="font-semibold">Name:</span> {selectedShippingAddress.full_name}</div>
+                  {defaultShippingAddress ? (
+                    <div className="bg-white border-gray-200 border-2 rounded-lg p-3 text-sm text-gray-700">
                       <div>
-                        <span className="font-semibold">Address:</span> {selectedShippingAddress.address}, {selectedShippingAddress.landmark}, {selectedShippingAddress.zone?.zone_name}, {selectedShippingAddress.city?.city}, {selectedShippingAddress.province?.name}
+                        <span className="font-semibold">Name:</span>{" "}
+                        {defaultShippingAddress.full_name}
                       </div>
-                      <div><span className="font-semibold">Phone:</span> {selectedShippingAddress.phone}</div>
-                      <div className="text-gray-500 pt-1">{selectedShippingAddress.address_type} Address</div>
+                      <div>
+                        <span className="font-semibold">Address:</span>{" "}
+                        {defaultShippingAddress.address},{" "}
+                        {defaultShippingAddress.landmark},{" "}
+                        {defaultShippingAddress.zone?.zone_name},{" "}
+                        {defaultShippingAddress.city?.city},{" "}
+                        {defaultShippingAddress.province?.province_name}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Phone:</span>{" "}
+                        {defaultShippingAddress.phone}
+                      </div>
+                      {/* <div className="text-gray-500 pt-1">
+                        {defaultShippingAddress.address_type} Address
+                      </div> */}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500">No Shipping Address available.</p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      No Shipping Address available.
+                    </p>
                   )}
                 </div>
               </div>
@@ -100,7 +136,9 @@ export default function OrderSummary() {
               {/* Product Items */}
               <div className="border border-gray-200 rounded-lg p-4 space-y-4">
                 {selectedItems.length === 0 ? (
-                  <div className="text-gray-500 text-center">No items selected.</div>
+                  <div className="text-gray-500 text-center">
+                    No items selected.
+                  </div>
                 ) : (
                   selectedItems.map((item) => (
                     <div key={item.id} className="flex items-center space-x-4">
@@ -114,9 +152,15 @@ export default function OrderSummary() {
                         </div>
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-medium text-gray-800">{item.name}</h3>
-                        <p className="text-sm text-gray-500">Quantity x {item.quantity}</p>
-                        <p className="font-semibold text-gray-800">Rs. {item.price}</p>
+                        <h3 className="font-medium text-gray-800">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          Quantity x {item.quantity}
+                        </p>
+                        <p className="font-semibold text-gray-800">
+                          Rs. {item.price}
+                        </p>
                       </div>
                       {/* Remove button can be implemented if needed */}
                     </div>
@@ -139,25 +183,44 @@ export default function OrderSummary() {
                     </p>
                     <div className="flex items-center space-x-2 text-sm text-gray-500">
                       <Mail size={16} />
-                      <span>{userProfile?.email || "No email available."}</span>
+                      {/* <span>{userProfile || "Enter email !"}</span> */}
+                      <input
+                        type="email"
+                        placeholder="Enter email"
+                        value={userProfile || ""}
+                        onChange={(e) => setUserProfile(e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
+                      />
                     </div>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-600 mb-1">
                       Billing Address
                     </p>
-                    {userProfile?.billingAddress ? (
+                    {defaultBillingAddress ? (
                       <p className="text-sm text-gray-500">
-                        {userProfile.billingAddress.address}, {userProfile.billingAddress.landmark}, {userProfile.billingAddress.zone?.zone_name}, {userProfile.billingAddress.city?.city}, {userProfile.billingAddress.province?.name} <br/>
-                        {userProfile.billingAddress.full_name} ({userProfile.billingAddress.phone})
+                        {defaultBillingAddress.address},{" "}
+                        {defaultBillingAddress.landmark},{" "}
+                        {defaultBillingAddress.zone?.zone_name},{" "}
+                        {defaultBillingAddress.city?.city},{" "}
+                        {defaultBillingAddress.province?.province_name} <br />
+                        {defaultBillingAddress.full_name} (
+                        {defaultBillingAddress.phone})
                       </p>
-                    ) : selectedShippingAddress ? (
+                    ) : defaultShippingAddress ? (
                       <p className="text-sm text-gray-500">
-                        {selectedShippingAddress.address}, {selectedShippingAddress.landmark}, {selectedShippingAddress.zone?.zone_name}, {selectedShippingAddress.city?.city}, {selectedShippingAddress.province?.name} <br/>
-                        {selectedShippingAddress.full_name} ({selectedShippingAddress.phone})
+                        {defaultShippingAddress.address},{" "}
+                        {defaultShippingAddress.landmark},{" "}
+                        {defaultShippingAddress.zone?.zone_name},{" "}
+                        {defaultShippingAddress.city?.city},{" "}
+                        {defaultShippingAddress.province?.province_name} <br />
+                        {defaultShippingAddress.full_name} (
+                        {defaultShippingAddress.phone})
                       </p>
                     ) : (
-                      <p className="text-sm text-gray-500">No Billing Address available.</p>
+                      <p className="text-sm text-gray-500">
+                        No Billing Address available.
+                      </p>
                     )}
                   </div>
                 </div>
@@ -177,7 +240,9 @@ export default function OrderSummary() {
                   <span className="text-sm font-medium text-gray-600">
                     SHIPPING
                   </span>
-                  <span className="font-semibold text-gray-800">Rs. {shipping.toFixed(2)}</span>
+                  <span className="font-semibold text-gray-800">
+                    Rs. {shipping.toFixed(2)}
+                  </span>
                 </div>
                 <hr className="border-gray-200" />
                 <div className="flex justify-between items-center">
@@ -203,7 +268,6 @@ export default function OrderSummary() {
 
               {/* Proceed to Pay */}
               <div className="space-y-4">
-              
                 <div className="text-center">
                   <p className="text-lg font-semibold text-gray-800 mb-4">
                     PROCEED TO PAY
@@ -222,7 +286,7 @@ export default function OrderSummary() {
                   {isProcessing ? "Processing..." : "Proceed to Pay"}
                 </button>
 
-                <div className="text-center">
+                {/* <div className="text-center">
                   <p className="text-sm text-red-500">
                     Please add an address{" "}
                     <button className="text-blue-500 hover:underline">
@@ -230,7 +294,7 @@ export default function OrderSummary() {
                     </button>{" "}
                     to proceed.
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
