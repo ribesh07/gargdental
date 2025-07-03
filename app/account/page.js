@@ -77,6 +77,9 @@ export default function AuthPage() {
           });
           const result = await getFullInfo();
           setUserProfile(result.data);
+          useInfoModalStore
+            .getState()
+            .open({ title: "Info", message: "Login successful" });
 
           console.log("Token saved:", data.token);
         }
@@ -85,11 +88,19 @@ export default function AuthPage() {
         router.push("/dashboard");
       } else {
         // console.error("Login failed:", data);
-        useWarningModalStore.getState().open({ title: "Error", message: data.message || "Invalid Gmail and Password" });
+        useWarningModalStore.getState().open({
+          title: "Error",
+          message: data.message || "Invalid Gmail and Password",
+        });
       }
     } catch (error) {
       console.error("Error during login:", error);
-      useInfoModalStore.getState().open({ title: "Info", message: "Something went wrong. Please try again." });
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: "Something went wrong. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
