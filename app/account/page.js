@@ -6,9 +6,13 @@ import Cookies from "js-cookie";
 import useInfoModalStore from "@/stores/infoModalStore";
 import useWarningModalStore from "@/stores/warningModalStore";
 // import toast from "react-hot-toast";
+import useCartStore from "@/stores/useCartStore";
+import { getFullInfo } from "@/utils/apiHelper";
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const { userProfile, setUserProfile } = useCartStore();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -39,6 +43,7 @@ export default function AuthPage() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       console.log("Base URL:", baseUrl);
@@ -70,6 +75,8 @@ export default function AuthPage() {
             },
             body: JSON.stringify({ token: data.token }),
           });
+          const result = await getFullInfo();
+          setUserProfile(result.data);
 
           console.log("Token saved:", data.token);
         }
@@ -86,7 +93,11 @@ export default function AuthPage() {
     }
   };
 
-  return (
+  return isLoading ? (
+    <div className="flex justify-center items-center h-screen">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  ) : (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
         <div className="text-center mb-8">

@@ -505,3 +505,47 @@ export const addCustomerAddress = async (addressData) => {
     return { success: false, message: "An unexpected error occurred" };
   }
 };
+
+//get address
+export const getAddress = async () => {
+  try {
+    const response = await apiRequest("/customer/address/list", true);
+    // return response;
+    if (response.success) {
+      console.log("response from getAddress", response.addresses);
+      const allAddresses = response.addresses.map((addr) => ({
+        id: addr.id,
+        full_name: addr.full_name,
+        phone: addr.phone,
+        address: addr.address,
+        landmark: addr.landmark,
+        address_type: addr.address_type,
+        city_id: addr.city_id,
+        city_name: addr.city?.city || "N/A",
+        province_name: addr.province?.province_name || "N/A",
+        province_id: addr.province_id,
+        zone_id: addr.zone_id,
+        zone_name: addr.zone?.zone_name || "N/A",
+        default_billing: addr.default_billing,
+        default_shipping: addr.default_shipping,
+      }));
+
+      const defaultBillingAddress = response.addresses.find(
+        (addr) => addr.default_billing === "Y"
+      );
+      const defaultShippingAddress = response.addresses.find(
+        (addr) => addr.default_shipping === "Y"
+      );
+      return {
+        defaultBillingAddress,
+        defaultShippingAddress,
+        allAddresses,
+      };
+    } else {
+      return { error: response.message };
+    }
+  } catch (err) {
+    console.error("Error getting address:", err);
+    return { error: err.message };
+  }
+};
