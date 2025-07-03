@@ -17,9 +17,7 @@ import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 import { userDetails } from "@/utils/apiHelper";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-// import { useInfoModalStore } from "@/stores/infoModalStore";
-// import { useWarningModalStore } from "@/stores/warningModalStore";
-
+import useConfirmModalStore from "@/stores/confirmModalStore";
 const HeaderBarNew = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -398,7 +396,14 @@ const HeaderBarNew = () => {
                 {isloggedin && (
                   <div className="flex items-center space-x-2">
                     <button
-                      onClick={() => handleLogout()}
+                      onClick={() => {
+                        useConfirmModalStore.getState().open({
+                          title: "Logout",
+                          message: "Are you sure you want to logout?",
+                          onConfirm: handleLogout,
+                          onCancel: () => {},
+                        });
+                      }}
                       className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
                     >
                       <User className="w-3 h-3 mr-1" />
