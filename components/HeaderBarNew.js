@@ -17,7 +17,7 @@ import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 import { userDetails } from "@/utils/apiHelper";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-
+import useConfirmModalStore from "@/stores/confirmModalStore";
 const HeaderBarNew = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -236,8 +236,8 @@ const HeaderBarNew = () => {
                           <Link
                             href={item.href}
                             className={`flex items-center justify-between px-4 py-2 text-gray-700 transition-all duration-200 ${item.hasSubmenu && isSuppliesDropdownOpen
-                                ? "border-l-2 border-blue-500 text-red-600"
-                                : " hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
+                              ? "border-l-2 border-blue-500 text-red-600"
+                              : " hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
                               }`}
                             onClick={() =>
                               item.hasSubmenu &&
@@ -376,35 +376,42 @@ const HeaderBarNew = () => {
                 </Link>
               </div>
             )}
-            
-          {isloggedin &&( 
-            <div className="flex items-center space-x-2">
-            <div
-              className="flex items-center space-x-2 hover:underline cursor-pointer"
-              onClick={() => router.push("/cart")}
-            >
-              <span className="text-gray-700 text-[12px]">My Order:</span>
-              <span className="font-bold text-lg text-[12px]">
-                {cartTotal}
-              </span>
-              <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
-                <ShoppingBag className="w-4 h-4 cursor-pointer" />
-              </button>
-            </div>
-          
+
             {isloggedin && (
               <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => handleLogout()}
-                  className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
+                <div
+                  className="flex items-center space-x-2 hover:underline cursor-pointer"
+                  onClick={() => router.push("/cart")}
                 >
-                  <User className="w-3 h-3 mr-1" />
-                  Logout
-                </button>
+                  <span className="text-gray-700 text-[12px]">My Order:</span>
+                  <span className="font-bold text-lg text-[12px]">
+                    {cartTotal}
+                  </span>
+                  <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
+                    <ShoppingBag className="w-4 h-4 cursor-pointer" />
+                  </button>
+                </div>
+
+                {isloggedin && (
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => {
+                        useConfirmModalStore.getState().open({
+                          title: "Logout",
+                          message: "Are you sure you want to logout?",
+                          onConfirm: handleLogout,
+                          onCancel: () => {},
+                        });
+                      }}
+                      className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
+                    >
+                      <User className="w-3 h-3 mr-1" />
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             )}
-          </div>
-          )}
           </div>
         </div>
 
