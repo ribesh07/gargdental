@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import useSelectedProductStore from "@/stores/sendingProduct";
 import { AddToCart } from "@/components/addtocartbutton";
+import { BuyNow } from "@/components/BuyNow";
 // import MainTopBar from "@/components/mainTopbar";
 import { usePathname } from "next/navigation";
 // import HeaderBarNew from "@/components/HeaderBarNew";
@@ -236,6 +237,7 @@ const ProductAPIRequest = () => {
                         </span>
                       )}
                     </div>
+                    <BuyNow product={product} />
                     <AddToCart product={product} />
                   </div>
                 </div>
