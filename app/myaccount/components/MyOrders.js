@@ -1,8 +1,19 @@
 import useCartStore from "@/stores/useCartStore";
+import useConfirmModalStore from "@/stores/confirmModalStore";
 
 export default function MyOrders() {
   const orders = useCartStore((state) => state.orders) || [];
   const cancelOrder = useCartStore((state) => state.cancelOrder);
+
+  const handleCancelOrder = (index) => {
+    useConfirmModalStore.getState().open({
+      title: "Cancel Order",
+      message: "Are you sure you want to cancel this order?",
+      onConfirm: () => cancelOrder(index),
+      onCancel: () => {},
+    });
+  };
+
   return (
     <div className="w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
       <h2 className="text-xl sm:text-2xl font-bold text-center text-blue-900 mb-8">
@@ -53,15 +64,7 @@ export default function MyOrders() {
                 {order.orderStatus !== "Cancelled" && (
                   <button
                     className="mt-2 text-red-600 text-sm font-bold underline px-5 py-2 rounded-full"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to cancel this order?"
-                        )
-                      ) {
-                        cancelOrder(index);
-                      }
-                    }}
+                    onClick={() => handleCancelOrder(index)}
                   >
                     Cancel
                   </button>

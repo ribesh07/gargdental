@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { baseUrl } from "@/utils/config";
 import Cookies from "js-cookie";
+import useInfoModalStore from "@/stores/infoModalStore";
+import useWarningModalStore from "@/stores/warningModalStore";
 // import toast from "react-hot-toast";
 
 export default function AuthPage() {
@@ -76,11 +78,11 @@ export default function AuthPage() {
         router.push("/dashboard");
       } else {
         // console.error("Login failed:", data);
-        alert(data.message || "Invalid email or password");
+        useWarningModalStore.getState().open({ title: "Error", message: data.message || "Invalid Gmail and Password" });
       }
     } catch (error) {
       console.error("Error during login:", error);
-      alert("Something went wrong. Please try again.");
+      useInfoModalStore.getState().open({ title: "Info", message: "Something went wrong. Please try again." });
     }
   };
 

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { baseUrl } from "@/utils/config";
+import useInfoModalStore from "@/stores/infoModalStore";
+import useWarningModalStore from "@/stores/warningModalStore";
 
 export default function VerifyAccountPage() {
   const searchParams = useSearchParams();
@@ -18,10 +20,9 @@ export default function VerifyAccountPage() {
 
   const handleVerify = () => {
     if (!verificationCode.trim()) {
-      alert("Please enter the verification code");
+      useInfoModalStore.getState().open({ title: "Info", message: "Please enter the verification code" });
       return;
     }
-
     setIsLoading(true);
     console.log("Verification attempt:", { email, code: verificationCode });
 
@@ -44,14 +45,13 @@ export default function VerifyAccountPage() {
         const data = await response.json();
         console.log(data);
         if (response.ok) {
-          alert("Account verified successfully!");
-          router.push("/account");
+          useInfoModalStore.getState().open({ title: "Success", message: "Account verified successfully!", onOkay: () => router.push("/account") });
         } else {
-          alert(data.message + "  Verification failed");
+          useWarningModalStore.getState().open({ title: "Error", message: data.message + "  Verification failed" });
         }
       } catch (error) {
         console.error("Error:", error);
-        alert("Something went wrong. Please try again.");
+        useWarningModalStore.getState().open({ title: "Error", message: "Something went wrong. Please try again." });
       }
     }, 1500);
   };

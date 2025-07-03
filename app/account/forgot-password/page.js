@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import useInfoModalStore from "@/stores/infoModalStore";
+import useWarningModalStore from "@/stores/warningModalStore";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -15,20 +17,15 @@ export default function ForgotPasswordPage() {
 
   const handleSendVerificationCode = () => {
     if (!email.trim()) {
-      alert("Please enter your email address");
+      useInfoModalStore.getState().open({ title: "Info", message: "Please enter your email address" });
       return;
     }
-
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address");
+      useInfoModalStore.getState().open({ title: "Info", message: "Please enter a valid email address" });
       return;
     }
-
     setIsLoading(true);
-    console.log("Sending verification code to:", email);
-
     setTimeout(async () => {
       setIsLoading(false);
       try {
@@ -46,19 +43,17 @@ export default function ForgotPasswordPage() {
           }
         );
         const data = await response.json();
-        console.log(data);
         if (response.ok) {
           setIsCodeSent(true);
-          // alert(`Verification code has been sent to your email ${data.code}!`);
           router.push(
             `/account/forgot-password/verify?email=${encodeURIComponent(email)}`
           );
         } else {
-          alert(data.message || "Failed to send verification code");
+          useWarningModalStore.getState().open({ title: "Error", message: data.message || "Failed to send verification code" });
         }
       } catch (error) {
         console.error("Error:", error);
-        alert("Something went wrong. Please try again.");
+        useWarningModalStore.getState().open({ title: "Error", message: "Something went wrong. Please try again." });
       }
     }, 1500);
   };
