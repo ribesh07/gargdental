@@ -6,7 +6,7 @@ import useCartStore from "@/stores/useCartStore";
 import { getAddress, userDetails } from "@/utils/apiHelper";
 // import MainTopBar from "@/components/mainTopbar";
 
-export default function OrderSummary() {
+export default function OrderSummaryBuyNow() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   // const [selectedAddressType, setSelectedAddressType] = useState("");
@@ -58,23 +58,13 @@ export default function OrderSummary() {
     setTimeout(() => {
       setIsProcessing(false);
     }, 1000);
-    router.push("/cart/checkout/pay-ops");
+    router.push("/cart/checkout-buy-now/pay-ops");
   };
-
-  // const handleSelectShippingAddress = (defaultShippingAddress) => {
-  //   setSelectedShippingAddress(defaultShippingAddress);
-  //   // router.push("/cart/checkout/pay-ops");
-  // };
 
   const handleRemoveItem = () => {
     alert("Item removed from cart");
   };
 
-  // Calculate totals from selected items
-  // const subtotal = selectedItems.reduce(
-  //   (sum, item) => sum + item.price * item.quantity,
-  //   0
-  // );
   const subtotal = selectedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -102,22 +92,6 @@ export default function OrderSummary() {
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">
                   SHIPPING ADDRESS
                 </h2>
-                {/* <label
-                  htmlFor="shipping-address-select"
-                  className="block text-sm font-medium text-gray-600 mb-1"
-                >
-                  Choose Address:
-                </label> */}
-                {/* <select
-                  id="shipping-address-select"
-                  value={selectedAddressType}
-                  onChange={(e) => setSelectedAddressType(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm mb-2"
-                >
-                  <option value="">Select Address</option>
-                  <option value="home">Home Address</option>
-                  <option value="office">Office Address</option>
-                </select> */}
 
                 <div className="space-y-2">
                   {defaultShippingAddress ? (

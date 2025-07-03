@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import useSelectedProductStore from "@/stores/sendingProduct";
 import { AddToCart } from "@/components/addtocartbutton";
+import { BuyNow } from "@/components/BuyNow";
 // import MainTopBar from "@/components/mainTopbar";
 
 const ProductAPIRequest = () => {
@@ -245,6 +246,7 @@ const ProductAPIRequest = () => {
       
                           <span className="text-sm">Add to Cart</span>
                         </button> */}
+                    <BuyNow product={product} />
                     <AddToCart product={product} />
                   </div>
                 </div>
