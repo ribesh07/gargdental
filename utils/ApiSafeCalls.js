@@ -16,20 +16,9 @@ export const apiRequest = async (url, tokenReq = true, options = {}) => {
   if (response.ok) {
     return data;
   } else {
-    throw new Error(data.message || "Something went wrong");
+    return data.message;
   }
 };
 
 export const apiPostRequest = async (url, data, tokenReq = true) =>
   apiRequest(url, tokenReq, { method: "POST", body: JSON.stringify(data) });
-
-//const data = await apiRequest("/profile");
-
-//const data = await apiPost("/profile", { name: "John Doe" });
-// useEffect(() => {
-//   const token = localStorage.getItem("token");
-
-//   if (!token) {
-//     router.push("/account");
-//   }
-// }, []);

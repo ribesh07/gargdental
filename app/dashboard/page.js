@@ -236,9 +236,9 @@ const GargDental = () => {
           </main>
         </div>
       </div>
-      <div className="max-w-full mx-auto my-3 sm:my-4 lg:my-5">
+      {/* <div className="max-w-full mx-auto my-3 sm:my-4 lg:my-5">
         <BannerGarg />
-      </div>
+      </div> */}
       <ProductShowcase />
     </div>
   );

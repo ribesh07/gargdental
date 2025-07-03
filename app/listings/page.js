@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { AddToCart } from "@/components/addtocartbutton";
 import { ProductCard } from "@/components/FeaturedProduct";
 import ProductImageZoom from "@/components/ProductImageZoom";
+import { BuyNow } from "@/components/BuyNow";
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -392,6 +393,9 @@ function ProductCardMain({ product, showDiscount }) {
             </span>
           </div>
         </div>
+      </div>
+      <div className="mt-auto w-full">
+        <BuyNow product={product} />
       </div>
       <div className="mt-auto w-full">
         <AddToCart product={product} />

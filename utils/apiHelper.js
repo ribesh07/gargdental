@@ -5,6 +5,8 @@ import { apiRequest, apiPostRequest } from "./ApiSafeCalls";
 import { getCustomerInfo } from "./customerApi";
 import useCartStore from "@/stores/useCartStore";
 import { toast } from "react-hot-toast";
+import useInfoModalStore from "@/stores/infoModalStore";
+import useWarningModalStore from "@/stores/warningModalStore";
 
 const API_URL = `${baseUrl}/products/latest`;
 
@@ -280,14 +282,14 @@ export const clearCart = async () => {
   }
 };
 
-//handle order
-export const handleOrder = async (orderData) => {
+//handle order buy now
+export const handleOrderBuyNow = async (orderData) => {
   try {
     const response = await apiRequest("/customer/order/buy-now", true, {
       method: "POST",
       body: JSON.stringify(orderData),
     });
-    console.log("response from handleOrder", orderData);
+    console.log("response from handleOrderBuyNow", orderData);
     if (response.success) {
       useInfoModalStore.getState().open({
         title: "Info",
@@ -295,8 +297,35 @@ export const handleOrder = async (orderData) => {
       });
       return response;
     } else {
-      // alert(response.message);
-      // return { error: response.message };
+      useWarningModalStore.getState().open({
+        title: "Error",
+        message: response.message || "Something went wrong. Please try again.",
+      });
+    }
+  } catch (err) {
+    console.error("Error handling order buy now:", err);
+    useWarningModalStore.getState().open({
+      title: "Error",
+      message: err.message || "Something went wrong. Please try again.",
+    });
+  }
+};
+
+//handle order
+export const handleOrder = async (orderData) => {
+  try {
+    const response = await apiRequest("/customer/order/add", true, {
+      method: "POST",
+      body: JSON.stringify(orderData),
+    });
+    console.log("Order data in api :", orderData);
+    if (response.success) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: response.message || "Order placed successfully",
+      });
+      return response;
+    } else {
       useWarningModalStore.getState().open({
         title: "Error",
         message: response.message || "Something went wrong. Please try again.",
@@ -308,10 +337,9 @@ export const handleOrder = async (orderData) => {
       title: "Error",
       message: err.message || "Something went wrong. Please try again.",
     });
-    // alert(err.message);
-    // return { error: err.message };
   }
 };
+
 //get address dropdowns
 export const getAddressDropdowns = async () => {
   try {
