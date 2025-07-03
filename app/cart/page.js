@@ -5,7 +5,13 @@ import { Minus, Plus, Trash2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-import { updateCart, removeCartItem, clearCart, getFullInfo } from "@/utils/apiHelper";
+import {
+  updateCart,
+  removeCartItem,
+  clearCart,
+  getFullInfo,
+  getAddress,
+} from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
 
@@ -21,7 +27,9 @@ export default function ShoppingCart() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [selectedAddressType, setSelectedAddressType] = useState("");
-  const setSelectedShippingAddress = useCartStore((state) => state.setSelectedShippingAddress);
+  const setSelectedShippingAddress = useCartStore(
+    (state) => state.setSelectedShippingAddress
+  );
 
   // Real address data from server
   const [homeAddress, setHomeAddress] = useState(null);
@@ -52,10 +60,13 @@ export default function ShoppingCart() {
 
     // Fetch addresses from server
     const fetchAddresses = async () => {
-      const result = await getFullInfo();
-      if (result && result.success) {
-        setHomeAddress(result.homeAddress);
-        setOfficeAddress(result.officeAddress);
+      // const result = await getFullInfo();
+      const { defaultBillingAddress, defaultShippingAddress, allAddresses } =
+        await getAddress();
+      console.log("result", defaultBillingAddress);
+      if (defaultBillingAddress && defaultShippingAddress) {
+        setHomeAddress(defaultBillingAddress);
+        setOfficeAddress(defaultShippingAddress);
       }
     };
     fetchAddresses();
@@ -334,7 +345,7 @@ export default function ShoppingCart() {
                   Shipping Address
                 </h3>
                 <div className="mb-2">
-                  <label htmlFor="shipping-address-select" className="block text-sm font-medium text-gray-600 mb-1">Choose Address:</label>
+                  {/* <label htmlFor="shipping-address-select" className="block text-sm font-medium text-gray-600 mb-1">Choose Address:</label>
                   <select
                     id="shipping-address-select"
                     value={selectedAddressType}
@@ -344,18 +355,29 @@ export default function ShoppingCart() {
                     <option value="">Select Address</option>
                     <option value="home">Home Address</option>
                     <option value="office">Office Address</option>
-                  </select>
-                  {selectedAddressType === "home" && homeAddress && (
-                    <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
-                      <div><span className="font-semibold">Name:</span> {homeAddress.full_name}</div>
+                  </select> */}
+                  {homeAddress && (
+                    <div className="bg-gray-50 border-blue-200 border-2 rounded p-3 text-sm text-gray-700">
                       <div>
-                        <span className="font-semibold">Address:</span> {homeAddress.address}, {homeAddress.landmark}, {homeAddress.zone?.zone_name}, {homeAddress.city?.city}, {homeAddress.province?.name}
+                        <span className="font-semibold">Name:</span>{" "}
+                        {homeAddress.full_name}
                       </div>
-                      <div><span className="font-semibold">Phone:</span> {homeAddress.phone}</div>
-                      <div className="text-gray-500 pt-1">{homeAddress.address_type} Address</div>
+                      <div>
+                        <span className="font-semibold">Address:</span>{" "}
+                        {homeAddress.address}, {homeAddress.landmark},{" "}
+                        {homeAddress.city?.city}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Phone:</span>{" "}
+                        {homeAddress.phone}
+                      </div>
+                      {/* <div className="text-gray-500 pt-1">
+                        {homeAddress.address_type} Address
+                      </div> */}
                     </div>
                   )}
-                  {selectedAddressType === "office" && officeAddress && (
+
+                  {/* {selectedAddressType === "office" && officeAddress && (
                     <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
                       <div><span className="font-semibold">Name:</span> {officeAddress.full_name}</div>
                       <div>
@@ -364,8 +386,9 @@ export default function ShoppingCart() {
                       <div><span className="font-semibold">Phone:</span> {officeAddress.phone}</div>
                       <div className="text-gray-500 pt-1">{officeAddress.address_type} Address</div>
                     </div>
-                  )}
-                  {selectedAddressType === "" && (
+                  )} */}
+
+                  {homeAddress === null && (
                     <div className="flex items-center text-gray-400 text-sm">
                       <div className="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
                       No Shipping Address Available.
@@ -415,17 +438,14 @@ export default function ShoppingCart() {
                           alert("Please select at least one item.");
                           return;
                         }
-                        if (!selectedAddressType) {
-                          alert("Please select a shipping address.");
-                          return;
-                        }
+
                         // Save selected items to store
                         const selectedCartItems = cartItems.filter((item) =>
                           selectedItems.has(item.id)
                         );
                         setSelectedItemsStore(selectedCartItems);
                         // Save selected address to store
-                        setSelectedShippingAddress(selectedAddressType === 'home' ? homeAddress : officeAddress);
+
                         router.push("/cart/checkout");
                       }}
                     >

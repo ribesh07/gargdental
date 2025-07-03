@@ -88,7 +88,7 @@ const HeaderBarNew = () => {
     }
   }, [pathname, isloggedin]);
 
-  const menuItems = [ 
+  const menuItems = [
     { label: "Dental Supplies", href: "#", hasSubmenu: true },
     { label: "Equipment", href: "#" },
     { label: "Technology", href: "#" },
@@ -374,7 +374,7 @@ const HeaderBarNew = () => {
                 className="flex items-center space-x-2 hover:underline cursor-pointer"
                 onClick={() => router.push("/cart")}
               >
-                <span className="text-gray-700 text-[12px]">My Order:</span>
+                <span className="text-gray-700 text-[12px]">My Cart:</span>
                 <span className="font-bold text-lg text-[12px]">
                   {cartTotal}
                 </span>
