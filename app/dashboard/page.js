@@ -111,7 +111,7 @@ const GargDental = () => {
     <div className="min-h-screen bg-gray-100 font-sans">
       {/* Top Bar */}
 
-      {/* categories */}
+      {/* categories and manufacturers */}
       <CategoriesViews />
 
       {/* Browse more */}
@@ -194,11 +194,11 @@ const GargDental = () => {
               sidebarOpen ? "block" : "hidden"
             } lg:w-64 xl:w-72`}
           >
-            <div className="bg-gray-50 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
+            <div className="bg-gray-50 flex flex-row sm:flex-row flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
               <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                 Categories
               </h3>
-              <p className="text-gray-600 text-xs mb-3 sm:mb-4">Total: 30</p>
+
               <ul className="mb-6 sm:mb-8 space-y-1">
                 {categories.map((category, index) => (
                   <li key={index}>
@@ -215,7 +215,7 @@ const GargDental = () => {
               <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                 Manufacturers
               </h3>
-              <p className="text-gray-600 text-xs mb-3 sm:mb-4">Total: 10</p>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
                 {manufacturers.map((manufacturer, index) => (
                   <Link
@@ -236,9 +236,7 @@ const GargDental = () => {
           </main>
         </div>
       </div>
-      {/* <div className="max-w-full mx-auto my-3 sm:my-4 lg:my-5">
-        <BannerGarg />
-      </div> */}
+
       <ProductShowcase />
     </div>
   );

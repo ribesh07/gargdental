@@ -78,9 +78,6 @@ export default async function ProductPage({ params }) {
   params = await params;
   console.log("Server-side params:", params.code);
   console.info("Data fetch started");
-  // console.warn(
-  //   `(Link) : http://192.168.1.64:8000/api/v1/products/details/${params.code}`
-  // );
   console.warn(`(Link) : ${baseUrl}/products/details/${params.code}`);
 
   const product = await getProductByCode(params.code);
