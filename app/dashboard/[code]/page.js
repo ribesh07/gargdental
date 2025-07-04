@@ -9,6 +9,7 @@ import CatalogButton from "./Catalog";
 import RecommendedProducts from "./Recommendation";
 import { Star, Share2 } from "lucide-react";
 import ButtonForShare from "./ButtonForShare";
+import { baseUrl } from "@/utils/config";
 
 //to transform product
 function transformProduct(product) {
@@ -33,12 +34,9 @@ function transformProduct(product) {
 //fetch api data
 export async function getProductByCode(code) {
   try {
-    const res = await fetch(
-      `https://garg.omsok.com/api/v1/products/details/${code}`,
-      {
-        cache: "no-store", // prevent caching
-      }
-    );
+    const res = await fetch(`${baseUrl}/products/details/${code}`, {
+      cache: "no-store", // prevent caching
+    });
 
     if (!res.ok) {
       console.error("Failed to fetch product:", res.status);
@@ -83,9 +81,7 @@ export default async function ProductPage({ params }) {
   // console.warn(
   //   `(Link) : http://192.168.1.64:8000/api/v1/products/details/${params.code}`
   // );
-  console.warn(
-    `(Link) : https://garg.omsok.com/api/v1/products/details/${params.code}`
-  );
+  console.warn(`(Link) : ${baseUrl}/products/details/${params.code}`);
 
   const product = await getProductByCode(params.code);
   // const product = transformProduct(saampledata);

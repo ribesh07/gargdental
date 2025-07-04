@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Star, Truck, Shield, Headphones } from "lucide-react";
 import { AddtoCartFeatured } from "./addtocartbutton";
+import { BuyNow } from "./BuyNow";
 import fetchProducts from "@/utils/apiHelper";
 import { useRouter } from "next/navigation";
 
@@ -63,6 +64,8 @@ export const ProductCard = ({ product, showDiscount = false }) => {
               Rs. {product.sell_price}
             </span>
           </div>
+          {/* <BuyNow product={product} /> */}
+
           <AddtoCartFeatured product={product} fullWidth />
         </div>
       </div>
@@ -95,7 +98,9 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
       </div>
     </div>
     <div>
-      <h3 className="font-semibold text-gray-800 text-sm sm:text-base">{title}</h3>
+      <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
+        {title}
+      </h3>
       <p className="text-xs sm:text-sm text-gray-600">{description}</p>
     </div>
   </div>
@@ -412,7 +417,9 @@ export default function ProductShowcase() {
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-2">
             FEATURED PRODUCTS
           </h1>
-          <p className="text-gray-600 text-sm sm:text-base">FIND NEW FEATURED PRODUCTS</p>
+          <p className="text-gray-600 text-sm sm:text-base">
+            FIND NEW FEATURED PRODUCTS
+          </p>
         </div>
 
         {/* Featured Products */}

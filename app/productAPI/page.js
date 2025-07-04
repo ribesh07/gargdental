@@ -11,9 +11,11 @@ import {
 import { useRouter } from "next/navigation";
 import useSelectedProductStore from "@/stores/sendingProduct";
 import { AddToCart } from "@/components/addtocartbutton";
+import { BuyNow } from "@/components/BuyNow";
 // import MainTopBar from "@/components/mainTopbar";
 import { usePathname } from "next/navigation";
 // import HeaderBarNew from "@/components/HeaderBarNew";
+import { baseUrl } from "@/utils/config";
 
 const ProductAPIRequest = () => {
   const [products, setProducts] = useState([]);
@@ -22,7 +24,7 @@ const ProductAPIRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const pathname = usePathname();
-  const API_URL = "https://garg.omsok.com/api/v1/products/latest";
+  const API_URL = `${baseUrl}/products/latest`;
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
     (state) => state.setSelectedProduct
@@ -236,6 +238,7 @@ const ProductAPIRequest = () => {
                         </span>
                       )}
                     </div>
+                    <BuyNow product={product} />
                     <AddToCart product={product} />
                   </div>
                 </div>

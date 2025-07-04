@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { handleOrder } from "@/utils/apiHelper";
 import useWarningModalStore from "@/stores/warningModalStore";
+import { handleOrderBuyNow } from "@/utils/apiHelper";
 
 const paymentMethods = [
   {
@@ -58,7 +59,7 @@ const codDescription = (
   </div>
 );
 
-const PayOpsPage = () => {
+const PayOpsPageBuyNow = () => {
   const [selected, setSelected] = useState("E");
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const selectedShippingAddress = useCartStore(
@@ -83,19 +84,19 @@ const PayOpsPage = () => {
   const shipping = 0;
   const total = subtotal + shipping;
 
-  const handleConfirmOrder = async () => {
+  const handleConfirmOrderBuyNow = async () => {
     const orderData = {
       payment_method: selected,
       billing_address: selectedBillingAddress.id,
       shipping_address: selectedShippingAddress.id,
       invoice_email: email,
-      subtotal: subtotal,
-      grandtotal: total,
-      shipping: shipping,
-      selected_items: selectedItems.map((item) => item.id),
+      buy_now_item: {
+        product_code: selectedItems[0].product_code,
+        quantity: selectedItems[0].quantity,
+      },
     };
     console.log("orderData", orderData);
-    const result = await handleOrder(orderData);
+    const result = await handleOrderBuyNow(orderData);
     console.log("result", result.message);
     addOrder({
       items: selectedItems,
@@ -151,7 +152,7 @@ const PayOpsPage = () => {
             <>
               {codDescription}
               <button
-                onClick={handleConfirmOrder}
+                onClick={handleConfirmOrderBuyNow}
                 className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
               >
                 Confirm Order
@@ -251,4 +252,4 @@ const PayOpsPage = () => {
   );
 };
 
-export default PayOpsPage;
+export default PayOpsPageBuyNow;

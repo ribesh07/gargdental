@@ -235,10 +235,11 @@ const HeaderBarNew = () => {
                         <div key={index} className="relative">
                           <Link
                             href={item.href}
-                            className={`flex items-center justify-between px-4 py-2 text-gray-700 transition-all duration-200 ${item.hasSubmenu && isSuppliesDropdownOpen
-                              ? "border-l-2 border-blue-500 text-red-600"
-                              : " hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
-                              }`}
+                            className={`flex items-center justify-between px-4 py-2 text-gray-700 transition-all duration-200 ${
+                              item.hasSubmenu && isSuppliesDropdownOpen
+                                ? "border-l-2 border-blue-500 text-red-600"
+                                : " hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
+                            }`}
                             onClick={() =>
                               item.hasSubmenu &&
                               setIsSuppliesDropdownOpen(!isSuppliesDropdownOpen)
