@@ -15,6 +15,7 @@ import {
 import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import useInfoModalStore from "@/stores/infoModalStore";
+import toast from "react-hot-toast";
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -88,19 +89,9 @@ export default function ShoppingCart() {
   //update cartItems
   const handleUpdateCartItems = async (id, quantity) => {
     setIsLoading(true);
-    // const items = [
-    //   {
-    //     item_id: id,
-    //     quantity: quantity,
-    //   },
-    // ];
-
     const response = await updateCart(id, quantity);
-    setTimeout(() => {
-      setAdded(true);
-      setIsLoading(false);
-    }, 500);
-    // await fetchCart();
+    setAdded(true);
+    setIsLoading(false);
 
     if (response.success) {
       console.log(
@@ -112,9 +103,15 @@ export default function ShoppingCart() {
     }
   };
 
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    handleUpdateCartItems(id, newQuantity);
+  const updateQuantity = async (id, newQuantity) => {
+    // setIsLoading(true);
+    if (newQuantity < 1) {
+      toast.error("Quantity cannot be less than 1");
+      return;
+    }
+    // setIsLoading(true);
+    await handleUpdateCartItems(id, newQuantity);
+    // setIsLoading(false);
   };
 
   const removeItem = async (id) => {
@@ -162,7 +159,9 @@ export default function ShoppingCart() {
   const handleClearCart = async () => {
     setIsLoading(true);
     const response = await clearCart();
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
 
     // Clear local state
     setCartItems([]);
@@ -179,19 +178,6 @@ export default function ShoppingCart() {
     <div className="min-h-screen bg-gray-50">
       {isLoading && <FullScreenLoader />}
       {/* <MainTopBar /> */}
-      {/* Breadcrumb */}
-      {/* <div className="bg-gray-50 border-b border-b-gray-200 py-2.5 shadow">
-        <div className="max-w-7xl mx-auto px-5 text-sm">
-          <Link href="/dashboard" className="text-blue-900 hover:underline">
-            Home
-          </Link>{" "}
-          /
-          <Link href="#" className="text-blue-900 ml-1">
-            Cart
-          </Link>
-        </div>
-      </div> */}
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-light text-gray-500 text-center mb-1">
           YOUR SHOPPING CART
@@ -206,120 +192,6 @@ export default function ShoppingCart() {
               </div>
             )}
             {cart > 0 && (
-              // <>
-              //   {/* Select All */}
-              //   {/* <div className="bg-white rounded-lg p-6 mb-6 flex justify-between items-center">
-              //     <label className="flex items-center space-x-3 cursor-pointer">
-              //       <input
-              //         type="checkbox"
-              //         checked={selectAll}
-              //         onChange={toggleSelectAll}
-              //         className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              //       />
-              //       <span className="text-gray-700 font-medium">
-              //         SELECT ALL ({cartItems.length} ITEM
-              //         {cartItems.length !== 1 ? "S" : ""})
-              //       </span>
-              //     </label>
-              //     <button
-              //       className="text-red-600 font-semibold hover:underline"
-              //       onClick={handleClearCart}
-              //     >
-              //       Clear All
-              //     </button>
-              //   </div> */}
-
-              //   {/* Cart Items List */}
-              //   <div className="space-y-4">
-              //     {cartItems.map((item) => (
-              //       <div key={item.id} className="bg-white rounded-lg p-6">
-              //         <div className="flex items-center space-x-4">
-              //           {/* Checkbox */}
-              //           <input
-              //             type="checkbox"
-              //             checked={selectedItems.has(item.id)}
-              //             onChange={() => toggleSelectItem(item.id)}
-              //             className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              //           />
-
-              //           {/* Product Image */}
-              //           <div className="w-[40px] h-[40px] bg-gray-100 rounded-lg flex items-center justify-center">
-              //             <div className="w-[40px] h-[40px] bg-white rounded  flex items-center justify-center">
-              //               <img
-              //                 src={item.image}
-              //                 alt={item.name}
-              //                 className="w-full h-full object-cover rounded"
-              //               />
-              //             </div>
-              //           </div>
-
-              //           {/* Product Details */}
-              //           <div className="flex-1">
-              //             <h3 className="font-medium text-gray-900">
-              //               {item.name}
-              //             </h3>
-              //             <p className="text-sm text-gray-500">
-              //               {item.category}
-              //             </p>
-              //           </div>
-
-              //           {/* Price */}
-              //           <div className="text-right">
-              //             <div className="text-gray-500 text-sm">
-              //               Rs. {item.price}
-              //             </div>
-              //           </div>
-
-              //           {/* Quantity Controls */}
-              //           <div className="flex items-center space-x-2">
-              //             <button
-              //               onClick={() =>
-              //                 updateQuantity(item.id, item.quantity - 1)
-              //               }
-              //               className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
-              //               disabled={item.quantity <= 1}
-              //             >
-              //               <Minus className="w-4 h-4" />
-              //             </button>
-              //             <input
-              //               type="number"
-              //               min="1"
-              //               value={item.quantity}
-              //               onChange={(e) =>
-              //                 updateQuantity(
-              //                   item.id,
-              //                   parseInt(e.target.value) || 1
-              //                 )
-              //               }
-              //               className="w-16 h-8 text-center border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              //             />
-              //             <button
-              //               onClick={() =>
-              //                 updateQuantity(item.id, item.quantity + 1)
-              //               }
-              //               className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
-              //             >
-              //               <Plus className="w-4 h-4" />
-              //             </button>
-              //           </div>
-
-              //           {/* Total Price */}
-              //           <div className="text-right font-medium text-green-600">
-              //             Rs. {item.price * item.quantity}
-              //           </div>
-
-              //           {/* Remove Button */}
-              //           <button
-              //             onClick={() => removeItem(item.id)}
-              //             className="text-red-500 hover:text-red-700 p-1"
-              //           >
-              //             <Trash2 className="w-5 h-5" />
-              //           </button>
-              //         </div>
-              //       </div>
-              //     ))}
-              //   </div>
-              // </>
               <div className="min-h-screen bg-gray-50 p-4">
                 <div className="max-w-4xl mx-auto">
                   <h1 className="text-2xl font-bold text-gray-900 mb-6">
@@ -571,17 +443,6 @@ export default function ShoppingCart() {
                   Shipping Address
                 </h3>
                 <div className="mb-2">
-                  {/* <label htmlFor="shipping-address-select" className="block text-sm font-medium text-gray-600 mb-1">Choose Address:</label>
-                  <select
-                    id="shipping-address-select"
-                    value={selectedAddressType}
-                    onChange={e => setSelectedAddressType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm mb-2"
-                  >
-                    <option value="">Select Address</option>
-                    <option value="home">Home Address</option>
-                    <option value="office">Office Address</option>
-                  </select> */}
                   {homeAddress && (
                     <div className="bg-gray-50 border-blue-200 border-2 rounded p-3 text-sm text-gray-700">
                       <div>
@@ -597,22 +458,8 @@ export default function ShoppingCart() {
                         <span className="font-semibold">Phone:</span>{" "}
                         {homeAddress.phone}
                       </div>
-                      {/* <div className="text-gray-500 pt-1">
-                        {homeAddress.address_type} Address
-                      </div> */}
                     </div>
                   )}
-
-                  {/* {selectedAddressType === "office" && officeAddress && (
-                    <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700">
-                      <div><span className="font-semibold">Name:</span> {officeAddress.full_name}</div>
-                      <div>
-                        <span className="font-semibold">Address:</span> {officeAddress.address}, {officeAddress.landmark}, {officeAddress.zone?.zone_name}, {officeAddress.city?.city}, {officeAddress.province?.name}
-                      </div>
-                      <div><span className="font-semibold">Phone:</span> {officeAddress.phone}</div>
-                      <div className="text-gray-500 pt-1">{officeAddress.address_type} Address</div>
-                    </div>
-                  )} */}
 
                   {homeAddress === null && (
                     <div className="flex items-center text-gray-400 text-sm">

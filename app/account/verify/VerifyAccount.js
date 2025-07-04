@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { baseUrl } from "@/utils/config";
 import useInfoModalStore from "@/stores/infoModalStore";
 import useWarningModalStore from "@/stores/warningModalStore";
+// import { baseUrl } from "@/utils/config";
 
 export default function VerifyAccountPage() {
   const searchParams = useSearchParams();
@@ -20,7 +21,9 @@ export default function VerifyAccountPage() {
 
   const handleVerify = () => {
     if (!verificationCode.trim()) {
-      useInfoModalStore.getState().open({ title: "Info", message: "Please enter the verification code" });
+      useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please enter the verification code" });
       return;
     }
     setIsLoading(true);
@@ -45,13 +48,29 @@ export default function VerifyAccountPage() {
         const data = await response.json();
         console.log(data);
         if (response.ok) {
-          useInfoModalStore.getState().open({ title: "Success", message: "Account verified successfully!", onOkay: () => router.push("/account") });
+          useInfoModalStore
+            .getState()
+            .open({
+              title: "Success",
+              message: "Account verified successfully!",
+              onOkay: () => router.push("/account"),
+            });
         } else {
-          useWarningModalStore.getState().open({ title: "Error", message: data.message + "  Verification failed" });
+          useWarningModalStore
+            .getState()
+            .open({
+              title: "Error",
+              message: data.message + "  Verification failed",
+            });
         }
       } catch (error) {
         console.error("Error:", error);
-        useWarningModalStore.getState().open({ title: "Error", message: "Something went wrong. Please try again." });
+        useWarningModalStore
+          .getState()
+          .open({
+            title: "Error",
+            message: "Something went wrong. Please try again.",
+          });
       }
     }, 1500);
   };
@@ -66,19 +85,16 @@ export default function VerifyAccountPage() {
       alert("Verification code has been resent to your email");
       // resend code api here
       try {
-        const response = await fetch(
-          "https://garg.omsok.com/api/v1/resend-code",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-              email: email,
-            }),
-          }
-        );
+        const response = await fetch(`${baseUrl}/resend-code`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        });
         const data = await response.json();
         console.log(data);
         if (response.ok) {

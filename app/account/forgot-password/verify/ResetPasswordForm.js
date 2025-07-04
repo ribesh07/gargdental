@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import useInfoModalStore from "@/stores/infoModalStore";
 import useWarningModalStore from "@/stores/warningModalStore";
+import { baseUrl } from "@/utils/config";
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -33,43 +34,81 @@ export default function ResetPasswordForm() {
   };
 
   const handleResetPassword = async () => {
-    if (!formData.email.trim()) return useInfoModalStore.getState().open({ title: "Info", message: "Please enter your email address" });
-    if (!formData.resetCode.trim()) return useInfoModalStore.getState().open({ title: "Info", message: "Please enter the reset code" });
-    if (!formData.newPassword.trim()) return useInfoModalStore.getState().open({ title: "Info", message: "Please enter a new password" });
-    if (!formData.confirmPassword.trim()) return useInfoModalStore.getState().open({ title: "Info", message: "Please confirm your new password" });
-    if (formData.newPassword !== formData.confirmPassword) return useWarningModalStore.getState().open({ title: "Warning", message: "Passwords do not match" });
+    if (!formData.email.trim())
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please enter your email address" });
+    if (!formData.resetCode.trim())
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please enter the reset code" });
+    if (!formData.newPassword.trim())
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please enter a new password" });
+    if (!formData.confirmPassword.trim())
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please confirm your new password" });
+    if (formData.newPassword !== formData.confirmPassword)
+      return useWarningModalStore
+        .getState()
+        .open({ title: "Warning", message: "Passwords do not match" });
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) return useInfoModalStore.getState().open({ title: "Info", message: "Please enter a valid email address" });
-    if (formData.newPassword.length < 6) return useWarningModalStore.getState().open({ title: "Warning", message: "Password must be at least 6 characters long" });
+    if (!emailRegex.test(formData.email))
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please enter a valid email address" });
+    if (formData.newPassword.length < 6)
+      return useWarningModalStore
+        .getState()
+        .open({
+          title: "Warning",
+          message: "Password must be at least 6 characters long",
+        });
     setIsLoading(true);
     try {
-      const response = await fetch(
-        "https://garg.omsok.com/api/v1/auth/reset-password-verify",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            reset_code: formData.resetCode,
-            new_password: formData.newPassword,
-            confirm_new_password: formData.confirmPassword,
-          }),
-        }
-      );
+      const response = await fetch(`${baseUrl}/auth/reset-password-verify`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          reset_code: formData.resetCode,
+          new_password: formData.newPassword,
+          confirm_new_password: formData.confirmPassword,
+        }),
+      });
       const data = await response.json();
       setIsLoading(false);
       if (response.ok) {
-        useInfoModalStore.getState().open({ title: "Success", message: "Password has been reset successfully. You can now log in.", onOkay: () => router.push("/account") });
+        useInfoModalStore
+          .getState()
+          .open({
+            title: "Success",
+            message:
+              "Password has been reset successfully. You can now log in.",
+            onOkay: () => router.push("/account"),
+          });
       } else {
-        useWarningModalStore.getState().open({ title: "Error", message: data.message || "Verification failed" });
+        useWarningModalStore
+          .getState()
+          .open({
+            title: "Error",
+            message: data.message || "Verification failed",
+          });
       }
     } catch (error) {
       console.error(error);
       setIsLoading(false);
-      useWarningModalStore.getState().open({ title: "Error", message: "Something went wrong. Please try again." });
+      useWarningModalStore
+        .getState()
+        .open({
+          title: "Error",
+          message: "Something went wrong. Please try again.",
+        });
     }
   };
 

@@ -2,7 +2,7 @@
 // app/cart/page.jsx
 
 // async function getCartData() {
-//     const res = await fetch("https://garg.omsok.com/api/v1/customer/cart/list", {
+//     const res = await fetch("https://gargdental.omsok.com/api/v1/customer/cart/list", {
 //       method: "GET",
 //       headers: {
 //         "Content-Type": "application/json",

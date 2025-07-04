@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import useInfoModalStore from "@/stores/infoModalStore";
 import useWarningModalStore from "@/stores/warningModalStore";
+import { baseUrl } from "@/utils/config";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -17,31 +18,32 @@ export default function ForgotPasswordPage() {
 
   const handleSendVerificationCode = () => {
     if (!email.trim()) {
-      useInfoModalStore.getState().open({ title: "Info", message: "Please enter your email address" });
+      useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please enter your email address" });
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      useInfoModalStore.getState().open({ title: "Info", message: "Please enter a valid email address" });
+      useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "Please enter a valid email address" });
       return;
     }
     setIsLoading(true);
     setTimeout(async () => {
       setIsLoading(false);
       try {
-        const response = await fetch(
-          "https://garg.omsok.com/api/v1/auth/forgot-password-code",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-              email: email,
-            }),
-          }
-        );
+        const response = await fetch(`${baseUrl}/auth/forgot-password-code`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        });
         const data = await response.json();
         if (response.ok) {
           setIsCodeSent(true);
@@ -49,11 +51,21 @@ export default function ForgotPasswordPage() {
             `/account/forgot-password/verify?email=${encodeURIComponent(email)}`
           );
         } else {
-          useWarningModalStore.getState().open({ title: "Error", message: data.message || "Failed to send verification code" });
+          useWarningModalStore
+            .getState()
+            .open({
+              title: "Error",
+              message: data.message || "Failed to send verification code",
+            });
         }
       } catch (error) {
         console.error("Error:", error);
-        useWarningModalStore.getState().open({ title: "Error", message: "Something went wrong. Please try again." });
+        useWarningModalStore
+          .getState()
+          .open({
+            title: "Error",
+            message: "Something went wrong. Please try again.",
+          });
       }
     }, 1500);
   };
