@@ -15,6 +15,7 @@ import { BuyNow } from "@/components/BuyNow";
 // import MainTopBar from "@/components/mainTopbar";
 import { baseUrl } from "@/utils/config";
 
+const API_URL = `${baseUrl}/products/all`;
 const ProductAPIRequest = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,11 +23,12 @@ const ProductAPIRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const API_URL = `${baseUrl}/products/latest`;
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
     (state) => state.setSelectedProduct
   );
+
+  console.warn(API_URL);
   const handleCardClick = (product) => {
     setSelectedProduct(product);
     router.push(`/dashboard/${product.product_code}`);

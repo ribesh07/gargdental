@@ -19,13 +19,16 @@ GET https://gargdental.omsok.com/api/v1/categories HTTP/1.1
 
 ### for latest products
 GET https://gargdental.omsok.com/api/v1/products/latest HTTP/1.1
+
+### for all products
+GET https://gargdental.omsok.com/api/v1/products/all HTTP/1.1
 ###
 GET https://gargdental.omsok.com/api/v1/products/latest
 ###
 GET https://gargdental.omsok.com/api/v1/products/details/A500003
 
 ###Get details
-GET https://gargdental.omsok.com/api/v1/products/details/P00004
+GET https://gargdental.omsok.com/api/v1/products/details/J500002
 
 ###POST
 POST https://gargdental.omsok.com/api/v1/register HTTP/1.1

@@ -206,123 +206,339 @@ export default function ShoppingCart() {
               </div>
             )}
             {cart > 0 && (
-              <>
-                {/* Select All */}
-                <div className="bg-white rounded-lg p-6 mb-6 flex justify-between items-center">
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={selectAll}
-                      onChange={toggleSelectAll}
-                      className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                    />
-                    <span className="text-gray-700 font-medium">
-                      SELECT ALL ({cartItems.length} ITEM
-                      {cartItems.length !== 1 ? "S" : ""})
-                    </span>
-                  </label>
-                  <button
-                    className="text-red-600 font-semibold hover:underline"
-                    onClick={handleClearCart}
-                  >
-                    Clear All
-                  </button>
-                </div>
+              // <>
+              //   {/* Select All */}
+              //   {/* <div className="bg-white rounded-lg p-6 mb-6 flex justify-between items-center">
+              //     <label className="flex items-center space-x-3 cursor-pointer">
+              //       <input
+              //         type="checkbox"
+              //         checked={selectAll}
+              //         onChange={toggleSelectAll}
+              //         className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+              //       />
+              //       <span className="text-gray-700 font-medium">
+              //         SELECT ALL ({cartItems.length} ITEM
+              //         {cartItems.length !== 1 ? "S" : ""})
+              //       </span>
+              //     </label>
+              //     <button
+              //       className="text-red-600 font-semibold hover:underline"
+              //       onClick={handleClearCart}
+              //     >
+              //       Clear All
+              //     </button>
+              //   </div> */}
 
-                {/* Cart Items List */}
-                <div className="space-y-4">
-                  {cartItems.map((item) => (
-                    <div key={item.id} className="bg-white rounded-lg p-6">
-                      <div className="flex items-center space-x-4">
-                        {/* Checkbox */}
-                        <input
-                          type="checkbox"
-                          checked={selectedItems.has(item.id)}
-                          onChange={() => toggleSelectItem(item.id)}
-                          className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                        />
+              //   {/* Cart Items List */}
+              //   <div className="space-y-4">
+              //     {cartItems.map((item) => (
+              //       <div key={item.id} className="bg-white rounded-lg p-6">
+              //         <div className="flex items-center space-x-4">
+              //           {/* Checkbox */}
+              //           <input
+              //             type="checkbox"
+              //             checked={selectedItems.has(item.id)}
+              //             onChange={() => toggleSelectItem(item.id)}
+              //             className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+              //           />
 
-                        {/* Product Image */}
-                        <div className="w-[40px] h-[40px] bg-gray-100 rounded-lg flex items-center justify-center">
-                          <div className="w-[40px] h-[40px] bg-white rounded  flex items-center justify-center">
+              //           {/* Product Image */}
+              //           <div className="w-[40px] h-[40px] bg-gray-100 rounded-lg flex items-center justify-center">
+              //             <div className="w-[40px] h-[40px] bg-white rounded  flex items-center justify-center">
+              //               <img
+              //                 src={item.image}
+              //                 alt={item.name}
+              //                 className="w-full h-full object-cover rounded"
+              //               />
+              //             </div>
+              //           </div>
+
+              //           {/* Product Details */}
+              //           <div className="flex-1">
+              //             <h3 className="font-medium text-gray-900">
+              //               {item.name}
+              //             </h3>
+              //             <p className="text-sm text-gray-500">
+              //               {item.category}
+              //             </p>
+              //           </div>
+
+              //           {/* Price */}
+              //           <div className="text-right">
+              //             <div className="text-gray-500 text-sm">
+              //               Rs. {item.price}
+              //             </div>
+              //           </div>
+
+              //           {/* Quantity Controls */}
+              //           <div className="flex items-center space-x-2">
+              //             <button
+              //               onClick={() =>
+              //                 updateQuantity(item.id, item.quantity - 1)
+              //               }
+              //               className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+              //               disabled={item.quantity <= 1}
+              //             >
+              //               <Minus className="w-4 h-4" />
+              //             </button>
+              //             <input
+              //               type="number"
+              //               min="1"
+              //               value={item.quantity}
+              //               onChange={(e) =>
+              //                 updateQuantity(
+              //                   item.id,
+              //                   parseInt(e.target.value) || 1
+              //                 )
+              //               }
+              //               className="w-16 h-8 text-center border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              //             />
+              //             <button
+              //               onClick={() =>
+              //                 updateQuantity(item.id, item.quantity + 1)
+              //               }
+              //               className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+              //             >
+              //               <Plus className="w-4 h-4" />
+              //             </button>
+              //           </div>
+
+              //           {/* Total Price */}
+              //           <div className="text-right font-medium text-green-600">
+              //             Rs. {item.price * item.quantity}
+              //           </div>
+
+              //           {/* Remove Button */}
+              //           <button
+              //             onClick={() => removeItem(item.id)}
+              //             className="text-red-500 hover:text-red-700 p-1"
+              //           >
+              //             <Trash2 className="w-5 h-5" />
+              //           </button>
+              //         </div>
+              //       </div>
+              //     ))}
+              //   </div>
+              // </>
+              <div className="min-h-screen bg-gray-50 p-4">
+                <div className="max-w-4xl mx-auto">
+                  <h1 className="text-2xl font-bold text-gray-900 mb-6">
+                    Shopping Cart
+                  </h1>
+
+                  {/* Select All */}
+                  <div className="bg-white rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                    <label className="flex items-center space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectAll}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      />
+                      <span className="text-gray-700 font-medium text-sm sm:text-base">
+                        SELECT ALL ({cartItems.length} ITEM
+                        {cartItems.length !== 1 ? "S" : ""})
+                      </span>
+                    </label>
+                    <button
+                      className="text-red-600 font-semibold hover:underline text-sm sm:text-base self-start sm:self-auto"
+                      onClick={handleClearCart}
+                    >
+                      Clear All
+                    </button>
+                  </div>
+
+                  {/* Cart Items List */}
+                  <div className="space-y-4">
+                    {cartItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="bg-white rounded-lg p-4 sm:p-6"
+                      >
+                        {/* Mobile Layout */}
+                        <div className="block sm:hidden">
+                          <div className="flex items-start space-x-3 mb-3">
+                            {/* Checkbox */}
+                            <input
+                              type="checkbox"
+                              checked={selectedItems.has(item.id)}
+                              onChange={() => toggleSelectItem(item.id)}
+                              className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 mt-1"
+                            />
+
+                            {/* Product Image */}
+                            <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-full h-full object-cover rounded-lg"
+                              />
+                            </div>
+
+                            {/* Product Details */}
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-medium text-gray-900 text-sm leading-tight">
+                                {item.name}
+                              </h3>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {item.category}
+                              </p>
+                              <div className="text-sm text-gray-600 mt-1">
+                                Rs. {item.price}
+                              </div>
+                            </div>
+
+                            {/* Remove Button */}
+                            <button
+                              onClick={() => removeItem(item.id)}
+                              className="text-red-500 hover:text-red-700 p-1 flex-shrink-0"
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
+                          </div>
+
+                          {/* Quantity Controls and Total - Mobile */}
+                          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity - 1)
+                                }
+                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                                disabled={item.quantity <= 1}
+                              >
+                                <Minus className="w-4 h-4" />
+                              </button>
+                              <input
+                                type="number"
+                                min="1"
+                                value={item.quantity}
+                                onChange={(e) =>
+                                  updateQuantity(
+                                    item.id,
+                                    parseInt(e.target.value) || 1
+                                  )
+                                }
+                                className="w-12 h-8 text-center border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                              />
+                              <button
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity + 1)
+                                }
+                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                              >
+                                <Plus className="w-4 h-4" />
+                              </button>
+                            </div>
+
+                            {/* Total Price */}
+                            <div className="font-medium text-green-600">
+                              Rs. {item.price * item.quantity}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Desktop Layout */}
+                        <div className="hidden sm:flex items-center space-x-4">
+                          {/* Checkbox */}
+                          <input
+                            type="checkbox"
+                            checked={selectedItems.has(item.id)}
+                            onChange={() => toggleSelectItem(item.id)}
+                            className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                          />
+
+                          {/* Product Image */}
+                          <div className="w-[60px] h-[60px] bg-gray-100 rounded-lg flex items-center justify-center">
                             <img
                               src={item.image}
                               alt={item.name}
-                              className="w-full h-full object-cover rounded"
+                              className="w-full h-full object-cover rounded-lg"
                             />
                           </div>
-                        </div>
 
-                        {/* Product Details */}
-                        <div className="flex-1">
-                          <h3 className="font-medium text-gray-900">
-                            {item.name}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            {item.category}
-                          </p>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-right">
-                          <div className="text-gray-500 text-sm">
-                            Rs. {item.price}
+                          {/* Product Details */}
+                          <div className="flex-1">
+                            <h3 className="font-medium text-gray-900">
+                              {item.name}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              {item.category}
+                            </p>
                           </div>
-                        </div>
 
-                        {/* Quantity Controls */}
-                        <div className="flex items-center space-x-2">
+                          {/* Price */}
+                          <div className="text-right">
+                            <div className="text-gray-500 text-sm">
+                              Rs. {item.price}
+                            </div>
+                          </div>
+
+                          {/* Quantity Controls */}
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity - 1)
+                              }
+                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                              disabled={item.quantity <= 1}
+                            >
+                              <Minus className="w-4 h-4" />
+                            </button>
+                            <input
+                              type="number"
+                              min="1"
+                              value={item.quantity}
+                              onChange={(e) =>
+                                updateQuantity(
+                                  item.id,
+                                  parseInt(e.target.value) || 1
+                                )
+                              }
+                              className="w-16 h-8 text-center border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                            <button
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity + 1)
+                              }
+                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                            >
+                              <Plus className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          {/* Total Price */}
+                          <div className="text-right font-medium text-green-600">
+                            Rs. {item.price * item.quantity}
+                          </div>
+
+                          {/* Remove Button */}
                           <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
-                            }
-                            className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
-                            disabled={item.quantity <= 1}
+                            onClick={() => removeItem(item.id)}
+                            className="text-red-500 hover:text-red-700 p-1"
                           >
-                            <Minus className="w-4 h-4" />
-                          </button>
-                          <input
-                            type="number"
-                            min="1"
-                            value={item.quantity}
-                            onChange={(e) =>
-                              updateQuantity(
-                                item.id,
-                                parseInt(e.target.value) || 1
-                              )
-                            }
-                            className="w-16 h-8 text-center border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          />
-                          <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
-                            }
-                            className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
-                          >
-                            <Plus className="w-4 h-4" />
+                            <Trash2 className="w-5 h-5" />
                           </button>
                         </div>
+                      </div>
+                    ))}
+                  </div>
 
-                        {/* Total Price */}
-                        <div className="text-right font-medium text-green-600">
-                          Rs. {item.price * item.quantity}
-                        </div>
-
-                        {/* Remove Button */}
-                        <button
-                          onClick={() => removeItem(item.id)}
-                          className="text-red-500 hover:text-red-700 p-1"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
+                  {/* Empty Cart Message */}
+                  {cartItems.length === 0 && (
+                    <div className="text-center py-12">
+                      <div className="text-gray-500 text-lg">
+                        Your cart is empty
+                      </div>
+                      <div className="text-gray-400 text-sm mt-2">
+                        Add some items to get started!
                       </div>
                     </div>
-                  ))}
+                  )}
                 </div>
-              </>
+              </div>
             )}
 
-            {/* Action Buttons */}
             {/* Fixed at bottom */}
             <div className="absolute bottom-0 left-0 w-full flex justify-between items-center p-4 bg-white">
               <Link

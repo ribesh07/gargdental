@@ -134,7 +134,11 @@ export function CategoriesViews() {
 
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
           {/* Sidebar */}
-          <div className={`lg:block ${sidebarOpen ? 'block' : 'hidden'} lg:w-64 xl:w-72`}>
+          <div
+            className={`lg:block ${
+              sidebarOpen ? "block" : "hidden"
+            } lg:w-64 xl:w-72`}
+          >
             <div className="bg-gray-50 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
               <h2 className="font-bold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4">
                 Supplis and Equipment
@@ -252,7 +256,7 @@ export function CategoriesViews() {
           <div className="flex-1 mt-2 lg:mt-0">
             {/* Tabs */}
             <div className="border-b border-gray-200 mb-4 sm:mb-6">
-              <nav className="-mb-px flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
+              <nav className="-mb-px flex flex-row sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
                 <div className="flex flex-col items-start">
                   <button
                     onClick={() => setActiveTab("categories")}

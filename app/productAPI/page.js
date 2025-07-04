@@ -17,6 +17,7 @@ import { usePathname } from "next/navigation";
 // import HeaderBarNew from "@/components/HeaderBarNew";
 import { baseUrl } from "@/utils/config";
 
+const API_URL = `${baseUrl}/products/all`;
 const ProductAPIRequest = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,6 @@ const ProductAPIRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const pathname = usePathname();
-  const API_URL = `${baseUrl}/products/latest`;
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
     (state) => state.setSelectedProduct
