@@ -52,8 +52,8 @@ export default function ProductImageMagnifier({ imageUrl, alt, boxWidth = 320, b
         <div
           className="absolute z-30 border border-gray-300 rounded-lg overflow-hidden bg-white shadow-2xl ml-4 hidden md:block"
           style={{
-            width: 620,
-            height: 442,
+            width: 635,
+            height: 440,
             left: `calc(100% + 1rem)`, // 1rem = ml-4
             top: 0,
           }}

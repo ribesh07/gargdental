@@ -32,27 +32,27 @@ export default function FooterBar() {
     <footer className="relative w-full">
       {/* Main Footer */}
       <div className="bg-gradient-to-r from-[#446c87] via-[#76b9e6] to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {/* Contact Us Section */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Contact Us</h3>
-              <div className="space-y-3">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="w-5 h-5 mt-1 text-blue-200 flex-shrink-0" />
-                  <span className="text-sm leading-relaxed">
+            <div className="space-y-2 sm:space-y-4">
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">Contact Us</h3>
+              <div className="space-y-2 sm:space-y-3">
+                <div className="flex items-start space-x-2 sm:space-x-3">
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-1 text-blue-200 flex-shrink-0" />
+                  <span className="text-xs sm:text-sm leading-relaxed">
                     R88HHRX, Gaidhara Rd, Kathmandu 23690
                   </span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-blue-200 flex-shrink-0" />
-                  <span className="text-sm">01-4436276</span>
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200 flex-shrink-0" />
+                  <span className="text-xs sm:text-sm">01-4436276</span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Mail className="w-5 h-5 text-blue-200 flex-shrink-0" />
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200 flex-shrink-0" />
                   <Link
                     href="mailto:info@gargdental.com"
-                    className="text-sm hover:text-red-400  transition-colors"
+                    className="text-xs sm:text-sm hover:text-red-400  transition-colors"
                   >
                     info@gargdental.com
                   </Link>
@@ -89,13 +89,13 @@ export default function FooterBar() {
             </div>
 
             {/* Information Section */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Information</h3>
-              <ul className="space-y-3">
+            <div className="space-y-2 sm:space-y-4">
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">Information</h3>
+              <ul className="space-y-2 sm:space-y-3">
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Cart
                   </Link>
@@ -103,7 +103,7 @@ export default function FooterBar() {
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Services
                   </Link>
@@ -111,7 +111,7 @@ export default function FooterBar() {
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Appointments
                   </Link>
@@ -119,7 +119,7 @@ export default function FooterBar() {
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     FAQ
                   </Link>
@@ -128,13 +128,13 @@ export default function FooterBar() {
             </div>
 
             {/* Our Company Section */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Our Company</h3>
-              <ul className="space-y-3">
+            <div className="space-y-2 sm:space-y-4">
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">Our Company</h3>
+              <ul className="space-y-2 sm:space-y-3">
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     About us
                   </Link>
@@ -142,7 +142,7 @@ export default function FooterBar() {
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Contact Us
                   </Link>
@@ -150,7 +150,7 @@ export default function FooterBar() {
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Privacy Policy
                   </Link>
@@ -158,7 +158,7 @@ export default function FooterBar() {
                 <li>
                   <Link
                     href="#"
-                    className="text-sm hover:text-blue-200 transition-colors"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Terms of Conditions
                   </Link>
@@ -167,8 +167,8 @@ export default function FooterBar() {
             </div>
 
             {/* Newsletter Section */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">
+            <div className="space-y-2 sm:space-y-3">
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">
                 Join our Newsletter
               </h3>
 
@@ -206,43 +206,42 @@ export default function FooterBar() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your Email"
-                    className="flex-1 px-4 py-2 text-gray-900 bg-white border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="flex-1 px-2 sm:px-4 py-1 sm:py-2 text-gray-900 bg-white border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm"
                   />
                   <button
                     onClick={() => {
                       toast.success(`${email} Subscribed Successfully !`);
                     }}
-                    className="px-6 py-2 bg-blue-800 hover:bg-blue-900 text-white font-medium rounded-r-md transition-colors text-sm"
+                    className="px-3 sm:px-6 py-1 sm:py-2 bg-blue-800 hover:bg-blue-900 text-white font-medium rounded-r-md transition-colors text-xs sm:text-sm"
                   >
                     SUBSCRIBE
                   </button>
                 </div>
+                <p className="text-[10px] sm:text-xs text-blue-100 leading-relaxed">
+                  Subscribe to the mailing list to receive updates on promotions,
+                  new arrivals, discount and coupons.
+                </p>
               </div>
-
-              <p className="text-xs text-blue-100 leading-relaxed">
-                Subscribe to the mailing list to receive updates on promotions,
-                new arrivals, discount and coupons.
-              </p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Footer */}
-      <div className="bg-slate-800 text-gray-300 py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-slate-800 text-gray-300 py-2 sm:py-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-sm text-center sm:text-left">
+            <p className="text-xs sm:text-sm text-center sm:text-left">
               Copyright © 2025 Garg Dental All Right Reserved
             </p>
 
             {/* Back to Top Button */}
             <button
               onClick={scrollToTop}
-              className="mt-4 sm:mt-0 w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-md flex items-center justify-center transition-colors"
+              className="mt-2 sm:mt-0 w-8 sm:w-10 h-8 sm:h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-md flex items-center justify-center transition-colors"
               aria-label="Back to top"
             >
-              <ArrowUp className="w-5 h-5" />
+              <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>

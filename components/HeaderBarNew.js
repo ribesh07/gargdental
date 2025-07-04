@@ -432,20 +432,58 @@ const HeaderBarNew = () => {
                   </button>
                 </div>
 
-                {/* Mobile Login Section */}
-                <div className="mb-6 pb-4 border-b">
-                  <button className="w-full bg-[#bf0000] text-white text-sm py-3 rounded hover:bg-red-600 transition-colors flex items-center justify-center mb-3">
-                    <User className="w-4 h-4 mr-2" />
-                    LOGIN
-                  </button>
-                  <Link
-                    href="#"
-                    className="block text-center text-[#0072bc] hover:underline text-sm"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Create an Online Account
-                  </Link>
-                </div>
+                {/* Mobile Login/Logout/My Account Section */}
+                {!isloggedin ? (
+                  <div className="mb-6 pb-4 border-b">
+                    <button
+                      className="w-full bg-[#bf0000] text-white text-sm py-3 rounded hover:bg-red-600 transition-colors flex items-center justify-center mb-3"
+                      onClick={() => {
+                        router.push("/account");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      LOGIN
+                    </button>
+                    <button
+                      className="block w-full text-center text-[#0072bc] hover:underline text-sm bg-transparent"
+                      onClick={() => {
+                        router.push("/account/signup");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Create an Online Account
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mb-6 pb-4 border-b space-y-3">
+                    <button
+                      className="w-full bg-blue-600 text-white text-sm py-3 rounded hover:bg-blue-700 transition-colors flex items-center justify-center"
+                      onClick={() => {
+                        router.push("/myaccount");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <Settings className="w-4 h-4 mr-2" />
+                      My Account
+                    </button>
+                    <button
+                      className="w-full bg-[#bf0000] text-white text-sm py-3 rounded hover:bg-red-600 transition-colors flex items-center justify-center"
+                      onClick={() => {
+                        useConfirmModalStore.getState().open({
+                          title: "Logout",
+                          message: "Are you sure you want to logout?",
+                          onConfirm: handleLogout,
+                          onCancel: () => {},
+                        });
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Logout
+                    </button>
+                  </div>
+                )}
 
                 {/* Mobile Cart Summary */}
                 <div
