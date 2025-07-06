@@ -1,0 +1,55 @@
+//Temporary Background Alternative (Less Reliable)
+If you don't want to use PM2:
+
+>> nohup npm run dev &
+
+for log
+>> tail -f nohup.out
+
+//To stop a process you started with:
+
+>> nohup npm run dev &
+✅ 1. Find the Process ID (PID)
+>>ps aux | grep "npm run dev"
+
+username  12345  0.5  ...  npm run dev
+Here, 12345 is the PID of your Next.js app.
+
+✅ 2. Kill the Process
+>> kill 12345
+
+If it doesn't stop, use:
+>> kill -9 12345
+✅ 3. Verify It's Stopped
+Run:
+>> ps aux | grep "npm run dev"
+If nothing shows, it's successfully stopped.
+
+✅ Alternative: Kill by Port
+If you know it's running on port 3001, you can kill the process using:
+>>lsof -i :3001
+Example output:
+node  12345 username  ...  TCP *:3001 (LISTEN)
+Then:
+>> kill 12345
+
+// #Start the app with PM2:
+
+>> pm2 start npm --name garg_dental_next -- run dev
+
+ Save the Process List (Auto-Restart on Reboot)
+
+>> pm2 save
+
+Delete pm2 
+>> pm2 delete 0
+
+Stop your app:
+
+>> pm2 stop garg_dental_next
+Restart your app:
+
+>> pm2 restart garg_dental_next
+View logs:
+
+>> pm2 logs garg_dental_next
