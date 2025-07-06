@@ -3,7 +3,7 @@ import React from "react";
 export default function ProductCardList({ products = [] }) {
   // Each card is about 120px tall (including padding/margin), so max-h-[390px] for 3 cards on desktop, less on mobile
   return (
-    <div className="max-h-[390px] sm:max-h-[390px] max-w-full w-full overflow-y-auto">
+    <div className="max-h-[390px] sm:max-h-[390px] max-w-full w-full overflow-y-auto hide-scrollbar">
       <div className="flex flex-col space-y-4">
         {products.map((product, idx) => (
           <div
@@ -15,7 +15,9 @@ export default function ProductCardList({ products = [] }) {
                 {product.product_name}
               </div>
               <div className="flex items-center space-x-2 sm:space-x-3 mb-1">
-                <span className="text-lg sm:text-xl font-bold text-gray-800">₹ {product.sell_price}</span>
+                <span className="text-lg sm:text-xl font-bold text-gray-800">
+                  ₹ {product.sell_price}
+                </span>
                 {product.actual_price && (
                   <span className="text-gray-400 line-through text-sm sm:text-base">
                     ₹ {product.actual_price}
@@ -41,4 +43,4 @@ export default function ProductCardList({ products = [] }) {
       </div>
     </div>
   );
-} 
+}

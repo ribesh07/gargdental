@@ -55,6 +55,12 @@ export async function getProductByCode(code) {
       product_name: product.product_name,
       product_code: product.product_code,
       slug: product.slug,
+      catalogue_url: product.catalogue_full_url,
+      specification: product.key_specifications,
+      packaging: product.packaging,
+      warranty: product.warranty,
+      has_variations: product.has_variations,
+      variations: product.variations,
       brand: product.brand?.brand_name || "No Brand",
       category: product.category?.category_name || "Uncategorized",
       item_number: `#${product.product_code}`,
@@ -154,7 +160,7 @@ export default async function ProductPage({ params }) {
             >
               Add to Cart
             </button> */}
-            <CatalogButton />
+            {product.catalogue_url && <CatalogButton product={product} />}
 
             <br />
 

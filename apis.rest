@@ -28,7 +28,7 @@ GET https://gargdental.omsok.com/api/v1/products/latest
 GET https://gargdental.omsok.com/api/v1/products/details/A500003
 
 ###Get details
-GET https://gargdental.omsok.com/api/v1/products/details/J500002
+GET https://gargdental.omsok.com/api/v1/products/details/P00013
 
 ###POST register
 POST https://gargdental.omsok.com/api/v1/register HTTP/1.1

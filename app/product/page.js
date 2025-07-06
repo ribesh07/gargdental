@@ -16,6 +16,7 @@ import { BuyNow } from "@/components/BuyNow";
 import { usePathname } from "next/navigation";
 // import HeaderBarNew from "@/components/HeaderBarNew";
 import { baseUrl } from "@/utils/config";
+import HtmlDataConversion from "@/components/HtmlDataConversion";
 
 const API_URL = `${baseUrl}/products/all`;
 const ProductAPIRequest = () => {
@@ -222,9 +223,7 @@ const ProductAPIRequest = () => {
                     <p className="text-gray-600 text-xs mb-1">
                       {product.brand} - {product.item_number}
                     </p>
-                    <p className="text-gray-500 text-xs mb-2 flex-grow line-clamp-2">
-                      {product.description}
-                    </p>
+                    {/* <HtmlDataConversion description={product.description} /> */}
 
                     {/* Price */}
                     <div className="mb-2">
