@@ -30,7 +30,7 @@ GET https://gargdental.omsok.com/api/v1/products/details/A500003
 ###Get details
 GET https://gargdental.omsok.com/api/v1/products/details/J500002
 
-###POST
+###POST register
 POST https://gargdental.omsok.com/api/v1/register HTTP/1.1
 Content-Type: application/json
 
@@ -242,6 +242,14 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
     "new_password_confirmation": "test12345"
 }
 
+###Forgot password
+POST https://gargdental.omsok.com/api/v1/auth/forgot-password-code HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "janampandey1995@gmail.com"
+}
+
 ###Delete account
 # DELETE https://gargdental.omsok.com/api/v1/customer/remove-account HTTP/1.1
 # Content-Type: application/json
@@ -250,4 +258,10 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 # {
 #     "password": "test12345"
 # }
+
+###order list
+GET https://gargdental.omsok.com/api/v1/customer/order/list HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDMzNTlmM2Y0NDkyZTY4ZTgzY2RjNGRkOGQ3OTdhNTI5MTc5OGNmN2E2YzE5M2I4ZTRhODIyNDFlNzY4ZTMzMGUyZDFlNzU5ZDcyNWM2YzYiLCJpYXQiOjE3NTE1MjQ5OTUuNDYzNDk0MDYyNDIzNzA2MDU0Njg3NSwibmJmIjoxNzUxNTI0OTk1LjQ2MzQ5NTk2OTc3MjMzODg2NzE4NzUsImV4cCI6MTc4MzA2MDk5NS40NTkzNjIwMzAwMjkyOTY4NzUsInN1YiI6IjQ1Iiwic2NvcGVzIjpbXX0.0IOo7y26rhuy8kzzY_7lF1XACXqnzm2P8fAeU_ShCPeCEA8LOizPl4pGqHNckIRz2pCrx0T2aQ-34I_9Z0DgRMiS-SeGKtZvYspcgQ73QEwrvMTs17774gtEoSRh8LsylJJOa7NNDIgaM9b_raaaELUzQi_rxThpFnh9esV0nuuQtggSp0_nAQGmtsDiIGaqOVtMwxKUJ2N_n_numu2KZe2boHN5TeJ_9EjPuB9vtkGu4mqe5uQSW5sMYtBfzdFixcnP7-Q1tXWJ_zfa0PFypGkWDl1OgR_Na-UFXc-jcEtxLxMSIU-_jPp1u0SvBNJhmSNffs_rND-RkX12quvp1-hNkYdA7xpQ4XWouUwb6WfjlRd9PulFWrl0RZRV0E9-5tjrdmZ1nSfPFbwJ7sp4yuZdLxk80wAbpzRxnmiQx_7EeMl18wtzIOFdF6chmFzGxirN2gk__T0Z6bxyq5HcskzGgxPc_8ngnD-OeH7mdMs70qvv7Po-H3GskuUmX9EQhbeQpMDPYoXFy4rnfJ_rd8gpTfhHlReTu0UIJnywRDeOVsRMTbz1CjByaEJrtlrHWwWd_WqJVTtTfR6F-gssGWsH51eO_WG3URrLT8lQrkhmaTmq50hlGic82RBnEpcdwyBfUjLjfpl2Bj9QvXwPBRkDCbgNt_P5JeZfNmSFf2k
+
 
