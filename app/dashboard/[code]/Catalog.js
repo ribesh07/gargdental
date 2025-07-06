@@ -3,9 +3,8 @@ import React from "react";
 import { Download } from "lucide-react";
 import Link from "next/link";
 
-const CatalogButton = () => {
-  const dummyPdfUrl =
-    "https://dentalkart-media.s3.ap-south-1.amazonaws.com/PDF/Waldent+Polaris+Dental+Chair.ai-final+(2).pdf";
+const CatalogButton = ({ product }) => {
+  const dummyPdfUrl = product.catalogue_url;
   const handleDownload = () => {
     // Dummy PDF URL for demonstration
 

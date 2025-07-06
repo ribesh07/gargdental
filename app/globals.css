@@ -32,3 +32,66 @@
 .slow-spin {
   animation: spin-slow 2s linear infinite;
 }
+
+.table table {
+  @apply w-full table-auto border-collapse border border-gray-300;
+}
+
+.table th,
+.table td {
+  @apply border border-gray-300 px-4 py-2 text-left;
+}
+
+.table tr:nth-child(even) {
+  @apply bg-gray-50;
+}
+
+/* Style for unordered list */
+ul {
+  list-style-type: disc;
+  padding-left: 1.25rem; /* Tailwind's pl-5 */
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #374151; /* Tailwind's text-gray-700 */
+  font-size: 1rem; /* Tailwind's text-base */
+}
+
+ul li {
+  margin-bottom: 0.25rem; /* Tailwind's mb-1 */
+}
+
+/* Style for table inside figure with class "table" */
+.table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.table td,
+.table th {
+  border: 1px solid #d1d5db; /* Tailwind's border-gray-300 */
+  padding: 0.5rem 0.75rem; /* Tailwind's px-3 py-2 */
+  text-align: left;
+  color: #374151; /* Tailwind's text-gray-700 */
+  font-size: 1rem; /* Tailwind's text-base */
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9fafb; /* Tailwind's bg-gray-50 */
+}
+
+.table strong {
+  font-weight: 600; /* Tailwind's font-semibold */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

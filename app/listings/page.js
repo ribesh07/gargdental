@@ -6,13 +6,14 @@ import useToastStore from "@/stores/toastStore";
 import useSelectedProductStore from "@/stores/sendingProduct";
 import { baseUrl } from "@/utils/config";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-
-// import ProductAPIRequest from "@/components/ProductAPI";
+// import HtmlDataConversion from "@/components/HtmlDataConversion";
+// import productRequest from "@/components/product";
 import { useRouter } from "next/navigation";
 import { AddToCart } from "@/components/addtocartbutton";
-import { ProductCard } from "@/components/FeaturedProduct";
+// import { ProductCard } from "@/components/FeaturedProduct";
 import ProductImageZoom from "@/components/ProductImageZoom";
 import { BuyNow } from "@/components/BuyNow";
+import { HtmlContent } from "@/components/HtmlDataConversion";
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -30,26 +31,13 @@ const DentalSuppliesListing = () => {
   //handle load more
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 4);
-    // router.push("/productAPI");
+    // router.push("/product");
   };
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // const response = await fetch(API_URL, {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Accept: "application/json",
-      //   },
-      // });
-
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-
-      // const data = await response.json();
       const data = await apiRequest("/products/latest", false);
       // const limited = data.products?.slice(0, 10) || [];
       // Transform the API data to match the expected format
@@ -375,9 +363,12 @@ function ProductCardMain({ product, showDiscount }) {
         <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
           {product.product_name}
         </h3>
-        <p className="text-gray-500 text-[14px] mb-0.5 flex-grow line-clamp-1">
-          {product.description}
-        </p>
+        <HtmlContent
+          html={product.description}
+          className="text-gray-500 text-[14px] mb-0.5 flex-grow line-clamp-1"
+        />
+        {/* <HtmlDataConversion description={product.description} /> */}
+
         <div className="mt-2 justify-center">
           <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
             {product.actual_price &&

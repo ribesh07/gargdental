@@ -110,7 +110,7 @@ const HeaderBarNew = () => {
   // Search functionality
   const handleSearch = () => {
     if (searchTerm) {
-      router.push(`/productAPI/`);
+      router.push(`/product/`);
       router.refresh();
     }
   };
@@ -193,7 +193,7 @@ const HeaderBarNew = () => {
             </div>
 
             {/* Desktop Search Bar */}
-            {pathname !== "/productAPI" && (
+            {pathname !== "/product" && (
               <div className="hidden md:block flex-1 max-w-2xl mx-8">
                 <div className="relative flex">
                   <input
@@ -316,8 +316,8 @@ const HeaderBarNew = () => {
             </div>
           </div>
 
-          {/* Mobile Search Bar - Always visible on mobile when not on productAPI page */}
-          {pathname !== "/productAPI" && (
+          {/* Mobile Search Bar - Always visible on mobile when not on product page */}
+          {pathname !== "/product" && (
             <div className="md:hidden px-2 pb-4">
               <div className="relative flex">
                 <input

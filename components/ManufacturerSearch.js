@@ -115,11 +115,13 @@ export default function ManufacturerFilter() {
         {filteredManufacturers.map((manufacturer, index) => (
           <div
             key={index}
-            onClick={() => router.push(`/productAPI`)}
+            onClick={() => router.push(`/product`)}
             className="p-2 sm:p-3 lg:p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-white border-gray-200 hover:border-gray-300"
           >
-            <Link href={`/productAPI`}>
-              <span className="text-xs sm:text-sm font-medium block">{manufacturer}</span>
+            <Link href={`/product`}>
+              <span className="text-xs sm:text-sm font-medium block">
+                {manufacturer}
+              </span>
             </Link>
           </div>
         ))}

@@ -145,25 +145,25 @@ export function CategoriesViews() {
               </h2>
               <nav className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Deal Of The Week
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Top Deals
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Browse Supplies
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Web Priced Products
@@ -176,13 +176,13 @@ export function CategoriesViews() {
                 </div>
 
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Order from History
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   My Order
@@ -207,25 +207,25 @@ export function CategoriesViews() {
                 </div>
 
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   No Charge Goods & Redemptions
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Flyers & Magazines
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Catalogs
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Henry Schein Brand
@@ -237,13 +237,13 @@ export function CategoriesViews() {
                   Request Catalog
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   SDS Look-up
                 </Link>
                 <Link
-                  href="/productAPI"
+                  href="/product"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Webinars & Videos
@@ -300,7 +300,7 @@ export function CategoriesViews() {
                 {categories.map((category) => (
                   <div
                     key={category.id}
-                    onClick={() => router.push(`/productAPI/${category.id}`)}
+                    onClick={() => router.push(`/product/${category.id}`)}
                     className="bg-white rounded-lg shadow-lg transform hover:scale-105 hover:shadow-md transition-transform duration-300 cursor-pointer"
                   >
                     <div className="aspect-w-16 aspect-h-10">
@@ -316,9 +316,7 @@ export function CategoriesViews() {
                       </h3>
                       <p
                         className="text-xs sm:text-sm text-gray-600"
-                        onClick={() =>
-                          router.push(`/productAPI/${category.id}`)
-                        }
+                        onClick={() => router.push(`/product/${category.id}`)}
                       >
                         {category.description}
                       </p>

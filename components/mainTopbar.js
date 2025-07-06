@@ -21,7 +21,7 @@ export default function MainTopBar() {
   //   if (!isReady) return null;
   const handleSearch = () => {
     if (searchTerm) {
-      router.push(`/productAPI/`);
+      router.push(`/product/`);
       router.refresh();
     }
   };
@@ -64,9 +64,9 @@ export default function MainTopBar() {
                 className="h-12 w-auto"
               />
             </div>
-            {pathname === "/productAPI" && <br />}
+            {pathname === "/product" && <br />}
 
-            {pathname !== "/productAPI" && (
+            {pathname !== "/product" && (
               <div className="flex-1 max-w-md mx-8 relative">
                 <input
                   type="text"

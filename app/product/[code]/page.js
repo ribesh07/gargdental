@@ -14,6 +14,7 @@ import { AddToCart } from "@/components/addtocartbutton";
 import { BuyNow } from "@/components/BuyNow";
 // import MainTopBar from "@/components/mainTopbar";
 import { baseUrl } from "@/utils/config";
+import HtmlDataConversion from "@/components/HtmlDataConversion";
 
 const API_URL = `${baseUrl}/products/all`;
 const ProductAPIRequest = () => {
@@ -223,9 +224,8 @@ const ProductAPIRequest = () => {
                     <p className="text-gray-600 text-sm mb-2">
                       {product.brand} - Item {product.item_number}
                     </p>
-                    <p className="text-gray-500 text-sm mb-3 flex-grow">
-                      {product.description}
-                    </p>
+
+                    <HtmlDataConversion description={product.description} />
 
                     {/* Price */}
                     <div className="mb-4">
@@ -240,15 +240,6 @@ const ProductAPIRequest = () => {
                       )}
                     </div>
 
-                    {/* Add to Cart Button - Fixed at bottom */}
-                    {/* <button
-                          className="w-full bg-blue-700 hover:bg-blue-800 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors duration-200 mt-auto"
-                          onClick={() => handleAddToCart(product)}
-                        >
-                          <ShoppingCart className="w-4 h-4" />
-      
-                          <span className="text-sm">Add to Cart</span>
-                        </button> */}
                     <BuyNow product={product} />
                     <AddToCart product={product} />
                   </div>

@@ -203,7 +203,7 @@ const GargDental = () => {
                 {categories.map((category, index) => (
                   <li key={index}>
                     <Link
-                      href="/productAPI"
+                      href="/product"
                       className="block py-1 sm:py-1.5 px-2 sm:px-2.5 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200"
                     >
                       {category}
