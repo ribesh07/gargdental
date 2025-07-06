@@ -12,7 +12,7 @@ export default function ProductTabs({ product }) {
   return (
     <div className="max-w-4xl mx-auto">
       {/* Tabs */}
-      <div className="flex border-b border-gray-300">
+      <div className="flex   border-b border-gray-300">
         <button
           onClick={() => setActiveTab("description")}
           className={`px-4 py-2 font-semibold ${activeTab === "description"
@@ -68,7 +68,7 @@ export default function ProductTabs({ product }) {
       {/* Content */}
       <div className="mt-4">
         {activeTab === "description" && (
-          <div className="pl-2">
+          <div className="pl-2 sm:pl-4">
             <br />
             <strong>{product.description}</strong>
             <br />
@@ -85,8 +85,8 @@ export default function ProductTabs({ product }) {
         )}
 
         {activeTab === "specifications" && (
-          <div className="pl-4">
-            <table className="w-full table-auto border-gray-300">
+          <div className="pl-2 sm:pl-4">
+            <table className="w-full table-auto border-gray-300 text-sm sm:text-base">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="text-[#0072bc] px-4 py-2 text-left">
@@ -141,8 +141,8 @@ export default function ProductTabs({ product }) {
           </div>
         )}
         {activeTab === "packaging" && (
-          <div className="pl-2">
-            <table className="w-full table-auto border-gray-300">
+          <div className="pl-2 sm:pl-4">
+            <table className="w-full table-auto border-gray-300 text-sm sm:text-base">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="text-[#0072bc] px-4 py-2 text-left">Feature</th>
@@ -176,8 +176,8 @@ export default function ProductTabs({ product }) {
         )}
 
         {activeTab === "warranty" && (
-          <div className="pl-2">
-            <table className="w-full table-auto border-gray-300">
+          <div className="pl-2 sm:pl-4">
+            <table className="w-full table-auto border-gray-300 text-sm sm:text-base">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="text-[#0072bc] px-4 py-2 text-left">Feature</th>
@@ -212,7 +212,7 @@ export default function ProductTabs({ product }) {
 
 
         {activeTab === "reviews" && (
-          <div className="pl-2">
+          <div className="pl-2 sm:pl-4">
             <p className="mb-4">No reviews yet. Be the first to write one!</p>
             <form
               onSubmit={(e) => {
