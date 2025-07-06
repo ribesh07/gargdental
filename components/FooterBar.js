@@ -36,7 +36,9 @@ export default function FooterBar() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {/* Contact Us Section */}
             <div className="space-y-2 sm:space-y-4">
-              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">Contact Us</h3>
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">
+                Contact Us
+              </h3>
               <div className="space-y-2 sm:space-y-3">
                 <div className="flex items-start space-x-2 sm:space-x-3">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-1 text-blue-200 flex-shrink-0" />
@@ -90,9 +92,11 @@ export default function FooterBar() {
 
             {/* Information Section */}
             <div className="space-y-2 sm:space-y-4">
-              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">Information</h3>
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">
+                Information
+              </h3>
               <ul className="space-y-2 sm:space-y-3">
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -100,7 +104,7 @@ export default function FooterBar() {
                     Cart
                   </Link>
                 </li>
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -108,7 +112,7 @@ export default function FooterBar() {
                     Services
                   </Link>
                 </li>
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -116,7 +120,7 @@ export default function FooterBar() {
                     Appointments
                   </Link>
                 </li>
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -129,9 +133,11 @@ export default function FooterBar() {
 
             {/* Our Company Section */}
             <div className="space-y-2 sm:space-y-4">
-              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">Our Company</h3>
+              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6">
+                Our Company
+              </h3>
               <ul className="space-y-2 sm:space-y-3">
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -139,7 +145,7 @@ export default function FooterBar() {
                     About us
                   </Link>
                 </li>
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -147,7 +153,7 @@ export default function FooterBar() {
                     Contact Us
                   </Link>
                 </li>
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -155,7 +161,7 @@ export default function FooterBar() {
                     Privacy Policy
                   </Link>
                 </li>
-                <li>
+                <li className="footer-list">
                   <Link
                     href="#"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -173,7 +179,7 @@ export default function FooterBar() {
               </h3>
 
               {/* Gender Selection */}
-              <div className="flex space-x-4 mb-4">
+              {/* <div className="flex space-x-4 mb-4">
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="radio"
@@ -196,7 +202,7 @@ export default function FooterBar() {
                   />
                   <span className="text-sm">Female</span>
                 </label>
-              </div>
+              </div> */}
 
               {/* Email Subscription */}
               <div className="space-y-3">
@@ -218,8 +224,8 @@ export default function FooterBar() {
                   </button>
                 </div>
                 <p className="text-[10px] sm:text-xs text-blue-100 leading-relaxed">
-                  Subscribe to the mailing list to receive updates on promotions,
-                  new arrivals, discount and coupons.
+                  Subscribe to the mailing list to receive updates on
+                  promotions, new arrivals, discount and coupons.
                 </p>
               </div>
             </div>

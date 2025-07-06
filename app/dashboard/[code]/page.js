@@ -141,12 +141,15 @@ export default async function ProductPage({ params }) {
               <span className="text-lg text-gray-400 line-through">
                 {product.actual_price}
               </span>
-              <span className="text-green-600 text-sm font-semibold">
+              {/* <span className="text-green-600 text-sm font-semibold">
                 ({product.discount}% OFF)
-              </span>
+              </span> */}
             </div>
             <div className="mb-2 text-green-700 font-medium">
-              {product.available_quantity}
+              <span className="text-blue-600 text-sm font-semibold">
+                AVAILABLE :
+              </span>{" "}
+              {Math.floor(product.available_quantity)}
             </div>
             <br />
             <div className="flex items-center space-x-3 mb-4">
