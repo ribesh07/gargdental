@@ -10,6 +10,7 @@ import RecommendedProducts from "./Recommendation";
 import { Star, Share2 } from "lucide-react";
 import ButtonForShare from "./ButtonForShare";
 import { baseUrl } from "@/utils/config";
+import ProductCardList from "./ProductCardList";
 
 //to transform product
 function transformProduct(product) {
@@ -153,51 +154,12 @@ export default async function ProductPage({ params }) {
             >
               Add to Cart
             </button> */}
-            <div className="mb-4">
-              <p className="font-semibold mb-2">Size:</p>
-              <div className="flex items-center space-x-4">
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="size"
-                    value="XL"
-                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  />
-                  <span className="ml-2">XL</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="size"
-                    value="L"
-                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  />
-                  <span className="ml-2">L</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="size"
-                    value="XXL"
-                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  />
-                  <span className="ml-2">LX</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="size"
-                    value="XXXL"
-                    className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                  />
-                  <span className="ml-2">LXX</span>
-                </label>
-              </div>
-            </div>
-            <br />
             <CatalogButton />
 
             <br />
+
+            {/* Product Card List in place of Size */}
+            <ProductCardList products={[product, product, product, product]} />
 
             <br />
 

@@ -32,7 +32,7 @@ export function BuyNow({ product }) {
     <button
       onClick={handleAdd}
       // disabled={added}
-      className="btn py-1 mt-1 mb-1 sm:py-2 bg-[#0072bc] hover:bg-red-600 text-white w-full px-1 rounded-md font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 text-xs sm:text-sm"
+      className="btn py-1 mt-1 mb-1 sm:py-2 bg-[#0072bc] hover:bg-red-600 text-white w-full px-1 rounded-md font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 text-xs sm:text-sm cursor-pointer"
     >
       <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-3" />
       Buy Now
