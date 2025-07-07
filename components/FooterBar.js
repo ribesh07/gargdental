@@ -11,17 +11,32 @@ import {
   ArrowUp,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { baseUrl } from "@/utils/config";
 import Link from "next/link";
 
 export default function FooterBar() {
   const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("male");
+  // const [gender, setGender] = useState("male");
 
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    // Handle newsletter subscription
-    console.log("Subscribing:", { email, gender });
-    setEmail("");
+  const handleSubscribe = async (email) => {
+    if (!email) {
+      toast.error("Please enter your email");
+      return;
+    }
+    console.log("Subscribing:", { email });
+    const response = await fetch(`${baseUrl}/newsletter-subscriber`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    if (response.ok) {
+      setEmail("");
+      toast.success(`${email} Subscribed Successfully !`);
+    } else {
+      toast.error("Failed to subscribe");
+    }
   };
 
   const scrollToTop = () => {
@@ -216,7 +231,7 @@ export default function FooterBar() {
                   />
                   <button
                     onClick={() => {
-                      toast.success(`${email} Subscribed Successfully !`);
+                      handleSubscribe(email);
                     }}
                     className="px-3 sm:px-6 py-1 sm:py-2 bg-blue-800 hover:bg-blue-900 text-white font-medium rounded-r-md transition-colors text-xs sm:text-sm"
                   >

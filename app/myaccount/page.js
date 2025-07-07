@@ -224,7 +224,7 @@ const AccountPage = () => {
               <button
                 key={item.key}
                 onClick={() => setActiveTab(item.key)}
-                className={`flex items-center w-full px-4 py-3 my-1 rounded-lg transition-colors text-left font-medium space-x-4
+                className={`flex items-center w-full px-4 py-3 my-1 rounded-lg transition-colors text-left font-medium space-x-4 cursor-pointer
                   ${
                     activeTab === item.key
                       ? "bg-blue-50 text-blue-800 font-bold shadow-sm"
