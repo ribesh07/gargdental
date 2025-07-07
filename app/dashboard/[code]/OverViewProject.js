@@ -52,7 +52,7 @@ const OverViewProject = ({ product }) => {
         {product.files_full_url && (
           <div className="w-full sm:w-2/3 flex flex-wrap sm:flex-nowrap gap-2 justify-center">
             {product.files_full_url.map((url, index) => (
-              <>
+              <div key={index}>
                 {/* <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
             <Image
               filter="blur(2px)"
@@ -101,7 +101,7 @@ const OverViewProject = ({ product }) => {
                     className="object-contain rounded"
                   />
                 </div>
-              </>
+              </div>
             ))}
           </div>
         )}
