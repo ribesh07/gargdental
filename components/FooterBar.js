@@ -19,6 +19,10 @@ export default function FooterBar() {
   // const [gender, setGender] = useState("male");
 
   const handleSubscribe = async (email) => {
+    if (!email) {
+      toast.error("Please enter your email");
+      return;
+    }
     console.log("Subscribing:", { email });
     const response = await fetch(`${baseUrl}/newsletter-subscriber`, {
       method: "POST",
