@@ -113,36 +113,38 @@ export default function FooterBar() {
               <ul className="space-y-2 sm:space-y-3">
                 <li className="footer-list">
                   <Link
-                    href="#"
+                    href="/BusinessReg"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
-                    Cart
+                    Business Registration
                   </Link>
                 </li>
                 <li className="footer-list">
                   <Link
-                    href="#"
+                    href="/MedicalCertification"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
-                    Services
+                    Medical Certifications
+                  </Link>
+                </li>
+
+                <li className="footer-list">
+                  <Link
+                    href="/returnpolicy"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
+                  >
+                    Return & Refund Policy
                   </Link>
                 </li>
                 <li className="footer-list">
                   <Link
-                    href="#"
+                    href="/PrivacyPolicy"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
-                    Appointments
+                    Privacy Policy
                   </Link>
                 </li>
-                <li className="footer-list">
-                  <Link
-                    href="#"
-                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
-                  >
-                    FAQ
-                  </Link>
-                </li>
+                
               </ul>
             </div>
 
@@ -168,14 +170,7 @@ export default function FooterBar() {
                     Contact Us
                   </Link>
                 </li>
-                <li className="footer-list">
-                  <Link
-                    href="#"
-                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
+                
                 <li className="footer-list">
                   <Link
                     href="#"
