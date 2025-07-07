@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react";
 
-export default function ProductImageMagnifier({ imageUrl, alt, boxWidth = 320, boxHeight = 320, effect = "" }) {
+export default function ProductImageMagnifier({
+  imageUrl,
+  alt,
+  boxWidth = 320,
+  boxHeight = 320,
+  effect = "",
+}) {
   const [isHovering, setIsHovering] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [containerRect, setContainerRect] = useState(null);
@@ -37,7 +43,7 @@ export default function ProductImageMagnifier({ imageUrl, alt, boxWidth = 320, b
         {/* Optional: lens overlay */}
         {isHovering && (
           <div
-            className="absolute border-2 border-orange-400 bg-orange-200 bg-opacity-20 rounded-full pointer-events-none"
+            className="absolute border-2 border-orange-400 bg-transparent bg-opacity-20 rounded-full pointer-events-none"
             style={{
               width: 60,
               height: 60,
@@ -71,4 +77,4 @@ export default function ProductImageMagnifier({ imageUrl, alt, boxWidth = 320, b
       )}
     </div>
   );
-} 
+}
