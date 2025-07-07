@@ -145,34 +145,31 @@ export default async function ProductPage({ params }) {
                 ({product.discount}% OFF)
               </span> */}
             </div>
-            <div className="mb-2 text-green-700 font-medium">
+            {/* <div className="mb-2 text-green-700 font-medium">
               <span className="text-blue-600 text-sm font-semibold">
                 AVAILABLE :
               </span>{" "}
               {Math.floor(product.available_quantity)}
-            </div>
+            </div> */}
             <br />
-            <div className="flex items-center space-x-3 mb-4">
-              <button className="w-8 h-8 border rounded text-lg">-</button>
-              <span>1</span>
-              <button className="w-8 h-8 border rounded text-lg">+</button>
-            </div>
-            {/* <button
-              // onClick={() => handleAddToCart(product)}
-              className="bg-blue-800 text-white px-6 py-2 rounded font-semibold hover:bg-blue-900 transition"
-            >
-              Add to Cart
-            </button> */}
+
+            {!product.has_variations && (
+              <div className="flex items-center space-x-3 mb-4">
+                <button className="w-8 h-8 border rounded text-lg">-</button>
+                <span>1</span>
+                <button className="w-8 h-8 border rounded text-lg">+</button>
+              </div>
+            )}
+
             {product.catalogue_url && <CatalogButton product={product} />}
 
             <br />
 
             {/* Product Card List in place of Size */}
-            <ProductCardList products={[product, product, product, product]} />
+            <ProductCardList products={product.variations} />
 
             <br />
-
-            <AddToCart product={product} />
+            {!product.has_variations && <AddToCart product={product} />}
             <br />
             <ProductTabs product={product} />
           </div>
