@@ -1,6 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
+  allowedDevOrigins: ["dentalnepal.com", "www.dentalnepal.com"],
+  async redirects() {
+    return [
+      {
+        source: "/index.php",
+        destination: "/dashboard",
+        permanent: true,
+      },
+      {
+        source: "/index.plx",
+        destination: "/dashboard",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
@@ -16,6 +30,16 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "gargdental.omsok.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "dentalnepal.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "dentalnepal.com",
         pathname: "/**",
       },
     ],

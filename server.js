@@ -4,7 +4,7 @@ const next = require("next");
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4444;
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
@@ -18,6 +18,8 @@ app.prepare().then(() => {
         await app.render(req, res, "/a", query);
       } else if (pathname === "/b") {
         await app.render(req, res, "/b", query);
+      } else if (pathname === "/") {
+        await app.render(req, res, "/dashboard", query);
       } else {
         await handle(req, res, parsedUrl);
       }
