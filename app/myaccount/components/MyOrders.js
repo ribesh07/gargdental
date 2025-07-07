@@ -113,15 +113,15 @@ export default function MyOrders() {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-xl sm:text-2xl font-bold text-blue-900">
+    <div className="w-full p-2 sm:p-4 md:p-6 bg-gray-50 min-h-screen">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-2 sm:gap-0">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-900">
           MY ORDERS ({orders.length})
         </h2>
         <button
           onClick={fetchOrders}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 text-sm sm:text-base"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -133,24 +133,24 @@ export default function MyOrders() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center py-20">
+        <div className="flex justify-center items-center py-16 sm:py-20">
           <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="ml-2 text-gray-600">Loading orders...</span>
+          <span className="ml-2 text-gray-600 text-base sm:text-lg">Loading orders...</span>
         </div>
       ) : error ? (
-        <div className="text-center py-20">
-          <div className="text-red-600 text-lg mb-4">{error}</div>
+        <div className="text-center py-16 sm:py-20">
+          <div className="text-red-600 text-base sm:text-lg mb-4">{error}</div>
           <button
             onClick={fetchOrders}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="px-4 py-2 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm sm:text-base"
           >
             Try Again
           </button>
         </div>
       ) : orders.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="text-gray-500 text-lg mb-4">No orders found.</div>
-          <div className="text-gray-400 text-sm">
+        <div className="text-center py-16 sm:py-20">
+          <div className="text-gray-500 text-base sm:text-lg mb-4">No orders found.</div>
+          <div className="text-gray-400 text-xs sm:text-sm">
             You haven't placed any orders yet.
           </div>
         </div>
@@ -158,18 +158,18 @@ export default function MyOrders() {
         orders.map((order, index) => (
           <div
             key={order.id || index}
-            className="bg-white rounded-lg shadow p-4 mb-6 border"
+            className="bg-white rounded-lg shadow p-3 sm:p-4 mb-4 sm:mb-6 border"
           >
             {/* Header: Order ID + Status */}
-            <div className="flex justify-between items-start mb-4">
-              <div className="flex-1">
-                <span className="text-blue-700 font-semibold block text-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-start mb-3 sm:mb-4 gap-2 sm:gap-0">
+              <div className="flex-1 w-full">
+                <span className="text-blue-700 font-semibold block text-base sm:text-lg">
                   Order #{order.order_number || order.id || index + 1}
                 </span>
-                <div className="text-sm text-gray-500 mt-1">
+                <div className="text-xs sm:text-sm text-gray-500 mt-1">
                   Placed on {formatDate(order.created_at)}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">
+                <div className="text-xs sm:text-sm text-gray-600 mt-1">
                   Total Amount: <strong>Rs. {order.total_amount || order.grand_total || order.total || 0}</strong>
                   {order.order_items && order.order_items.length > 0 && (
                     <span className="ml-2 text-gray-500">
@@ -178,20 +178,20 @@ export default function MyOrders() {
                   )}
                 </div>
                 {order.invoice_email && (
-                  <div className="text-sm text-gray-600">
+                  <div className="text-xs sm:text-sm text-gray-600">
                     Invoice Email: <strong>{order.invoice_email}</strong>
                   </div>
                 )}
               </div>
-              <div className="flex flex-col items-end gap-2">
+              <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 w-full sm:w-auto">
                 <span
-                  className={`text-sm font-semibold px-3 py-1 rounded-full ${getStatusColor(order.order_status)}`}
+                  className={`text-xs sm:text-sm font-semibold px-2 sm:px-3 py-1 rounded-full ${getStatusColor(order.order_status)}`}
                 >
                   {order.order_status || "Processing"}
                 </span>
                 {order.order_status !== "cancelled" && (
                   <button
-                    className="mt-2 text-red-600 text-sm font-bold underline px-5 py-2 rounded-full hover:bg-red-50"
+                    className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50"
                     onClick={() => handleCancelOrder(order.id)}
                   >
                     Cancel
@@ -200,11 +200,11 @@ export default function MyOrders() {
               </div>
             </div>
 
-            {/* Address Information */}
+            {/* Address Information
             {order.billing_address && (
-              <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-2">Billing Address:</h4>
-                <div className="text-sm text-gray-700">
+              <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-gray-50 rounded-lg">
+                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">Billing Address:</h4>
+                <div className="text-xs sm:text-sm text-gray-700">
                   <div><span className="font-medium">Name:</span> {order.billing_address.full_name}</div>
                   <div><span className="font-medium">Phone:</span> {order.billing_address.phone}</div>
                   <div><span className="font-medium">Address:</span> {order.billing_address.address}</div>
@@ -213,13 +213,13 @@ export default function MyOrders() {
                   )}
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Order Items Dropdown */}
             {order.order_items && order.order_items.length > 0 && (
-              <div className="border p-4 rounded-lg">
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-semibold text-gray-800">Order Items ({order.order_items.length}):</h4>
+              <div className="border p-2 border-blue-300  sm:p-4 rounded-lg">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3 gap-2 sm:gap-0">
+                  <h4 className="font-semibold text-gray-800 text-sm sm:text-base">Order Items ({order.order_items.length}):</h4>
                   <button
                     className="flex items-center gap-1 px-2 py-1 text-blue-700 border border-blue-200 rounded hover:bg-blue-50 text-xs"
                     onClick={() => toggleOrder(order.id)}
@@ -227,12 +227,12 @@ export default function MyOrders() {
                   >
                     {openOrders[order.id] ? "Hide" : "Show"}
                     <span style={{transform: openOrders[order.id] ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>
-                      ▶
+                      
                     </span>
                   </button>
                 </div>
                 {openOrders[order.id] && (
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {order.order_items.map((item, idx) => {
                       // Debug: Log the item structure to console
                       console.log(`Item ${idx}:`, item);
@@ -257,13 +257,13 @@ export default function MyOrders() {
                       return (
                         <div
                           key={item.id || idx}
-                          className="flex items-start gap-4 p-3 bg-gray-50 rounded-lg border"
+                          className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-2 sm:p-3 bg-gray-50 rounded-lg "
                         >
-                          <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden border">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden border flex-shrink-0 mx-auto sm:mx-0 mb-2 sm:mb-0">
                             <img
                               src={imageUrl}
                               alt={productName}
-                              className="w-full h-full object-cover rounded-lg"
+                              className="w-full h-full object-contain rounded-lg"
                               onError={(e) => {
                                 console.log(`Image failed to load for item ${idx}:`, imageUrl);
                                 e.target.src = "https://via.placeholder.com/80?text=No+Image";
@@ -273,23 +273,23 @@ export default function MyOrders() {
                               }}
                             />
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-gray-800 font-semibold text-lg mb-1">
+                          <div className="flex-1 min-w-0 w-full">
+                            <div className="text-gray-800 font-semibold text-base sm:text-lg mb-1">
                               {productName}
                             </div>
-                            <div className="text-sm text-gray-600 mb-2">
+                            <div className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">
                               <span className="font-medium">Product Code:</span> {productCode}
                             </div>
-                            <div className="flex justify-between items-center">
-                              <div className="text-sm text-gray-700">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0">
+                              <div className="text-xs sm:text-sm text-gray-700">
                                 <span className="font-medium">Quantity:</span> 
                                 <span className="text-blue-700 font-bold ml-1">{item.quantity}</span>
                               </div>
                               <div className="text-right">
-                                <div className="font-semibold text-green-600 text-lg">
+                                <div className="font-semibold text-green-600 text-base sm:text-lg">
                                   Rs. {parseFloat(item.price || 0).toFixed(2)}
                                 </div>
-                                <div className="text-sm text-gray-500">
+                                <div className="text-xs sm:text-sm text-gray-500">
                                   Total: Rs. {(parseFloat(item.price || 0) * item.quantity).toFixed(2)}
                                 </div>
                               </div>
@@ -304,22 +304,22 @@ export default function MyOrders() {
             )}
 
             {/* Payment Method */}
-            <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="font-semibold text-blue-900 mb-2">Payment Information:</h4>
-              <div className="flex justify-between items-center">
+            <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-200">
+              <h4 className="font-semibold text-blue-900 mb-1 sm:mb-2 text-sm sm:text-base">Payment Information:</h4>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
                 <div>
-                  <div className="text-sm text-blue-800">
+                  <div className="text-xs sm:text-sm text-blue-800">
                     <span className="font-medium">Payment Method:</span> {getPaymentMethodText(order.payment_method)}
                   </div>
                   {order.invoice_email && (
-                    <div className="text-sm text-blue-700 mt-1">
+                    <div className="text-xs sm:text-sm text-blue-700 mt-1">
                       <span className="font-medium">Invoice Email:</span> {order.invoice_email}
                     </div>
                   )}
                 </div>
                 <div className="text-right">
-                  <div className="text-sm text-blue-600">
-                    Order Status: <span className={`font-semibold ${getStatusColor(order.order_status).replace('bg-', 'text-').replace('text-', '')}`}>
+                  <div className="text-xs sm:text-sm text-blue-600">
+                    Order Status: <span className={`font-semibold ${getStatusColor(order.order_status).replace('bg-', 'text-').replace('text-', '')}`}> 
                       {order.order_status || "Processing"}
                     </span>
                   </div>
@@ -328,26 +328,26 @@ export default function MyOrders() {
             </div>
 
             {/* Order Summary */}
-            <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-              <h4 className="font-semibold text-green-900 mb-3">Order Summary:</h4>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
+            <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-green-50 rounded-lg border border-green-200">
+              <h4 className="font-semibold text-green-900 mb-2 sm:mb-3 text-sm sm:text-base">Order Summary:</h4>
+              <div className="space-y-1 sm:space-y-2">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-green-700 font-medium">Subtotal:</span>
                   <span className="font-semibold text-green-800">Rs. {parseFloat(order.subtotal || 0).toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-green-700 font-medium">Shipping:</span>
                   <span className="font-semibold text-green-800">Rs. {parseFloat(order.shipping_cost || 0).toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-green-700 font-medium">Tax:</span>
                   <span className="font-semibold text-green-800">Rs. {parseFloat(order.tax || 0).toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-green-700 font-medium">Discount:</span>
                   <span className="font-semibold text-green-800">Rs. {parseFloat(order.discount || 0).toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold text-green-900 pt-2 border-t border-green-300">
+                <div className="flex justify-between text-base sm:text-lg font-bold text-green-900 pt-2 border-t border-green-300">
                   <span>Grand Total:</span>
                   <span>Rs. {parseFloat(order.total_amount || order.grand_total || order.total || 0).toFixed(2)}</span>
                 </div>
