@@ -2,16 +2,18 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import useCartStore from "@/stores/useCartStore";
-import { ShoppingCart } from "lucide-react";
+import { Eye, ShoppingCart } from "lucide-react";
 import { addToCart } from "@/utils/apiHelper";
+import { useRouter } from "next/navigation";
 
 const AddToCartButton = ({ product }) => {
   const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAddToCart = () => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) {
-      window.location.href = '/account';
+      window.location.href = "/account";
       return;
     }
     addToCart(product);
@@ -31,9 +33,10 @@ export default AddToCartButton;
 //using this only for products
 export function AddToCart({ product }) {
   const handleAdd = async () => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) {
-      window.location.href = '/account';
+      window.location.href = "/account";
       return;
     }
     // setAdded(true);
@@ -56,7 +59,7 @@ export function AddToCart({ product }) {
       // disabled={added}
       className="btn py-1 sm:py-2 bg-gray-600 hover:bg-blue-700 text-white w-full px-1 rounded-md font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 text-xs sm:text-sm cursor-pointer"
     >
-      <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-3" />
+      <ShoppingCart className="w-4 h-4 ml-1 sm:w-5 sm:h-5 mr-1 sm:mr-3" />
       Add to Cart
     </button>
   );
@@ -65,9 +68,10 @@ export function AddToCart({ product }) {
 //using this for featured products
 export function AddtoCartFeatured({ product }) {
   const handleAdd = async () => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) {
-      window.location.href = '/account';
+      window.location.href = "/account";
       return;
     }
     // addToCart(product);
@@ -85,13 +89,26 @@ export function AddtoCartFeatured({ product }) {
     }
   };
   return (
-    <div className="flex justify-center">
+    <button
+      onClick={handleAdd}
+      className="bg-gray-600 hover:bg-blue-700 text-white text-xs px-1 sm:px-1 py-1 rounded transition-colors flex items-center cursor-pointer"
+    >
+      <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+      ADD TO CART
+    </button>
+  );
+}
+
+export function ViewProducts({ product }) {
+  const router = useRouter();
+  return (
+    <div className="flex justify-center items-center w-full mt-1">
       <button
-        onClick={handleAdd}
-        className="bg-gray-600 hover:bg-blue-700 text-white text-xs px-2 sm:px-3 py-1 rounded transition-colors flex items-center cursor-pointer"
+        onClick={() => router.push(`/dashboard/${product.product_code}`)}
+        className="btn py-1 sm:py-2 bg-gray-600 hover:bg-blue-700 text-white w-full px-1 rounded-md font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 text-xs sm:text-sm cursor-pointer"
       >
-        <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-        ADD TO CART
+        <Eye className="w-3 h-3 ml-1 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+        VIEW PRODUCTS
       </button>
     </div>
   );

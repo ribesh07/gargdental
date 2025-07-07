@@ -1,19 +1,19 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
 import { ChevronDown, ShoppingCart } from "lucide-react";
-import useCartStore from "@/stores/useCartStore";
-import useToastStore from "@/stores/toastStore";
+// import useCartStore from "@/stores/useCartStore";
+// import useToastStore from "@/stores/toastStore";/
 import useSelectedProductStore from "@/stores/sendingProduct";
-import { baseUrl } from "@/utils/config";
+// import { baseUrl } from "@/utils/config";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 // import HtmlDataConversion from "@/components/HtmlDataConversion";
 // import productRequest from "@/components/product";
 import { useRouter } from "next/navigation";
-import { AddToCart } from "@/components/addtocartbutton";
+import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
 // import { ProductCard } from "@/components/FeaturedProduct";
 import ProductImageZoom from "@/components/ProductImageZoom";
 import { BuyNow } from "@/components/BuyNow";
-import { HtmlContent } from "@/components/HtmlDataConversion";
+// import { HtmlContent } from "@/components/HtmlDataConversion";
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -46,6 +46,8 @@ const DentalSuppliesListing = () => {
           id: product.id,
           product_name: product.product_name,
           product_code: product.product_code,
+          has_variations: product.has_variations,
+          starting_price: product.starting_price,
           brand: product.brand?.brand_name || "No Brand",
           category: product.category?.category_name || "Uncategorized",
           item_number: `#${product.product_code}`,
@@ -363,34 +365,53 @@ function ProductCardMain({ product, showDiscount }) {
         <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
           {product.product_name}
         </h3>
-        <HtmlContent
+        {/* <HtmlContent
           html={product.description}
           className="text-gray-500 text-[14px] mb-0.5 flex-grow line-clamp-1"
-        />
+        /> */}
         {/* <HtmlDataConversion description={product.description} /> */}
 
-        <div className="mt-2 justify-center">
-          <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
-            {product.actual_price &&
-              product.actual_price !== "0.00" &&
-              parseFloat(product.actual_price) >
-                parseFloat(product.sell_price) && (
-                <span className="text-[14px] text-gray-400 line-through">
-                  Rs. {product.actual_price}
-                </span>
-              )}
+        {!product.has_variations && (
+          <div className="mt-2 justify-center">
+            <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
+              {product.actual_price &&
+                product.actual_price !== "0.00" &&
+                parseFloat(product.actual_price) >
+                  parseFloat(product.sell_price) && (
+                  <span className="text-[14px] text-gray-400 line-through">
+                    Rs. {product.actual_price}
+                  </span>
+                )}
+              <span className="text-[14px] sm:text-base font-bold text-red-600">
+                Rs. {product.sell_price}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {product.has_variations === 1 && (
+        <div className="mt-auto w-full">
+          <div className="mt-2 justify-center flex flex-col items-start">
+            <span className="text-[16px] text-gray-400">Starting at</span>
             <span className="text-[14px] sm:text-base font-bold text-red-600">
-              Rs. {product.sell_price}
+              Rs. {product.starting_price}
             </span>
           </div>
+          <ViewProducts product={product} />
         </div>
-      </div>
-      <div className="mt-auto w-full">
-        <BuyNow product={product} />
-      </div>
-      <div className="mt-auto w-full">
-        <AddToCart product={product} />
-      </div>
+      )}
+
+      {!product.has_variations && (
+        <>
+          <div className="mt-auto w-full">
+            <BuyNow product={product} />
+          </div>
+          <div className="mt-auto w-full">
+            <AddToCart product={product} />
+          </div>
+        </>
+      )}
     </div>
   );
 }
