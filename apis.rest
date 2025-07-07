@@ -274,3 +274,6 @@ Content-Type: application/json
 {
     "email":"rk@gmail.com"
 }
+
+###Info for docs footer
+GET https://gargdental.omsok.com/api/v1/compliances 
