@@ -1,11 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import ProductImageZoomSeparate from "./ProductView";
+// import ProductImageZoomSeparate from "./ProductView";
 import ProductImageMagnifier from "@/components/ProductImageMagnifier";
 
 const OverViewProject = ({ product }) => {
   const [isVideo, setIsVideo] = useState(false);
+  const [imageToDisplay, setImageToDisplay] = useState(
+    product.image_url || product.main_image_full_url
+  );
   const [effect, setEffect] = useState("");
   function handleImageClick() {
     // isVideo = !isVideo;
@@ -13,6 +16,7 @@ const OverViewProject = ({ product }) => {
   }
 
   function handleClick(eff) {
+    setImageToDisplay(eff);
     // isVideo = !isVideo;
     setEffect(eff);
     setIsVideo(false);
@@ -35,7 +39,7 @@ const OverViewProject = ({ product }) => {
             <>
               {/* Magnifier integration */}
               <ProductImageMagnifier
-                imageUrl={product.image_url}
+                imageUrl={imageToDisplay}
                 alt={product.product_name || ""}
                 boxWidth={320}
                 boxHeight={320}
@@ -45,8 +49,11 @@ const OverViewProject = ({ product }) => {
           )}
         </div>
 
-        <div className="w-full sm:w-2/3 flex flex-wrap sm:flex-nowrap gap-2 justify-center">
-          <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
+        {product.files_full_url && (
+          <div className="w-full sm:w-2/3 flex flex-wrap sm:flex-nowrap gap-2 justify-center">
+            {product.files_full_url.map((url, index) => (
+              <div key={index}>
+                {/* <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
             <Image
               filter="blur(2px)"
               onClick={() => handleClick("grayscale-25")}
@@ -57,63 +64,47 @@ const OverViewProject = ({ product }) => {
               className="object-contain rounded "
             />
           </div>
-          <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
-            <Image
-              onClick={() => handleClick("invert")}
-              src={product.image_url}
-              alt={product.product_name || ""}
-              width={38}
-              height={38}
-              className="object-contain rounded"
-            />
-          </div>
-          <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
-            <Image
-              onClick={() => handleClick("sepia")}
-              src={product.image_url}
-              alt={product.product_name || ""}
-              width={38}
-              height={38}
-              className="object-contain rounded"
-            />
-          </div>
-          <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded relative w-fit">
-            <Image
-              src={product.image_url}
-              alt={product.product_name || ""}
-              width={38}
-              height={38}
-              className="object-contain rounded"
-            />
+         */}
+                {/* for video */}
+                {/* <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded relative w-fit">
+                  <Image
+                    src={product.image_url}
+                    alt={product.product_name || ""}
+                    width={38}
+                    height={38}
+                    className="object-contain rounded"
+                  />
+                  <button
+                    onClick={() => handleImageClick()}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <div className="bg-gray-400 bg-opacity-50 rounded-full p-1 sm:p-2">
+                      <svg
+                        className="w-3 h-3 sm:w-4 sm:h-4 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M6 4l10 6-10 6V4z" />
+                      </svg>
+                    </div>
+                  </button>
+                </div> */}
 
-            {/* Play Button Overlay */}
-            <button
-              onClick={() => handleImageClick()}
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <div className="bg-gray-400 bg-opacity-50 rounded-full p-1 sm:p-2">
-                <svg
-                  className="w-3 h-3 sm:w-4 sm:h-4 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M6 4l10 6-10 6V4z" />
-                </svg>
+                <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
+                  <Image
+                    onClick={() => handleClick(url)}
+                    key={index}
+                    src={url}
+                    alt={product.product_name}
+                    width={38}
+                    height={38}
+                    className="object-contain rounded"
+                  />
+                </div>
               </div>
-            </button>
+            ))}
           </div>
-
-          <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
-            <Image
-              onClick={() => handleClick("saturate-200")}
-              src={product.image_url}
-              alt={product.product_name || ""}
-              width={38}
-              height={38}
-              className="object-contain rounded"
-            />
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
