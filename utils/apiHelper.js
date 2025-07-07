@@ -609,3 +609,28 @@ export const getAddress = async () => {
     return { error: err.message };
   }
 };
+
+//get customer orders
+export const getCustomerOrders = async () => {
+  try {
+    const response = await apiRequest("/customer/order/list", true);
+    console.log("response from getCustomerOrders", response);
+    if (response.success) {
+      return {
+        success: true,
+        orders: response.orders || [],
+      };
+    } else {
+      return { 
+        success: false, 
+        error: response.message || "Failed to fetch orders" 
+      };
+    }
+  } catch (err) {
+    console.error("Error getting customer orders:", err);
+    return { 
+      success: false, 
+      error: err.message || "An unexpected error occurred" 
+    };
+  }
+};
