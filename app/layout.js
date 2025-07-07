@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import FooterBar from "@/components/FooterBar";
 import "./globals.css";
 import HeaderBarNew from "@/components/HeaderBarNew";
+import TawkToWidget from "@/components/TawkToWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,8 +29,8 @@ export default function RootLayout({ children }) {
       >
         <HeaderBarNew />
         <div className="w-full">{children}</div>
-
         <FooterBar />
+        <TawkToWidget />
         <Toaster position="top-right" />
         <Toast />
       </body>
