@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { getAddress, userDetails } from "@/utils/apiHelper";
 // import MainTopBar from "@/components/mainTopbar";
+import useInfoModalStore from "@/stores/infoModalStore";
 
 export default function OrderSummaryBuyNow() {
   const [couponCode, setCouponCode] = useState("");
@@ -50,6 +51,25 @@ export default function OrderSummaryBuyNow() {
   }, []);
 
   const handleProceedToPay = () => {
+    if (!defaultBillingAddress) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please Add Address.{' '}
+            <a
+              href="/myaccount"
+              className="text-blue-600 underline hover:text-blue-800"
+              style={{ cursor: 'pointer' }}
+            >
+              Go to My Account
+            </a>
+            {' '}to add your address.
+          </span>
+        ),
+      });
+      return;
+    }
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
     setSelectedBillingAddress(defaultBillingAddress);
@@ -58,8 +78,20 @@ export default function OrderSummaryBuyNow() {
     setTimeout(() => {
       setIsProcessing(false);
     }, 1000);
-    router.push("/cart/checkout-buy-now/pay-ops");
+    router.push("/cart/checkout/pay-ops");
   };
+
+  // const handleProceedToPay = () => {
+  //   setIsProcessing(true);
+  //   setSelectedShippingAddress(defaultShippingAddress);
+  //   setSelectedBillingAddress(defaultBillingAddress);
+  //   console.log("defaultShippingAddress", defaultShippingAddress);
+  //   console.log("defaultBillingAddress", defaultBillingAddress);
+  //   setTimeout(() => {
+  //     setIsProcessing(false);
+  //   }, 1000);
+  //   router.push("/cart/checkout-buy-now/pay-ops");
+  // };
 
   const handleRemoveItem = () => {
     alert("Item removed from cart");
@@ -268,7 +300,7 @@ export default function OrderSummaryBuyNow() {
                 <button
                   onClick={handleProceedToPay}
                   disabled={isProcessing}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                     isProcessing
                       ? "bg-green-500 text-white cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-white-300"

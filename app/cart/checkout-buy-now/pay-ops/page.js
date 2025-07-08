@@ -128,7 +128,7 @@ const PayOpsPageBuyNow = () => {
               <button
                 key={method.id}
                 onClick={() => setSelected(method.id)}
-                className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 ${
+                className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 cursor-pointer ${
                   selected === method.id
                     ? "border-blue-700 bg-blue-50 shadow"
                     : "border-gray-200 bg-white hover:bg-gray-50"
