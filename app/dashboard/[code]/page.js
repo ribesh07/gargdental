@@ -11,7 +11,8 @@ import { Star, Share2 } from "lucide-react";
 import ButtonForShare from "./ButtonForShare";
 import { baseUrl } from "@/utils/config";
 import ProductCardList from "./ProductCardList";
-
+import QuantitySelector from "./QuantitySelector";
+import useQuantityStore from "@/stores/AddtoCartStore";
 //to transform product
 function transformProduct(product) {
   return {
@@ -89,6 +90,8 @@ export default async function ProductPage({ params }) {
   console.info("Data fetch started");
   console.warn(`(Link) : ${baseUrl}/products/details/${params.code}`);
 
+  // 1const quantity = useQuantityStore((state) => state.quantity);
+  // console.log("quantity", quantity);
   const product = await getProductByCode(params.code);
   // const product = transformProduct(saampledata);
   console.warn(`Server-side product: ${JSON.stringify(product)}`);
@@ -155,13 +158,10 @@ export default async function ProductPage({ params }) {
             </div> */}
             <br />
 
-            {!product.has_variations && (
-              <div className="flex items-center space-x-3 mb-4">
-                <button className="w-8 h-8 border rounded text-lg">-</button>
-                <span>1</span>
-                <button className="w-8 h-8 border rounded text-lg">+</button>
-              </div>
-            )}
+            {/* {!product.has_variations && (
+              //add to cart button
+              
+            )} */}
 
             {product.catalogue_url && <CatalogButton product={product} />}
 

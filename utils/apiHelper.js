@@ -546,19 +546,33 @@ export const addCustomerAddress = async (addressData) => {
       body: JSON.stringify(payload),
     });
     console.log("response from addCustomerAddress", response);
+    console.log("response.success", response.success);
+    // const responseData = await response.json();
+    // console.log("responseData", responseData);
     if (response.success) {
-      // toast.success(response.message);
+      // console.log("response.message", response.message);
+      toast.success(response.message);
       return {
         success: true,
         message: response.message || "Address added successfully",
         data: response.data,
       };
     } else {
-      toast.error(response.message);
-      return {
-        success: false,
-        message: response.message || "Failed to add address",
-      };
+      if (!response.success) {
+        const errorBody = response;
+
+        const errorMessage =
+          errorBody?.errors?.[0]?.message ||
+          errorBody?.message ||
+          "Something went wrong";
+
+        toast.error(errorMessage);
+        console.log("errorMessage", errorMessage);
+        return {
+          success: false,
+          message: errorMessage,
+        };
+      }
     }
   } catch (err) {
     console.error("Error adding address:", err);
@@ -621,16 +635,36 @@ export const getCustomerOrders = async () => {
         orders: response.orders || [],
       };
     } else {
-      return { 
-        success: false, 
-        error: response.message || "Failed to fetch orders" 
+      return {
+        success: false,
+        error: response.message || "Failed to fetch orders",
       };
     }
   } catch (err) {
     console.error("Error getting customer orders:", err);
-    return { 
-      success: false, 
-      error: err.message || "An unexpected error occurred" 
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred",
     };
+  }
+};
+
+// Fetch compliances (Business Registration, Medical Certifications, Return & Refund Policy, Privacy Policy)
+export const fetchCompliances = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/compliances`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (err) {
+    console.error("Error fetching compliances:", err);
+    return { error: err.message };
   }
 };

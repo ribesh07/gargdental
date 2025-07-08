@@ -6,6 +6,7 @@ import useCartStore from "@/stores/useCartStore";
 import { handleOrder } from "@/utils/apiHelper";
 import useWarningModalStore from "@/stores/warningModalStore";
 import { handleOrderBuyNow } from "@/utils/apiHelper";
+import toast from "react-hot-toast";
 
 const paymentMethods = [
   {
@@ -61,6 +62,7 @@ const codDescription = (
 
 const PayOpsPageBuyNow = () => {
   const [selected, setSelected] = useState("E");
+  const [isProcessing, setIsProcessing] = useState(false);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const selectedShippingAddress = useCartStore(
     (state) => state.selectedShippingAddress
@@ -85,6 +87,7 @@ const PayOpsPageBuyNow = () => {
   const total = subtotal + shipping;
 
   const handleConfirmOrderBuyNow = async () => {
+    setIsProcessing(true);
     const orderData = {
       payment_method: selected,
       billing_address: selectedBillingAddress.id,
@@ -105,7 +108,10 @@ const PayOpsPageBuyNow = () => {
       total,
       date: new Date().toISOString(),
     });
-    router.push("/myaccount");
+    setTimeout(() => {
+      setIsProcessing(false);
+      router.push("/myaccount");
+    }, 400);
   };
 
   return (
@@ -141,8 +147,13 @@ const PayOpsPageBuyNow = () => {
             <>
               {esewaDescription}
               <button
-                className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
-                onClick={() => alert("field to payment")}
+                disabled={isProcessing}
+                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                  isProcessing
+                    ? "bg-green-500 text-white cursor-not-allowed"
+                    : "bg-blue-500 text-white hover:bg-white-300"
+                }`}
+                onClick={() => toast.error("Under Development !")}
               >
                 Pay Now
               </button>
@@ -152,10 +163,15 @@ const PayOpsPageBuyNow = () => {
             <>
               {codDescription}
               <button
+                disabled={isProcessing}
                 onClick={handleConfirmOrderBuyNow}
-                className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
+                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                  isProcessing
+                    ? "bg-green-500 text-white cursor-not-allowed"
+                    : "bg-blue-500 text-white hover:bg-white-300"
+                }`}
               >
-                Confirm Order
+                {isProcessing ? "Processing..." : "Confirm Order"}
               </button>
             </>
           )}

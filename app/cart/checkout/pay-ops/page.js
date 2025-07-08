@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { handleOrder } from "@/utils/apiHelper";
 import useWarningModalStore from "@/stores/warningModalStore";
+import toast from "react-hot-toast";
+// import { Toaster } from "react-hot-toast";
 
 const paymentMethods = [
   {
@@ -141,7 +143,7 @@ const PayOpsPage = () => {
               {esewaDescription}
               <button
                 className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
-                onClick={() => alert("field to payment")}
+                onClick={() => toast.error("Under Development !")}
               >
                 Pay Now
               </button>
