@@ -51,7 +51,10 @@ export default function ShoppingCart() {
         if (response) {
           const mappedCartItems = response.cart.items.map((item) => ({
             id: item.id,
-            image: item.product.image_full_url,
+            image:
+              item.product.image_full_url ||
+              item.product.main_image_full_url ||
+              "https://dentalnepal.com/assets/logo.png",
             name: item.product.product_name,
             product_code: item.product.product_code,
             quantity: item.quantity,

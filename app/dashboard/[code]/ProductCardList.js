@@ -30,12 +30,12 @@ export default function ProductCardList({ products }) {
             className="flex justify-between items-center border rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition bg-white w-full min-w-0"
           >
             <div className="flex-1 min-w-0">
-              <img
+              {/* <img
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-md"
                 style={{ objectFit: "cover" }}
                 src={product.image_full_url}
                 alt={product.product_name}
-              />
+              /> */}
               <div className="font-semibold text-base sm:text-lg mb-1 sm:mb-2 truncate">
                 {product.product_name}
               </div>
