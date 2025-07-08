@@ -121,7 +121,7 @@ const GargDental = () => {
           <div className="max-w-full px-2 sm:px-4 py-2 sm:py-6 lg:py-8 text-center">
             <div className="relative max-w-7xl h-[60px] sm:h-[80px] lg:h-[80px] mx-auto">
               <img
-                src="https://www.henryschein.com/us-en/images/dental/pageheader/default.png"
+                src="/assets/banner.png"
                 alt="Garg Logo"
                 className="w-full h-full object-cover rounded"
               />

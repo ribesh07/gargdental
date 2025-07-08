@@ -122,7 +122,7 @@ export default async function ProductPage({ params }) {
           Product Details
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 origin-top">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 origin-top">
           {/* Product Image */}
           <OverViewProject product={product} />
           {/* <ProductImageZoomSeparate product={product} /> */}

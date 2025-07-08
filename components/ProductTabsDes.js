@@ -11,9 +11,9 @@ export default function ProductTabs({ product }) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-full sm:max-w-4xl mx-auto">
       {/* Tabs */}
-      <div className=" flex flex-col sm:flex-row gap-2 sm:gap-0 border-b border-gray-300">
+      <div className=" flex flex-col sm:flex-row gap-2  sm:gap-3 border-b border-gray-300">
         <button
           onClick={() => setActiveTab("description")}
           className={`px-2 py-2 font-semibold ${

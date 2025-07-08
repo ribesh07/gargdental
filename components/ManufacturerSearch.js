@@ -1,42 +1,62 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
-const manufacturers = [
-  "A B Dental Trends Inc",
-  "A&A Global",
-  "A&T Surgical Mfg. Co., Inc.",
-  "A-dec/W&H",
-  "B. Titan Instruments",
-  "Abbott Laboratories",
-  "Abbott Rapid DX N.America",
-  "Abbvie Laboratories",
-  "Compounding Co.,Inc.",
-  "AbilityOne",
-  "Abm North America Corp",
-  "Acacia Pharma Inc",
-  "Accentra, Inc.",
-  "CCA Brands",
-  "ACCO International Inc.",
-  "Accord Healthcare Inc",
-  "ACCURATE MANUFACTURING",
-  "Accutec Blades, Inc",
-  "Accutome",
-  "Accutron, Inc.",
-  "Ace Surgical",
-  "Acella Pharmaceuticals",
-  "ACI Healthcare USA",
-  "Ackuretta Technolies",
-];
+// const manufacturers = [
+//   "A B Dental Trends Inc",
+//   "A&A Global",
+//   "A&T Surgical Mfg. Co., Inc.",
+//   "A-dec/W&H",
+//   "B. Titan Instruments",
+//   "Abbott Laboratories",
+//   "Abbott Rapid DX N.America",
+//   "Abbvie Laboratories",
+//   "Compounding Co.,Inc.",
+//   "AbilityOne",
+//   "Abm North America Corp",
+//   "Acacia Pharma Inc",
+//   "Accentra, Inc.",
+//   "CCA Brands",
+//   "ACCO International Inc.",
+//   "Accord Healthcare Inc",
+//   "ACCURATE MANUFACTURING",
+//   "Accutec Blades, Inc",
+//   "Accutome",
+//   "Accutron, Inc.",
+//   "Ace Surgical",
+//   "Acella Pharmaceuticals",
+//   "ACI Healthcare USA",
+//   "Ackuretta Technolies",
+// ];
 
 export default function ManufacturerFilter() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [manufacturers, setManufacturers] = useState([]);
   const [selectedLetter, setSelectedLetter] = useState("");
   const router = useRouter();
 
+  const fetchManufacturers = async () => {
+    const response = await apiRequest("/brands", false);
+    if (response.success) {
+      console.log("response.brands", response);
+      const simplifiedBrands = response.brands.map((brand) => ({
+        id: brand.id,
+        brand_name: brand.brand_name,
+      }));
+      setManufacturers(simplifiedBrands);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    setLoading(true);
+    fetchManufacturers();
+  }, []);
+
   const filteredManufacturers = manufacturers.filter((manufacturer) => {
-    const matchesSearch = manufacturer
+    const matchesSearch = manufacturer.brand_name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
@@ -44,8 +64,8 @@ export default function ManufacturerFilter() {
       selectedLetter === ""
         ? true
         : selectedLetter === "#"
-        ? !/^[A-Z]/i.test(manufacturer.charAt(0))
-        : manufacturer.startsWith(selectedLetter);
+        ? !/^[A-Z]/i.test(manufacturer.brand_name.charAt(0))
+        : manufacturer.brand_name.startsWith(selectedLetter);
 
     return matchesSearch && matchesLetter;
   });
@@ -97,7 +117,13 @@ export default function ManufacturerFilter() {
           ].map((letter) => (
             <button
               key={letter}
-              onClick={() => setSelectedLetter(letter)}
+              onClick={() => {
+                if (letter === selectedLetter) {
+                  setSelectedLetter("");
+                } else {
+                  setSelectedLetter(letter);
+                }
+              }}
               className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 selectedLetter === letter
                   ? "bg-[#0072bc] text-white"
@@ -114,13 +140,13 @@ export default function ManufacturerFilter() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
         {filteredManufacturers.map((manufacturer, index) => (
           <div
-            key={index}
+            key={manufacturer.id || index}
             onClick={() => router.push(`/product`)}
             className="p-2 sm:p-3 lg:p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-white border-gray-200 hover:border-gray-300"
           >
             <Link href={`/product`}>
               <span className="text-xs sm:text-sm font-medium block">
-                {manufacturer}
+                {manufacturer.brand_name}
               </span>
             </Link>
           </div>

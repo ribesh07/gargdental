@@ -23,7 +23,7 @@ const OverViewProject = ({ product }) => {
   }
 
   return (
-    <div className="w-full flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-8 p-2 sm:p-4">
+    <div className="w-full flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-2 sm:p-4">
       <div className="flex flex-col items-center w-full">
         <div className="w-full max-w-xs sm:max-w-[80%] aspect-square relative -mt-1 sm:mr-5 mb-4 hover:shadow-md border-2 border-gray-300 rounded">
           {isVideo ? (

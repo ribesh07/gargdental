@@ -161,12 +161,12 @@ export default function ManageMyAccount({
         </div>
 
         {/* Recent Orders */}
-        <div className="text-center mt-auto">
+        {/* <div className="text-center mt-auto">
           <h3 className="text-md font-bold text-blue-900 uppercase mb-2">
             Recent Orders
           </h3>
           <div className="text-gray-500 text-sm">No recent orders found.</div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
