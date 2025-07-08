@@ -122,7 +122,7 @@ const PayOpsPageBuyNow = () => {
               <button
                 key={method.id}
                 onClick={() => setSelected(method.id)}
-                className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 ${
+                className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 cursor-pointer ${
                   selected === method.id
                     ? "border-blue-700 bg-blue-50 shadow"
                     : "border-gray-200 bg-white hover:bg-gray-50"
@@ -141,7 +141,7 @@ const PayOpsPageBuyNow = () => {
             <>
               {esewaDescription}
               <button
-                className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
+                className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors cursor-pointer"
                 onClick={() => alert("field to payment")}
               >
                 Pay Now
@@ -153,7 +153,7 @@ const PayOpsPageBuyNow = () => {
               {codDescription}
               <button
                 onClick={handleConfirmOrderBuyNow}
-                className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
+                className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors cursor-pointer"
               >
                 Confirm Order
               </button>

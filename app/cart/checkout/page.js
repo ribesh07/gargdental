@@ -4,6 +4,7 @@ import { Trash2, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { getAddress, userDetails } from "@/utils/apiHelper";
+import useInfoModalStore from "@/stores/infoModalStore";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -50,6 +51,25 @@ export default function OrderSummary() {
   }, []);
 
   const handleProceedToPay = () => {
+    if (!defaultBillingAddress) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please Add Address.{' '}
+            <a
+              href="/myaccount"
+              className="text-blue-600 underline hover:text-blue-800"
+              style={{ cursor: 'pointer' }}
+            >
+              Go to My Account
+            </a>
+            {' '}to add your address.
+          </span>
+        ),
+      });
+      return;
+    }
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
     setSelectedBillingAddress(defaultBillingAddress);
@@ -67,6 +87,7 @@ export default function OrderSummary() {
   // };
 
   const handleRemoveItem = () => {
+    
     alert("Item removed from cart");
   };
 
@@ -286,7 +307,7 @@ export default function OrderSummary() {
               {/* Proceed to Pay */}
               <div className="space-y-4">
                 <div className="text-center">
-                  <p className="text-lg font-semibold text-gray-800 mb-4">
+                  <p className="text-lg font-semibold text-gray-800 mb-4 ">
                     PROCEED TO PAY
                   </p>
                 </div>
@@ -294,7 +315,7 @@ export default function OrderSummary() {
                 <button
                   onClick={handleProceedToPay}
                   disabled={isProcessing}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                     isProcessing
                       ? "bg-green-500 text-white cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-white-300"

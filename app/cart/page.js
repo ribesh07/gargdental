@@ -213,7 +213,7 @@ export default function ShoppingCart() {
                       </span>
                     </label>
                     <button
-                      className="text-red-600 font-semibold hover:underline text-sm sm:text-base self-start sm:self-auto"
+                      className="text-red-600 font-semibold hover:underline text-sm sm:text-base self-start sm:self-auto cursor-pointer"
                       onClick={handleClearCart}
                     >
                       Clear All
@@ -263,7 +263,7 @@ export default function ShoppingCart() {
                             {/* Remove Button */}
                             <button
                               onClick={() => removeItem(item.id)}
-                              className="text-red-500 hover:text-red-700 p-1 flex-shrink-0"
+                              className="text-red-500 hover:text-red-700 p-1 flex-shrink-0 cursor-pointer"
                             >
                               <Trash2 className="w-5 h-5" />
                             </button>
@@ -276,7 +276,7 @@ export default function ShoppingCart() {
                                 onClick={() =>
                                   updateQuantity(item.id, item.quantity - 1)
                                 }
-                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                                 disabled={item.quantity <= 1}
                               >
                                 <Minus className="w-4 h-4" />
@@ -297,7 +297,7 @@ export default function ShoppingCart() {
                                 onClick={() =>
                                   updateQuantity(item.id, item.quantity + 1)
                                 }
-                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                               >
                                 <Plus className="w-4 h-4" />
                               </button>
@@ -352,7 +352,7 @@ export default function ShoppingCart() {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity - 1)
                               }
-                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                               disabled={item.quantity <= 1}
                             >
                               <Minus className="w-4 h-4" />
@@ -373,7 +373,7 @@ export default function ShoppingCart() {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity + 1)
                               }
-                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
@@ -387,7 +387,7 @@ export default function ShoppingCart() {
                           {/* Remove Button */}
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="text-red-500 hover:text-red-700 p-1"
+                            className="text-red-500 hover:text-red-700 p-1 cursor-pointer"
                           >
                             <Trash2 className="w-5 h-5" />
                           </button>
@@ -426,7 +426,7 @@ export default function ShoppingCart() {
                   onClick={() => {
                     router.push("/cart/checkout");
                   }}
-                  className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
+                  className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors cursor-pointer"
                 >
                   CHECKOUT
                 </button>
@@ -505,7 +505,7 @@ export default function ShoppingCart() {
                   </div>
                   <div className="flex justify-center mt-6">
                     <button
-                      className="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition-colors font-medium"
+                      className="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition-colors font-medium cursor-pointer"
                       onClick={() => {
                         if (selectedItems.size === 0) {
                           useInfoModalStore.getState().open({

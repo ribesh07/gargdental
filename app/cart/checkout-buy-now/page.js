@@ -268,7 +268,7 @@ export default function OrderSummaryBuyNow() {
                 <button
                   onClick={handleProceedToPay}
                   disabled={isProcessing}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                     isProcessing
                       ? "bg-green-500 text-white cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-white-300"
