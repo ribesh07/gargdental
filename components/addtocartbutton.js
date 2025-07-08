@@ -31,7 +31,7 @@ const AddToCartButton = ({ product }) => {
 export default AddToCartButton;
 
 //using this only for products
-export function AddToCart({ product }) {
+export function AddToCart({ product, quantity = 1 }) {
   const handleAdd = async () => {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -43,7 +43,7 @@ export function AddToCart({ product }) {
     console.warn(product.sell_price + " inside add to cart ");
     const response = await addToCart(
       product.product_code,
-      1,
+      quantity,
       product.sell_price
     );
     if (response && response.success) {

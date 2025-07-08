@@ -61,9 +61,11 @@ export default function AddAddressForm({
 
     const response = await addCustomerAddress(formData);
     console.log("response from handleSubmit", response);
-    if (response.success) {
+    if (response.success === true) {
       toast.success(response.message);
       onUpdate(response.data);
+    } else if (response.success === false) {
+      toast.error(response.message);
     }
   };
 
@@ -214,6 +216,7 @@ export default function AddAddressForm({
               Local Address / Tole
             </label>
             <input
+              required
               type="text"
               id="address"
               name="address"

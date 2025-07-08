@@ -12,11 +12,11 @@ export const apiRequest = async (url, tokenReq = true, options = {}) => {
   };
   const response = await fetch(url, { ...options, headers });
   const data = await response.json();
-
-  if (response.ok) {
+  console.log("data", data);
+  if (response.ok && data.success) {
     return data;
   } else {
-    return data.message;
+    return data;
   }
 };
 

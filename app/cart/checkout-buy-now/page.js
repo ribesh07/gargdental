@@ -247,7 +247,7 @@ export default function OrderSummaryBuyNow() {
               </div>
 
               {/* Coupon Code */}
-              <div>
+              {/* <div>
                 <input
                   type="text"
                   placeholder="Enter coupon code"
@@ -255,7 +255,7 @@ export default function OrderSummaryBuyNow() {
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
                 />
-              </div>
+              </div> */}
 
               {/* Proceed to Pay */}
               <div className="space-y-4">

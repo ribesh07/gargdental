@@ -27,7 +27,7 @@ export default function ShoppingCart() {
 
   const [added, setAdded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isProcessing, setIsProcessing] = useState(false);
   const [selectedAddressType, setSelectedAddressType] = useState("");
   const setSelectedShippingAddress = useCartStore(
     (state) => state.setSelectedShippingAddress
@@ -172,6 +172,28 @@ export default function ShoppingCart() {
     if (response && response.success) {
       useCartStore.getState().clearCart();
     }
+  };
+
+  const handleProceedToCheckout = () => {
+    if (selectedItems.size === 0) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: "Please select at least one item.",
+      });
+      return;
+    }
+    setIsProcessing(true);
+
+    // Save selected items to store
+    const selectedCartItems = cartItems.filter((item) =>
+      selectedItems.has(item.id)
+    );
+    setSelectedItemsStore(selectedCartItems);
+    setTimeout(() => {
+      setIsProcessing(false);
+      router.push("/cart/checkout");
+    }, 400);
+    // Save selected address to store
   };
 
   return (
@@ -505,27 +527,15 @@ export default function ShoppingCart() {
                   </div>
                   <div className="flex justify-center mt-6">
                     <button
-                      className="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition-colors font-medium cursor-pointer"
-                      onClick={() => {
-                        if (selectedItems.size === 0) {
-                          useInfoModalStore.getState().open({
-                            title: "Info",
-                            message: "Please select at least one item.",
-                          });
-                          return;
-                        }
-
-                        // Save selected items to store
-                        const selectedCartItems = cartItems.filter((item) =>
-                          selectedItems.has(item.id)
-                        );
-                        setSelectedItemsStore(selectedCartItems);
-                        // Save selected address to store
-
-                        router.push("/cart/checkout");
-                      }}
+                      disabled={isProcessing}
+                      className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                        isProcessing
+                          ? "bg-green-500 text-white cursor-not-allowed"
+                          : "bg-blue-500 text-white hover:bg-white-300"
+                      }`}
+                      onClick={handleProceedToCheckout}
                     >
-                      PROCEED TO CHECKOUT
+                      {isProcessing ? "Processing..." : "PROCEED TO CHECKOUT"}
                     </button>
                   </div>
                 </div>

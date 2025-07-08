@@ -294,7 +294,7 @@ export default function OrderSummary() {
               </div>
 
               {/* Coupon Code */}
-              <div>
+              {/* <div>
                 <input
                   type="text"
                   placeholder="Enter coupon code"
@@ -302,7 +302,7 @@ export default function OrderSummary() {
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
                 />
-              </div>
+              </div> */}
 
               {/* Proceed to Pay */}
               <div className="space-y-4">
@@ -323,16 +323,6 @@ export default function OrderSummary() {
                 >
                   {isProcessing ? "Processing..." : "Proceed to Pay"}
                 </button>
-
-                {/* <div className="text-center">
-                  <p className="text-sm text-red-500">
-                    Please add an address{" "}
-                    <button className="text-blue-500 hover:underline">
-                      here
-                    </button>{" "}
-                    to proceed.
-                  </p>
-                </div> */}
               </div>
             </div>
           </div>
