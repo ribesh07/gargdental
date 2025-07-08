@@ -634,3 +634,23 @@ export const getCustomerOrders = async () => {
     };
   }
 };
+
+// Fetch compliances (Business Registration, Medical Certifications, Return & Refund Policy, Privacy Policy)
+export const fetchCompliances = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/compliances`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (err) {
+    console.error("Error fetching compliances:", err);
+    return { error: err.message };
+  }
+};
