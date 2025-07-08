@@ -123,14 +123,14 @@ export default function AddressBook({
                     </div>
                     <button
                       onClick={() => handleDelete(officeAddress?.id)}
-                      className="text-red-600 text-sm hover:underline font-semibold"
+                      className="text-red-600 text-sm hover:underline font-semibold cursor-pointer"
                     >
                       DELETE
                     </button>
                   </div>
                   <button
                     onClick={() => onEditHome(officeAddress)}
-                    className="text-blue-500 text-sm hover:underline font-semibold"
+                    className="text-blue-500 text-sm hover:underline font-semibold cursor-pointer"
                   >
                     EDIT
                   </button>
@@ -159,7 +159,7 @@ export default function AddressBook({
               {/* Add Address Button pinned to bottom-right */}
               <button
                 onClick={() => setShowEditAddress(true)}
-                className="absolute bottom-6 right-6 bg-blue-600 text-white text-sm font-semibold rounded-full px-4 py-2 shadow-lg hover:text-red-600 transition trasntion-duration-300"
+                className="absolute bottom-6 right-6 bg-blue-600 text-white text-sm font-semibold rounded-full px-4 py-2 shadow-lg hover:text-red-600 transition trasntion-duration-300 cursor-pointer"
               >
                 Add Address
               </button>

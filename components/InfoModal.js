@@ -22,7 +22,7 @@ const InfoModal = () => {
           <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-center">{title || "Info Title"}</h2>
           <p className="text-gray-600 mb-4 sm:mb-6 text-center text-sm sm:text-base">{message || "Info Message"}</p>
           <button
-            className="bg-sky-400 hover:bg-sky-500 text-white px-6 sm:px-8 py-2 rounded-full font-semibold text-base sm:text-lg"
+            className="bg-sky-400 hover:bg-sky-500 text-white px-6 sm:px-8 py-2 rounded-full font-semibold text-base sm:text-lg cursor-pointer"
             onClick={() => { onOkay && onOkay(); close(); }}
           >
             Okay

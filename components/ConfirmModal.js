@@ -23,13 +23,13 @@ const ConfirmModal = () => {
           <p className="text-gray-600 mb-4 sm:mb-6 text-center text-sm sm:text-base">{message || "Confirm Message"}</p>
           <div className="flex gap-2 sm:gap-4 justify-center">
             <button
-              className="bg-red-400 hover:bg-red-600 text-white px-6 sm:px-8 py-2 rounded-full font-semibold text-base sm:text-lg"
+              className="bg-red-400 hover:bg-red-600 text-white px-6 sm:px-8 py-2 rounded-full font-semibold text-base sm:text-lg cursor-pointer"
               onClick={() => { onConfirm && onConfirm(); close(); }}
             >
               Okay
             </button>
             <button
-              className="bg-blue-400 hover:bg-blue-600 text-white px-6 sm:px-8 py-2 rounded-full font-semibold text-base sm:text-lg"
+              className="bg-blue-400 hover:bg-blue-600 text-white px-6 sm:px-8 py-2 rounded-full font-semibold text-base sm:text-lg cursor-pointer"
               onClick={() => { onCancel && onCancel(); close(); }}
             >
               Cancel

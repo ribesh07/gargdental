@@ -191,7 +191,7 @@ export default function MyOrders() {
                 </span>
                 {order.order_status !== "cancelled" && (
                   <button
-                    className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50"
+                    className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
                     onClick={() => handleCancelOrder(order.id)}
                   >
                     Cancel
