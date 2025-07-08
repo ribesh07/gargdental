@@ -51,7 +51,10 @@ export default function ShoppingCart() {
         if (response) {
           const mappedCartItems = response.cart.items.map((item) => ({
             id: item.id,
-            image: item.product.image_full_url,
+            image:
+              item.product.image_full_url ||
+              item.product.main_image_full_url ||
+              "https://dentalnepal.com/assets/logo.png",
             name: item.product.product_name,
             product_code: item.product.product_code,
             quantity: item.quantity,
@@ -235,7 +238,7 @@ export default function ShoppingCart() {
                       </span>
                     </label>
                     <button
-                      className="text-red-600 font-semibold hover:underline text-sm sm:text-base self-start sm:self-auto"
+                      className="text-red-600 font-semibold hover:underline text-sm sm:text-base self-start sm:self-auto cursor-pointer"
                       onClick={handleClearCart}
                     >
                       Clear All
@@ -285,7 +288,7 @@ export default function ShoppingCart() {
                             {/* Remove Button */}
                             <button
                               onClick={() => removeItem(item.id)}
-                              className="text-red-500 hover:text-red-700 p-1 flex-shrink-0"
+                              className="text-red-500 hover:text-red-700 p-1 flex-shrink-0 cursor-pointer"
                             >
                               <Trash2 className="w-5 h-5" />
                             </button>
@@ -298,7 +301,7 @@ export default function ShoppingCart() {
                                 onClick={() =>
                                   updateQuantity(item.id, item.quantity - 1)
                                 }
-                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                                 disabled={item.quantity <= 1}
                               >
                                 <Minus className="w-4 h-4" />
@@ -319,7 +322,7 @@ export default function ShoppingCart() {
                                 onClick={() =>
                                   updateQuantity(item.id, item.quantity + 1)
                                 }
-                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                                className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                               >
                                 <Plus className="w-4 h-4" />
                               </button>
@@ -374,7 +377,7 @@ export default function ShoppingCart() {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity - 1)
                               }
-                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                               disabled={item.quantity <= 1}
                             >
                               <Minus className="w-4 h-4" />
@@ -395,7 +398,7 @@ export default function ShoppingCart() {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity + 1)
                               }
-                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                              className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
@@ -409,7 +412,7 @@ export default function ShoppingCart() {
                           {/* Remove Button */}
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="text-red-500 hover:text-red-700 p-1"
+                            className="text-red-500 hover:text-red-700 p-1 cursor-pointer"
                           >
                             <Trash2 className="w-5 h-5" />
                           </button>
@@ -448,7 +451,7 @@ export default function ShoppingCart() {
                   onClick={() => {
                     router.push("/cart/checkout");
                   }}
-                  className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
+                  className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors cursor-pointer"
                 >
                   CHECKOUT
                 </button>
@@ -528,7 +531,7 @@ export default function ShoppingCart() {
                   <div className="flex justify-center mt-6">
                     <button
                       disabled={isProcessing}
-                      className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                      className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                         isProcessing
                           ? "bg-green-500 text-white cursor-not-allowed"
                           : "bg-blue-500 text-white hover:bg-white-300"

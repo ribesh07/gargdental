@@ -1,101 +1,38 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import ManufacturerFilter from "@/components/ManufacturerSearch";
 import { useRouter } from "next/navigation";
 import GargDental from "./dashboard/page";
-
-const categories = [
-  {
-    id: "anesthetics",
-    name: "Anesthetics",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_Anesthetics_600x256.png",
-    description: "Dental anesthetics and injection equipment",
-  },
-  {
-    id: "burs-diamonds",
-    name: "Burs & Diamonds",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_Burs_Diamonds_600x256.png",
-    description: "Cutting burs and diamond instruments",
-  },
-  {
-    id: "cadcam",
-    name: "CAD/CAM",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_CAD_CAM_600x256.png",
-    description: "Computer-aided design and manufacturing",
-  },
-  {
-    id: "crown-bridge",
-    name: "Crown & Bridge",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_Crown_Bridge_600x256.png",
-    description: "Crown and bridge materials",
-  },
-  {
-    id: "dental-equipment",
-    name: "Dental Equipment Parts and Accessories",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_Dental_Equipment_Parts_and_Accessories_600x256.png",
-    description: "Equipment parts and accessories",
-  },
-  {
-    id: "disposables",
-    name: "Disposables",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_Disposables_600x256.png",
-    description: "Single-use dental supplies",
-  },
-  {
-    id: "education",
-    name: "Education, Patient & Staff",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_Education_Patient_Staff_600x256.png",
-    description: "Educational materials and resources",
-  },
-  {
-    id: "endodontics",
-    name: "Endodontics",
-    image:
-      "https://www.henryschein.com/Products/tocstoc/dental/1_Endodontics_600x256.png",
-    description: "Root canal treatment supplies",
-  },
-];
-
-const manufacturers = [
-  "A B Dental Trends Inc",
-  "Global",
-  "Surgical Mfg. Co., Inc.",
-  "A-dec/W&H",
-  "B. Titan Instruments",
-  "Abbott Laboratories",
-  "Abbott Rapid DX N.America",
-  "Abbvie Laboratories",
-  "Compounding Co.,Inc.",
-  "AbilityOne",
-  "Abm North America Corp",
-  "Acacia Pharma Inc",
-  "Accentra, Inc.",
-  "ACCO Brands",
-  "ACCO International Inc.",
-  "Accord Healthcare Inc",
-  "ACCURATE MANUFACTURING",
-  "Accutec Blades, Inc",
-  "Accutome",
-  "Accutron, Inc.",
-  "Ace Surgical",
-  "Acella Pharmaceuticals",
-  "Healthcare USA",
-  "Ackuretta Technolies",
-];
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 export function CategoriesViews() {
   const [activeTab, setActiveTab] = useState("categories");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await apiRequest("/categories", false);
+      if (response.success) {
+        const mapCategory = (category) => {
+          return {
+            id: category.id,
+            name: category.category_name,
+            image: category.image_full_url,
+            parent_id: category.parent_id,
+            active_children: category.active_children?.map(mapCategory) || [],
+          };
+        };
+        const mappedCategories = response.categories.map(mapCategory);
+        console.log("mappedCategories", mappedCategories);
+        setCategories(mappedCategories);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -145,25 +82,25 @@ export function CategoriesViews() {
               </h2>
               <nav className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Deal Of The Week
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Top Deals
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Browse Supplies
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Web Priced Products
@@ -176,13 +113,13 @@ export function CategoriesViews() {
                 </div>
 
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Order from History
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   My Order
@@ -207,25 +144,25 @@ export function CategoriesViews() {
                 </div>
 
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   No Charge Goods & Redemptions
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Flyers & Magazines
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Catalogs
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Henry Schein Brand
@@ -237,13 +174,13 @@ export function CategoriesViews() {
                   Request Catalog
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   SDS Look-up
                 </Link>
                 <Link
-                  href="/product"
+                  href="/"
                   className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
                 >
                   Webinars & Videos
@@ -268,11 +205,11 @@ export function CategoriesViews() {
                   >
                     Categories
                   </button>
-                  {activeTab === "categories" && (
+                  {/* {activeTab === "categories" && (
                     <span className="ml-2 text-[10px] sm:text-xs font-bold text-[#0072bc]">
                       Total: {categories.length}
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="flex flex-col items-start">
                   <button
@@ -285,11 +222,11 @@ export function CategoriesViews() {
                   >
                     Companies
                   </button>
-                  {activeTab === "manufacturers" && (
+                  {/* {activeTab === "manufacturers" && (
                     <span className="ml-2 text-[10px] sm:text-xs font-bold text-[#0072bc]">
                       Total: {manufacturers.length}
                     </span>
-                  )}
+                  )} */}
                 </div>
               </nav>
             </div>
@@ -314,12 +251,12 @@ export function CategoriesViews() {
                       <h3 className="font-medium text-gray-900 mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base">
                         {category.name}
                       </h3>
-                      <p
+                      {/* <p
                         className="text-xs sm:text-sm text-gray-600"
                         onClick={() => router.push(`/product/${category.id}`)}
                       >
                         {category.description}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 ))}

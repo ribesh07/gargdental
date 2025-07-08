@@ -384,9 +384,9 @@ const HeaderBarNew = () => {
                   className="flex items-center space-x-2 hover:underline cursor-pointer"
                   onClick={() => router.push("/cart")}
                 >
-                  <span className="text-gray-700 text-[12px]">My Order:</span>
+                  <span className="text-gray-700 text-[12px]">My Cart:</span>
                   <span className="font-bold text-lg text-[12px]">
-                    {cartTotal}
+                    Rs. {cartTotal}
                   </span>
                   <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
                     <ShoppingBag className="w-4 h-4 cursor-pointer" />
@@ -494,8 +494,12 @@ const HeaderBarNew = () => {
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-700 text-sm">My Order:</span>
-                    <span className="font-bold text-lg">{cartTotal}</span>
+                    <span className="text-gray-700 text-sm underline">
+                      My Cart:
+                    </span>
+                    <span className="font-bold text-lg underline">
+                      Rs. {cartTotal}
+                    </span>
                   </div>
                   <div className="flex items-center mt-2">
                     <ShoppingBag className="w-4 h-4 mr-2" />

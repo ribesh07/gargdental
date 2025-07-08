@@ -34,7 +34,7 @@ export default function ManageMyAccount({
               <span className="font-semibold">Personal Profile</span>
               <button
                 onClick={onEditProfile}
-                className="text-blue-500 text-sm underline"
+                className="text-blue-500 text-sm underline cursor-pointer"
               >
                 EDIT
               </button>
@@ -55,7 +55,7 @@ export default function ManageMyAccount({
               <span className="font-semibold">Address Book</span>
               <button
                 onClick={onEditAddress}
-                className="text-blue-500 text-sm underline"
+                className="text-blue-500 text-sm underline cursor-pointer"
               >
                 EDIT
               </button>
@@ -113,7 +113,7 @@ export default function ManageMyAccount({
               </div>
               <button
                 onClick={onChangePassword}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
               >
                 Change
               </button>
@@ -133,7 +133,7 @@ export default function ManageMyAccount({
               </div>
               <button
                 onClick={onRemoveAccount}
-                className="text-red-600 hover:text-red-800 text-sm font-medium"
+                className="text-red-600 hover:text-red-800 text-sm font-medium cursor-pointer"
               >
                 Remove
               </button>
@@ -161,12 +161,12 @@ export default function ManageMyAccount({
         </div>
 
         {/* Recent Orders */}
-        <div className="text-center mt-auto">
+        {/* <div className="text-center mt-auto">
           <h3 className="text-md font-bold text-blue-900 uppercase mb-2">
             Recent Orders
           </h3>
           <div className="text-gray-500 text-sm">No recent orders found.</div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

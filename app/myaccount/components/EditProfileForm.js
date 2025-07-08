@@ -199,14 +199,14 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
             type="button"
             onClick={onCancel}
             disabled={isLoading}
-            className="bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
+            className="bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 cursor-pointer"
           >
             CANCEL
           </button>
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-blue-900 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-800 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="bg-blue-900 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-800 transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer"
           >
             {isLoading ? (
               <>

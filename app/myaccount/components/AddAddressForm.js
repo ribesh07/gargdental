@@ -210,6 +210,7 @@ export default function AddAddressForm({
           {/* Local Address / Tole */}
           <div>
             <label
+            required
               htmlFor="localAddress"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
@@ -250,13 +251,13 @@ export default function AddAddressForm({
           <button
             type="button"
             onClick={onCancel}
-            className="bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-lg hover:bg-gray-300 transition-colors"
+            className="bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-lg hover:bg-gray-300 transition-colors cursor-pointer"
           >
             CANCEL
           </button>
           <button
             type="submit"
-            className="bg-blue-900 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-800 transition-colors"
+            className="bg-blue-900 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-800 transition-colors cursor-pointer"
           >
             ADD ADDRESS
           </button>

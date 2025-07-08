@@ -315,7 +315,7 @@ const DentalSuppliesListing = () => {
           <div className="text-center mt-6 sm:mt-8">
             <button
               onClick={() => handleLoadMore()}
-              className="bg-[#bf0000] text-white px-3 sm:px-4 py-2 rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
+              className="bg-[#bf0000] text-white px-3 sm:px-4 py-2 rounded-md hover:bg-blue-600 transition text-sm sm:text-base cursor-pointer"
             >
               Load More
             </button>

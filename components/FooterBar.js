@@ -79,7 +79,7 @@ export default function FooterBar() {
               {/* Social Media Icons */}
               <div className="flex space-x-4 pt-4">
                 <Link
-                  href="#"
+                  href="https://www.facebook.com/gargdentalnpl/"
                   className="w-8 h-8 bg-blue-500 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors"
                 >
                   <Facebook className="w-4 h-4" />
@@ -97,7 +97,7 @@ export default function FooterBar() {
                   <Youtube className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://www.instagram.com/gargdentalpvt.ltd/"
                   className="w-8 h-8 bg-blue-500 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors"
                 >
                   <Instagram className="w-4 h-4" />
@@ -228,7 +228,7 @@ export default function FooterBar() {
                     onClick={() => {
                       handleSubscribe(email);
                     }}
-                    className="px-3 sm:px-6 py-1 sm:py-2 bg-blue-800 hover:bg-blue-900 text-white font-medium rounded-r-md transition-colors text-xs sm:text-sm"
+                    className="px-3 sm:px-6 py-1 sm:py-2 bg-blue-800 hover:bg-blue-900 text-white font-medium rounded-r-md transition-colors text-xs sm:text-sm cursor-pointer"
                   >
                     SUBSCRIBE
                   </button>
