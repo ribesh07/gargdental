@@ -43,7 +43,7 @@ export function CategoriesViews() {
       <div className="lg:hidden mb-4">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors"
+          className="w-full bg-[#0072bc] text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors"
         >
           <span>{sidebarOpen ? "Close Menu" : "Open Menu"}</span>
           <svg
@@ -235,7 +235,7 @@ export function CategoriesViews() {
 
           {/* Categories Tab */}
           {activeTab === "categories" && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
               {categories.map((category) => (
                 <div
                   key={category.id}
