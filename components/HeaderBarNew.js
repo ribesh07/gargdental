@@ -372,7 +372,7 @@ const HeaderBarNew = () => {
                   Hot Sales
                 </Link>
                 <Link
-                  href="/contact-us"
+                  href="/NewClinicSetup"
                   className="hover:underline font-semibold"
                 >
                   New Clinic Setup

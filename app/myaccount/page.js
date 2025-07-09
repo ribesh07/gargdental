@@ -14,7 +14,7 @@ import EditAddressForm from "./components/EditAddressForm";
 import ChangePasswordForm from "@/components/ChangePasswordForm";
 import RemoveAccountModal from "@/components/RemoveAccountModal";
 import FullScreenLoader from "@/components/FullScreenLoader";
-import { getFullInfo } from "@/utils/apiHelper";
+import { getCustomerOrders, getFullInfo } from "@/utils/apiHelper";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useAddressStore } from "@/stores/addressStore";
@@ -24,15 +24,6 @@ import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 import MyReviews from "./components/MyReview";
 import MyCancellations from "./components/CancellationPage";
-
-const sidebarItems = [
-  { key: "account", label: "Manage My Account", icon: User },
-  { key: "address", label: "Address Book", icon: MapPin },
-  { key: "orders", label: "My Orders", icon: List, badge: 0 },
-  { key: "wishlist", label: "My Wishlist", icon: Heart },
-  { key: "reviews", label: "My Reviews", icon: MessageSquare },
-  { key: "cancellations", label: "My Cancellations", icon: RotateCcw },
-];
 
 const AccountPage = () => {
   const { provinces, cities, zones, fetchAddressDropdowns } = useAddressStore();
@@ -44,6 +35,10 @@ const AccountPage = () => {
   const [showRemoveAccount, setShowRemoveAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [addressToEdit, setAddressToEdit] = useState(null);
+  // const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [orderlength, setOrderlength] = useState(0);
   const [user, setUser] = useState({
     id: "",
     email: "",
@@ -57,6 +52,14 @@ const AccountPage = () => {
   const [homeAddress, setHomeAddress] = useState(null);
   const [officeAddress, setOfficeAddress] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
+  const sidebarItems = [
+    { key: "account", label: "Manage My Account", icon: User },
+    { key: "address", label: "Address Book", icon: MapPin },
+    { key: "orders", label: "My Orders", icon: List, badge: orderlength },
+    { key: "wishlist", label: "My Wishlist", icon: Heart },
+    { key: "reviews", label: "My Reviews", icon: MessageSquare },
+    { key: "cancellations", label: "My Cancellations", icon: RotateCcw },
+  ];
 
   const router = useRouter();
 
@@ -112,6 +115,55 @@ const AccountPage = () => {
     }
   };
 
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const result = await getCustomerOrders();
+
+      console.log("API Response:", result);
+
+      if (result.success) {
+        console.log("Orders data:", result.orders);
+
+        // Log the first order's complete structure
+        if (result.orders.orders && result.orders.orders.length > 0) {
+          console.log(
+            "First order complete structure:",
+            JSON.stringify(result.orders.orders[0], null, 2)
+          );
+
+          if (result.orders.orders[0].items) {
+            console.log("First order items:", result.orders.orders[0].items);
+            if (result.orders.orders[0].items.length > 0) {
+              console.log(
+                "First item complete structure:",
+                JSON.stringify(result.orders.orders[0].items[0], null, 2)
+              );
+            }
+          }
+        }
+
+        setOrderlength(result.orders.count || 0);
+        console.log("orderlength", result.orders.count);
+        // setOrders(result.orders.orders);
+      } else {
+        setError(result.error);
+        toast.error(result.error);
+      }
+    } catch (err) {
+      console.error("Error fetching orders:", err);
+      setError("Failed to load orders");
+      toast.error("Failed to load orders");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
   //update profile
   const handleUpdateProfile = (updatedData) => {
     setUser({
@@ -165,7 +217,7 @@ const AccountPage = () => {
     setShowEditAddress(true);
   };
 
-  if (isLoading) {
+  if (isLoading || loading) {
     return <FullScreenLoader />;
   }
 
@@ -202,7 +254,7 @@ const AccountPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="max-w-7xl mx-auto bg-gray-50">
       <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
         {/* Sidebar */}
         <aside className="w-full md:w-80 flex-shrink-0">

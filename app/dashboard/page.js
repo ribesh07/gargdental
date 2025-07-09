@@ -138,8 +138,8 @@ const GargDental = () => {
 
         {/* Image Slider */}
         <div
-          className="max-w-7xl mx-auto mb-4 sm:mb-4 lg:mb-4 relative overflow-hidden rounded-lg shadow-lg"
-          style={{ height: "50vh", minHeight: "200px" }}
+          className="max-w-7xl mx-auto mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg"
+          // style={{ height: "50vh", minHeight: "200px" }}
         >
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;

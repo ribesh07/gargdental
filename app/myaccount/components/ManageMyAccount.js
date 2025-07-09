@@ -142,7 +142,7 @@ export default function ManageMyAccount({
         </div>
 
         {/* Order Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-xl shadow flex flex-col items-center py-6">
             <span className="text-orange-500 text-3xl">🛒</span>
             <div className="text-xl font-bold mt-2">0</div>
@@ -158,14 +158,6 @@ export default function ManageMyAccount({
             <div className="text-xl font-bold mt-2">0</div>
             <div className="text-gray-500 text-sm">Wishlist</div>
           </div>
-        </div>
-
-        {/* Recent Orders */}
-        {/* <div className="text-center mt-auto">
-          <h3 className="text-md font-bold text-blue-900 uppercase mb-2">
-            Recent Orders
-          </h3>
-          <div className="text-gray-500 text-sm">No recent orders found.</div>
         </div> */}
       </div>
     </div>
