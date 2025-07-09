@@ -288,9 +288,9 @@ export default function ShoppingCart() {
                             {/* Remove Button */}
                             <button
                               onClick={() => removeItem(item.id)}
-                              className="text-red-500 hover:text-red-700 p-1 flex-shrink-0 cursor-pointer"
+                              className="text-red-500 hover:text-red-700 p-1 ml-1 flex-shrink-0 cursor-pointer"
                             >
-                              <Trash2 className="w-5 h-5" />
+                              <Trash2 className="w-5 h-5  cursor-pointer" />
                             </button>
                           </div>
 
@@ -412,9 +412,9 @@ export default function ShoppingCart() {
                           {/* Remove Button */}
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="text-red-500 hover:text-red-700 p-1 cursor-pointer"
+                            className="text-red-500 hover:text-red-700 p-1  cursor-pointer"
                           >
-                            <Trash2 className="w-5 h-5" />
+                            <Trash2 className="w-5 h-5 ml-1" />
                           </button>
                         </div>
                       </div>

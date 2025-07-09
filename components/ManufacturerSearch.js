@@ -137,7 +137,7 @@ export default function ManufacturerFilter() {
       </div>
 
       {/* Manufacturers Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
         {filteredManufacturers.map((manufacturer, index) => (
           <div
             key={manufacturer.id || index}
@@ -145,7 +145,7 @@ export default function ManufacturerFilter() {
             className="p-2 sm:p-3 lg:p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-white border-gray-200 hover:border-gray-300"
           >
             <Link href={`/product`}>
-              <span className="text-xs sm:text-sm font-medium block">
+              <span className="text-xs sm:text-sm font-medium block text-center">
                 {manufacturer.brand_name}
               </span>
             </Link>
