@@ -199,7 +199,7 @@ export function CategoriesViews() {
               <div className="flex flex-col items-start">
                 <button
                   onClick={() => setActiveTab("categories")}
-                  className={`py-2 px-1 border-t-3 font-medium text-xs sm:text-sm ${
+                  className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                     activeTab === "categories"
                       ? "border-blue-500 text-[#0072bc]"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -216,7 +216,7 @@ export function CategoriesViews() {
               <div className="flex flex-col items-start">
                 <button
                   onClick={() => setActiveTab("manufacturers")}
-                  className={`py-2 px-1 border-t-3 font-medium text-xs sm:text-sm ${
+                  className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                     activeTab === "manufacturers"
                       ? "border-blue-500 text-[#0072bc]"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
