@@ -423,8 +423,8 @@ const HeaderBarNew = () => {
             <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 overflow-y-auto">
               <div className="p-4">
                 {/* Mobile Menu Header */}
-                {/* Removed feature */}
-                {/* <div className="flex items-center justify-between mb-6 border-b pb-4">
+
+                <div className="flex items-center justify-between mb-6 border-b pb-4">
                   <h2 className="text-lg font-semibold">Menu</h2>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -432,7 +432,7 @@ const HeaderBarNew = () => {
                   >
                     <X className="w-5 h-5" />
                   </button>
-                </div> */}
+                </div>
 
                 {/* Mobile Login/Logout/My Account Section */}
                 {!isloggedin ? (
