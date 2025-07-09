@@ -24,6 +24,8 @@ const GargDental = () => {
   // const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [manufacturers, setManufacturers] = useState([]);
   const router = useRouter();
 
   //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg3.png",
@@ -31,18 +33,18 @@ const GargDental = () => {
   //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg1.png",
   //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg2.png",
   // ];
-  const manufacturers = [
-    "Dentsply Sirona",
-    "Kerr",
-    "Solventum",
-    "Ultradent",
-    "Young Dental",
-    "Nordent",
-    "Premier Dental",
-    "Hu-Friedy",
-    "Crosstex",
-    "Parkell",
-  ];
+  // const manufacturers = [
+  //   "Dentsply Sirona",
+  //   "Kerr",
+  //   "Solventum",
+  //   "Ultradent",
+  //   "Young Dental",
+  //   "Nordent",
+  //   "Premier Dental",
+  //   "Hu-Friedy",
+  //   "Crosstex",
+  //   "Parkell",
+  // ];
 
   // Fetch slides
   useEffect(() => {
@@ -69,32 +71,67 @@ const GargDental = () => {
     return () => clearInterval(interval);
   }, [slides]);
 
-  const categories = [
-    "Pedodontics",
-    "Prosthodontics",
-    "Periodontics",
-    "Oral Surgery",
-    "Orthodontics",
-    "Dental Radiology",
-    "Implantology",
-    "Dental Laboratory",
-    "Instrument",
-    "Equipment",
-    "Cosmetic Dentistry",
-    "Handpieces",
-    "Health & Beauty & OTC",
-    "Impression Materials",
-    "Infection Control Products",
-    "Instruments",
-    "Laboratory",
-    "Medical Diagnostic",
-    "Orthodontic",
-    "Pharmaceuticals",
-    "Preventive",
-    "Restorative & Cosmetic",
-    "Surgical & Implant Products",
-    "X-Ray And Digital Imaging",
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await apiRequest("/categories", false);
+      if (response.success) {
+        const mapCategory = (category) => {
+          return {
+            id: category.id,
+            name: category.category_name,
+            image: category.image_full_url,
+            parent_id: category.parent_id,
+            active_children: category.active_children?.map(mapCategory) || [],
+          };
+        };
+        const mappedCategories = response.categories.map(mapCategory);
+        console.log("mappedCategories", mappedCategories);
+        setCategories(mappedCategories);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchManufacturers = async () => {
+      const response = await apiRequest("/brands", false);
+      if (response.success) {
+        const simplifiedBrands = response.brands.map((brand) => ({
+          id: brand.id,
+          brand_name: brand.brand_name,
+        }));
+        setManufacturers(simplifiedBrands);
+      }
+    };
+    fetchManufacturers();
+  }, []);
+
+  // const categories = [
+  //   "Pedodontics",
+  //   "Prosthodontics",
+  //   "Periodontics",
+  //   "Oral Surgery",
+  //   "Orthodontics",
+  //   "Dental Radiology",
+  //   "Implantology",
+  //   "Dental Laboratory",
+  //   "Instrument",
+  //   "Equipment",
+  //   "Cosmetic Dentistry",
+  //   "Handpieces",
+  //   "Health & Beauty & OTC",
+  //   "Impression Materials",
+  //   "Infection Control Products",
+  //   "Instruments",
+  //   "Laboratory",
+  //   "Medical Diagnostic",
+  //   "Orthodontic",
+  //   "Pharmaceuticals",
+  //   "Preventive",
+  //   "Restorative & Cosmetic",
+  //   "Surgical & Implant Products",
+  //   "X-Ray And Digital Imaging",
+  // ];
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -196,19 +233,19 @@ const GargDental = () => {
                 sidebarOpen ? "block" : "hidden"
               } lg:w-64 xl:w-72`}
             >
-              <div className="bg-gray-50 flex flex-row sm:flex-row flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
+              <div className="bg-gray-50 flex flex-row sm:flex-col flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
                 <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                   Categories
                 </h3>
 
                 <ul className="mb-6 sm:mb-8 space-y-1">
                   {categories.map((category, index) => (
-                    <li className="category-list" key={index}>
+                    <li className="category-list" key={category.id || index}>
                       <Link
                         href="/product"
                         className="block py-1 sm:py-1.5 px-2 sm:px-2.5 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200"
                       >
-                        {category}
+                        {category.name}
                       </Link>
                     </li>
                   ))}
@@ -221,11 +258,11 @@ const GargDental = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
                   {manufacturers.map((manufacturer, index) => (
                     <Link
-                      key={index}
+                      key={manufacturer.id || index}
                       href="#"
                       className="block py-1 sm:py-1.5 px-2 hover:border-l-2 text-gray-700 hover:bg-gray-100 hover:text-red-600 transition-colors duration-200"
                     >
-                      {manufacturer}
+                      {manufacturer.brand_name}
                     </Link>
                   ))}
                 </div>
