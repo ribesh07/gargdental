@@ -8,6 +8,8 @@ import useWarningModalStore from "@/stores/warningModalStore";
 // import toast from "react-hot-toast";
 import useCartStore from "@/stores/useCartStore";
 import { getFullInfo } from "@/utils/apiHelper";
+import { signIn } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -77,9 +79,11 @@ export default function AuthPage() {
           });
           const result = await getFullInfo();
           setUserProfile(result.data);
-          useInfoModalStore
-            .getState()
-            .open({ title: "Info", message: "Login successful" });
+          //Feature removed
+          // useInfoModalStore
+          //   .getState()
+          //   .open({ title: "Info", message: "Login successful" });
+          toast.success("Login successful !");
 
           console.log("Token saved:", data.token);
         }
@@ -162,16 +166,50 @@ export default function AuthPage() {
             <div className="flex items-center justify-between pt-4">
               <button
                 onClick={handleSignIn}
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
               >
                 LOGIN
               </button>
               <button
                 type="button"
-                className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer"
                 onClick={() => router.push("/account/forgot-password")}
               >
                 Lost Your Password?
+              </button>
+            </div>
+
+            {/* Google Auth */}
+            <div>
+              <button
+                type="button"
+                onClick={() => signIn("google")}
+                className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 mb-6 shadow hover:bg-gray-50 transition-colors"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 48 48">
+                  <g>
+                    <path
+                      fill="#4285F4"
+                      d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.85-6.85C36.45 2.36 30.6 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.13 13.36 17.57 9.5 24 9.5z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.42c-.54 2.9-2.18 5.36-4.65 7.01l7.19 5.59C43.98 37.13 46.1 31.36 46.1 24.55z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M10.67 28.29c-1.13-3.36-1.13-6.97 0-10.33l-7.98-6.2C.7 16.36 0 20.07 0 24c0 3.93.7 7.64 2.69 12.24l7.98-6.2z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M24 48c6.6 0 12.15-2.18 16.19-5.95l-7.19-5.59c-2.01 1.35-4.6 2.15-7.5 2.15-6.43 0-11.87-3.86-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
+                    />
+                    <path fill="none" d="M0 0h48v48H0z" />
+                  </g>
+                </svg>
+                <span className="text-gray-700 font-medium">
+                  Sign in with Google
+                </span>
               </button>
             </div>
           </div>
@@ -187,7 +225,7 @@ export default function AuthPage() {
             </p>
             <button
               onClick={() => router.push("/account/signup")}
-              className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
             >
               CREATE AN ACCOUNT
             </button>

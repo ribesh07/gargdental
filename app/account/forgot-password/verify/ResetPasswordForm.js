@@ -202,7 +202,7 @@ export default function ResetPasswordForm() {
               <button
                 onClick={handleResetPassword}
                 disabled={isLoading}
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50"
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
               >
                 {isLoading ? "RESETTING..." : "RESET PASSWORD"}
               </button>
@@ -213,7 +213,7 @@ export default function ResetPasswordForm() {
         <div className="text-center">
           <button
             onClick={handleCancel}
-            className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50"
+            className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 cursor-pointer"
           >
             CANCEL
           </button>
@@ -222,7 +222,7 @@ export default function ResetPasswordForm() {
         <div className="mt-6 text-center text-sm text-gray-600">
           Didn't receive the reset code?{" "}
           <button
-            className="text-blue-600 hover:text-blue-800 font-medium"
+            className="text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
             onClick={handleResendCode}
           >
             Request a new code

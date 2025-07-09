@@ -147,7 +147,8 @@ const GargDental = () => {
 
   return (
     <div>
-      <div className="min-h-screen bg-gray-100 font-sans">
+      <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5 bg-gray-100 font-sans">
+        {/* <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5"> */}
         {/* Top Bar */}
 
         {/* categories and manufacturers */}

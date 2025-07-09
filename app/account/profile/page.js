@@ -78,7 +78,7 @@ export default function CustomerProfilePage() {
           </p>
           <button
             onClick={() => router.push("/account")}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 cursor-pointer"
           >
             Back to Account
           </button>
@@ -137,7 +137,7 @@ export default function CustomerProfilePage() {
                 </h2>
                 <button
                   onClick={() => setShowEditProfile(true)}
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
                 >
                   <Edit className="w-4 h-4" />
                   Edit Profile
@@ -244,7 +244,7 @@ export default function CustomerProfilePage() {
                   </div>
                   <button
                     onClick={() => setShowChangePassword(true)}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
                   >
                     Change
                   </button>
@@ -280,7 +280,7 @@ export default function CustomerProfilePage() {
                   </p>
                   <button
                     onClick={() => setShowRemoveAccount(true)}
-                    className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
+                    className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
                   >
                     Delete Account
                   </button>

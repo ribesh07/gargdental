@@ -100,7 +100,7 @@ const PayOpsPageBuyNow = () => {
     };
     console.log("orderData", orderData);
     const result = await handleOrderBuyNow(orderData);
-    console.log("result", result.message);
+    // console.log("result", result.message);
     addOrder({
       items: selectedItems,
       address: selectedShippingAddress,

@@ -181,7 +181,7 @@ export default function VerifyAccountPage() {
               <button
                 onClick={handleResendCode}
                 disabled={isLoading}
-                className="text-blue-600 hover:text-blue-800 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-blue-600 hover:text-blue-800 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 Resend Code?
               </button>
@@ -197,7 +197,7 @@ export default function VerifyAccountPage() {
 
           <button
             onClick={handleLoginNow}
-            className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
           >
             LOGIN NOW
           </button>

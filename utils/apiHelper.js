@@ -290,6 +290,7 @@ export const handleOrderBuyNow = async (orderData) => {
       body: JSON.stringify(orderData),
     });
     console.log("response from handleOrderBuyNow", orderData);
+    console.log("response from handleOrderBuyNow", response);
     if (response.success) {
       useInfoModalStore.getState().open({
         title: "Info",
@@ -319,6 +320,7 @@ export const handleOrder = async (orderData) => {
       body: JSON.stringify(orderData),
     });
     console.log("Order data in api :", orderData);
+    console.log("response from handleOrder", response);
     if (response.success) {
       useInfoModalStore.getState().open({
         title: "Info",
