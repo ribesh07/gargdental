@@ -43,7 +43,7 @@ export function CategoriesViews() {
       <div className="lg:hidden mb-4">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors"
+          className="w-full bg-[#0072bc] text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors"
         >
           <span>{sidebarOpen ? "Close Menu" : "Open Menu"}</span>
           <svg
