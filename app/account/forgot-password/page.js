@@ -115,7 +115,7 @@ export default function ForgotPasswordPage() {
               <button
                 onClick={handleSendVerificationCode}
                 disabled={isLoading}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isLoading ? "SENDING..." : "SEND VERIFICATION CODE"}
               </button>
@@ -154,7 +154,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center">
           <button
             onClick={handleCancel}
-            className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
           >
             CANCEL
           </button>
@@ -166,7 +166,7 @@ export default function ForgotPasswordPage() {
             Remember your password?
             <button
               onClick={handleCancel}
-              className="text-blue-600 hover:text-blue-800 font-medium ml-1 transition-colors"
+              className="text-blue-600 hover:text-blue-800 font-medium ml-1 transition-colors cursor-pointer"
             >
               Back to Login
             </button>
