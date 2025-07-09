@@ -83,7 +83,7 @@ export default function AuthPage() {
               <button
                 type="button"
                 onClick={() => signIn("google")}
-                className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 mb-6 shadow hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3 mb-6 shadow hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 <svg className="w-5 h-5" viewBox="0 0 48 48">
                   <g>
@@ -214,7 +214,7 @@ export default function AuthPage() {
             <div className="pt-4">
               <button
                 onClick={handleCreateAccount}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
               >
                 CREATE ACCOUNT
               </button>
@@ -224,7 +224,7 @@ export default function AuthPage() {
           <div className="mt-6 text-center">
             <button
               onClick={() => router.push("/account")}
-              className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
+              className="text-blue-600 hover:text-blue-800 font-medium transition-colors cursor-pointer"
             >
               Already have an account? Sign in
             </button>
