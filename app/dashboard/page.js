@@ -28,32 +28,17 @@ const GargDental = () => {
   const [manufacturers, setManufacturers] = useState([]);
   const router = useRouter();
 
-  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg3.png",
-  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg3.png",
-  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg1.png",
-  //   "https://gargdemo.omsok.com/public/storage/backend/carousel_files/garg2.png",
-  // ];
-  // const manufacturers = [
-  //   "Dentsply Sirona",
-  //   "Kerr",
-  //   "Solventum",
-  //   "Ultradent",
-  //   "Young Dental",
-  //   "Nordent",
-  //   "Premier Dental",
-  //   "Hu-Friedy",
-  //   "Crosstex",
-  //   "Parkell",
-  // ];
-
   // Fetch slides
   useEffect(() => {
     const fetchSlides = async () => {
       const data = await apiRequest("/banners", false);
       if (data) {
-        const mappedSlides = data.banners.map(
-          (item) => item.image_full_url || i
-        );
+        const mappedSlides = data.banners.map((item) => ({
+          image_full_url: item.image_full_url,
+          id: item.id,
+          product_code: item.product_code,
+        }));
+        console.log("mappedSlides", mappedSlides);
         setSlides(mappedSlides);
       }
     };
@@ -66,10 +51,10 @@ const GargDental = () => {
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [slides]);
+  }, [slides.length]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -147,9 +132,38 @@ const GargDental = () => {
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5 bg-gray-100 font-sans">
+      <div className="max-w-7xl mx-auto p-1 sm:p-2 md:p-2 bg-gray-100 font-sans">
         {/* <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5"> */}
         {/* Top Bar */}
+
+        {/* Image Slider */}
+        <div
+          className="max-w-7xl mx-auto mb-4 sm:mb-4 lg:mb-4 relative overflow-hidden rounded-lg shadow-lg"
+          style={{ height: "50vh", minHeight: "200px" }}
+        >
+          {slides.map((slide, index) => {
+            const isActive = index === currentSlide;
+            return (
+              <div
+                key={slide.id || index}
+                className={`absolute inset-0 transition-opacity duration-1000 ${
+                  isActive ? "opacity-100 z-10" : "opacity-0 z-0"
+                }`}
+              >
+                <img
+                  onClick={() => {
+                    if (slide.product_code) {
+                      router.push(`/dashboard/${slide.product_code}`);
+                    }
+                  }}
+                  src={slide.image_full_url}
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-full object-cover cursor-pointer"
+                />
+              </div>
+            );
+          })}
+        </div>
 
         {/* categories and manufacturers */}
         <CategoriesViews />
@@ -170,27 +184,6 @@ const GargDental = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Image Slider */}
-        <div
-          className="max-w-7xl mx-auto my-3 sm:my-4 lg:my-5 relative overflow-hidden rounded-lg shadow-lg"
-          style={{ height: "40vh", minHeight: "200px" }}
-        >
-          {slides.map((slide, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <img
-                src={slide}
-                alt={`Slide ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
         </div>
 
         {/* Main Content */}

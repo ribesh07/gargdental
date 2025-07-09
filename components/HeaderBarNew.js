@@ -352,7 +352,7 @@ const HeaderBarNew = () => {
           )}
 
           {/* Desktop Login Section */}
-          <div className="hidden sm:block w-full bg-[#0072bc] border-t border-b border-gray-200 rounded-lg px-3 sm:px-6 py-2">
+          <div className="hidden sm:block p-2 w-full bg-gradient-to-b from-[#3c6389] via-[#0072bc] to-[#4FB6F4] border-t border-b border-gray-200 rounded-lg px-3 sm:px-6 py-2">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between space-y-3 md:space-y-0">
               {/* Nav Links */}
               <div className="hidden sm:flex sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-white text-sm">
