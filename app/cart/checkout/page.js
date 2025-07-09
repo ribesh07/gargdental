@@ -307,9 +307,7 @@ export default function OrderSummary() {
               {/* Proceed to Pay */}
               <div className="space-y-4">
                 <div className="text-center">
-                  <p className="text-lg font-semibold text-gray-800 mb-4 ">
-                    PROCEED TO PAY
-                  </p>
+                 
                 </div>
 
                 <button
