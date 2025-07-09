@@ -127,26 +127,7 @@ const HeaderBarNew = () => {
   return (
     <div className="w-full bg-white sticky top-0 z-50">
       <div className="w-full">
-        {/* Top Navigation Bar - Hidden on mobile */}
-        <div className="bg-gray-50 border-b-blue-100 hidden md:block">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex justify-end items-center py-2 space-x-4 text-sm">
-              <div className="flex items-center space-x-2">
-                <span className="text-[12px] text-black">English</span>
-                <span className="text-black">|</span>
-              </div>
-              <div className="flex items-center space-x-1 text-[#0072bc] text-[12px] hover:underline hover:text-red-600 hover:text-[13px] cursor-pointer">
-                <Phone className="w-4 h-4" />
-                <span>Contact Us</span>
-              </div>
-              <div className="flex items-center space-x-1 text-[#0072bc] text-[12px] hover:underline hover:text-red-600 hover:text-[13px] cursor-pointer">
-                <HelpCircle className="w-4 h-4" />
-                <span>Help</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        
         {/* Main Header */}
         <div className="max-w-7xl mx-auto mb-2 px-2 md:px-4 bg-white">
           <div className="flex items-center justify-between py-2 md:py-4">
