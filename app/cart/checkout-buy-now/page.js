@@ -56,15 +56,15 @@ export default function OrderSummaryBuyNow() {
         title: "Info",
         message: (
           <span>
-            Please Add Address.{' '}
+            Please Add Address.{" "}
             <a
               href="/myaccount"
               className="text-blue-600 underline hover:text-blue-800"
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             >
               Go to My Account
-            </a>
-            {' '}to add your address.
+            </a>{" "}
+            to add your address.
           </span>
         ),
       });
@@ -78,7 +78,7 @@ export default function OrderSummaryBuyNow() {
     setTimeout(() => {
       setIsProcessing(false);
     }, 1000);
-    router.push("/cart/checkout/pay-ops");
+    router.push("/cart/checkout-buy-now/pay-ops");
   };
 
   // const handleProceedToPay = () => {

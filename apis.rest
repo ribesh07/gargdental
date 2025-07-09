@@ -134,8 +134,8 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 
 {
   "payment_method": "C",
-  "billing_address": 2,
-  "shipping_address": 2,
+  "billing_address": 5,
+  "shipping_address": 5,
   "invoice_email": "jananpandey1995@gmail.com",
   "buy_now_item": {
     "product_code": "A500002",
@@ -277,3 +277,6 @@ Content-Type: application/json
 
 ###Info for docs footer
 GET https://gargdental.omsok.com/api/v1/compliances 
+
+### Get all settings
+GET https://gargdental.omsok.com/api/v1/settings 

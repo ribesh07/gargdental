@@ -12,7 +12,8 @@ const handler = NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/account/signup",
+    signIn: "/account",
+    signUp: "/account/signup",
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
@@ -22,4 +23,4 @@ const handler = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST }; 
+export { handler as GET, handler as POST };

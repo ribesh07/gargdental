@@ -125,11 +125,10 @@ const HeaderBarNew = () => {
   };
 
   return (
-    <div className="w-full bg-white sticky top-0 z-50">
+    <div className="max-w-7xl mx-auto bg-white sticky top-0 z-50">
       <div className="w-full">
-        
         {/* Main Header */}
-        <div className="max-w-7xl mx-auto mb-2 px-2 md:px-4 bg-white">
+        <div className="max-w-7xl mx-auto mb-2 bg-white">
           <div className="flex items-center justify-between py-2 md:py-4">
             {/* Logo and Rely on Us */}
             <div className="flex items-center space-x-2 md:space-x-4">
@@ -197,7 +196,7 @@ const HeaderBarNew = () => {
             {/* Desktop Right Side Actions */}
             <div className="hidden md:flex items-center space-x-4">
               {/* Menu Button with Dropdown */}
-              <div className="relative transform hover:scale-105" ref={menuRef}>
+              {/* <div className="relative transform hover:scale-105" ref={menuRef}>
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer"
@@ -208,7 +207,6 @@ const HeaderBarNew = () => {
                   <span className="text-xs">Menu</span>
                 </button>
 
-                {/* Main Menu Dropdown */}
                 {isMenuOpen && (
                   <div className="absolute left-full top-full mt-2 w-64 bg-white border-gray-100 rounded-lg shadow-lg z-50">
                     <div className="py-2">
@@ -237,7 +235,6 @@ const HeaderBarNew = () => {
                   </div>
                 )}
 
-                {/* Supplies Dropdown */}
                 {isSuppliesDropdownOpen && (
                   <div
                     ref={suppliesRef}
@@ -260,7 +257,20 @@ const HeaderBarNew = () => {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
+
+              {/* Login and Signup Button */}
+              {!isloggedin && (
+                <div className="bg-red-500 rounded-lg mb-3 p-2 relative hover:underline hover:scale-105 transition-all duration-300 cursor-pointer">
+                  <Link
+                    href="/account"
+                    className="flex items-center space-x-2 text-white "
+                  >
+                    <User className="w-4 h-4" />
+                    <span className="text-sm font-medium ">Login</span>
+                  </Link>
+                </div>
+              )}
 
               {/* Shop Button */}
               <button
@@ -286,13 +296,36 @@ const HeaderBarNew = () => {
               {isloggedin && (
                 <button
                   onClick={() => router.push("/myaccount")}
-                  className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transform hover:scale-105 transition-colors cursor-pointer"
+                  className="flex flex-col items-center text-gray-600 hover:text-red-600 transform hover:scale-105 transition-colors cursor-pointer"
                 >
                   <div className="bg-blue-100 p-2 rounded-lg mb-1">
                     <Settings className="w-6 h-6 text-blue-600" />
                   </div>
                   <span className="text-xs">My Account</span>
                 </button>
+              )}
+
+              {isloggedin && user && (
+                <div className="flex flex-col items-center space-x-4 cursor-pointer group">
+                  <button
+                    onClick={() => router.push("/account/profile")}
+                    className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
+                  >
+                    {user.image_full_url ? (
+                      <img
+                        src={user.image_full_url}
+                        alt="Profile"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <User className="w-10 h-10" />
+                    )}
+                  </button>
+
+                  <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
+                    Profile
+                  </span>
+                </div>
               )}
             </div>
           </div>
@@ -319,81 +352,68 @@ const HeaderBarNew = () => {
           )}
 
           {/* Desktop Login Section */}
-          <div className="hidden md:flex items-center justify-between py-1 border-t">
-            {isloggedin && user && (
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => router.push("/account/profile")}
-                  className="bg-[#0072bc] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
-                >
-                  {user.image_full_url && (
-                    <img
-                      src={user.image_full_url}
-                      alt="Profile"
-                      className="w-7  h-7 rounded-full object-cover"
-                    />
-                  )}
-                  {!user.image_full_url && <User className="w-3 h-3 m-1" />}
-
-                  <span className="ml-2">{user.email}</span>
-                </button>
-              </div>
-            )}
-
-            {!isloggedin && (
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => router.push("/account")}
-                  className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
-                >
-                  <User className="w-3 h-3 mr-1" />
-                  LOGIN
-                </button>
+          <div className="hidden sm:block w-full bg-[#0072bc] border-t border-b border-gray-200 rounded-lg px-3 sm:px-6 py-2">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between space-y-3 md:space-y-0">
+              {/* Nav Links */}
+              <div className="hidden sm:flex sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-white text-sm">
                 <Link
-                  href="/account/signup"
-                  onClick={() => router.push("/account/signup")}
-                  className="text-[#0072bc] hover:underline text-[14px]"
+                  href="/dashboard"
+                  className="hover:underline font-semibold"
                 >
-                  Create an Online Account
+                  Dashboard
+                </Link>
+                <Link href="/product" className="hover:underline font-semibold">
+                  Browse Products
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="hover:underline font-semibold"
+                >
+                  Hot Sales
+                </Link>
+                <Link
+                  href="/contact-us"
+                  className="hover:underline font-semibold"
+                >
+                  New Clinic Setup
                 </Link>
               </div>
-            )}
 
-            {isloggedin && (
-              <div className="flex items-center space-x-2">
-                <div
-                  className="flex items-center space-x-2 hover:underline cursor-pointer"
-                  onClick={() => router.push("/cart")}
-                >
-                  <span className="text-gray-700 text-[12px]">My Cart:</span>
-                  <span className="font-bold text-lg text-[12px]">
-                    Rs. {cartTotal}
-                  </span>
-                  <button className="bg-transparent text-blue-500 w-5 h-5 rounded  hover:text-red-500 transition-colors flex items-center justify-center flex-shrink-0">
-                    <ShoppingBag className="w-4 h-4 cursor-pointer" />
-                  </button>
-                </div>
-
-                {isloggedin && (
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => {
-                        useConfirmModalStore.getState().open({
-                          title: "Logout",
-                          message: "Are you sure you want to logout?",
-                          onConfirm: handleLogout,
-                          onCancel: () => {},
-                        });
-                      }}
-                      className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center cursor-pointer"
-                    >
-                      <User className="w-3 h-3 mr-1" />
-                      Logout
+              {/* Cart + Logout */}
+              {isloggedin && (
+                <div className="hidden sm:flex items-center justify-between space-x-2 mt-2 md:mt-0">
+                  {/* Cart */}
+                  <div
+                    onClick={() => router.push("/cart")}
+                    className="flex items-center space-x-1 hover:underline cursor-pointer"
+                  >
+                    <span className="text-white text-[12px]">My Cart:</span>
+                    <span className="font-bold text-[12px] text-white">
+                      Rs. {cartTotal}
+                    </span>
+                    <button className="bg-transparent text-white w-5 h-5 rounded hover:text-red-500 transition-colors flex items-center justify-center">
+                      <ShoppingBag className="w-4 h-4" />
                     </button>
                   </div>
-                )}
-              </div>
-            )}
+
+                  {/* Logout */}
+                  <button
+                    onClick={() =>
+                      useConfirmModalStore.getState().open({
+                        title: "Logout",
+                        message: "Are you sure you want to logout?",
+                        onConfirm: handleLogout,
+                        onCancel: () => {},
+                      })
+                    }
+                    className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center"
+                  >
+                    <User className="w-3 h-3 mr-1" />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -403,7 +423,8 @@ const HeaderBarNew = () => {
             <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 overflow-y-auto">
               <div className="p-4">
                 {/* Mobile Menu Header */}
-                <div className="flex items-center justify-between mb-6 border-b pb-4">
+                {/* Removed feature */}
+                {/* <div className="flex items-center justify-between mb-6 border-b pb-4">
                   <h2 className="text-lg font-semibold">Menu</h2>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -411,13 +432,13 @@ const HeaderBarNew = () => {
                   >
                     <X className="w-5 h-5" />
                   </button>
-                </div>
+                </div> */}
 
                 {/* Mobile Login/Logout/My Account Section */}
                 {!isloggedin ? (
                   <div className="mb-6 pb-4 border-b">
                     <button
-                      className="w-full bg-[#bf0000] text-white text-sm py-3 rounded hover:bg-red-600 transition-colors flex items-center justify-center mb-3"
+                      className="w-full bg-[#bf0000] text-white text-sm py-3 rounded hover:bg-red-600  transition-colors flex items-center justify-center mb-3"
                       onClick={() => {
                         router.push("/account");
                         setIsMobileMenuOpen(false);
@@ -475,17 +496,17 @@ const HeaderBarNew = () => {
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-700 text-sm underline">
+                    <span className="text-black text-sm underline">
                       My Cart:
                     </span>
-                    <span className="font-bold text-lg underline">
+                    <span className="font-bold text-lg text-black underline">
                       Rs. {cartTotal}
                     </span>
                   </div>
-                  <div className="flex items-center mt-2">
-                    <ShoppingBag className="w-4 h-4 mr-2" />
-                    <span className="text-sm text-gray-600">
-                      {cartCount} items
+                  <div className="flex items-center mt-2 underline">
+                    <ShoppingBag className="w-4 h-4 mr-2 " />
+                    <span className="text-sm underline text-black">
+                      {cartCount}
                     </span>
                   </div>
                 </div>
