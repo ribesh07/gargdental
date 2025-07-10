@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "google-auth-library": "^10.1.0",
     "js-cookie": "^3.0.5",
     "js-cookies": "^1.0.4",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.517.0",
     "next": "^15.3.4",
     "next-auth": "^4.24.11",
