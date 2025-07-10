@@ -149,10 +149,10 @@ export default function CustomerProfilePage() {
                     onClick={async () => {
                       try {
                         // Call logout API
-                        const response = await fetch('/api/auth/logout', {
-                          method: 'POST',
+                        const response = await fetch("/api/auth/logout", {
+                          method: "POST",
                           headers: {
-                            'Content-Type': 'application/json',
+                            "Content-Type": "application/json",
                           },
                         });
 
@@ -161,11 +161,13 @@ export default function CustomerProfilePage() {
                           localStorage.removeItem("token");
 
                           // Clear cart store
-                          const useCartStore = await import('@/stores/useCartStore');
+                          const useCartStore = await import(
+                            "@/stores/useCartStore"
+                          );
                           useCartStore.default.getState().clearCart();
 
                           toast.success("Logged out successfully");
-                          router.push('/dashboard');
+                          router.push("/dashboard");
                         } else {
                           toast.error("Logout failed");
                         }
@@ -174,16 +176,12 @@ export default function CustomerProfilePage() {
                         toast.error("An error occurred during logout");
                       }
                     }}
-                    className="flex items-center gap-2 text-blue-600  font-medium cursor-pointer justify-end  hover:text-red-700"
+                    className="flex items-center gap-2 text-blue-600  font-medium cursor-pointer justify-end  hover:text-red-600"
                   >
                     Logout
                   </button>
                 </div>
               </div>
-
-
-
-
 
               {/* Profile Image */}
               <div className="flex items-center gap-6 mb-8">
@@ -290,8 +288,6 @@ export default function CustomerProfilePage() {
                     Change
                   </button>
                 </div>
-
-
               </div>
 
               {/* Danger Zone */}
@@ -307,8 +303,8 @@ export default function CustomerProfilePage() {
                       Delete Account
                     </h4>
                     <p className="text-sm text-gray-600 mb-4">
-                      Once you delete your account, there is no going back. Please
-                      be certain.
+                      Once you delete your account, there is no going back.
+                      Please be certain.
                     </p>
                     <button
                       onClick={() => setShowRemoveAccount(true)}
