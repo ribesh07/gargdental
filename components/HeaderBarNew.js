@@ -130,7 +130,7 @@ const HeaderBarNew = () => {
         {/* Main Header */}
         <div className="max-w-7xl mx-auto mb-2 bg-white">
           <div className="flex items-center justify-between py-2 md:py-4">
-            {/* Logo and Rely on Us */}
+            {/* Logo */}
             <div className="flex items-center space-x-2 md:space-x-4">
               <div className="flex items-center">
                 <img
@@ -140,10 +140,7 @@ const HeaderBarNew = () => {
                   className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
                 />
               </div>
-              {/* Hide "Rely on Us" on mobile */}
-              <div className="hidden md:block bg-[#bf0000] text-white ml-5 px-3 py-1 shadow-lg transform hover:scale-105 rounded-full text-sm font-medium cursor-pointer">
-                Rely on Us
-              </div>
+            
             </div>
 
             {/* Mobile Menu Button */}
@@ -272,6 +269,29 @@ const HeaderBarNew = () => {
                 </div>
               )}
 
+              {isloggedin && user && (
+                <div className="flex flex-col items-center space-x-4 cursor-pointer group">
+                  <button
+                    onClick={() => router.push("/account/profile")}
+                    className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
+                  >
+                    {user.image_full_url ? (
+                      <img
+                        src={user.image_full_url}
+                        alt="Profile"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <User className="w-10 h-10" />
+                    )}
+                  </button>
+
+                  <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
+                    Profile
+                  </span>
+                </div>
+              )}
+
               {/* Shop Button */}
               <button
                 onClick={() => {
@@ -304,29 +324,6 @@ const HeaderBarNew = () => {
                   <span className="text-xs">My Account</span>
                 </button>
               )}
-
-              {isloggedin && user && (
-                <div className="flex flex-col items-center space-x-4 cursor-pointer group">
-                  <button
-                    onClick={() => router.push("/account/profile")}
-                    className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
-                  >
-                    {user.image_full_url ? (
-                      <img
-                        src={user.image_full_url}
-                        alt="Profile"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                    ) : (
-                      <User className="w-10 h-10" />
-                    )}
-                  </button>
-
-                  <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
-                    Profile
-                  </span>
-                </div>
-              )}
             </div>
           </div>
 
@@ -352,37 +349,44 @@ const HeaderBarNew = () => {
           )}
 
           {/* Desktop Login Section */}
-          <div className="hidden sm:block p-2 w-full bg-gradient-to-b from-[#3c6389] via-[#0072bc] to-[#4FB6F4] border-t border-b border-gray-200 rounded-lg px-3 sm:px-6 py-2">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between space-y-3 md:space-y-0">
-              {/* Nav Links */}
-              <div className="hidden sm:flex sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-white text-sm">
+          <div className=" sm:block w-full bg-ghostwhite border-t border-b border-gray-200 rounded-lg px-3 sm:px-6 py-3">
+            <div className="max-w-7xl mx-auto flex justify-center">
+              <div className="flex w-full max-w-xl justify-between items-center text-gray-600 text-[12px] sm:text-sm">
                 <Link
                   href="/dashboard"
-                  className="hover:underline font-semibold"
+                  className="hover:underline font-semibold hover:text-red-600 hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   Dashboard
                 </Link>
-                <Link href="/product" className="hover:underline font-semibold">
+                <Link
+                  href="/product"
+                  className="hover:underline font-semibold hover:text-red-600 hover:scale-105 transition-all duration-200 cursor-pointer"
+                >
                   Browse Products
                 </Link>
                 <Link
                   href="/dashboard"
-                  className="hover:underline font-semibold"
+                  className="hover:underline font-semibold hover:text-red-600 hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   Hot Sales
                 </Link>
                 <Link
                   href="/NewClinicSetup"
-                  className="hover:underline font-semibold"
+                  className="hover:underline font-semibold hover:text-red-600 hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   New Clinic Setup
+                </Link>
+                <Link
+                  href="/AboutUs"
+                  className="hover:underline font-semibold hover:text-red-600 hover:scale-105 transition-all duration-200 cursor-pointer"
+                >
+                  About Us
                 </Link>
               </div>
 
               {/* Cart + Logout */}
-              {isloggedin && (
+              {/* {isloggedin && (
                 <div className="hidden sm:flex items-center justify-between space-x-2 mt-2 md:mt-0">
-                  {/* Cart */}
                   <div
                     onClick={() => router.push("/cart")}
                     className="flex items-center space-x-1 hover:underline cursor-pointer"
@@ -396,7 +400,6 @@ const HeaderBarNew = () => {
                     </button>
                   </div>
 
-                  {/* Logout */}
                   <button
                     onClick={() =>
                       useConfirmModalStore.getState().open({
@@ -412,7 +415,7 @@ const HeaderBarNew = () => {
                     Logout
                   </button>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>

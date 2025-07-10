@@ -7,18 +7,19 @@ export default function TawkToWidget() {
   const message = "Hello! I'm interested in your products.";
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-center justify-center">
       <Link
         href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
           message
         )}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
+        className="bg-green-500 hover:bg-green-600 hover:scale-110 transform text-white p-3 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 animate-bounce"
       >
         {/* <MessageCircle className="w-5 h-5" /> */}
         <img src="/assets/whatsapp.svg" alt="WhatsApp" className="w-10 h-10" />
       </Link>
+      <span className="text-[18px] text-gray-700 font-bold">Contact Us</span>
     </div>
   );
 }

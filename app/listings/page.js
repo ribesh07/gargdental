@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
-import { ChevronDown, ShoppingCart } from "lucide-react";
+import { ChevronDown, ShoppingCart, TicketPercent } from "lucide-react";
 // import useCartStore from "@/stores/useCartStore";
 // import useToastStore from "@/stores/toastStore";/
 import useSelectedProductStore from "@/stores/sendingProduct";
@@ -59,7 +59,7 @@ const DentalSuppliesListing = () => {
           description: product.product_description,
           available_quantity: product.available_quantity,
           unit_info: product.unit_info,
-          flash_sale: product.flash_sale === "1",
+          flash_sale: product.flash_sale,
           delivery_days: product.delivery_target_days,
         })) || [];
 
@@ -355,9 +355,14 @@ function ProductCardMain({ product, showDiscount }) {
             imageUrl={product.image_url}
             alt={product.product_name}
           />
+          {product.flash_sale === 1 && (
+            <div className="absolute top-0 sm:top-0 right-1 sm:right-2 border-2 border-red-500 rounded-full bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 animate-pulse">
+              <span className="text-xs">Flash Sale</span>
+            </div>
+          )}
           {showDiscount && product.actual_price && (
-            <div className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 rounded">
-              SALE
+            <div className="absolute top-8 sm:top-8 right-1 sm:right-2 bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 animate-bounce rounded-2xl">
+              OFFER
             </div>
           )}
         </div>
