@@ -107,3 +107,11 @@ ul li {
   color: white; /* Tailwind's text-gray-700 */
   font-size: 1rem;
 }
+
+.map-wrapper iframe {
+  width: 100% !important;
+  height: 400px !important;
+  border: 0;
+  display: block;
+}
+

@@ -651,7 +651,7 @@ export const getCustomerOrders = async () => {
   }
 };
 
-// Fetch compliances (Business Registration, Medical Certifications, Return & Refund Policy, Privacy Policy)
+// Fetch compliances (Company info Business Registration, Medical Certifications, Return & Refund Policy, Privacy Policy)
 export const fetchCompliances = async () => {
   try {
     const response = await fetch(`${baseUrl}/compliances`, {
@@ -670,3 +670,98 @@ export const fetchCompliances = async () => {
     return { error: err.message };
   }
 };
+
+// Fetch settings (company info, contact, map, etc.)
+export const fetchSettings = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/settings`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (err) {
+    console.error("Error fetching settings:", err);
+    return { error: err.message };
+  }
+};
+
+// Wishlist API
+// export const getWishlist = async (token) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/customer/wishlist/list`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//         Authorization: token ? `Bearer ${token}` : undefined,
+//       },
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error fetching wishlist:", err);
+//     return { error: err.message };
+//   }
+// };
+
+// export const addToWishlist = async (product_code, token) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/customer/wishlist/add`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//         Authorization: token ? `Bearer ${token}` : undefined,
+//       },
+//       body: JSON.stringify({ product_code }),
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error adding to wishlist:", err);
+//     return { error: err.message };
+//   }
+// };
+
+// export const removeFromWishlist = async (item_id, token) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/customer/wishlist/remove-item`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//         Authorization: token ? `Bearer ${token}` : undefined,
+//       },
+//       body: JSON.stringify({ item_id }),
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error removing from wishlist:", err);
+//     return { error: err.message };
+//   }
+// };
+
+// // Fetch product details by product_code
+// export const fetchProductByCode = async (product_code) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/products/${product_code}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//       },
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error fetching product by code:", err);
+//     return { error: err.message };
+//   }
+// };
