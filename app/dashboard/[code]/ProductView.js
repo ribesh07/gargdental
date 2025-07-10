@@ -37,7 +37,7 @@ const ProductImageZoomSeparate = ({ product }) => {
         <img
           src={productImage}
           alt="Product"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover centre"
         />
 
         {/* Lens overlay */}

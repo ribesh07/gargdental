@@ -130,7 +130,7 @@ const HeaderBarNew = () => {
         {/* Main Header */}
         <div className="max-w-7xl mx-auto mb-2 bg-white">
           <div className="flex items-center justify-between py-2 md:py-4">
-            {/* Logo and Rely on Us */}
+            {/* Logo */}
             <div className="flex items-center space-x-2 md:space-x-4">
               <div className="flex items-center">
                 <img
@@ -140,10 +140,7 @@ const HeaderBarNew = () => {
                   className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
                 />
               </div>
-              {/* Hide "Rely on Us" on mobile */}
-              <div className="hidden md:block bg-[#bf0000] text-white ml-5 px-3 py-1 shadow-lg transform hover:scale-105 rounded-full text-sm font-medium cursor-pointer">
-                Rely on Us
-              </div>
+            
             </div>
 
             {/* Mobile Menu Button */}
