@@ -305,3 +305,12 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 
 ###Reasons lists
 GET https://gargdental.omsok.com/api/v1/customer/order/reasons-list HTTP/1.1
+
+
+### google signin
+POST http://192.168.1.88:8000/api/v1/auth/social/google-register 
+Content-Type: application/json
+
+{
+
+}
