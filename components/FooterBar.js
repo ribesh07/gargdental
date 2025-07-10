@@ -111,6 +111,15 @@ export default function FooterBar() {
                 Information
               </h3>
               <ul className="space-y-2 sm:space-y-3">
+
+              <li className="footer-list">
+                  <Link
+                    href="/CompanyInfo"
+                    className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
+                  >
+                    Company Info
+                  </Link>
+                </li>
                 <li className="footer-list">
                   <Link
                     href="/BusinessReg"

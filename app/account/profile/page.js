@@ -135,14 +135,55 @@ export default function CustomerProfilePage() {
                 <h2 className="text-xl font-bold text-gray-800">
                   Personal Information
                 </h2>
-                <button
-                  onClick={() => setShowEditProfile(true)}
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
-                >
-                  <Edit className="w-4 h-4" />
-                  Edit Profile
-                </button>
+                <div className="flex">
+                  <button
+                    onClick={() => setShowEditProfile(true)}
+                    className="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
+                  >
+                    <Edit className="w-4 h-4" />
+                    Edit Profile
+                  </button>
+                </div>
+                <div>
+                  <button
+                    onClick={async () => {
+                      try {
+                        // Call logout API
+                        const response = await fetch('/api/auth/logout', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                        });
+
+                        if (response.ok) {
+                          // Clear localStorage
+                          localStorage.removeItem("token");
+
+                          // Clear cart store
+                          const useCartStore = await import('@/stores/useCartStore');
+                          useCartStore.default.getState().clearCart();
+
+                          toast.success("Logged out successfully");
+                          router.push('/dashboard');
+                        } else {
+                          toast.error("Logout failed");
+                        }
+                      } catch (error) {
+                        console.error("Logout error:", error);
+                        toast.error("An error occurred during logout");
+                      }
+                    }}
+                    className="flex items-center gap-2 text-blue-600  font-medium cursor-pointer justify-end  hover:text-red-700"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
+
+
+
+
 
               {/* Profile Image */}
               <div className="flex items-center gap-6 mb-8">
@@ -250,52 +291,44 @@ export default function CustomerProfilePage() {
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
-                  <div>
-                    <h4 className="font-medium text-gray-800">
-                      Account Status
-                    </h4>
-                    <p className="text-sm text-green-600">Active</p>
-                  </div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                </div>
+
               </div>
-            </div>
 
-            {/* Danger Zone */}
-            <div className="bg-white rounded-xl shadow-lg p-6 border border-red-200">
-              <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
-                <Trash2 className="w-5 h-5 text-red-600" />
-                Danger Zone
-              </h3>
+              {/* Danger Zone */}
+              <div className="bg-white rounded-xl shadow-lg p-6 border border-red-200">
+                <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
+                  <Trash2 className="w-5 h-5 text-red-600" />
+                  Danger Zone
+                </h3>
 
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-gray-800 mb-2">
-                    Delete Account
-                  </h4>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Once you delete your account, there is no going back. Please
-                    be certain.
-                  </p>
-                  <button
-                    onClick={() => setShowRemoveAccount(true)}
-                    className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
-                  >
-                    Delete Account
-                  </button>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">
+                      Delete Account
+                    </h4>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Once you delete your account, there is no going back. Please
+                      be certain.
+                    </p>
+                    <button
+                      onClick={() => setShowRemoveAccount(true)}
+                      className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
+                    >
+                      Delete Account
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Remove Account Modal */}
-      <RemoveAccountModal
-        isOpen={showRemoveAccount}
-        onClose={() => setShowRemoveAccount(false)}
-      />
+        {/* Remove Account Modal */}
+        <RemoveAccountModal
+          isOpen={showRemoveAccount}
+          onClose={() => setShowRemoveAccount(false)}
+        />
+      </div>
     </div>
   );
 }
