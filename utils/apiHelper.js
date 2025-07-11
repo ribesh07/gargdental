@@ -732,7 +732,12 @@ export const getCancellationReasons = async () => {
 };
 
 // Cancel order
-export const cancelOrder = async (orderId, reasonId, reasonDescription) => {
+export const cancelOrder = async (
+  orderId,
+  reasonId,
+  reasonDescription,
+  iAgree
+) => {
   try {
     const response = await apiRequest("/customer/order/cancel", true, {
       method: "POST",
@@ -740,10 +745,10 @@ export const cancelOrder = async (orderId, reasonId, reasonDescription) => {
         order_id: orderId,
         reason_id: reasonId,
         reason_description: reasonDescription,
-        policy_checked: "Y",
+        policy_checked: iAgree || "Y",
       }),
     });
-    
+
     if (response.success) {
       toast.success(response.message || "Order cancelled successfully");
       return {
@@ -752,14 +757,14 @@ export const cancelOrder = async (orderId, reasonId, reasonDescription) => {
         order_id: response.order_id,
       };
     } else {
-      toast.error(response.message || "Failed to cancel order");
+      toast.error(response?.errors[0].message || "Failed to cancel order");
       return {
         success: false,
-        error: response.message || "Failed to cancel order",
+        error: response?.errors[0].message || "Failed to cancel order",
       };
     }
   } catch (err) {
-    console.error("Error cancelling order:", err);
+    // console.error("Error cancelling order:", err);
     toast.error("An unexpected error occurred");
     return {
       success: false,
@@ -769,9 +774,13 @@ export const cancelOrder = async (orderId, reasonId, reasonDescription) => {
 };
 
 // Get cancelled orders
-export const getCancelledOrders = async () => {
+export const getCancelledOrders = async (status) => {
+  console.log("Inside function :", status);
   try {
-    const response = await apiRequest("/customer/order/list?status=cancelled", true);
+    const response = await apiRequest(
+      `/customer/order/list?status=${status}`,
+      true
+    );
     if (response.success) {
       return {
         success: true,
@@ -845,24 +854,6 @@ export const getCancelledOrders = async () => {
 //     return await response.json();
 //   } catch (err) {
 //     console.error("Error removing from wishlist:", err);
-//     return { error: err.message };
-//   }
-// };
-
-// // Fetch product details by product_code
-// export const fetchProductByCode = async (product_code) => {
-//   try {
-//     const response = await fetch(`${baseUrl}/products/${product_code}`, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//       },
-//     });
-//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-//     return await response.json();
-//   } catch (err) {
-//     console.error("Error fetching product by code:", err);
 //     return { error: err.message };
 //   }
 // };
