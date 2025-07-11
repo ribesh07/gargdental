@@ -24,6 +24,7 @@ import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 import MyReviews from "./components/MyReview";
 import MyCancellations from "./components/CancellationPage";
+import Complains from "./components/Complains";
 
 const AccountPage = () => {
   const { provinces, cities, zones, fetchAddressDropdowns } = useAddressStore();
@@ -58,10 +59,16 @@ const AccountPage = () => {
     { key: "orders", label: "My Orders", icon: List, badge: orderlength },
     { key: "wishlist", label: "My Wishlist", icon: Heart },
     { key: "reviews", label: "My Reviews", icon: MessageSquare },
-    { key: "cancellations", label: "My Cancellations", icon: RotateCcw },
+    { key: "complaint", label: "Complaint", icon: RotateCcw },
   ];
 
   const router = useRouter();
+
+  const scrollToTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     fetchAddressDropdowns();
@@ -151,7 +158,6 @@ const AccountPage = () => {
         setError(result.error);
         toast.error(result.error);
       }
-      
     } catch (err) {
       // console.error("Error fetching orders:", err);
       setError("Failed to load orders");
@@ -276,7 +282,10 @@ const AccountPage = () => {
             {sidebarItems.map((item) => (
               <button
                 key={item.key}
-                onClick={() => setActiveTab(item.key)}
+                onClick={() => {
+                  setActiveTab(item.key);
+                  scrollToTop();
+                }}
                 className={`flex items-center w-full px-4 py-3 my-1 rounded-lg transition-colors text-left font-medium space-x-4 cursor-pointer
                   ${
                     activeTab === item.key
@@ -329,7 +338,7 @@ const AccountPage = () => {
           {activeTab === "orders" && <MyOrders />}
           {activeTab === "wishlist" && <MyWishlist />}
           {activeTab === "reviews" && <MyReviews />}
-          {activeTab === "cancellations" && <MyCancellations />}
+          {activeTab === "complaint" && <Complains />}
         </main>
       </div>
 

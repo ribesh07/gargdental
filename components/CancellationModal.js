@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { getCancellationReasons } from "@/utils/apiHelper";
 import { X, Loader2 } from "lucide-react";
 import TermsCheckbox from "./TermsCheckbox";
+import Link from "next/link";
 
-export default function CancellationModal({ 
-  isOpen, 
-  onClose, 
-  onConfirm, 
+export default function CancellationModal({
+  isOpen,
+  onClose,
+  onConfirm,
   orderId,
-  orderNumber 
+  orderNumber,
 }) {
   const [reasons, setReasons] = useState([]);
   const [selectedReason, setSelectedReason] = useState("");
@@ -44,19 +45,19 @@ export default function CancellationModal({
   };
 
   const handleConfirm = async () => {
-    if (!selectedReason && !customReason.trim()) {
+    if (!selectedReason && !customReason.trim() && !agreed) {
       alert("Please select a reason or provide a custom reason");
       return;
     }
 
     setLoading(true);
     try {
-      const reasonId = selectedReason || null;
-      const reasonDescription = customReason.trim() || 
-        reasons.find(r => r.id.toString() === selectedReason)?.reason_name || 
-        "Custom reason";
+      const reasonId = selectedReason;
+      const iAgree = "Y";
 
-      await onConfirm(orderId, reasonId, reasonDescription);
+      const description = customReason.trim();
+
+      await onConfirm(orderNumber, reasonId, iAgree, description);
       onClose();
     } catch (error) {
       console.error("Error cancelling order:", error);
@@ -69,7 +70,7 @@ export default function CancellationModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] hide-scrollbar overflow-y-auto">
         <div className="flex justify-between items-center p-4 border-b">
           <h3 className="text-lg font-semibold text-gray-900">
             Cancel Order #{orderNumber}
@@ -107,7 +108,6 @@ export default function CancellationModal({
                     checked={selectedReason === reason.id.toString()}
                     onChange={(e) => {
                       setSelectedReason(e.target.value);
-                      setCustomReason(""); // Clear custom reason when selecting predefined
                     }}
                     className="mt-1 text-blue-600 focus:ring-blue-500"
                   />
@@ -119,48 +119,40 @@ export default function CancellationModal({
 
               {/* Custom reason */}
               <div className="mt-4">
-                <label className="flex items-start space-x-3 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="reason"
-                    value="custom"
-                    checked={selectedReason === "custom"}
-                    onChange={(e) => {
-                      setSelectedReason(e.target.value);
-                      setCustomReason(""); // Clear custom reason selection
-                    }}
-                    className="mt-1 text-blue-600 focus:ring-blue-500"
-                  />
-                  <span className="text-sm text-gray-700">Other (please specify)</span>
-                </label>
-                
-                {selectedReason === "custom" && (
-                  <textarea
-                    value={customReason}
-                    onChange={(e) => setCustomReason(e.target.value)}
-                    placeholder="Please specify your reason for cancellation..."
-                    className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    rows="3"
-                  />
-                )}
+                <p> Description</p>
+
+                <textarea
+                  value={customReason}
+                  onChange={(e) => setCustomReason(e.target.value)}
+                  placeholder="Description for cancellation..."
+                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  rows="3"
+                />
               </div>
             </div>
           )}
 
-        <div className="p-6">
-        <div className="flex items-center space-x-2">
-      <input
-        type="checkbox"
-        id="terms"
-        checked={agreed}
-        onChange={handleCheckbox}
-        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-      />
-      <label htmlFor="terms" className="text-sm text-gray-700">
-        I agree to the <span className="text-blue-600 underline cursor-pointer">terms</span>
-      </label>
-    </div>
-        </div>
+          <div className="p-6">
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="terms"
+                checked={agreed}
+                onChange={handleCheckbox}
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="terms" className="text-sm text-gray-700">
+                I have read and accepted the Cancellation{" "}
+                <Link
+                  href="/returnpolicy"
+                  className="text-blue-600 underline cursor-pointer"
+                >
+                  terms{" "}
+                </Link>
+                <label>& policies</label>
+              </label>
+            </div>
+          </div>
           <div className="flex justify-end space-x-3 mt-6">
             <button
               onClick={onClose}
@@ -171,7 +163,9 @@ export default function CancellationModal({
             </button>
             <button
               onClick={handleConfirm}
-              disabled={loading || (!selectedReason && agreed && !customReason.trim())}
+              disabled={
+                loading || (!selectedReason && agreed && !customReason.trim())
+              }
               className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
               {loading ? (
@@ -185,8 +179,7 @@ export default function CancellationModal({
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );
-} 
+}
