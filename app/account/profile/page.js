@@ -144,7 +144,7 @@ export default function CustomerProfilePage() {
                     Edit Profile
                   </button>
                 </div>
-                <div>
+                <div className="bg-red-500 text-white rounded-lg mb-3 p-2 relative hover:underline hover:scale-105 transition-all duration-300 cursor-pointer">
                   <button
                     onClick={async () => {
                       try {
@@ -176,7 +176,6 @@ export default function CustomerProfilePage() {
                         toast.error("An error occurred during logout");
                       }
                     }}
-                    className="flex items-center gap-2 text-blue-600  font-medium cursor-pointer justify-end  hover:text-red-600"
                   >
                     Logout
                   </button>
@@ -273,17 +272,14 @@ export default function CustomerProfilePage() {
                 Account Security
               </h3>
 
-              <div className="space-y-4">
+              <div className="space-y-4 mb-2">
                 <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                   <div>
                     <h4 className="font-medium text-gray-800">Password</h4>
-                    <p className="text-sm text-gray-600">
-                      Last changed: {user.lastPasswordChange || "Never"}
-                    </p>
                   </div>
                   <button
                     onClick={() => setShowChangePassword(true)}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
+                    className="text-white bg-red-600 p-2 rounded-2xl text-sm font-medium cursor-pointer"
                   >
                     Change
                   </button>
