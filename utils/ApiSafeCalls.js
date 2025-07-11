@@ -12,7 +12,7 @@ export const apiRequest = async (url, tokenReq = true, options = {}) => {
   };
   const response = await fetch(url, { ...options, headers });
   const data = await response.json();
-  console.log("data", data);
+  // console.log("data", data);
   if (data.success || response.ok) {
     return data;
   } else {

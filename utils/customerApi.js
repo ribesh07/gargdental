@@ -64,7 +64,7 @@ export const changeCustomerPassword = async (passwordData) => {
     console.log("Change password data:", passwordData);
     return {
       success: true,
-      data: response.data || response,
+      data: response,
       message: response.message || "Password changed successfully",
     };
   } catch (error) {

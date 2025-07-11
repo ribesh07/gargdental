@@ -45,8 +45,10 @@ export default function ForgotPasswordPage() {
           }),
         });
         const data = await response.json();
-        if (response.ok) {
+        if (data.success) {
           setIsCodeSent(true);
+          console.log("Verification code sent successfully");
+          console.log(data.code);
           router.push(
             `/account/forgot-password/verify?email=${encodeURIComponent(email)}`
           );
