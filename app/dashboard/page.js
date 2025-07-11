@@ -227,7 +227,7 @@ const GargDental = () => {
                 sidebarOpen ? "block" : "hidden"
               } lg:w-64 xl:w-72`}
             >
-              <div className="bg-gray-50 flex flex-row sm:flex-col flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
+              <div className="bg-gray-100 h-full flex flex-row sm:flex-col flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 shadow">
                 <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                   Categories
                 </h3>

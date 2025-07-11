@@ -1,5 +1,6 @@
 // app/api/google-auth/route.ts
 import { NextRequest } from "next/server";
+import toast from "react-hot-toast";
 
 export async function POST(req) {
   try {
@@ -21,16 +22,28 @@ export async function POST(req) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           token: token,
-          unique_id: googleUser.kid, // from token
-          email: googleUser.sub,
-          phone: "9800000000", // optional
+          unique_id: googleUser.sub,
+          email: googleUser.email,
+          phone: "9800000000",
         }),
       }
     );
-
-    const data = await backendRes.json();
-    console.log(data);
-    return new Response(JSON.stringify(data), { status: 200, success: true });
+    console.log(googleUser.email);
+    console.log(googleUser.sub);
+    if (backendRes.ok) {
+      const data = await backendRes.json();
+      console.warn("Data response !");
+      console.log(data);
+      return new Response(JSON.stringify(data), { status: 200, success: true });
+    } else {
+      // console.log(JSON.stringify(backendRes.error));
+      console.log(backendRes.status);
+      return new Response({
+        status: backendRes.status,
+        success: false,
+        message: "Something Went Wronng !",
+      });
+    }
   } catch (error) {
     console.error("Google auth error:", error);
     return new Response(
