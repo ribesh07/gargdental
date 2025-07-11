@@ -40,7 +40,7 @@ export default function CustomerProfilePage() {
         setUser(result.data);
       } else {
         toast.error("Failed to load profile");
-        console.error("Error loading profile:", result.error);
+        // console.error("Error loading profile:", result.error);
       }
     } catch (error) {
       toast.error("An error occurred while loading profile");
@@ -60,6 +60,36 @@ export default function CustomerProfilePage() {
   const handlePasswordChange = () => {
     setShowChangePassword(false);
     toast.success("Password changed successfully!");
+  };
+
+  const handleLogout = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        // Clear localStorage
+        localStorage.removeItem("token");
+
+        // Clear cart store
+        const useCartStore = await import("@/stores/useCartStore");
+        useCartStore.default.getState().clearCart();
+
+        toast.success("Logged out successfully");
+        router.push("/dashboard");
+      } else {
+        toast.error("Logout failed");
+      }
+    } catch (error) {
+      toast.error("An error occurred during logout");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {
@@ -145,40 +175,7 @@ export default function CustomerProfilePage() {
                   </button>
                 </div>
                 <div className="bg-red-500 text-white rounded-lg mb-3 p-2 relative hover:underline hover:scale-105 transition-all duration-300 cursor-pointer">
-                  <button
-                    onClick={async () => {
-                      try {
-                        // Call logout API
-                        const response = await fetch("/api/auth/logout", {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                        });
-
-                        if (response.ok) {
-                          // Clear localStorage
-                          localStorage.removeItem("token");
-
-                          // Clear cart store
-                          const useCartStore = await import(
-                            "@/stores/useCartStore"
-                          );
-                          useCartStore.default.getState().clearCart();
-
-                          toast.success("Logged out successfully");
-                          router.push("/dashboard");
-                        } else {
-                          toast.error("Logout failed");
-                        }
-                      } catch (error) {
-                        console.error("Logout error:", error);
-                        toast.error("An error occurred during logout");
-                      }
-                    }}
-                  >
-                    Logout
-                  </button>
+                  <button onClick={handleLogout}>Logout</button>
                 </div>
               </div>
 
