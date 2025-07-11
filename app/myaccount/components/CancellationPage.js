@@ -65,7 +65,7 @@ export default function MyCancellations() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-2 sm:gap-0">
         <h2 className="text-xl sm:text-2xl font-bold text-center text-blue-900">
           MY CANCELLATIONS ({cancelledOrders.length})
-        </h2>
+      </h2>
         <button
           onClick={fetchCancelledOrders}
           disabled={loading}
@@ -128,9 +128,9 @@ export default function MyCancellations() {
                   </div>
                 )}
                 {order.invoice_email && (
-                  <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600">
                     Invoice Email: <strong>{order.invoice_email}</strong>
-                  </div>
+                </div>
                 )}
               </div>
               <span className="bg-red-100 text-red-600 text-sm font-semibold px-3 py-1 rounded-full">
@@ -140,7 +140,7 @@ export default function MyCancellations() {
 
             {/* Order Items */}
             {order.order_items && order.order_items.length > 0 && (
-              <div className="border p-4 rounded flex flex-col gap-2">
+            <div className="border p-4 rounded flex flex-col gap-2">
                 <h4 className="font-semibold text-gray-800 mb-2">
                   Cancelled Items ({order.order_items.length}):
                 </h4>
@@ -156,32 +156,32 @@ export default function MyCancellations() {
                     item.product?.product_name || "Product";
 
                   return (
-                    <div
+                <div
                       key={item.id || idx}
-                      className="flex items-center gap-4 border-b pb-2 last:border-b-0 last:pb-0"
-                    >
-                      <div className="w-14 h-14 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
-                        <img
+                  className="flex items-center gap-4 border-b pb-2 last:border-b-0 last:pb-0"
+                >
+                  <div className="w-14 h-14 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
+                    <img
                           src={imageUrl}
                           alt={productName}
-                          className="w-full h-full object-cover rounded"
+                      className="w-full h-full object-cover rounded"
                           onError={(e) => {
                             e.target.src = "https://via.placeholder.com/80?text=No+Image";
                           }}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-gray-800 font-semibold">
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-gray-800 font-semibold">
                           {productName}
-                        </div>
-                        <div className="text-sm text-gray-700">
+                    </div>
+                    <div className="text-sm text-gray-700">
                           Qty: <span className="text-blue-700 font-bold">{item.quantity}</span>
                         </div>
                         <div className="text-sm text-gray-600">
                           Product Code: {item.product?.product_code || item.product_code || "N/A"}
-                        </div>
-                      </div>
-                      <div className="text-right font-medium text-green-600">
+                    </div>
+                  </div>
+                  <div className="text-right font-medium text-green-600">
                         Rs. {parseFloat(item.price || 0).toFixed(2)}
                       </div>
                     </div>
@@ -219,7 +219,7 @@ export default function MyCancellations() {
                   <span className="font-semibold text-red-800">
                     Rs. {parseFloat(order.discount || 0).toFixed(2)}
                   </span>
-                </div>
+                  </div>
                 <div className="flex justify-between text-sm font-bold text-red-900 pt-2 border-t border-red-300">
                   <span>Grand Total:</span>
                   <span>

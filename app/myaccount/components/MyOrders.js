@@ -6,11 +6,14 @@ import { Loader2, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
 import CancellationModal from "@/components/CancellationModal";
 
+
 export default function MyOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [orderlength, setOrderlength] = useState(0);
+
+  const [activeTab, setActiveTab] = useState("Processing");
   const [openOrders, setOpenOrders] = useState({});
   const [cancellationModal, setCancellationModal] = useState({
     isOpen: false,
@@ -172,7 +175,102 @@ export default function MyOrders() {
           )}
           Refresh
         </button>
+
+        
       </div>
+  
+
+  
+
+  
+    <div>
+      {/* Tabs */}
+      <div className="flex flex-row my-4 gap-4 justify-around bg-gray-100 p-4 rounded-xl shadow">
+        <button
+          onClick={() => setActiveTab("Processing")}
+          className={`px-4 py-2 rounded-lg font-semibold transition ${
+            activeTab === "Processing"
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-100"
+          }`}
+        >
+          Processing
+        </button>
+
+        <button
+          onClick={() => setActiveTab("Shipped")}
+          className={`px-4 py-2 rounded-lg font-semibold transition ${
+            activeTab === "Shipped"
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-100"
+          }`}
+        >
+          Shipped
+        </button>
+
+        <button
+          onClick={() => setActiveTab("Delivered")}
+          className={`px-4 py-2 rounded-lg font-semibold transition ${
+            activeTab === "Delivered"
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-700 border border-gray-300 hover:bg-green-100"
+          }`}
+        >
+          Delivered
+        </button>
+
+        <button
+          onClick={() => setActiveTab("Cancelled")}
+          className={`px-4 py-2 rounded-lg font-semibold transition ${
+            activeTab === "Cancelled"
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-700 border border-gray-300 hover:bg-red-100"
+          }`}
+        >
+          Cancelled
+        </button>
+      </div>
+
+      {/* Content based on tab */}
+      {activeTab === "Processing" && (
+        <div className="bg-white p-4 rounded-xl shadow">
+          <h2 className="text-2xl font-bold text-blue-600 mb-4">
+            Orders Currently Processing
+          </h2>
+          {/* Add order details here */}
+        </div>
+      )}
+
+      {activeTab === "Shipped" && (
+        <div className="bg-white p-4 rounded-xl shadow">
+          <h2 className="text-2xl font-bold text-blue-600 mb-4">
+            Orders Shipped
+          </h2>
+          {/* Add shipped order details here */}
+        </div>
+      )}
+
+      {activeTab === "Delivered" && (
+        <div className="bg-white p-4 rounded-xl shadow">
+          <h2 className="text-2xl font-bold text-blue-600 mb-4">
+            Orders Delivered
+          </h2>
+          {/* Add delivered order details here */}
+        </div>
+      )}
+
+      {activeTab === "Cancelled" && (
+        <div className="bg-white p-4 rounded-xl shadow">
+          <h2 className="text-2xl font-bold text-blue-600 mb-4">
+            Orders Cancelled
+          </h2>
+          {/* Add cancelled order details here */}
+        </div>
+      )}
+    </div>
+  
+
+
 
       {loading ? (
         <div className="flex justify-center items-center py-16 sm:py-20">
