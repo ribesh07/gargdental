@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getCustomerOrders } from "@/utils/apiHelper";
+import { getCustomerOrders, cancelOrder } from "@/utils/apiHelper";
 import useConfirmModalStore from "@/stores/confirmModalStore";
 import { Loader2, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
+import CancellationModal from "@/components/CancellationModal";
 
 export default function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -11,6 +12,11 @@ export default function MyOrders() {
   const [error, setError] = useState(null);
   const [orderlength, setOrderlength] = useState(0);
   const [openOrders, setOpenOrders] = useState({});
+  const [cancellationModal, setCancellationModal] = useState({
+    isOpen: false,
+    orderId: null,
+    orderNumber: null,
+  });
 
   const fetchOrders = async () => {
     try {
@@ -62,15 +68,42 @@ export default function MyOrders() {
     fetchOrders();
   }, []);
 
-  const handleCancelOrder = (orderId) => {
-    useConfirmModalStore.getState().open({
-      title: "Cancel Order",
-      message: "Are you sure you want to cancel this order?",
-      onConfirm: () => {
-        // TODO: Implement cancel order API call
-        toast.error("Cancel order functionality not implemented yet");
-      },
-      onCancel: () => {},
+  const handleCancelOrder = (orderId, orderNumber) => {
+    setCancellationModal({
+      isOpen: true,
+      orderId,
+      orderNumber,
+    });
+  };
+
+  const handleConfirmCancellation = async (orderId, reasonId, reasonDescription) => {
+    try {
+      const result = await cancelOrder(orderId, reasonId, reasonDescription);
+      
+      if (result.success) {
+        // Remove the cancelled order from the current list
+        setOrders(prevOrders => 
+          prevOrders.filter(order => order.id !== orderId)
+        );
+        
+        // Update the order count
+        setOrderlength(prev => Math.max(0, prev - 1));
+        
+        toast.success("Order cancelled successfully");
+      } else {
+        toast.error(result.error || "Failed to cancel order");
+      }
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+      toast.error("An unexpected error occurred");
+    }
+  };
+
+  const closeCancellationModal = () => {
+    setCancellationModal({
+      isOpen: false,
+      orderId: null,
+      orderNumber: null,
     });
   };
 
@@ -215,28 +248,13 @@ export default function MyOrders() {
                 {order.order_status !== "cancelled" && (
                   <button
                     className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
-                    onClick={() => handleCancelOrder(order.id)}
+                    onClick={() => handleCancelOrder(order.id, order.order_number || order.id)}
                   >
                     Cancel
                   </button>
                 )}
               </div>
             </div>
-
-            {/* Address Information
-            {order.billing_address && (
-              <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-gray-50 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">Billing Address:</h4>
-                <div className="text-xs sm:text-sm text-gray-700">
-                  <div><span className="font-medium">Name:</span> {order.billing_address.full_name}</div>
-                  <div><span className="font-medium">Phone:</span> {order.billing_address.phone}</div>
-                  <div><span className="font-medium">Address:</span> {order.billing_address.address}</div>
-                  {order.billing_address.landmark && (
-                    <div><span className="font-medium">Landmark:</span> {order.billing_address.landmark}</div>
-                  )}
-                </div>
-              </div>
-            )} */}
 
             {/* Order Items Dropdown */}
             {order.order_items && order.order_items.length > 0 && (
@@ -427,6 +445,15 @@ export default function MyOrders() {
           </div>
         ))
       )}
+
+      {/* Cancellation Modal */}
+      <CancellationModal
+        isOpen={cancellationModal.isOpen}
+        onClose={closeCancellationModal}
+        onConfirm={handleConfirmCancellation}
+        orderId={cancellationModal.orderId}
+        orderNumber={cancellationModal.orderNumber}
+      />
     </div>
   );
 }

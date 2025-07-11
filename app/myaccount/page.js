@@ -151,8 +151,9 @@ const AccountPage = () => {
         setError(result.error);
         toast.error(result.error);
       }
+      
     } catch (err) {
-      console.error("Error fetching orders:", err);
+      // console.error("Error fetching orders:", err);
       setError("Failed to load orders");
       toast.error("Failed to load orders");
     } finally {

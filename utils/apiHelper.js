@@ -302,6 +302,10 @@ export const handleOrderBuyNow = async (orderData) => {
         title: "Error",
         message: response.message || "Something went wrong. Please try again.",
       });
+      return {
+        success: false,
+        message: response.message || "Something went wrong. Please try again.",
+      };
     }
   } catch (err) {
     console.error("Error handling order buy now:", err);
@@ -309,6 +313,10 @@ export const handleOrderBuyNow = async (orderData) => {
       title: "Error",
       message: err.message || "Something went wrong. Please try again.",
     });
+    return {
+      success: false,
+      message: err.message || "Something went wrong. Please try again.",
+    };
   }
 };
 
@@ -332,6 +340,10 @@ export const handleOrder = async (orderData) => {
         title: "Error",
         message: response.message || "Something went wrong. Please try again.",
       });
+      return {
+        success: false,
+        message: response.message || "Something went wrong. Please try again.",
+      };
     }
   } catch (err) {
     console.error("Error handling order:", err);
@@ -339,6 +351,10 @@ export const handleOrder = async (orderData) => {
       title: "Error",
       message: err.message || "Something went wrong. Please try again.",
     });
+    return {
+      success: false,
+      message: err.message || "Something went wrong. Please try again.",
+    };
   }
 };
 
@@ -688,6 +704,91 @@ export const fetchSettings = async () => {
   } catch (err) {
     console.error("Error fetching settings:", err);
     return { error: err.message };
+  }
+};
+
+// Get cancellation reasons
+export const getCancellationReasons = async () => {
+  try {
+    const response = await apiRequest("/customer/order/reasons-list", true);
+    if (response.success) {
+      return {
+        success: true,
+        reasons: response.reasons || [],
+      };
+    } else {
+      return {
+        success: false,
+        error: response.message || "Failed to fetch cancellation reasons",
+      };
+    }
+  } catch (err) {
+    console.error("Error getting cancellation reasons:", err);
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred",
+    };
+  }
+};
+
+// Cancel order
+export const cancelOrder = async (orderId, reasonId, reasonDescription) => {
+  try {
+    const response = await apiRequest("/customer/order/cancel", true, {
+      method: "POST",
+      body: JSON.stringify({
+        order_id: orderId,
+        reason_id: reasonId,
+        reason_description: reasonDescription,
+        policy_checked: "Y",
+      }),
+    });
+    
+    if (response.success) {
+      toast.success(response.message || "Order cancelled successfully");
+      return {
+        success: true,
+        message: response.message || "Order cancelled successfully",
+        order_id: response.order_id,
+      };
+    } else {
+      toast.error(response.message || "Failed to cancel order");
+      return {
+        success: false,
+        error: response.message || "Failed to cancel order",
+      };
+    }
+  } catch (err) {
+    console.error("Error cancelling order:", err);
+    toast.error("An unexpected error occurred");
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred",
+    };
+  }
+};
+
+// Get cancelled orders
+export const getCancelledOrders = async () => {
+  try {
+    const response = await apiRequest("/customer/order/list?status=cancelled", true);
+    if (response.success) {
+      return {
+        success: true,
+        orders: response.orders || [],
+      };
+    } else {
+      return {
+        success: false,
+        error: response.message || "Failed to fetch cancelled orders",
+      };
+    }
+  } catch (err) {
+    console.error("Error getting cancelled orders:", err);
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred",
+    };
   }
 };
 

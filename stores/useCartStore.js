@@ -16,9 +16,6 @@ const useCartStore = create(
       orders: [],
       cancelledOrders: [],
       wishlist: [],
-      orders: [],
-      cancelledOrders: [],
-      wishlist: [],
       email: null,
 
       setCart: (cartData) =>
@@ -101,37 +98,8 @@ const useCartStore = create(
         set({ selectedBillingAddress: address }),
       setUserProfile: (profile) => set({ userProfile: profile }),
       setEmail: (email) => set({ email }),
-      addOrder: (order) =>
-        set((state) => ({
-          orders: [...state.orders, { ...order, orderStatus: "Processing" }],
-        })),
-      cancelOrder: (orderIndex) =>
-        set((state) => {
-          const orderToCancel = state.orders[orderIndex];
-          if (!orderToCancel) return {};
-          return {
-            orders: state.orders.filter((_, idx) => idx !== orderIndex),
-            cancelledOrders: [
-              ...state.cancelledOrders,
-              {
-                ...orderToCancel,
-                orderStatus: "Cancelled",
-                cancelledAt: new Date().toISOString(),
-              },
-            ],
-          };
-        }),
-      addToWishlist: (product) =>
-        set((state) => {
-          if (state.wishlist.find((item) => item.id === product.id)) return {};
-          return { wishlist: [...state.wishlist, product] };
-        }),
-      removeFromWishlist: (productId) =>
-        set((state) => ({
-          wishlist: state.wishlist.filter((item) => item.id !== productId),
-        })),
-      setWishlist: (wishlist) => set({ wishlist }),
-      setWishlist: (wishlist) => set({ wishlist }),
+      
+      // Order management functions
       addOrder: (order) =>
         set((state) => {
           const orderIndex = (state.orders?.length || 0) + 1;
@@ -150,22 +118,39 @@ const useCartStore = create(
             ],
           };
         }),
-      cancelOrder: (orderIndex) =>
+      
+      removeOrder: (orderId) =>
+        set((state) => ({
+          orders: (state.orders || []).filter(order => order.id !== orderId),
+        })),
+      
+      addCancelledOrder: (order) =>
+        set((state) => ({
+          cancelledOrders: [
+            ...(state.cancelledOrders || []),
+            {
+              ...order,
+              orderStatus: "Cancelled",
+              cancelledAt: new Date().toISOString(),
+            },
+          ],
+        })),
+      
+      setCancelledOrders: (orders) => set({ cancelledOrders: orders }),
+      
+      // Wishlist functions
+      addToWishlist: (product) =>
         set((state) => {
-          const orderToCancel = (state.orders || [])[orderIndex];
-          if (!orderToCancel) return {};
-          return {
-            orders: (state.orders || []).filter((_, idx) => idx !== orderIndex),
-            cancelledOrders: [
-              ...(state.cancelledOrders || []),
-              {
-                ...orderToCancel,
-                orderStatus: "Cancelled",
-                cancelledAt: new Date().toISOString(),
-              },
-            ],
-          };
+          if (state.wishlist.find((item) => item.id === product.id)) return {};
+          return { wishlist: [...state.wishlist, product] };
         }),
+      
+      removeFromWishlist: (productId) =>
+        set((state) => ({
+          wishlist: state.wishlist.filter((item) => item.id !== productId),
+        })),
+      
+      setWishlist: (wishlist) => set({ wishlist }),
     }),
     {
       name: "cart-storage",
