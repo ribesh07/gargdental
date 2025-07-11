@@ -312,10 +312,10 @@ POST https://gargdental.omsok.com/api/v1/auth/social/google-register
 Content-Type: application/json
 
 {
-    "token" : "",
-    "unique_id" : "",
-    "email" : "",
-    "phone" : ""
+    "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhlOGZjOGU1NTZmN2E3NmQwOGQzNTgyOWQ2ZjkwYWUyZTEyY2ZkMGQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMDYxODg0MzAyNTc0LTg5ZDFwMG1ndnNpajN1amYwcnVnM2RhMGprNWo2ZWZlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTA2MTg4NDMwMjU3NC04OWQxcDBtZ3ZzaWozdWpmMHJ1ZzNkYTBqazVqNmVmZS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjEwNDcxOTQyMDQxNDAwNTgzNzE0MyIsImVtYWlsIjoibGlmZWpva2VyMDdAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5iZiI6MTc1MjE2MDYyOSwibmFtZSI6Ikpva2UiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmNkaTlZZFd2TFptR0FFQXkwUmFzUmRncFc0VGlWeXlpSW83SkVrLUVPOHhzSzRWV189czk2LWMiLCJnaXZlbl9uYW1lIjoiSm9rZSIsImlhdCI6MTc1MjE2MDkyOSwiZXhwIjoxNzUyMTY0NTI5LCJqdGkiOiJkY2NmMjE1MGE5OTczNDc5MmE2YWI4MDhmNDNlNDIxMGYyYjAyYTBiIn0.gO9vIv2vm2YlhNFBINiIQ6v_o4N_Z5qJFruOeb0zgUGmRhKXREqnEfgLxavKXJCbgEc0znBQc_ltbOJzRopOnrJtxRMhmW7wOwDqBD183dA0kwgd_QRa0JTQCaANR-V3mHpyBKIMkOs90DLuE331HtfiRLqa0MJa6he0t9OLnEPuc6WAkmzfDMfrN5aTARc8CFoRzeJGlKxEhWOtFO0n-_AkxSyR4MLKpJkHC4L7suo9RMz8JvO3PC7friaKHQghcJhPecyEe1jMcqHS29t-2fxE9TH9QcK8kn3k6CgxWQp2eJtiQbtJbbgUSNXzW32qerT4pD0um7_16P5ATQW_mA",
+          "unique_id": "104719420414005837143",
+          "email": "lifejoker07@gmail.com",
+          "phone": "9800000000",
 
 }
 ###wishlist add
