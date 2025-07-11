@@ -1,7 +1,6 @@
 "use client"
-import React from "react";
-
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { fetchSettings } from "@/utils/apiHelper";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -9,8 +8,36 @@ export default function ContactUs() {
     email: "",
     message: "",
   });
-
   const [submitted, setSubmitted] = useState(false);
+  const [contact, setContact] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getSettings = async () => {
+      setLoading(true);
+      setError(null);
+      const data = await fetchSettings();
+      if (data && data.success && data.settings) {
+        const settings = data.settings;
+        const get = (key) => {
+          const found = settings.find((s) => s.key === key);
+          return found ? found.value : "";
+        };
+        setContact({
+          company: get("company_name"),
+          address: get("address"),
+          phone: get("primary_phone"),
+          email: get("primary_email"),
+          map: get("map_url"),
+        });
+      } else {
+        setError(data?.error || "Failed to load contact info");
+      }
+      setLoading(false);
+    };
+    getSettings();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,11 +51,14 @@ export default function ContactUs() {
     setFormData({ name: "", email: "", message: "" });
   };
 
+  if (loading) return <div className="p-8 text-center">Loading contact info...</div>;
+  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-bold text-[#0072bc] mb-4">Contact Us</h1>
       <p className="text-gray-700 text-[15px] mb-6 leading-relaxed">
-        Have a question? Need support with your order? Want to discuss bulk orders for your clinic? 
+        Have a question? Need support with your order? Want to discuss bulk orders for your clinic?
         Reach out to our team — we're here to help you!
       </p>
 
@@ -37,15 +67,15 @@ export default function ContactUs() {
         <div className="text-[15px] text-gray-800 space-y-4">
           <div>
             <h2 className="font-semibold text-[#0072bc] text-lg">📍 Address</h2>
-            <p>Garg Dental Pvt. Ltd.<br />Putalisadak, Kathmandu, Nepal</p>
+            <p>{contact.company}<br />{contact.address}</p>
           </div>
           <div>
             <h2 className="font-semibold text-[#0072bc] text-lg">📞 Phone</h2>
-            <p>+977-9800000000</p>
+            <p>{contact.phone}</p>
           </div>
           <div>
             <h2 className="font-semibold text-[#0072bc] text-lg">📧 Email</h2>
-            <p>info@gargdental.com</p>
+            <p>{contact.email}</p>
           </div>
         </div>
 
@@ -101,20 +131,19 @@ export default function ContactUs() {
         </div>
       </div>
 
-      {/* Optional: Map Embed */}
-      <div className="mt-10">
-        <h2 className="text-lg font-semibold text-[#0072bc] mb-2">📍 Find Us on Map</h2>
-        <div className="rounded overflow-hidden shadow">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!..." // <-- Replace with real location embed
-            width="100%"
-            height="300"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-          ></iframe>
+      {/* Map Embed */}
+      {contact.map && (
+        <div className="mt-10 w-full flex justify-center px-4">
+          <div className="map-wrapper max-w-7xl w-full rounded overflow-hidden shadow">
+            <div
+              className="map-html"
+              dangerouslySetInnerHTML={{ __html: contact.map }}
+            />
+          </div>
         </div>
-      </div>
+      )}
+
+
     </div>
   );
 }

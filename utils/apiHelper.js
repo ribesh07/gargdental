@@ -302,6 +302,10 @@ export const handleOrderBuyNow = async (orderData) => {
         title: "Error",
         message: response.message || "Something went wrong. Please try again.",
       });
+      return {
+        success: false,
+        message: response.message || "Something went wrong. Please try again.",
+      };
     }
   } catch (err) {
     console.error("Error handling order buy now:", err);
@@ -309,6 +313,10 @@ export const handleOrderBuyNow = async (orderData) => {
       title: "Error",
       message: err.message || "Something went wrong. Please try again.",
     });
+    return {
+      success: false,
+      message: err.message || "Something went wrong. Please try again.",
+    };
   }
 };
 
@@ -332,6 +340,10 @@ export const handleOrder = async (orderData) => {
         title: "Error",
         message: response.message || "Something went wrong. Please try again.",
       });
+      return {
+        success: false,
+        message: response.message || "Something went wrong. Please try again.",
+      };
     }
   } catch (err) {
     console.error("Error handling order:", err);
@@ -339,6 +351,10 @@ export const handleOrder = async (orderData) => {
       title: "Error",
       message: err.message || "Something went wrong. Please try again.",
     });
+    return {
+      success: false,
+      message: err.message || "Something went wrong. Please try again.",
+    };
   }
 };
 
@@ -651,7 +667,7 @@ export const getCustomerOrders = async () => {
   }
 };
 
-// Fetch compliances (Business Registration, Medical Certifications, Return & Refund Policy, Privacy Policy)
+// Fetch compliances (Company info Business Registration, Medical Certifications, Return & Refund Policy, Privacy Policy)
 export const fetchCompliances = async () => {
   try {
     const response = await fetch(`${baseUrl}/compliances`, {
@@ -670,3 +686,183 @@ export const fetchCompliances = async () => {
     return { error: err.message };
   }
 };
+
+// Fetch settings (company info, contact, map, etc.)
+export const fetchSettings = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/settings`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (err) {
+    console.error("Error fetching settings:", err);
+    return { error: err.message };
+  }
+};
+
+// Get cancellation reasons
+export const getCancellationReasons = async () => {
+  try {
+    const response = await apiRequest("/customer/order/reasons-list", true);
+    if (response.success) {
+      return {
+        success: true,
+        reasons: response.reasons || [],
+      };
+    } else {
+      return {
+        success: false,
+        error: response.message || "Failed to fetch cancellation reasons",
+      };
+    }
+  } catch (err) {
+    console.error("Error getting cancellation reasons:", err);
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred",
+    };
+  }
+};
+
+// Cancel order
+export const cancelOrder = async (orderId, reasonId, reasonDescription) => {
+  try {
+    const response = await apiRequest("/customer/order/cancel", true, {
+      method: "POST",
+      body: JSON.stringify({
+        order_id: orderId,
+        reason_id: reasonId,
+        reason_description: reasonDescription,
+        policy_checked: "Y",
+      }),
+    });
+    
+    if (response.success) {
+      toast.success(response.message || "Order cancelled successfully");
+      return {
+        success: true,
+        message: response.message || "Order cancelled successfully",
+        order_id: response.order_id,
+      };
+    } else {
+      toast.error(response.message || "Failed to cancel order");
+      return {
+        success: false,
+        error: response.message || "Failed to cancel order",
+      };
+    }
+  } catch (err) {
+    console.error("Error cancelling order:", err);
+    toast.error("An unexpected error occurred");
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred",
+    };
+  }
+};
+
+// Get cancelled orders
+export const getCancelledOrders = async () => {
+  try {
+    const response = await apiRequest("/customer/order/list?status=cancelled", true);
+    if (response.success) {
+      return {
+        success: true,
+        orders: response.orders || [],
+      };
+    } else {
+      return {
+        success: false,
+        error: response.message || "Failed to fetch cancelled orders",
+      };
+    }
+  } catch (err) {
+    console.error("Error getting cancelled orders:", err);
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred",
+    };
+  }
+};
+
+// Wishlist API
+// export const getWishlist = async (token) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/customer/wishlist/list`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//         Authorization: token ? `Bearer ${token}` : undefined,
+//       },
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error fetching wishlist:", err);
+//     return { error: err.message };
+//   }
+// };
+
+// export const addToWishlist = async (product_code, token) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/customer/wishlist/add`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//         Authorization: token ? `Bearer ${token}` : undefined,
+//       },
+//       body: JSON.stringify({ product_code }),
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error adding to wishlist:", err);
+//     return { error: err.message };
+//   }
+// };
+
+// export const removeFromWishlist = async (item_id, token) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/customer/wishlist/remove-item`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//         Authorization: token ? `Bearer ${token}` : undefined,
+//       },
+//       body: JSON.stringify({ item_id }),
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error removing from wishlist:", err);
+//     return { error: err.message };
+//   }
+// };
+
+// // Fetch product details by product_code
+// export const fetchProductByCode = async (product_code) => {
+//   try {
+//     const response = await fetch(`${baseUrl}/products/${product_code}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//       },
+//     });
+//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+//     return await response.json();
+//   } catch (err) {
+//     console.error("Error fetching product by code:", err);
+//     return { error: err.message };
+//   }
+// };

@@ -86,27 +86,44 @@ const PayOpsPage = () => {
   const total = subtotal + shipping;
 
   const handleConfirmOrder = async () => {
-    const orderData = {
-      payment_method: selected,
-      billing_address: selectedBillingAddress.id,
-      shipping_address: selectedShippingAddress.id,
-      invoice_email: email,
-      subtotal: subtotal,
-      grandtotal: total,
-      shipping: shipping,
-      selected_items: selectedItems.map((item) => item.id),
-    };
-    console.log("orderData", orderData);
-    const result = await handleOrder(orderData);
-    // console.log("result", result.message);
-    addOrder({
-      items: selectedItems,
-      address: selectedShippingAddress,
-      paymentMethod: selected,
-      total,
-      date: new Date().toISOString(),
-    });
-    router.push("/myaccount");
+    try {
+      const orderData = {
+        payment_method: selected,
+        billing_address: selectedBillingAddress.id,
+        shipping_address: selectedShippingAddress.id,
+        invoice_email: email,
+        subtotal: subtotal,
+        grandtotal: total,
+        shipping: shipping,
+        selected_items: selectedItems.map((item) => item.id),
+      };
+      console.log("orderData", orderData);
+      const result = await handleOrder(orderData);
+      console.log("result", result);
+
+      if (result && result.success) {
+        // Add order to local store
+        addOrder({
+          items: selectedItems,
+          address: selectedShippingAddress,
+          paymentMethod: selected,
+          total,
+          date: new Date().toISOString(),
+        });
+
+        // Clear selected items from cart
+        useCartStore.getState().setSelectedItems([]);
+
+        // Redirect to my account page
+        router.push("/myaccount");
+      } else {
+        // Error is already handled by the modal in handleOrder function
+        console.error("Order failed:", result?.message || "Unknown error");
+      }
+    } catch (error) {
+      console.error("Error in handleConfirmOrder:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+    }
   };
 
   return (

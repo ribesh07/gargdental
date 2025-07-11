@@ -45,8 +45,8 @@ export default function ReturnPolicy() {
                     </a>
                   </li>
                 ))}
-              </ul>
-            </div>
+      </ul>
+      </div>
           )}
         </>
       )}

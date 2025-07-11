@@ -43,11 +43,11 @@ export default function MedicalCertifications() {
                     <li key={file.id}>
                       <a href={file.file_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
                         {file.title || file.filename}
-                      </a>
-                    </li>
+              </a>
+            </li>
                   ))}
-                </ul>
-              </div>
+          </ul>
+        </div>
             )}
           </>
         )}
