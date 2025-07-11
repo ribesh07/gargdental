@@ -100,7 +100,7 @@ const PayOpsPage = () => {
       console.log("orderData", orderData);
       const result = await handleOrder(orderData);
       console.log("result", result);
-      
+
       if (result && result.success) {
         // Add order to local store
         addOrder({
@@ -110,10 +110,10 @@ const PayOpsPage = () => {
           total,
           date: new Date().toISOString(),
         });
-        
+
         // Clear selected items from cart
         useCartStore.getState().setSelectedItems([]);
-        
+
         // Redirect to my account page
         router.push("/myaccount");
       } else {

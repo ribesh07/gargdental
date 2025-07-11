@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Eye, EyeOff, Lock } from "lucide-react";
-import { changeCustomerPassword, validatePasswordData } from "@/utils/customerApi";
+import {
+  changeCustomerPassword,
+  validatePasswordData,
+} from "@/utils/customerApi";
 import { toast } from "react-hot-toast";
 
 const ChangePasswordForm = ({ onCancel, onSuccess }) => {
@@ -22,7 +25,7 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -36,7 +39,7 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted with data:", formData);
-    
+
     // Validate form data
     const validation = validatePasswordData(formData);
     if (!validation.isValid) {
@@ -46,12 +49,12 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
     }
 
     setIsLoading(true);
-    
+
     try {
       const result = await changeCustomerPassword(formData);
       console.log("Change password result:", result);
       console.log("Change password inside fun form data:", formData);
-      
+
       if (result.success) {
         toast.success(result.message || "Password changed successfully!");
         setFormData({
@@ -67,7 +70,7 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
       }
     } catch (error) {
       toast.error("An unexpected error occurred");
-      console.error("Password change error:", error);
+      // console.error("Password change error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -80,11 +83,11 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
           <Lock className="w-6 h-6 text-blue-600" />
         </div>
       </div>
-      
+
       <h2 className="text-2xl font-bold text-center text-blue-900 mb-8">
         Change Password
       </h2>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Current Password */}
         <div>
@@ -120,7 +123,9 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
             </button>
           </div>
           {errors.current_password && (
-            <p className="text-red-500 text-sm mt-1">{errors.current_password}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.current_password}
+            </p>
           )}
         </div>
 
@@ -178,7 +183,9 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
               value={formData.new_password_confirmation || ""}
               onChange={handleChange}
               className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                errors.new_password_confirmation ? "border-red-500" : "border-gray-300"
+                errors.new_password_confirmation
+                  ? "border-red-500"
+                  : "border-gray-300"
               }`}
               placeholder="Confirm new password"
               required
@@ -196,13 +203,17 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
             </button>
           </div>
           {errors.new_password_confirmation && (
-            <p className="text-red-500 text-sm mt-1">{errors.new_password_confirmation}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.new_password_confirmation}
+            </p>
           )}
         </div>
 
         {/* Password Requirements */}
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Password Requirements:</h4>
+          <h4 className="text-sm font-medium text-gray-700 mb-2">
+            Password Requirements:
+          </h4>
           <ul className="text-sm text-gray-600 space-y-1">
             <li>• At least 6 characters long</li>
             <li>• Should be different from current password</li>
@@ -240,4 +251,4 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
   );
 };
 
-export default ChangePasswordForm; 
+export default ChangePasswordForm;

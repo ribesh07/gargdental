@@ -77,7 +77,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
       }
     } catch (error) {
       toast.error("An unexpected error occurred");
-      console.error("Profile update error:", error);
+      // console.error("Profile update error:", error);
     } finally {
       setIsLoading(false);
     }

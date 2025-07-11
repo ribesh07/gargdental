@@ -60,12 +60,10 @@ export default function ResetPasswordForm() {
         .getState()
         .open({ title: "Info", message: "Please enter a valid email address" });
     if (formData.newPassword.length < 6)
-      return useWarningModalStore
-        .getState()
-        .open({
-          title: "Warning",
-          message: "Password must be at least 6 characters long",
-        });
+      return useWarningModalStore.getState().open({
+        title: "Warning",
+        message: "Password must be at least 6 characters long",
+      });
     setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}/auth/reset-password-verify`, {
@@ -84,31 +82,24 @@ export default function ResetPasswordForm() {
       const data = await response.json();
       setIsLoading(false);
       if (response.ok) {
-        useInfoModalStore
-          .getState()
-          .open({
-            title: "Success",
-            message:
-              "Password has been reset successfully. You can now log in.",
-            onOkay: () => router.push("/account"),
-          });
+        useInfoModalStore.getState().open({
+          title: "Success",
+          message: "Password has been reset successfully. You can now log in.",
+          onOkay: () => router.push("/account"),
+        });
       } else {
-        useWarningModalStore
-          .getState()
-          .open({
-            title: "Error",
-            message: data.message || "Verification failed",
-          });
+        useWarningModalStore.getState().open({
+          title: "Error",
+          message: data.errors[0].message || "Verification failed",
+        });
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setIsLoading(false);
-      useWarningModalStore
-        .getState()
-        .open({
-          title: "Error",
-          message: "Something went wrong. Please try again.",
-        });
+      useWarningModalStore.getState().open({
+        title: "Error",
+        message: "Something went wrong. Please try again.",
+      });
     }
   };
 
