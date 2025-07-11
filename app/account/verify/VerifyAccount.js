@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { baseUrl } from "@/utils/config";
 import useInfoModalStore from "@/stores/infoModalStore";
 import useWarningModalStore from "@/stores/warningModalStore";
+import toast from "react-hot-toast";
 // import { baseUrl } from "@/utils/config";
 
 export default function VerifyAccountPage() {
@@ -48,29 +49,23 @@ export default function VerifyAccountPage() {
         const data = await response.json();
         console.log(data);
         if (response.ok) {
-          useInfoModalStore
-            .getState()
-            .open({
-              title: "Success",
-              message: "Account verified successfully!",
-              onOkay: () => router.push("/account"),
-            });
+          useInfoModalStore.getState().open({
+            title: "Success",
+            message: "Account verified successfully!",
+            onOkay: () => router.push("/account"),
+          });
         } else {
-          useWarningModalStore
-            .getState()
-            .open({
-              title: "Error",
-              message: data.message + "  Verification failed",
-            });
+          useWarningModalStore.getState().open({
+            title: "Error",
+            message: data.errors[0].message + "  Verification failed !",
+          });
         }
       } catch (error) {
-        console.error("Error:", error);
-        useWarningModalStore
-          .getState()
-          .open({
-            title: "Error",
-            message: "Something went wrong. Please try again.",
-          });
+        // console.error("Error:", error);
+        useWarningModalStore.getState().open({
+          title: "Error",
+          message: "Something went wrong. Please try again.",
+        });
       }
     }, 1500);
   };
@@ -102,10 +97,10 @@ export default function VerifyAccountPage() {
             `Verification code has been resent to your email ${data.code}!`
           );
         } else {
-          alert(data.message || "Resend failed");
+          toast.error(data.errors[0].message || "Resend failed");
         }
       } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
         alert("Something went wrong. Please try again.");
       }
     }, 1000);

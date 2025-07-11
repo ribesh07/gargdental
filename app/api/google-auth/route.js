@@ -22,9 +22,8 @@ export async function POST(req) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           token: token,
-          unique_id: googleUser.sub,
-          email: googleUser.email,
-          phone: "9800000000",
+          unique_id: googleUser.kid,
+          access_token: 0,
         }),
       }
     );
@@ -38,6 +37,9 @@ export async function POST(req) {
     } else {
       // console.log(JSON.stringify(backendRes.error));
       console.log(backendRes.status);
+      const data = await backendRes.json();
+      console.warn("Error response !");
+      console.log(data);
       return new Response({
         status: backendRes.status,
         success: false,
@@ -45,7 +47,7 @@ export async function POST(req) {
       });
     }
   } catch (error) {
-    console.error("Google auth error:", error);
+    console.warn(`Google auth error: ${error}`);
     return new Response(
       JSON.stringify({ error: "Failed to authenticate", success: false }),
       {

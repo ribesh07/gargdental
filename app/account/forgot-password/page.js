@@ -51,21 +51,18 @@ export default function ForgotPasswordPage() {
             `/account/forgot-password/verify?email=${encodeURIComponent(email)}`
           );
         } else {
-          useWarningModalStore
-            .getState()
-            .open({
-              title: "Error",
-              message: data.message || "Failed to send verification code",
-            });
+          useWarningModalStore.getState().open({
+            title: "Error",
+            message:
+              data.errors[0].message || "Failed to send verification code",
+          });
         }
       } catch (error) {
-        console.error("Error:", error);
-        useWarningModalStore
-          .getState()
-          .open({
-            title: "Error",
-            message: "Something went wrong. Please try again.",
-          });
+        // console.error("Error:", error);
+        useWarningModalStore.getState().open({
+          title: "Error",
+          message: "Something went wrong. Please try again.",
+        });
       }
     }, 1500);
   };

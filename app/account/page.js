@@ -63,9 +63,9 @@ export default function AuthPage() {
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log(data.message);
 
-      if (response.ok) {
+      if (data.success) {
         console.log("Login successful:", data);
 
         if (data.token) {
@@ -79,10 +79,6 @@ export default function AuthPage() {
           });
           const result = await getFullInfo();
           setUserProfile(result.data);
-          //Feature removed
-          // useInfoModalStore
-          //   .getState()
-          //   .open({ title: "Info", message: "Login successful" });
           toast.success("Login successful !");
 
           console.log("Token saved:", data.token);
@@ -91,14 +87,14 @@ export default function AuthPage() {
         // success
         router.push("/dashboard");
       } else {
-        // console.error("Login failed:", data);
+        console.warn("Login failed:", data);
         useWarningModalStore.getState().open({
           title: "Error",
-          message: data.message || "Invalid Gmail and Password",
+          message: data.message || "Invalid Gmail or Password",
         });
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      // console.error("Error during login:", error);
       useInfoModalStore.getState().open({
         title: "Info",
         message: "Something went wrong. Please try again.",
