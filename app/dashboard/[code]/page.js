@@ -13,6 +13,7 @@ import { baseUrl } from "@/utils/config";
 import ProductCardList from "./ProductCardList";
 import QuantitySelector from "./QuantitySelector";
 import useQuantityStore from "@/stores/AddtoCartStore";
+import toast from "react-hot-toast";
 //to transform product
 function transformProduct(product) {
   return {
@@ -41,13 +42,14 @@ export async function getProductByCode(code) {
     });
 
     if (!res.ok) {
-      console.error("Failed to fetch product:", res.status);
+      console.log("Failed to fetch product:", res.status);
+      // toast.error()
       return null;
     }
 
     const data = await res.json();
 
-    const product = data || null;
+    const product = data.product || null;
     if (!product) return null;
 
     // Transform it to match your desired structure
@@ -79,7 +81,7 @@ export async function getProductByCode(code) {
       files_full_url: product.files_full_url,
     };
   } catch (error) {
-    console.error("API fetch error:", error.message);
+    console.log("API fetch error:", error.message);
     return null;
   }
 }

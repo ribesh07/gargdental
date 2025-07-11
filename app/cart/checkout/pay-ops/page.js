@@ -98,7 +98,7 @@ const PayOpsPage = () => {
     };
     console.log("orderData", orderData);
     const result = await handleOrder(orderData);
-    console.log("result", result.message);
+    // console.log("result", result.message);
     addOrder({
       items: selectedItems,
       address: selectedShippingAddress,

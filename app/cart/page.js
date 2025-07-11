@@ -102,7 +102,8 @@ export default function ShoppingCart() {
         response.cart.items.map((item) => item.quantity)
       );
     } else {
-      console.error("Failed to update cart:", response.message);
+      console.log("Failed to update cart:", response?.errors[0]?.message);
+      toast.error(response?.errors[0]?.message);
     }
   };
 

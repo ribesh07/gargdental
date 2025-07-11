@@ -31,12 +31,18 @@ export const updateCustomerProfile = async (profileData) => {
       true
     );
     // const res = await apiPostRequest("/customer/update-profile", profileData, true);
-
-    return {
-      success: true,
-      data: response.data || response,
-      message: response.message || "Profile updated successfully",
-    };
+    if (response.success) {
+      return {
+        success: true,
+        data: response.data || response,
+        message: response.message || "Profile updated successfully",
+      };
+    } else {
+      return {
+        success: false,
+        error: response.errors[0].message || "Failed to update profile",
+      };
+    }
   } catch (error) {
     console.error("Error updating profile:", error);
     return {

@@ -103,12 +103,12 @@ const AccountPage = () => {
         setOfficeAddress(officeAddress);
       } else {
         toast.error("Failed to load user data");
-        console.error("Error loading user data:", result.error);
-        // router.push("/account");
+        // console.error("Error loading user data:", result.error);
+        router.push("/dashboard");
       }
     } catch (error) {
       toast.error("An error occurred while loading user data");
-      console.error("Error fetching user data:", error);
+      // console.error("Error fetching user data:", error);
       router.push("/account");
     } finally {
       setIsLoading(false);
@@ -128,10 +128,10 @@ const AccountPage = () => {
 
         // Log the first order's complete structure
         if (result.orders.orders && result.orders.orders.length > 0) {
-          console.log(
-            "First order complete structure:",
-            JSON.stringify(result.orders.orders[0], null, 2)
-          );
+          // console.log(
+          //   "First order complete structure:",
+          //   JSON.stringify(result.orders.orders[0], null, 2)
+          // );
 
           if (result.orders.orders[0].items) {
             console.log("First order items:", result.orders.orders[0].items);
@@ -152,7 +152,7 @@ const AccountPage = () => {
         toast.error(result.error);
       }
     } catch (err) {
-      console.error("Error fetching orders:", err);
+      // console.error("Error fetching orders:", err);
       setError("Failed to load orders");
       toast.error("Failed to load orders");
     } finally {

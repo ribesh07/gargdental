@@ -69,11 +69,11 @@ export default function AuthPage() {
       } else {
         useWarningModalStore.getState().open({
           title: "Error",
-          message: data.message || "Registration failed",
+          message: data.errors[0].message || "Registration failed",
         });
       }
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       useWarningModalStore.getState().open({
         title: "Error",
         message: "Something went wrong. Please try again.",
