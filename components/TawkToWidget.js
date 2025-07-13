@@ -1,15 +1,36 @@
 "use client";
 
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 import Link from "next/link";
 export default function TawkToWidget() {
-  const whatsappNumber = "9779862551025"; //raw data
+  // const whatsappNumber = ""; //raw data
+  const [settings, setSettings] = useState({
+    whatsapp: "",
+  });
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const response = await apiRequest("/settings", false);
+      if (response.success) {
+        // setSettings(response.settings);
+        const { whatsapp } = response.settings;
+        console.log("Fetched settings:", whatsapp?.value);
+
+        setSettings({
+          whatsapp: whatsapp?.value || "",
+        });
+      } else {
+        console.log("Failed to fetch settings:", response.message);
+      }
+    };
+    fetchSettings();
+  }, []);
   const message = "Hello! I'm interested in your products.";
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-center justify-center">
       <Link
-        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        href={`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(
           message
         )}`}
         target="_blank"

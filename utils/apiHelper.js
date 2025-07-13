@@ -687,26 +687,6 @@ export const fetchCompliances = async () => {
   }
 };
 
-// Fetch settings (company info, contact, map, etc.)
-export const fetchSettings = async () => {
-  try {
-    const response = await fetch(`${baseUrl}/settings`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (err) {
-    console.error("Error fetching settings:", err);
-    return { error: err.message };
-  }
-};
-
 // Get cancellation reasons
 export const getCancellationReasons = async () => {
   try {
@@ -763,7 +743,7 @@ export const cancelOrder = async (
       toast.error(response?.errors[0].message || "Failed to cancel order");
       return {
         success: false,
-        error: response?.errors[0].message || "Failed to cancel order",
+        error: response?.errors?.[0]?.message || "Failed to cancel order",
       };
     }
   } catch (err) {
@@ -803,60 +783,3 @@ export const getCancelledOrders = async (status) => {
     };
   }
 };
-
-// Wishlist API
-// export const getWishlist = async (token) => {
-//   try {
-//     const response = await fetch(`${baseUrl}/customer/wishlist/list`, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//         Authorization: token ? `Bearer ${token}` : undefined,
-//       },
-//     });
-//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-//     return await response.json();
-//   } catch (err) {
-//     console.error("Error fetching wishlist:", err);
-//     return { error: err.message };
-//   }
-// };
-
-// export const addToWishlist = async (product_code, token) => {
-//   try {
-//     const response = await fetch(`${baseUrl}/customer/wishlist/add`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//         Authorization: token ? `Bearer ${token}` : undefined,
-//       },
-//       body: JSON.stringify({ product_code }),
-//     });
-//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-//     return await response.json();
-//   } catch (err) {
-//     console.error("Error adding to wishlist:", err);
-//     return { error: err.message };
-//   }
-// };
-
-// export const removeFromWishlist = async (item_id, token) => {
-//   try {
-//     const response = await fetch(`${baseUrl}/customer/wishlist/remove-item`, {
-//       method: "DELETE",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//         Authorization: token ? `Bearer ${token}` : undefined,
-//       },
-//       body: JSON.stringify({ item_id }),
-//     });
-//     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-//     return await response.json();
-//   } catch (err) {
-//     console.error("Error removing from wishlist:", err);
-//     return { error: err.message };
-//   }
-// };

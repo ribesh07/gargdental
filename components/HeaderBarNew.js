@@ -107,6 +107,10 @@ const HeaderBarNew = () => {
     { label: "Top Categories", href: "#", color: "text-blue-600" },
   ];
 
+  const [settings, setSettings] = useState({
+    company_logo_header: null,
+  });
+
   // Search functionality
   const handleSearch = () => {
     if (searchTerm) {
@@ -124,6 +128,28 @@ const HeaderBarNew = () => {
     router.push("/dashboard");
   };
 
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const response = await apiRequest("/settings", false);
+      if (response.success) {
+        // setSettings(response.settings);
+        const { company_logo_header } = response.settings;
+
+        const headerLogo = company_logo_header?.header_logo_full_url || "";
+        setSettings({
+          company_logo_header: headerLogo,
+        });
+
+        console.log("settings", response.settings);
+      } else {
+        console.error("Failed to fetch settings:", response.error);
+        toast.error(response?.errors[0]?.message || "Failed to fetch settings");
+        // setSettings();
+      }
+    };
+    fetchSettings();
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto bg-white sticky top-0 z-50">
       <div className="w-full">
@@ -131,17 +157,29 @@ const HeaderBarNew = () => {
         <div className="max-w-7xl mx-auto mb-2 bg-white">
           <div className="flex items-center justify-between py-2 md:py-4">
             {/* Logo */}
-            <div className="flex items-center space-x-2 md:space-x-4">
-              <div className="flex items-center">
-                <img
-                  onClick={() => router.push("/dashboard")}
-                  src="/assets/logo.png"
-                  alt="Garg Dental Logo"
-                  className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
-                />
+            {settings.company_logo_header ? (
+              <div className="flex items-center space-x-2 md:space-x-4">
+                <div className="flex items-center">
+                  <img
+                    onClick={() => router.push("/dashboard")}
+                    src={settings.company_logo_header}
+                    alt="Garg Dental Logo"
+                    className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
+                  />
+                </div>
               </div>
-            
-            </div>
+            ) : (
+              <div className="flex items-center space-x-2 md:space-x-4">
+                <div className="flex items-center">
+                  <img
+                    onClick={() => router.push("/dashboard")}
+                    src="assets/logo.png"
+                    alt="Garg Dental Logo"
+                    className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center space-x-2">
