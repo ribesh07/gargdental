@@ -137,9 +137,8 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
             name="full_name"
             value={formData.full_name}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
-              errors.full_name ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${errors.full_name ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Enter your full name"
             required
           />
@@ -160,9 +159,8 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
-              errors.phone ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${errors.phone ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Enter your mobile number"
             required
           />
@@ -182,17 +180,16 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
             id="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            }`}
+            readOnly
+            className={`w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed ${errors.email ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Enter your email address"
-            required
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email}</p>
           )}
         </div>
+
 
         <div className="flex justify-center items-center gap-4 pt-4">
           <button
