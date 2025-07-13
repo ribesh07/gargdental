@@ -739,6 +739,8 @@ export const cancelOrder = async (
   iAgree
 ) => {
   try {
+    console.log("Cancelling order with details:");
+    console.log(orderId, reasonId, reasonDescription, iAgree);
     const response = await apiRequest("/customer/order/cancel", true, {
       method: "POST",
       body: JSON.stringify({
@@ -750,13 +752,14 @@ export const cancelOrder = async (
     });
 
     if (response.success) {
-      toast.success(response.message || "Order cancelled successfully");
+      // toast.success(response.message || "Order cancelled successfully");
       return {
         success: true,
         message: response.message || "Order cancelled successfully",
         order_id: response.order_id,
       };
     } else {
+      console.log("Failed to cancel order:", response);
       toast.error(response?.errors[0].message || "Failed to cancel order");
       return {
         success: false,

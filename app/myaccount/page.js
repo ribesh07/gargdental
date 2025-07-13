@@ -23,7 +23,7 @@ import AddressBook from "./components/AddressBook";
 import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 import MyReviews from "./components/MyReview";
-import MyCancellations from "./components/CancellationPage";
+// import MyCancellations from "./components/CancellationPage";
 import Complains from "./components/Complains";
 
 const AccountPage = () => {

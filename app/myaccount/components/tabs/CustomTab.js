@@ -15,6 +15,7 @@ export default function CustomTab({ status }) {
     orderId: null,
     orderNumber: null,
   });
+  const [orderlength, setOrderlength] = useState(0);
 
   useEffect(() => {
     fetchOrders(status);
@@ -29,6 +30,7 @@ export default function CustomTab({ status }) {
       if (result.success) {
         console.log("Cancelled orders:", result.orders);
         setOrders(result.orders.orders || []);
+        setOrderlength(result.orders.count || 0);
       } else {
         setError(result.error);
         toast.error(result.error);
@@ -139,6 +141,12 @@ export default function CustomTab({ status }) {
     });
   };
 
+  const handleReturnOrder = (orderId, orderNumber) => {
+    // Logic for handling return order can be added here
+    console.log("Return order clicked for:", orderId, orderNumber);
+    toast.error(`Return request for Order is not implemented yet.`);
+  };
+
   return (
     <div className="w-full p-4 sm:p-6 bg-gray-50 min-h-screen">
       {loading ? (
@@ -212,12 +220,23 @@ export default function CustomTab({ status }) {
                 >
                   {order.order_status}
                 </span>
-                {order.order_status !== "cancelled" && (
+                {order.order_status !== "cancelled" &&
+                  order.order_status !== "delivered" && (
+                    <button
+                      className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
+                      onClick={() =>
+                        handleCancelOrder(order.id, order.order_id)
+                      }
+                    >
+                      Cancel
+                    </button>
+                  )}
+                {order.order_status === "delivered" && (
                   <button
                     className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
-                    onClick={() => handleCancelOrder(order.id, order.order_id)}
+                    onClick={() => handleReturnOrder(order.id, order.order_id)}
                   >
-                    Cancel
+                    Return
                   </button>
                 )}
               </div>
