@@ -10,7 +10,10 @@ import ProductShowcase from "@/components/FeaturedProduct";
 // import HeaderBarNew from "@/components/HeaderBarNew";
 import { CategoriesViews } from "../page";
 // import TawkToWidget from "@/components/TawkToWidget";
-import TopBrandPage from "@/app/top_brand/page";
+import TopBrandPage from "./components/topBrands";
+import TopCategoriesPage from "./components/topCategories";
+
+//import TopCategoriesPage from "@/app/dashboard/components/topCategories";
 
 const GargDental = () => {
   const [products, setProducts] = useState([]);
@@ -27,6 +30,18 @@ const GargDental = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
+  const [settings, setSettings] = useState({
+    company_name: "",
+    timezone: "",
+    company_logo_header: "",
+    company_logo_footer: "",
+    primary_phone: "",
+    secondary_phone: "",
+    primary_email: "",
+    secondary_email: "",
+    address: "",
+    whatsapp: "",
+  });
   const router = useRouter();
 
   // Fetch slides
@@ -44,6 +59,51 @@ const GargDental = () => {
       }
     };
     fetchSlides();
+  }, []);
+
+  //settings data
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const response = await apiRequest("/settings", false);
+      if (response.success) {
+        setSettings(response.settings);
+        const {
+          company_name,
+          timezone,
+          company_logo_header,
+          company_logo_footer,
+          primary_phone,
+          secondary_phone,
+          primary_email,
+          secondary_email,
+          address,
+          whatsapp,
+        } = response.settings;
+
+        const companyName = company_name?.value || "";
+        const headerLogo = company_logo_header?.header_logo_full_url || "";
+        const footerLogo = company_logo_footer?.footer_logo_full_url || "";
+        setSettings({
+          company_name: companyName,
+          timezone: timezone?.value || null,
+          company_logo_header: headerLogo,
+          company_logo_footer: footerLogo,
+          primary_phone: primary_phone?.value || null,
+          secondary_phone: secondary_phone?.value || null,
+          primary_email: primary_email?.value || null,
+          secondary_email: secondary_email?.value || null,
+          address: address?.value || "",
+          whatsapp: whatsapp?.value || "",
+        });
+
+        console.log("settings", response.settings);
+      } else {
+        console.error("Failed to fetch settings:", response.error);
+        toast.error(response?.errors[0]?.message || "Failed to fetch settings");
+        // setSettings();
+      }
+    };
+    fetchSettings();
   }, []);
 
   const slideNavigation = useMemo(() => {
@@ -175,7 +235,8 @@ const GargDental = () => {
             {">"}
           </button>
         </div>
-        <TopBrandPage/>
+        <TopBrandPage />
+        <TopCategoriesPage />
 
         {/* categories and manufacturers */}
         <CategoriesViews />

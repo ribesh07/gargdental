@@ -13,9 +13,18 @@ import {
 import { toast } from "react-hot-toast";
 import { baseUrl } from "@/utils/config";
 import Link from "next/link";
+import { useEffect } from "react";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 export default function FooterBar() {
   const [email, setEmail] = useState("");
+  const [settings, setSettings] = useState({
+    company_logo_footer: null,
+    company_name: "Garg Dental",
+    address: "",
+    primary_email: "",
+    primary_phone: "",
+  });
   // const [gender, setGender] = useState("male");
 
   const handleSubscribe = async (email) => {
@@ -43,6 +52,42 @@ export default function FooterBar() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const response = await apiRequest("/settings", false);
+      if (response.success) {
+        // setSettings(response.settings);
+        const {
+          company_logo_footer,
+          company_name,
+          primary_phone,
+          primary_email,
+          address,
+        } = response.settings;
+
+        const footerLogo = company_logo_footer?.footer_logo_full_url || "";
+        const primaryPhone = primary_phone?.value || "";
+        const primaryEmail = primary_email?.value || "";
+        const addressData = address?.value || "";
+        const companyName = company_name?.value || "";
+        setSettings({
+          company_name: companyName,
+          primary_phone: primaryPhone,
+          company_logo_footer: footerLogo,
+          primary_email: primaryEmail,
+          address: addressData,
+        });
+
+        console.log("settings", response.settings);
+      } else {
+        console.error("Failed to fetch settings:", response.error);
+        toast.error(response?.errors[0]?.message || "Failed to fetch settings");
+        // setSettings();
+      }
+    };
+    fetchSettings();
+  }, []);
+
   return (
     <footer className="relative w-full">
       {/* Main Footer */}
@@ -58,20 +103,22 @@ export default function FooterBar() {
                 <div className="flex items-start space-x-2 sm:space-x-3">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-1 text-blue-200 flex-shrink-0" />
                   <span className="text-xs sm:text-sm leading-relaxed">
-                    R88HHRX, Gaidhara Rd, Kathmandu 23690
+                    {settings.address || "No address provided"}
                   </span>
                 </div>
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200 flex-shrink-0" />
-                  <span className="text-xs sm:text-sm">01-4436276</span>
+                  <span className="text-xs sm:text-sm">
+                    {settings.primary_phone || "No phone number provided"}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200 flex-shrink-0" />
                   <Link
-                    href="mailto:info@gargdental.com"
+                    href={`mailto:${settings.primary_email}`}
                     className="text-xs sm:text-sm hover:text-red-400  transition-colors"
                   >
-                    info@gargdental.com
+                    {settings.primary_email || "No email provided"}
                   </Link>
                 </div>
               </div>
@@ -111,8 +158,7 @@ export default function FooterBar() {
                 Information
               </h3>
               <ul className="space-y-2 sm:space-y-3">
-
-              <li className="footer-list">
+                <li className="footer-list">
                   <Link
                     href="/CompanyInfo"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
@@ -153,7 +199,6 @@ export default function FooterBar() {
                     Privacy Policy
                   </Link>
                 </li>
-                
               </ul>
             </div>
 
@@ -179,7 +224,7 @@ export default function FooterBar() {
                     Contact Us
                   </Link>
                 </li>
-                
+
                 <li className="footer-list">
                   <Link
                     href="#"
