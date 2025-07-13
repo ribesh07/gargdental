@@ -1,6 +1,8 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import { fetchSettings } from "@/utils/apiHelper";
+import { toast } from "react-hot-toast";
+import { apiRequest } from "@/utils/ApiSafeCalls";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -9,34 +11,52 @@ export default function ContactUs() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
-  const [contact, setContact] = useState({});
+  const [contact, setContact] = useState({
+    company_name: null,
+    primary_phone: null,
+    primary_email: null,
+    address: null,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getSettings = async () => {
+    const fetchSettings = async () => {
       setLoading(true);
-      setError(null);
-      const data = await fetchSettings();
-      if (data && data.success && data.settings) {
-        const settings = data.settings;
-        const get = (key) => {
-          const found = settings.find((s) => s.key === key);
-          return found ? found.value : "";
-        };
-        setContact({
-          company: get("company_name"),
-          address: get("address"),
-          phone: get("primary_phone"),
-          email: get("primary_email"),
-          map: get("map_url"),
-        });
-      } else {
-        setError(data?.error || "Failed to load contact info");
+      try {
+        const response = await apiRequest("/settings", false);
+        if (response.success) {
+          // setSettings(response.settings);
+          const { company_name, primary_phone, primary_email, address } =
+            response.settings;
+
+          const primaryPhone = primary_phone?.value || "";
+          const primaryEmail = primary_email?.value || "";
+          const addressData = address?.value || "";
+          const companyName = company_name?.value || "";
+          setContact({
+            company_name: companyName,
+            primary_phone: primaryPhone,
+            primary_email: primaryEmail,
+            address: addressData,
+          });
+
+          console.log("settings", response.settings);
+        } else {
+          console.error("Failed to fetch settings:", response.error);
+          toast.error(
+            response?.errors[0]?.message || "Failed to fetch settings"
+          );
+          // setSettings();
+        }
+      } catch (err) {
+        console.error("Error fetching settings:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
-    getSettings();
+    fetchSettings();
   }, []);
 
   const handleChange = (e) => {
@@ -51,15 +71,15 @@ export default function ContactUs() {
     setFormData({ name: "", email: "", message: "" });
   };
 
-  if (loading) return <div className="p-8 text-center">Loading contact info...</div>;
+  if (loading) return <FullScreenLoader />;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-bold text-[#0072bc] mb-4">Contact Us</h1>
       <p className="text-gray-700 text-[15px] mb-6 leading-relaxed">
-        Have a question? Need support with your order? Want to discuss bulk orders for your clinic?
-        Reach out to our team — we're here to help you!
+        Have a question? Need support with your order? Want to discuss bulk
+        orders for your clinic? Reach out to our team — we're here to help you!
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -67,15 +87,19 @@ export default function ContactUs() {
         <div className="text-[15px] text-gray-800 space-y-4">
           <div>
             <h2 className="font-semibold text-[#0072bc] text-lg">📍 Address</h2>
-            <p>{contact.company}<br />{contact.address}</p>
+            <p>
+              {contact.company_name && <strong>{contact.company_name}</strong>}
+              <br />
+              {contact.address}
+            </p>
           </div>
           <div>
             <h2 className="font-semibold text-[#0072bc] text-lg">📞 Phone</h2>
-            <p>{contact.phone}</p>
+            <p>{contact.primary_phone}</p>
           </div>
           <div>
             <h2 className="font-semibold text-[#0072bc] text-lg">📧 Email</h2>
-            <p>{contact.email}</p>
+            <p>{contact.primary_email}</p>
           </div>
         </div>
 
@@ -88,7 +112,9 @@ export default function ContactUs() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -99,7 +125,9 @@ export default function ContactUs() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -110,7 +138,9 @@ export default function ContactUs() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Message</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Message
+                </label>
                 <textarea
                   name="message"
                   rows="4"
@@ -142,8 +172,6 @@ export default function ContactUs() {
           </div>
         </div>
       )}
-
-
     </div>
   );
 }
