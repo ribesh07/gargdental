@@ -45,6 +45,14 @@ const GargDental = () => {
     fetchSlides();
   }, []);
 
+  const slideNavigation = useMemo(() => {
+    return {
+      next: () => setCurrentSlide((prev) => (prev + 1) % slides.length),
+      prev: () =>
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length),
+    };
+  }, [slides]);
+
   // Auto-slide functionality
   useEffect(() => {
     if (slides.length === 0) return;
@@ -55,6 +63,18 @@ const GargDental = () => {
 
     return () => clearInterval(interval);
   }, [slides.length]);
+
+  useEffect(() => {
+    if (!slides || slides.length === 0) return;
+
+    const nextIndex = (currentSlide + 1) % slides.length;
+    const nextSlide = slides[nextIndex];
+
+    if (nextSlide?.image_full_url) {
+      const nextImage = new Image();
+      nextImage.src = nextSlide.image_full_url;
+    }
+  }, [currentSlide, slides]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -91,33 +111,6 @@ const GargDental = () => {
     fetchManufacturers();
   }, []);
 
-  // const categories = [
-  //   "Pedodontics",
-  //   "Prosthodontics",
-  //   "Periodontics",
-  //   "Oral Surgery",
-  //   "Orthodontics",
-  //   "Dental Radiology",
-  //   "Implantology",
-  //   "Dental Laboratory",
-  //   "Instrument",
-  //   "Equipment",
-  //   "Cosmetic Dentistry",
-  //   "Handpieces",
-  //   "Health & Beauty & OTC",
-  //   "Impression Materials",
-  //   "Infection Control Products",
-  //   "Instruments",
-  //   "Laboratory",
-  //   "Medical Diagnostic",
-  //   "Orthodontic",
-  //   "Pharmaceuticals",
-  //   "Preventive",
-  //   "Restorative & Cosmetic",
-  //   "Surgical & Implant Products",
-  //   "X-Ray And Digital Imaging",
-  // ];
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -137,18 +130,19 @@ const GargDental = () => {
         {/* Top Bar */}
 
         {/* Image Slider */}
-        <div
-          className="max-w-7xl mx-auto mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg"
-          // style={{ height: "50vh", minHeight: "200px" }}
-        >
+        <div className="max-w-7xl mx-auto mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg">
+          {/* Slides */}
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;
             return (
               <div
                 key={slide.id || index}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  isActive ? "opacity-100 z-10" : "opacity-0 z-0"
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  isActive
+                    ? "opacity-100 z-10 pointer-events-auto"
+                    : "opacity-0 z-0 pointer-events-none"
                 }`}
+                style={{ willChange: "opacity" }}
               >
                 <img
                   onClick={() => {
@@ -158,11 +152,27 @@ const GargDental = () => {
                   }}
                   src={slide.image_full_url}
                   alt={`Slide ${index + 1}`}
-                  className="w-full h-full object-cover cursor-pointer"
+                  className="w-full h-full object-cover cursor-pointer select-none"
+                  loading="eager"
+                  draggable={false}
                 />
               </div>
             );
           })}
+
+          {/* Navigation Buttons */}
+          <button
+            onClick={slideNavigation.prev}
+            className=" absolute left-1 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black px-3 py-2 rounded shadow z-20"
+          >
+            {"<"}
+          </button>
+          <button
+            onClick={slideNavigation.next}
+            className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black px-3 py-2 rounded shadow z-20"
+          >
+            {">"}
+          </button>
         </div>
 
         {/* categories and manufacturers */}

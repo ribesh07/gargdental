@@ -57,7 +57,7 @@ export default function CancellationModal({
 
       const description = customReason.trim();
 
-      await onConfirm(orderNumber, reasonId, iAgree, description);
+      await onConfirm(orderNumber, reasonId, description, iAgree);
       onClose();
     } catch (error) {
       console.error("Error cancelling order:", error);
