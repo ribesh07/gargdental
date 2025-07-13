@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import useInfoModalStore from "@/stores/infoModalStore";
+
 import useWarningModalStore from "@/stores/warningModalStore";
 import { baseUrl } from "@/utils/config";
 
