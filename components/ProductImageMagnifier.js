@@ -24,7 +24,7 @@ export default function ProductImageMagnifier({
   };
 
   return (
-    <div className="relative flex items-start">
+    <div className="relative flex items-center justify-center">
       {/* Main Image */}
       <div
         ref={containerRef}

@@ -16,6 +16,7 @@ const OverViewProject = ({ product }) => {
   }
 
   function handleClick(eff) {
+    console.log("Image clicked:", eff);
     setImageToDisplay(eff);
     // isVideo = !isVideo;
     setEffect(eff);
@@ -23,9 +24,9 @@ const OverViewProject = ({ product }) => {
   }
 
   return (
-    <div className="w-full flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-2 sm:p-4">
+    <div className="w-full flex flex-col sm:flex-row  items-center sm:items-start gap-2 sm:gap-4 p-2 sm:p-4">
       <div className="flex flex-col items-center w-full">
-        <div className="w-full max-w-xs sm:max-w-[80%] aspect-square relative -mt-1 sm:mr-5 mb-4 hover:shadow-md border-2 border-gray-300 rounded">
+        <div className="w-full max-w-xs sm:max-w-[80%] flex justify-center aspect-square relative -mt-1 sm:mr-5 mb-4 hover:shadow-md border-2 border-gray-300 rounded">
           {isVideo ? (
             <iframe
               src="https://www.youtube.com/embed/gRF6DdP85IY"
@@ -53,18 +54,6 @@ const OverViewProject = ({ product }) => {
           <div className="w-full sm:w-2/3 flex flex-wrap sm:flex-nowrap gap-2 justify-center">
             {product.files_full_url.map((url, index) => (
               <div key={index}>
-                {/* <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
-            <Image
-              filter="blur(2px)"
-              onClick={() => handleClick("grayscale-25")}
-              src={product.image_url}
-              alt={product.product_name || ""}
-              width={40}
-              height={40}
-              className="object-contain rounded "
-            />
-          </div>
-         */}
                 {/* for video */}
                 {/* <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded relative w-fit">
                   <Image
@@ -90,12 +79,12 @@ const OverViewProject = ({ product }) => {
                   </button>
                 </div> */}
 
-                <div className="border border-[#0072bc] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
+                <div className="flex justify-center border border-[#0072bc] w-[50px] h-[50px] hover:border-red-800 hover:scale-105 p-1 sm:p-2 rounded">
                   <Image
                     onClick={() => handleClick(url)}
                     key={index}
                     src={url}
-                    alt={product.product_name}
+                    alt={""}
                     width={38}
                     height={38}
                     className="object-contain rounded"

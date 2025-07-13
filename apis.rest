@@ -25,7 +25,7 @@ GET https://gargdental.omsok.com/api/v1/products/all HTTP/1.1
 ###Latest product
 GET https://gargdental.omsok.com/api/v1/products/latest
 ### product details
-GET https://gargdental.omsok.com/api/v1/products/details/A500003
+GET https://gargdental.omsok.com/api/v1/products/details/P00004
 
 ###Get details
 GET https://gargdental.omsok.com/api/v1/products/details/P00013
@@ -277,12 +277,6 @@ Content-Type: application/json
     "email":"rk@gmail.com"
 }
 
-###Info for docs footer
-GET https://gargdental.omsok.com/api/v1/compliances 
-
-### Get all settings
-GET https://gargdental.omsok.com/api/v1/settings 
-
 ###order list or order details status -> procesing , shipped , delivered , cancelled
 GET https://gargdental.omsok.com/api/v1/customer/order/list?status=processing HTTP/1.1
 Content-Type: application/json
@@ -374,3 +368,9 @@ Content-Type: application/application/json
   "budget":"1566545",
   "remarks":"aka"
 }
+
+###Info for docs footer
+GET https://gargdental.omsok.com/api/v1/compliances 
+
+### Get all settings
+GET https://gargdental.omsok.com/api/v1/settings 
