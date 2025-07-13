@@ -198,7 +198,7 @@ export default function CustomerProfilePage() {
               </div>
 
               {/* Profile Details */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="max-w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="bg-blue-100 p-2 rounded-full">
                     <User className="w-5 h-5 text-blue-600" />
@@ -215,9 +215,11 @@ export default function CustomerProfilePage() {
                   <div className="bg-green-100 p-2 rounded-full">
                     <Mail className="w-5 h-5 text-green-600" />
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Email Address</p>
-                    <p className="font-medium text-gray-800">{user.email}</p>
+                  <div className="max-w-[150px] break-words">
+                    <p className="text-[12px] text-gray-500">Email Address</p>
+                    <p className="font-medium text-gray-800 break-words whitespace-normal">
+                      {user.email || "N/A"}
+                    </p>
                   </div>
                 </div>
 
