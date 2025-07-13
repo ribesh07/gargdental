@@ -349,9 +349,9 @@ const HeaderBarNew = () => {
           )}
 
           {/* Desktop Login Section */}
-          <div className=" sm:block w-full bg-ghostwhite border-t border-b border-gray-200 rounded-lg px-3 sm:px-6 py-3">
+          <div className=" sm:block w-full bg-[#0072bc] border-t border-b border-gray-200 rounded-lg px-3 sm:px-6 py-3">
             <div className="max-w-7xl mx-auto flex justify-center">
-              <div className="flex w-full max-w-xl justify-between items-center text-gray-600 text-[12px] sm:text-sm">
+              <div className="flex w-full max-w-xl justify-between items-center text-white text-[12px] sm:text-sm">
                 <Link
                   href="/dashboard"
                   className="hover:underline font-semibold hover:text-red-600 hover:scale-105 transition-all duration-200 cursor-pointer"
