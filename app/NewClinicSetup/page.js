@@ -1,9 +1,33 @@
 "use client"; // if you're in Next.js App Router
 
 import React, { useRef } from "react";
+import { useState, useEffect } from "react";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 export default function ClinicSetupPage() {
   const formRef = useRef(null);
+  const [clinicData, setClinicData] = useState({
+    imageUrl: null,
+    videoTitle: "",
+    videoUrl: "",
+    videoDesc: "",
+  });
+
+  const [embedUrl, setEmbedUrl] = useState("");
+
+  useEffect(() => {
+    const convertToEmbedUrl = (url) => {
+      const match = url?.match(
+        /(?:youtu\.be\/|youtube\.com\/watch\?v=)([^\s&]+)/
+      );
+      return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+    };
+
+    const embed = convertToEmbedUrl(
+      clinicData?.videoUrl || "https://www.youtube.com/watch?v=jVEOjOFMJjM"
+    );
+    setEmbedUrl(embed);
+  }, [clinicData?.videoUrl]);
 
   const scrollToForm = () => {
     if (formRef.current) {
@@ -14,10 +38,61 @@ export default function ClinicSetupPage() {
     }
   };
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        console.log("Fetching clinic setup...");
+        const response = await apiRequest("/clinic/clinic-setup", false);
+
+        console.log("API response received:", response);
+
+        if (!response?.clinic || !Array.isArray(response.clinic)) {
+          console.warn("Clinic data is missing or not an array");
+          return;
+        }
+
+        const clinicMap = Object.fromEntries(
+          response.clinic.map((item) => [item.key, item])
+        );
+
+        const imageUrl =
+          clinicMap["clinic_cover_image"]?.clinic_cover_image_full_url;
+        const videoTitle = clinicMap["clinic_video_title"]?.value;
+        const videoUrl = clinicMap["clinic_video_link"]?.value;
+        const videoDesc = clinicMap["clinic_video_description"]?.value;
+
+        console.log("Parsed Data:", {
+          imageUrl,
+          videoTitle,
+          videoUrl,
+          videoDesc,
+        });
+
+        setClinicData({
+          imageUrl,
+          videoTitle,
+          videoUrl,
+          videoDesc,
+        });
+      } catch (error) {
+        console.log("Error fetching clinic setup data:", error);
+        setClinicData({
+          imageUrl: null,
+          videoTitle: "Watch Our Clinic Setup Video",
+          videoUrl: "https://www.youtube.com/",
+          videoDesc:
+            "Watch our detailed walkthrough of the clinic setup process and see how we can help you create your dream dental practice.",
+        });
+      }
+    };
+    fetchdata();
+  }, []);
+
   const benefits = [
     {
       title: "End-to-End Setup Assistance",
-      description: "From planning to procurement—we’ll help you at every stage.",
+      description:
+        "From planning to procurement—we’ll help you at every stage.",
     },
     {
       title: "Exclusive Discounts",
@@ -25,7 +100,8 @@ export default function ClinicSetupPage() {
     },
     {
       title: "Expert Guidance",
-      description: "Talk to specialists who know what your clinic really needs.",
+      description:
+        "Talk to specialists who know what your clinic really needs.",
     },
     {
       title: "Installation & Support",
@@ -35,12 +111,11 @@ export default function ClinicSetupPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="max-w-7xl mx-auto mt-1 mb-3">
-        <img
-          src="https://dentalkart-images.s3.ap-south-1.amazonaws.com/clinic-setup-banner/New-Clinic-Setup-Guide-Banner-DT+(1).jpg"
-          alt="Dental Clinic Setup"
-        />
-      </div>
+      {clinicData?.imageUrl && (
+        <div className="max-w-7xl mx-auto mt-1 mb-3">
+          <img src={clinicData?.imageUrl} alt="Dental Clinic Setup" />
+        </div>
+      )}
 
       <div className="bg-[#f3f8ff] max-w-7xl mx-auto py-10 px-4 flex flex-col items-center ">
         <h2 className="text-3xl md:text-4xl font-semibold text-center mb-10">
@@ -166,30 +241,27 @@ export default function ClinicSetupPage() {
         </div>
       </div>
 
-
       {/* --- YouTube Video Section --- */}
       <div className="max-w-5xl mx-auto mt-12 px-4 mb-4">
         <h2 className="text-2xl md:text-3xl font-semibold text-center mb-6">
-          Watch Our Clinic Setup Guide
+          {clinicData?.videoTitle || "Watch Our Clinic Setup Video"}
         </h2>
         <div className="relative w-full pb-[56.25%] h-0 rounded-xl overflow-hidden shadow-lg">
-          <iframe
-            className="absolute top-0 left-0 w-full h-full"
-            src="https://www.youtube.com/embed/jVEOjOFMJjM"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-          
+          {embedUrl && (
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src={embedUrl}
+              title={clinicData?.videoTitle || "Clinic Setup Video"}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
         </div>
         <div className=" flex mt-2">
-        <p>Watch our detailed walkthrough of the clinic setup process and see how we can help you create your dream dental practice.</p>
+          <p>{clinicData?.videoDesc}</p>
         </div>
       </div>
-
-
-
     </div>
   );
 }

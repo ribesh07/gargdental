@@ -53,6 +53,7 @@ const GargDental = () => {
           image_full_url: item.image_full_url,
           id: item.id,
           product_code: item.product_code,
+          is_offer: item.is_offer,
         }));
         console.log("mappedSlides", mappedSlides);
         setSlides(mappedSlides);
@@ -120,7 +121,7 @@ const GargDental = () => {
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 4000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [slides.length]);
@@ -186,12 +187,12 @@ const GargDental = () => {
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto p-1 sm:p-2 md:p-2 bg-gray-100 font-sans">
+      <div className="max-w-7xl mx-auto bg-gray-100 font-sans">
         {/* <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5"> */}
         {/* Top Bar */}
 
         {/* Image Slider */}
-        <div className="max-w-7xl mx-auto mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg">
+        <div className="max-w-7xl mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg">
           {/* Slides */}
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;
@@ -217,6 +218,19 @@ const GargDental = () => {
                   loading="eager"
                   draggable={false}
                 />
+                {slide.is_offer && (
+                  <div
+                    className="absolute z-[999] top-2 right-2 rounded-2xl px-2 py-1 animate-spin"
+                    style={{ animationDuration: "2s" }}
+                  >
+                    <img
+                      src="/assets/sale.png"
+                      alt="Offer"
+                      className="w-25 h-25 inline-block mr-1"
+                      draggable={false}
+                    />
+                  </div>
+                )}
               </div>
             );
           })}
@@ -226,13 +240,13 @@ const GargDental = () => {
             onClick={slideNavigation.prev}
             className=" absolute left-1 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black px-3 py-2 rounded shadow z-20"
           >
-            {"<"}
+            <span className="text-2xl font-bold">{"<"}</span>
           </button>
           <button
             onClick={slideNavigation.next}
             className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black px-3 py-2 rounded shadow z-20"
           >
-            {">"}
+            <span className="text-2xl font-bold">{">"}</span>
           </button>
         </div>
         <TopBrandPage />

@@ -16,6 +16,7 @@ export default function ContactUs() {
     primary_phone: null,
     primary_email: null,
     address: null,
+    map: null,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,6 +40,7 @@ export default function ContactUs() {
             primary_phone: primaryPhone,
             primary_email: primaryEmail,
             address: addressData,
+            map: response.settings.map_url?.value || null,
           });
 
           console.log("settings", response.settings);
@@ -107,7 +109,7 @@ export default function ContactUs() {
         <div>
           {submitted ? (
             <div className="text-green-600 font-semibold">
-              ✅ Message sent! We'll get back to you soon.
+              Message sent! We'll get back to you soon.
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
