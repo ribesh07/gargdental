@@ -10,6 +10,7 @@ import ProductShowcase from "@/components/FeaturedProduct";
 // import HeaderBarNew from "@/components/HeaderBarNew";
 import { CategoriesViews } from "../page";
 // import TawkToWidget from "@/components/TawkToWidget";
+import TopBrandPage from "@/app/top_brand/page";
 
 const GargDental = () => {
   const [products, setProducts] = useState([]);
@@ -164,6 +165,7 @@ const GargDental = () => {
             );
           })}
         </div>
+        <TopBrandPage/>
 
         {/* categories and manufacturers */}
         <CategoriesViews />
