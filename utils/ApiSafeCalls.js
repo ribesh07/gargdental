@@ -11,8 +11,17 @@ export const apiRequest = async (url, tokenReq = true, options = {}) => {
     ...options.headers,
   };
   const response = await fetch(url, { ...options, headers });
-  const data = await response.json();
+  let data;
   // console.log("data", data);
+  try {
+    data = await response.json();
+  } catch (e) {
+    console.error("Error in apiRequest:", e);
+    return {
+      success: false,
+      message: "An error from server occurred while processing the request .",
+    };
+  }
   if (data.success || response.ok) {
     return data;
   } else {

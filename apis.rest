@@ -21,7 +21,8 @@ GET https://gargdental.omsok.com/api/v1/categories HTTP/1.1
 GET https://gargdental.omsok.com/api/v1/products/latest HTTP/1.1
 
 ### for all products
-GET https://gargdental.omsok.com/api/v1/products/all HTTP/1.1
+GET https://gargdental.omsok.com/api/v1/products/all/?limit=5&offset=400 HTTP/1.1
+
 ###Latest product
 GET https://gargdental.omsok.com/api/v1/products/latest
 ### product details
@@ -320,6 +321,16 @@ Content-Type: application/json
 GET https://gargdental.omsok.com/api/v1/brands/top-brands
 Content-Type: application/json
 
+###contact us form
+POST https://gargdental.omsok.com/api/v1/contact-us
+Content-Type: application/json
+
+{
+    "name": "sdjkflsad",
+    "email": "ak@gma.co",
+    "message": "This is a test message"
+}
+
 ### GET clinic setup data
 GET https://gargdental.omsok.com/api/v1/clinic/clinic-setup
 Content-Type: application/json
@@ -334,6 +345,7 @@ Content-Type: application/application/json
   "email":"aka@gmail.com",
   "phone":"899878979",
   "budget":"1566545",
+  "city":"city",
   "remarks":"aka"
 }
 
@@ -372,3 +384,5 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 {
     "item_id" : "19"
 }
+
+

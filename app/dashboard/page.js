@@ -236,17 +236,43 @@ const GargDental = () => {
           })}
 
           {/* Navigation Buttons */}
+          {/* Left Scroll */}
           <button
             onClick={slideNavigation.prev}
-            className=" absolute left-1 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black px-3 py-2 rounded shadow z-20"
+            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
-            <span className="text-2xl font-bold">{"<"}</span>
+            <svg
+              className="w-6 h-6 text-gray-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
           </button>
+          {/* Right Scroll */}
           <button
             onClick={slideNavigation.next}
-            className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black px-3 py-2 rounded shadow z-20"
+            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
-            <span className="text-2xl font-bold">{">"}</span>
+            <svg
+              className="w-6 h-6 text-gray-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
           </button>
         </div>
         <TopBrandPage />
