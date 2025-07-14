@@ -18,7 +18,7 @@ import { usePathname } from "next/navigation";
 import { baseUrl } from "@/utils/config";
 import HtmlDataConversion from "@/components/HtmlDataConversion";
 
-const API_URL = `${baseUrl}/products/all`;
+// const API_URL = `${baseUrl}/products/all?limit=100&offset=0`;
 const ProductAPIRequest = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,6 +30,13 @@ const ProductAPIRequest = () => {
   const setSelectedProduct = useSelectedProductStore(
     (state) => state.setSelectedProduct
   );
+
+  const [offset, setOffset] = useState(0);
+
+  const loadMore = () => {
+    setOffset((prev) => prev + 70);
+  };
+
   const handleCardClick = (product) => {
     setSelectedProduct(product);
     router.push(`/dashboard/${product.product_code}`);
@@ -43,19 +50,23 @@ const ProductAPIRequest = () => {
     setError(null);
 
     try {
-      const response = await fetch(API_URL, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-
+      const response = await fetch(
+        `${baseUrl}/products/all?limit=50&offset=${offset}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+      console.log("Offset value :", offset);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log("Data:", data);
 
       // Transform the API data to match the expected format
       const transformedProducts =
@@ -78,7 +89,7 @@ const ProductAPIRequest = () => {
           delivery_days: product.delivery_target_days,
         })) || [];
 
-      setProducts(transformedProducts);
+      setProducts([...products, ...transformedProducts]);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -91,7 +102,7 @@ const ProductAPIRequest = () => {
   useEffect(() => {
     setIsReady(true);
     fetchProducts();
-  }, []);
+  }, [offset]);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -105,7 +116,7 @@ const ProductAPIRequest = () => {
 
   const categories = [...new Set(products.map((p) => p.category))];
 
-  console.warn(`pathname: ${pathname}`);
+  // console.warn(`pathname: ${pathname}`);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -243,6 +254,17 @@ const ProductAPIRequest = () => {
                 </div>
               ))}
             </div>
+            {/* Load More Button */}
+            {filteredProducts.length > 0 && (
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={loadMore}
+                  className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Load More
+                </button>
+              </div>
+            )}
           </div>
         )}
 

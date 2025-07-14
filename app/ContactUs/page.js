@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import useInfoModalStore from "@/stores/infoModalStore";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -65,12 +66,56 @@ export default function ContactUs() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate API call
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    try {
+      console.log("Submitting form with data:", formData);
+      const response = await apiRequest("/contact-us", false, {
+        method: "POST",
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.success) {
+        useInfoModalStore.getState().open({
+          title: "Success",
+          message:
+            response.message ||
+            "Your form has been submitted successfully. We will get back to you shortly.",
+        });
+        console.log("Form submitted:", formData);
+        setSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast.error(
+          response?.errors[0]?.message ||
+            "Failed to submit the form! Please try again later."
+        );
+        console.log("Form submission error:", response);
+      }
+    } catch (error) {
+      console.log("Error submitting form:", error);
+      toast.error("Failed to submit the form. Please try again later.");
+    } finally {
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3000); // Reset after 3 seconds
+    }
   };
 
   if (loading) return <FullScreenLoader />;
@@ -107,59 +152,53 @@ export default function ContactUs() {
 
         {/* Contact Form */}
         <div>
-          {submitted ? (
-            <div className="text-green-600 font-semibold">
-              Message sent! We'll get back to you soon.
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+              />
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  rows="4"
-                  required
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-[#0072bc] text-white px-4 py-2 rounded hover:bg-[#005a94] transition-colors text-sm"
-              >
-                Send Message
-              </button>
-            </form>
-          )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Message
+              </label>
+              <textarea
+                name="message"
+                rows="4"
+                required
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-[#0072bc] text-white px-4 py-2 rounded hover:bg-[#005a94] transition-colors text-sm"
+            >
+              Send Message
+            </button>
+          </form>
         </div>
       </div>
 

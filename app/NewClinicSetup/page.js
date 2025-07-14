@@ -3,6 +3,8 @@
 import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/utils/ApiSafeCalls";
+import { toast } from "react-hot-toast";
+import useInfoModalStore from "@/stores/infoModalStore";
 
 export default function ClinicSetupPage() {
   const formRef = useRef(null);
@@ -14,6 +16,62 @@ export default function ClinicSetupPage() {
   });
 
   const [embedUrl, setEmbedUrl] = useState("");
+
+  const [formData, setFormData] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+    city: "",
+    budget: "",
+    remarks: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await apiRequest("/clinic/clinic-setup/store", false, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = response;
+
+      if (response.status) {
+        toast.success("Form submitted successfully!");
+        useInfoModalStore.getState().open({
+          title: "Success",
+          message:
+            response.message ||
+            "Your form has been submitted successfully. We will get back to you shortly.",
+        });
+        console.log("Form submitted successfully:", result);
+        setFormData({
+          full_name: "",
+          email: "",
+          phone: "",
+          city: "",
+          budget: "",
+          remarks: "",
+        });
+      } else {
+        toast.error(result?.errors[0]?.message || "Submission failed.");
+      }
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      toast.error("Something went wrong.");
+    }
+  };
 
   useEffect(() => {
     const convertToEmbedUrl = (url) => {
@@ -119,7 +177,9 @@ export default function ClinicSetupPage() {
 
       <div className="bg-[#f3f8ff] max-w-7xl mx-auto py-10 px-4 flex flex-col items-center ">
         <h2 className="text-3xl md:text-4xl font-semibold text-center mb-10">
-          What Added Benefits Do You Get With DentalKart’s New Clinic Setup?
+          {
+            " What Added Benefits Do You Get With DentalKart’s New Clinic Setup?"
+          }
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
@@ -168,13 +228,20 @@ export default function ClinicSetupPage() {
           Schedule Your Free Clinic Setup Call
         </h2>
 
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white w-5xl p-6 rounded-xl shadow">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white w-5xl p-6 rounded-xl shadow"
+        >
           <div>
             <label className="block text-sm font-medium mb-1">
               Full Name *
             </label>
             <input
+              required
               type="text"
+              name="full_name"
+              value={formData.full_name}
+              onChange={handleChange}
               placeholder="Enter your full name"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
             />
@@ -185,7 +252,11 @@ export default function ClinicSetupPage() {
               Email Address *
             </label>
             <input
+              required
+              name="email"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email address"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
             />
@@ -196,8 +267,22 @@ export default function ClinicSetupPage() {
               Phone Number *
             </label>
             <input
+              required
               type="tel"
+              name="phone"
+              value={formData.phone}
               placeholder="Enter 10-digit phone number"
+              maxLength={10}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^[0-9\s\-]*$/.test(value)) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: value,
+                  }));
+                }
+              }}
+              inputMode="numeric"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -206,6 +291,9 @@ export default function ClinicSetupPage() {
             <label className="block text-sm font-medium mb-1">City</label>
             <input
               type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
               placeholder="Enter your city"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
             />
@@ -217,6 +305,17 @@ export default function ClinicSetupPage() {
             </label>
             <input
               type="text"
+              name="budget"
+              value={formData.budget}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^[0-9\s\-]*$/.test(value)) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    budget: value,
+                  }));
+                }
+              }}
               placeholder="Ex: 5 - 10"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
             />
@@ -225,20 +324,23 @@ export default function ClinicSetupPage() {
           <div>
             <label className="block text-sm font-medium mb-1">Remarks</label>
             <textarea
+              name="remarks"
+              value={formData.remarks}
+              onChange={handleChange}
               placeholder="Any additional information"
               className="w-full px-4 py-2 border border-gray-300 rounded-md h-24"
             ></textarea>
           </div>
-        </form>
 
-        <div className="text-center mt-8">
-          <button
-            type="submit"
-            className="bg-[#0072bc] text-white px-6 py-3 rounded-full hover:opacity-90 transition-all cursor-pointer"
-          >
-            Submit
-          </button>
-        </div>
+          <div className="text-center mt-8">
+            <button
+              type="submit"
+              className="bg-[#0072bc] text-white px-6 py-3 rounded-full hover:opacity-90 transition-all cursor-pointer"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
 
       {/* --- YouTube Video Section --- */}

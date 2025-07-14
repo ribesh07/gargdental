@@ -32,19 +32,33 @@ export default function FooterBar() {
       toast.error("Please enter your email");
       return;
     }
+
     console.log("Subscribing:", { email });
-    const response = await fetch(`${baseUrl}/newsletter-subscriber`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
-    if (response.ok) {
-      setEmail("");
-      toast.success(`${email} Subscribed Successfully !`);
-    } else {
-      toast.error("Failed to subscribe");
+
+    try {
+      const response = await apiRequest("/newsletter-subscriber", false, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      console.log("Subscribe API response:", response);
+
+      if (response.success) {
+        setEmail("");
+        toast.success(`${email} subscribed successfully!`);
+      } else {
+        toast.error(
+          Array.isArray(response?.errors) && response.errors.length > 0
+            ? response.errors[0].message
+            : "Failed to subscribe"
+        );
+      }
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      toast.error("Something went wrong. Please try again later.");
     }
   };
 
@@ -269,29 +283,27 @@ export default function FooterBar() {
               </div> */}
 
               {/* Email Subscription */}
-              <div className="space-y-3">
-                <div className="flex">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your Email"
-                    className="flex-1 px-2 sm:px-4 py-1 sm:py-2 text-gray-900 bg-white border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm"
-                  />
-                  <button
-                    onClick={() => {
-                      handleSubscribe(email);
-                    }}
-                    className="px-3 sm:px-6 py-1 sm:py-2 bg-blue-800 hover:bg-blue-900 text-white font-medium rounded-r-md transition-colors text-xs sm:text-sm cursor-pointer"
-                  >
-                    SUBSCRIBE
-                  </button>
-                </div>
-                <p className="text-[10px] sm:text-xs text-blue-100 leading-relaxed">
-                  Subscribe to the mailing list to receive updates on
-                  promotions, new arrivals, discount and coupons.
-                </p>
+              <div className="flex w-full rounded-md overflow-hidden shadow mr-12">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your Email"
+                  className="flex-1 px-4 py-2 text-gray-900 bg-white border-none focus:outline-none text-sm"
+                />
+                <button
+                  onClick={() => handleSubscribe(email)}
+                  className="bg-blue-800 hover:bg-blue-900 text-white px-3 py-3 text-[12px] font-semibold"
+                >
+                  SUBSCRIBE
+                </button>
               </div>
+
+              <p className="text-xs text-blue-100 text-center">
+                Subscribe to the mailing list to receive updates on promotions,
+                new arrivals, discount and coupons.
+              </p>
             </div>
           </div>
         </div>
