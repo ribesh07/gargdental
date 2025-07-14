@@ -511,8 +511,8 @@ export const updateCustomerAddress = async (addressId, addressData) => {
       zone: addressData.zone_id,
       address: addressData.address,
       address_type: addressData.address_type || "H",
-      default_shipping: addressData.default_shipping || "Y",
-      default_billing: addressData.default_billing || "Y",
+      default_shipping: addressData.default_shipping || "N",
+      default_billing: addressData.default_billing || "N",
       landmark: addressData.landmark,
     };
 
@@ -555,8 +555,8 @@ export const addCustomerAddress = async (addressData) => {
       zone: addressData.zone_id,
       address: addressData.address,
       address_type: addressData.address_type || "H",
-      default_shipping: addressData.default_shipping || "Y",
-      default_billing: addressData.default_billing || "Y",
+      default_shipping: addressData.default_shipping || "N",
+      default_billing: addressData.default_billing || "N",
       landmark: addressData.landmark,
     };
     const response = await apiRequest(`/customer/address/add`, true, {

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addCustomerAddress } from "@/utils/apiHelper";
 import { toast } from "react-hot-toast";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 export default function AddAddressForm({
+  address,
   onUpdate,
   onCancel,
   provinces,
@@ -58,14 +60,26 @@ export default function AddAddressForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("formData", formData);
-
-    const response = await addCustomerAddress(formData);
-    console.log("response from handleSubmit", response);
-    if (response.success === true) {
-      toast.success(response.message);
-      onUpdate(response.data);
-    } else if (response.success === false) {
-      toast.error(response.message);
+    if (address.length === 0) {
+      formData.default_shipping = "Y";
+      formData.default_billing = "Y";
+      const response = await addCustomerAddress(formData);
+      console.log("response from handleSubmit", response);
+      if (response.success === true) {
+        toast.success(response.message);
+        onUpdate(response.data);
+      } else if (response.success === false) {
+        toast.error(response.message);
+      }
+    } else {
+      const response = await addCustomerAddress(formData);
+      console.log("response from handleSubmit", response);
+      if (response.success === true) {
+        toast.success(response.message);
+        onUpdate(response.data);
+      } else if (response.success === false) {
+        toast.error(response.message);
+      }
     }
   };
 
@@ -210,7 +224,7 @@ export default function AddAddressForm({
           {/* Local Address / Tole */}
           <div>
             <label
-            required
+              required
               htmlFor="localAddress"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
