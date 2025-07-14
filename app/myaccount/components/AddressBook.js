@@ -25,15 +25,13 @@ export default function AddressBook({
   console.log("address", address);
   const provinceName =
     provinces.find((p) => p.id === homeAddress?.province_id)?.name || "";
-  const cityName =
-    cities.find((c) => c.id === homeAddress?.city_id)?.name || "";
+  const cityName = homeAddress?.city?.city || "";
   const zoneName =
     zones.find((z) => z.id === homeAddress?.zone_id)?.zone_name || "";
 
   const officeProvinceName =
     provinces.find((p) => p.id === officeAddress?.province_id)?.name || "";
-  const officeCityName =
-    cities.find((c) => c.id === officeAddress?.city_id)?.name || "";
+  const officeCityName = officeAddress?.city?.city || "";
   const officeZoneName =
     zones.find((z) => z.id === officeAddress?.zone_id)?.zone_name || "";
 
@@ -151,8 +149,8 @@ export default function AddressBook({
                 </p>
                 <p>
                   <span className="font-semibold">Address:</span>{" "}
-                  {officeAddress?.landmark}, {officeZoneName} {officeCityName}{" "}
-                  {officeProvinceName}
+                  {officeAddress?.landmark}, {officeZoneName}{" "}
+                  {` - ${officeCityName}`} {officeProvinceName}
                 </p>
                 <p>
                   <span className="font-semibold">Phone:</span>{" "}
