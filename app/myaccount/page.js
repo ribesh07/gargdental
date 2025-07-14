@@ -324,6 +324,7 @@ const AccountPage = () => {
           )}
           {activeTab === "address" && (
             <AddressBook
+              address={address}
               homeAddress={homeAddress}
               officeAddress={officeAddress}
               onEditHome={(value) => {
