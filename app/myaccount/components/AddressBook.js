@@ -72,11 +72,16 @@ export default function AddressBook({
     <>
       {!showEditAddress && (
         <div className="bg-white rounded shadow p-6 relative min-h-[calc(65vh-180px)]">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-blue-900">Home Address</h2>
-            <div className="flex gap-4">
-              {homeAddress && (
-                <>
+          <h1 className="text-2xl font-bold text-blue-900 mb-6">
+            Address Book
+          </h1>
+          {/* {homeAddress && (
+            <>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-blue-900">
+                  Home Address
+                </h2>
+                <div className="flex gap-4">
                   <div className="flex items-center flex-row gap-1 hover:underline">
                     <div className="bg-red-100 p-1 rounded-full">
                       <Trash2 className="w-3 h-3 text-red-600" />
@@ -94,10 +99,10 @@ export default function AddressBook({
                   >
                     EDIT
                   </button>
-                </>
-              )}
-            </div>
-          </div>
+                </div>
+              </div>
+            </>
+          )}
           <div className="space-y-2 text-gray-700 text-sm">
             <p>
               <span className="font-semibold">Name:</span>{" "}
@@ -158,6 +163,69 @@ export default function AddressBook({
                 </p>
               </div>
             </>
+          )} */}
+
+          {address &&
+            address.length > 0 &&
+            address.map((addr) => (
+              <div
+                className="border rounded-2xl border-gray-200 px-4 py-4 my-4"
+                key={addr.id}
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-bold text-blue-900">Address</h2>
+                  <div className="flex gap-4">
+                    <div className="flex items-center flex-row gap-1 hover:underline">
+                      <div className="bg-red-100 p-1 rounded-full">
+                        <Trash2 className="w-3 h-3 text-red-600" />
+                      </div>
+                      <button
+                        onClick={() => handleDelete(addr.id)}
+                        className="text-red-600 text-sm hover:underline font-semibold cursor-pointer"
+                      >
+                        DELETE
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => onEditHome(addr)}
+                      className="text-blue-500 text-sm hover:underline font-semibold cursor-pointer"
+                    >
+                      EDIT
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2 text-gray-700 text-sm">
+                  <p>
+                    <span className="font-semibold">Name:</span>{" "}
+                    {addr.full_name}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Address Type:</span>{" "}
+                    {addr.address_type === "H" ? "Home" : "Office"}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Address:</span>{" "}
+                    {addr.landmark}, {addr.zone_name} - {addr.city} -{" "}
+                    {addr.province}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Phone:</span> {addr.phone}
+                  </p>
+                  {addr.default_shipping?.trim().toUpperCase() === "Y" &&
+                    addr.default_billing?.trim().toUpperCase() === "Y" && (
+                      <p className="text-gray-500 pt-2">
+                        Default Shipping & Billing Address
+                      </p>
+                    )}
+                </div>
+              </div>
+            ))}
+
+          {address.length === 0 && (
+            <div className="text-gray-500 text-center py-4">
+              No addresses found. Please add an address.
+            </div>
           )}
 
           <div className="mt-10">
@@ -175,6 +243,7 @@ export default function AddressBook({
       )}
       {showEditAddress && (
         <AddAddressForm
+          address={address}
           onUpdate={handleAddAddress}
           onCancel={() => setShowEditAddress(false)}
           provinces={provinces}
