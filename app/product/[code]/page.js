@@ -10,13 +10,15 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useSelectedProductStore from "@/stores/sendingProduct";
-import { AddToCart } from "@/components/addtocartbutton";
+import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
 import { BuyNow } from "@/components/BuyNow";
+import ProductImageZoom from "@/components/ProductImageZoom";
 // import MainTopBar from "@/components/mainTopbar";
 import { baseUrl } from "@/utils/config";
 import HtmlDataConversion from "@/components/HtmlDataConversion";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
-const API_URL = `${baseUrl}/products/all`;
+// const API_URL = `${baseUrl}/products/all`;
 const ProductAPIRequest = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,12 +26,20 @@ const ProductAPIRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  const [offset, setOffset] = useState(0);
+
+  const [categories, setCategories] = useState([]);
+
+  const loadMore = () => {
+    setOffset((prev) => prev + 70);
+  };
+
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
     (state) => state.setSelectedProduct
   );
 
-  console.warn(API_URL);
+  // console.warn(API_URL);
   const handleCardClick = (product) => {
     setSelectedProduct(product);
     router.push(`/dashboard/${product.product_code}`);
@@ -44,13 +54,16 @@ const ProductAPIRequest = () => {
     setError(null);
 
     try {
-      const response = await fetch(API_URL, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
+      const response = await fetch(
+        `${baseUrl}/products/all?limit=50&offset=${offset}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -64,6 +77,8 @@ const ProductAPIRequest = () => {
           id: product.id,
           product_name: product.product_name,
           product_code: product.product_code,
+          has_variations: product.has_variations,
+          starting_price: product.starting_price,
           brand: product.brand?.brand_name || "No Brand",
           category: product.category?.category_name || "Uncategorized",
           item_number: `#${product.product_code}`,
@@ -79,7 +94,7 @@ const ProductAPIRequest = () => {
           delivery_days: product.delivery_target_days,
         })) || [];
 
-      setProducts(transformedProducts);
+      setProducts([...products, ...transformedProducts]);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -89,6 +104,37 @@ const ProductAPIRequest = () => {
 
   useEffect(() => {
     fetchProducts();
+  }, []);
+
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      const response = await apiRequest("/categories", false);
+      try {
+        if (response.success) {
+          const mapCategory = (category) => {
+            return {
+              id: category.id,
+              name: category.category_name,
+              image: category.image_full_url,
+              parent_id: category.parent_id,
+              active_children: category.active_children?.map(mapCategory) || [],
+            };
+          };
+          const mappedCategories = response.categories.map(mapCategory);
+          console.log("mappedCategories", mappedCategories);
+          setCategories(mappedCategories);
+        }
+      } catch (error) {
+        console.log("Error fetching categories:", error);
+        setError("Failed to fetch categories. Please try again later.");
+      } finally {
+        console.log("Categories fetched successfully");
+        setLoading(false);
+      }
+    };
+    fetchCategories();
   }, []);
 
   const filteredProducts = products.filter((product) => {
@@ -101,7 +147,7 @@ const ProductAPIRequest = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const categories = [...new Set(products.map((p) => p.category))];
+  // const categories = [...new Set(products.map((p) => p.category))];
 
   return (
     <div className="min-h-screen origin-top bg-gray-50 p-6">
@@ -162,8 +208,8 @@ const ProductAPIRequest = () => {
             >
               <option value="">All Categories</option>
               {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
+                <option key={category.id} value={category.name}>
+                  {category.name}
                 </option>
               ))}
             </select>
@@ -194,61 +240,32 @@ const ProductAPIRequest = () => {
         {/* Products Grid */}
         {!loading && (
           <div className="max-w-7xl mx-auto px-4 mt-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
               {filteredProducts.map((product) => (
-                <div
+                <ProductCardMain
                   key={product.id}
-                  className="bg-grey-50 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col h-full"
-                >
-                  {/* Product Image */}
-                  <div className="relative hover:scale-105 transition-transform duration-300 p-4 pb-0">
-                    <img
-                      onClick={() => handleCardClick(product)}
-                      src={product.image_url}
-                      alt={product.product_name}
-                      className="w-full h-48 object-contain p-2 rounded-lg"
-                    />
-                    {parseFloat(product.actual_price) >
-                      parseFloat(product.sell_price) && (
-                      <div className="absolute top-6 left-6 bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
-                        SALE
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Product Info - Flexible container */}
-                  <div className="p-4 flex flex-col flex-grow">
-                    <h3 className="text-lg font-semibold text-blue-800 mb-1">
-                      {product.product_name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-2">
-                      {product.brand} - Item {product.item_number}
-                    </p>
-
-                    <HtmlDataConversion description={product.description} />
-
-                    {/* Price */}
-                    <div className="mb-4">
-                      <span className="text-[16px] font-italic text-red-600">
-                        {formatPrice(product.sell_price)}
-                      </span>
-                      {parseFloat(product.actual_price) >
-                        parseFloat(product.sell_price) && (
-                        <span className="text-gray-500 text-[12px] line-through ml-2">
-                          {formatPrice(product.actual_price)}
-                        </span>
-                      )}
-                    </div>
-
-                    <BuyNow product={product} />
-                    <AddToCart product={product} />
-                  </div>
-                </div>
+                  product={product}
+                  showDiscount={
+                    parseFloat(product.actual_price) >
+                    parseFloat(product.sell_price)
+                  }
+                />
               ))}
             </div>
+            {/* Load More Button */}
+            {filteredProducts.length > 0 && (
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={loadMore}
+                  className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Load More
+                </button>
+              </div>
+            )}
           </div>
         )}
-        {/* Product Grid */}
+
         {/* No Results */}
         {!loading && filteredProducts.length === 0 && products.length > 0 && (
           <div className="text-center py-12">
@@ -278,5 +295,84 @@ const ProductAPIRequest = () => {
     </div>
   );
 };
+
+function ProductCardMain({ product, showDiscount }) {
+  const router = useRouter();
+  return (
+    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+      <div
+        className="flex-1 flex flex-col cursor-pointer"
+        onClick={() => router.push(`/dashboard/${product.product_code}`)}
+      >
+        <div className="relative mb-2 sm:mb-3 lg:mb-4">
+          <ProductImageZoom
+            imageUrl={product.image_url}
+            alt={product.product_name}
+          />
+          {product.flash_sale === 1 && (
+            <div className="absolute top-0 sm:top-0 right-1 sm:right-2 border-2 border-red-500 rounded-full bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 animate-pulse">
+              <span className="text-xs">Flash Sale</span>
+            </div>
+          )}
+          {showDiscount && product.actual_price && (
+            <div className="absolute top-8 sm:top-8 right-1 sm:right-2 bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 animate-bounce rounded-2xl">
+              OFFER
+            </div>
+          )}
+        </div>
+        <p className="text-[14px] text-gray-500 uppercase">{product.brand}</p>
+        <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
+          {product.product_name}
+        </h3>
+        {/* <HtmlContent
+          html={product.description}
+          className="text-gray-500 text-[14px] mb-0.5 flex-grow line-clamp-1"
+        /> */}
+        {/* <HtmlDataConversion description={product.description} /> */}
+
+        {!product.has_variations && (
+          <div className="mt-2 justify-center">
+            <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
+              {product.actual_price &&
+                product.actual_price !== "0.00" &&
+                parseFloat(product.actual_price) >
+                  parseFloat(product.sell_price) && (
+                  <span className="text-[14px] text-gray-400 line-through">
+                    Rs. {product.actual_price}
+                  </span>
+                )}
+              <span className="text-[14px] sm:text-base font-bold text-red-600">
+                Rs. {product.sell_price}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {product.has_variations === 1 && (
+        <div className="mt-auto w-full">
+          <div className="mt-2 justify-center flex flex-col items-start">
+            <span className="text-[16px] text-gray-400">Starting at</span>
+            <span className="text-[14px] sm:text-base font-bold text-red-600">
+              Rs. {product.starting_price}
+            </span>
+          </div>
+          <ViewProducts product={product} />
+        </div>
+      )}
+
+      {!product.has_variations && (
+        <>
+          <div className="mt-auto w-full">
+            <BuyNow product={product} />
+          </div>
+          <div className="mt-auto w-full">
+            <AddToCart product={product} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 export default ProductAPIRequest;

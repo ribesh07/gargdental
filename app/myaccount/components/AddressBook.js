@@ -9,6 +9,7 @@ import useConfirmModalStore from "@/stores/confirmModalStore";
 import useInfoModalStore from "@/stores/infoModalStore";
 
 export default function AddressBook({
+  address,
   homeAddress,
   officeAddress,
   onEditHome,
@@ -21,6 +22,7 @@ export default function AddressBook({
 
   console.log("officeAddress", officeAddress);
   console.log("homeAddress", homeAddress);
+  console.log("address", address);
   const provinceName =
     provinces.find((p) => p.id === homeAddress?.province_id)?.name || "";
   const cityName =
@@ -46,7 +48,10 @@ export default function AddressBook({
 
   const handleDelete = async (id) => {
     console.log("delete", id);
-    if (!id) return useInfoModalStore.getState().open({ title: "Info", message: "No address to delete" });
+    if (!id)
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "No address to delete" });
     useConfirmModalStore.getState().open({
       title: "Delete Address",
       message: "Are you sure you want to delete this address?",
@@ -112,11 +117,13 @@ export default function AddressBook({
             </p>
           </div>
           <br />
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-blue-900">Office Address</h2>
-            <div className="flex gap-4">
-              {officeAddress && (
-                <>
+          {officeAddress && (
+            <>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-blue-900">
+                  Office Address
+                </h2>
+                <div className="flex gap-4">
                   <div className="flex items-center flex-row gap-1 hover:underline">
                     <div className="bg-red-100 p-1 rounded-full">
                       <Trash2 className="w-3 h-3 text-red-600" />
@@ -134,25 +141,26 @@ export default function AddressBook({
                   >
                     EDIT
                   </button>
-                </>
-              )}
-            </div>
-          </div>
-          <div className="space-y-2 text-gray-700 text-sm">
-            <p>
-              <span className="font-semibold">Name:</span>{" "}
-              {officeAddress?.full_name}
-            </p>
-            <p>
-              <span className="font-semibold">Address:</span>{" "}
-              {officeAddress?.landmark}, {officeZoneName} {officeCityName}{" "}
-              {officeProvinceName}
-            </p>
-            <p>
-              <span className="font-semibold">Phone:</span>{" "}
-              {officeAddress?.phone}
-            </p>
-          </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 text-gray-700 text-sm">
+                <p>
+                  <span className="font-semibold">Name:</span>{" "}
+                  {officeAddress?.full_name}
+                </p>
+                <p>
+                  <span className="font-semibold">Address:</span>{" "}
+                  {officeAddress?.landmark}, {officeZoneName} {officeCityName}{" "}
+                  {officeProvinceName}
+                </p>
+                <p>
+                  <span className="font-semibold">Phone:</span>{" "}
+                  {officeAddress?.phone}
+                </p>
+              </div>
+            </>
+          )}
 
           <div className="mt-10">
             <div className="flex justify-end">

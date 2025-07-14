@@ -24,6 +24,9 @@ const DentalSuppliesListing = () => {
   const [isReady, setIsReady] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12); // Number of products to display initially
   var visibleProducts = [];
+  const [categories, setCategories] = useState([]);
+
+  const [manufacturers, setManufacturers] = useState([]);
   // console.warn(`Base Api Url: ${baseUrl}`);
 
   // const API_URL = `${baseUrl}/products/latest`;
@@ -54,6 +57,7 @@ const DentalSuppliesListing = () => {
           actual_price: product.actual_price,
           sell_price: product.sell_price,
           image_url:
+            product.main_image_full_url ||
             product.image_full_url ||
             `https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png`,
           description: product.product_description,
@@ -74,6 +78,46 @@ const DentalSuppliesListing = () => {
       setLoading(false);
     }
   };
+
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await apiRequest("/categories", false);
+      if (response.success) {
+        const mapCategory = (category) => {
+          return {
+            id: category.id,
+            name: category.category_name,
+            image: category.image_full_url,
+            parent_id: category.parent_id,
+            active_children: category.active_children?.map(mapCategory) || [],
+          };
+        };
+        const mappedCategories = response.categories.map(mapCategory);
+        console.log("mappedCategories", mappedCategories);
+        setCategories(mappedCategories);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Fetch manufacturers
+  const fetchManufacturers = async () => {
+    const response = await apiRequest("/brands", false);
+    if (response.success) {
+      console.log("response.brands", response);
+      const simplifiedBrands = response.brands.map((brand) => ({
+        id: brand.id,
+        brand_name: brand.brand_name,
+      }));
+      setManufacturers(simplifiedBrands);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    setLoading(true);
+    fetchManufacturers();
+  }, []);
 
   useEffect(() => {
     setIsReady(true);
@@ -108,8 +152,8 @@ const DentalSuppliesListing = () => {
   const [sortBy, setSortBy] = useState("price-low-high");
 
   // Get unique values for filter options
-  const categories = [...new Set(products.map((p) => p.category))];
-  const brands = [...new Set(products.map((p) => p.brand))];
+  // const categories = [...new Set(products.map((p) => p.category))];
+  // const brands = [...new Set(products.map((p) => p.brand))];
   const priceRanges = [
     { label: "Under Rs.100", min: 0, max: 100 },
     { label: "Rs.100 - Rs.200", min: 100, max: 200 },
@@ -121,17 +165,20 @@ const DentalSuppliesListing = () => {
   // Filter and sort products
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = products.filter((product) => {
-      // Category filter
-      if (filters.category && product.category !== filters.category) {
+      if (
+        filters.category &&
+        product.category.toLowerCase() !== filters.category.toLowerCase()
+      ) {
         return false;
       }
 
-      // Brand filter
-      if (filters.brand && product.brand !== filters.brand) {
+      if (
+        filters.brand &&
+        product.brand.toLowerCase() !== filters.brand.toLowerCase()
+      ) {
         return false;
       }
 
-      // Price range filter
       if (filters.priceRange) {
         const priceRange = priceRanges.find(
           (range) => range.label === filters.priceRange
@@ -145,7 +192,6 @@ const DentalSuppliesListing = () => {
       return true;
     });
 
-    // Sort products
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "price-low-high":
@@ -157,7 +203,7 @@ const DentalSuppliesListing = () => {
         case "name-z-a":
           return b.product_name.localeCompare(a.product_name);
         default:
-          return 0;
+          return 0; // or sort by relevance
       }
     });
 
@@ -229,11 +275,15 @@ const DentalSuppliesListing = () => {
                 className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
               >
                 <option value="">All Categories</option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
+                {categories.length === 0 ? (
+                  <option disabled>Loading...</option>
+                ) : (
+                  categories.map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))
+                )}
               </select>
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
@@ -246,9 +296,9 @@ const DentalSuppliesListing = () => {
                 className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
               >
                 <option value="">All Brands</option>
-                {brands.map((brand) => (
-                  <option key={brand} value={brand}>
-                    {brand}
+                {manufacturers.map((brand) => (
+                  <option key={brand.id} value={brand.brand_name}>
+                    {brand.brand_name}
                   </option>
                 ))}
               </select>
@@ -277,7 +327,7 @@ const DentalSuppliesListing = () => {
             {/* Clear Filters */}
             {(filters.category || filters.brand || filters.priceRange) && (
               <button
-                onClick={() => clearFilters()}
+                onClick={clearFilters}
                 className="text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base w-full sm:w-auto text-left sm:text-center"
               >
                 Clear all filters
