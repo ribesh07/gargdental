@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Search, Package, Loader2, AlertCircle, RotateCcw } from "lucide-react";
+import { Package, Loader2, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 import ProductImageZoom from "@/components/ProductImageZoom";
