@@ -10,7 +10,8 @@ export default function ReturnPage() {
     email: '',
     returnReason: '',
     itemsToReturn: [],
-    additionalComments: ''
+    additionalComments: '',
+    returnFiles: [],
   });
 
   const [step, setStep] = useState(1);
@@ -48,11 +49,25 @@ export default function ReturnPage() {
   };
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    setFormData((prevData) => ({
-      ...prevData,
-      returnFiles: files,
+    const previewFiles = files.map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
+
+    setFormData((prev) => ({
+      ...prev,
+      returnFiles: previewFiles,
     }));
   };
+
+  const removeFile = (indexToRemove) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      returnFiles: prevData.returnFiles.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+
+
 
   // const renderStep1 = () => (
   //   <div className="space-y-6">
@@ -149,16 +164,60 @@ export default function ReturnPage() {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Attach Documents (Photos / Videos)
           </label>
-          <input
-            type="file"
-            name="returnFiles"
-            accept="image/*,video/*"
-            multiple
-            onChange={handleFileChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700"
-          />
-          
+
+          {/* Custom Attach File Button */}
+          <div className="flex items-center space-x-3 mb-2">
+            <label className="inline-block bg-[#0072bc] hover:bg-[#0072bc] text-white text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer">
+              Attach File
+              <input
+                type="file"
+                name="returnFiles"
+                accept="image/*,video/*"
+                multiple
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+            <p className="text-xs text-gray-500">Supported: JPG, PNG, MP4. Max: 10MB each.</p>
+          </div>
+
+          {/* Previews */}
+          {formData.returnFiles?.length > 0 && (
+            <div className="mt-4 grid grid-cols-3 gap-4">
+              {formData.returnFiles.map(({ file, previewUrl }, index) => (
+                <div key={index} className="relative group">
+                  {/* ❌ Remove button */}
+                  <button
+                    type="button"
+                    onClick={() => removeFile(index)}
+                    className="absolute top-1 right-1 bg-white text-red-500 border border-red-300 rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
+                    title="Remove file"
+                  >
+                    ×
+                  </button>
+
+                  {/* Image or Video Preview */}
+                  {file.type.startsWith("image/") ? (
+                    <img
+                      src={previewUrl}
+                      alt={`preview-${index}`}
+                      className="w-full h-24 object-cover rounded-md border border-gray-300"
+                    />
+                  ) : file.type.startsWith("video/") ? (
+                    <video
+                      src={previewUrl}
+                      controls
+                      className="w-full h-24 object-cover rounded-md border border-gray-300"
+                    />
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+
+
+
 
 
         <div className="flex space-x-4">
@@ -167,7 +226,7 @@ export default function ReturnPage() {
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50"
+            className="flex-1 bg-[#0072bc] text-white py-3 px-4 rounded-lg hover:bg-[#0072bc] transition-colors font-medium disabled:opacity-50 cursor-pointer"
           >
             {isSubmitting ? 'Processing...' : 'Submit Return Request'}
           </button>
@@ -204,7 +263,7 @@ export default function ReturnPage() {
             additionalComments: ''
           });
         }}
-        className="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+        className="bg-[#0072bc] text-white py-3 px-6 rounded-lg hover:bg-[#0072bc] transition-colors font-medium cursor-pointer"
       >
         Start Another Return
       </button>
