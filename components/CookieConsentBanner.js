@@ -17,7 +17,13 @@ export default function CookieConsentBanner() {
   }, []);
 
   const handleAccept = () => {
-    // Cookies.set(COOKIE_NAME, "accepted", { expires: 7 });
+    Cookies.set(COOKIE_NAME, "accepted", { expires: 7 });
+    // toast.error("Cookie consent denied !");
+    setVisible(false);
+  };
+
+  const handleReject = () => {
+    // Cookies.set(COOKIE_NAME, "rejected", { expires: 7 });
     toast.error("Cookie consent denied !");
     setVisible(false);
   };
@@ -48,7 +54,7 @@ export default function CookieConsentBanner() {
           Accept
         </button>
         <button
-          onClick={handleAccept}
+          onClick={handleReject}
           className="self-start mt-2 sm:mt-1 bg-gray-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow"
           aria-label="Accept cookies"
         >
