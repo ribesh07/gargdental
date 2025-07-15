@@ -14,7 +14,7 @@ export default function OrderSummary() {
   const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
-
+  const [shipping, setShipping] = useState(50);
   const { setSelectedShippingAddress, setSelectedBillingAddress } =
     useCartStore();
   const router = useRouter();
@@ -44,6 +44,10 @@ export default function OrderSummary() {
 
       setAddresses(allAddresses);
       setDefaultBillingAddress(defaultBillingAddress);
+      if (defaultShippingAddress.city?.shipping_cost) {
+        const cost = parseFloat(defaultShippingAddress.city?.shipping_cost);
+        setShipping(cost);
+      }
       setDefaultShippingAddress(defaultShippingAddress);
       console.log("result", allAddresses);
     };
@@ -91,6 +95,10 @@ export default function OrderSummary() {
     }
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
+    if (defaultShippingAddress.city?.shipping_cost) {
+      const cost = parseFloat(defaultShippingAddress.city?.shipping_cost);
+      setShipping(cost);
+    }
     setSelectedBillingAddress(defaultBillingAddress);
     console.log("defaultShippingAddress", defaultShippingAddress);
     console.log("defaultBillingAddress", defaultBillingAddress);
@@ -118,7 +126,7 @@ export default function OrderSummary() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const shipping = 70;
+
   const total = subtotal + shipping;
 
   return (

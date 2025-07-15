@@ -614,6 +614,7 @@ export const getAddress = async () => {
         address_type: addr.address_type,
         city_id: addr.city_id,
         city_name: addr.city?.city || "N/A",
+        shipping_cost: addr.city?.shipping_cost || 0,
         province_name: addr.province?.province_name || "N/A",
         province_id: addr.province_id,
         zone_id: addr.zone_id,
