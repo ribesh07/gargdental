@@ -1,19 +1,19 @@
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+"use client";
+import { useEffect, useRef } from "react";
 
 const RefreshOnFirstLoad = () => {
-  const router = useRouter();
-
+  const ran = useRef(false);
   useEffect(() => {
-    const hasRefreshed = sessionStorage.getItem("hasRefreshed");
+    if (ran.current) return;
+    ran.current = true;
 
-    if (true) {
-      sessionStorage.setItem("hasRefreshed", "true");
-      // Option 1: Refresh using Next.js router (soft refresh)
-      router.refresh();
+    const alreadyReloaded = sessionStorage.getItem("reloaded");
 
-      // Option 2: Hard reload
+    if (!alreadyReloaded) {
+      sessionStorage.setItem("reloaded", "true");
       window.location.reload();
+    } else {
+      sessionStorage.removeItem("reloaded"); // reset for next visit
     }
   }, []);
 
