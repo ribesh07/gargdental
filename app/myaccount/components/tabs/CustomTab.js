@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { getCancelledOrders, cancelOrder } from "@/utils/apiHelper";
 import { Loader2, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
+import Link from 'next/link'; 
+
 
 export default function CustomTab({ status }) {
   const [loading, setLoading] = useState(false);
@@ -232,12 +234,12 @@ export default function CustomTab({ status }) {
                     </button>
                   )}
                 {order.order_status === "delivered" && (
-                  <button
+                  <Link
+                    href={`myaccount/return`}
                     className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
-                    onClick={() => handleReturnOrder(order.id, order.order_id)}
                   >
                     Return
-                  </button>
+                  </Link>
                 )}
               </div>
             </div>
@@ -426,9 +428,9 @@ export default function CustomTab({ status }) {
                             Rs.{" "}
                             {parseFloat(
                               order.total_amount ||
-                                order.grand_total ||
-                                order.total ||
-                                0
+                              order.grand_total ||
+                              order.total ||
+                              0
                             ).toFixed(2)}
                           </span>
                         </div>
