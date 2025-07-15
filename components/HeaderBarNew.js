@@ -76,13 +76,16 @@ const HeaderBarNew = () => {
   const cartCount = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   useEffect(() => {
+    setTimeout(() => {
+      console.log("Waiting for 1 second before fetching cart data");
+    }, 1000);
     if (isloggedin) {
       const fetchCart = async () => {
         const cartResponse = await apiRequest(`/customer/cart/list`, true);
         if (cartResponse && cartResponse.cart) {
           useCartStore.getState().setCart(cartResponse.cart);
         }
-        console.log("cartResponse from header", cartResponse);
+        // console.log("cartResponse from header", cartResponse);
       };
       fetchCart();
     }
