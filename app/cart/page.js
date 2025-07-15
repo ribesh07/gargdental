@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
+  const [shipping, setShipping] = useState(0);
   const cart = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function ShoppingCart() {
 
   // Real address data from server
   const [homeAddress, setHomeAddress] = useState(null);
-  const [officeAddress, setOfficeAddress] = useState(null);
+  const [billingAddress, setBillingAddress] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -47,23 +48,30 @@ export default function ShoppingCart() {
       router.push("/account");
     } else {
       const fetchCart = async () => {
-        const response = await apiRequest(`/customer/cart/list`, true);
-        if (response) {
-          const mappedCartItems = response.cart.items.map((item) => ({
-            id: item.id,
-            image:
-              item.product.image_full_url ||
-              item.product.main_image_full_url ||
-              "https://dentalnepal.com/assets/logo.png",
-            name: item.product.product_name,
-            product_code: item.product.product_code,
-            quantity: item.quantity,
-            price: item.price,
-            category: item.product.category_id,
-          }));
+        try {
+          setIsLoading(true);
+          const response = await apiRequest(`/customer/cart/list`, true);
+          if (response) {
+            const mappedCartItems = response.cart.items.map((item) => ({
+              id: item.id,
+              image:
+                item.product.image_full_url ||
+                item.product.main_image_full_url ||
+                "https://dentalnepal.com/assets/logo.png",
+              name: item.product.product_name,
+              product_code: item.product.product_code,
+              quantity: item.quantity,
+              price: item.price,
+              category: item.product.category_id,
+            }));
 
-          console.log(mappedCartItems);
-          setCartItems(mappedCartItems);
+            console.log(mappedCartItems);
+            setCartItems(mappedCartItems);
+          }
+        } catch (error) {
+          toast.error("Failed to fetch cart items. Please try again later.");
+        } finally {
+          setIsLoading(false);
         }
       };
 
@@ -73,14 +81,36 @@ export default function ShoppingCart() {
 
       // Fetch addresses from server
       const fetchAddresses = async () => {
-        // const result = await getFullInfo();
-        const { defaultBillingAddress, defaultShippingAddress, allAddresses } =
-          await getAddress();
-        console.log("result", defaultBillingAddress);
-        if (defaultBillingAddress && defaultShippingAddress) {
-          setHomeAddress(defaultBillingAddress);
-          setOfficeAddress(defaultShippingAddress);
+        try {
+          setIsLoading(true);
+          const {
+            defaultBillingAddress,
+            defaultShippingAddress,
+            allAddresses,
+          } = await getAddress();
+          console.log("default billing", defaultBillingAddress);
+          console.log("default shipping", defaultShippingAddress);
+          console.log(
+            "shipping cost ",
+            defaultShippingAddress.city?.shipping_cost
+          );
+          if (defaultBillingAddress && defaultShippingAddress) {
+            setHomeAddress(defaultShippingAddress);
+            if (defaultShippingAddress.city?.shipping_cost) {
+              const cost = parseFloat(
+                defaultShippingAddress.city?.shipping_cost
+              );
+              setShipping(cost);
+            }
+            setBillingAddress(defaultBillingAddress);
+          }
+        } catch (error) {
+          // console.error("Error fetching addresses:", error);
+          toast.error("Failed to fetch addresses. Please try again later.");
+        } finally {
+          setIsLoading(false);
         }
+        // const result = await getFullInfo();
       };
       fetchAddresses();
     }
@@ -157,7 +187,6 @@ export default function ShoppingCart() {
     return sum;
   }, 0);
 
-  const shipping = 70;
   const total = selectedSubtotal + (selectedItems.size > 0 ? shipping : 0);
 
   const handleClearCart = async () => {

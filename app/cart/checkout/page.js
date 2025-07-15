@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { getAddress, userDetails } from "@/utils/apiHelper";
 import useInfoModalStore from "@/stores/infoModalStore";
+import { toast } from "react-hot-toast";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -14,7 +15,7 @@ export default function OrderSummary() {
   const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
-
+  const [shipping, setShipping] = useState(50);
   const { setSelectedShippingAddress, setSelectedBillingAddress } =
     useCartStore();
   const router = useRouter();
@@ -44,11 +45,23 @@ export default function OrderSummary() {
 
       setAddresses(allAddresses);
       setDefaultBillingAddress(defaultBillingAddress);
+      if (defaultShippingAddress.city?.shipping_cost) {
+        const cost = parseFloat(defaultShippingAddress.city?.shipping_cost);
+        setShipping(cost);
+      }
       setDefaultShippingAddress(defaultShippingAddress);
       console.log("result", allAddresses);
     };
     fetchAddresses();
   }, []);
+
+  useEffect(() => {
+    if (selectedItems.length === 0) {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
+    }
+  }, [selectedItems.length]);
 
   const handleProceedToPay = () => {
     if (!defaultBillingAddress) {
@@ -91,6 +104,10 @@ export default function OrderSummary() {
     }
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
+    if (defaultShippingAddress.city?.shipping_cost) {
+      const cost = parseFloat(defaultShippingAddress.city?.shipping_cost);
+      setShipping(cost);
+    }
     setSelectedBillingAddress(defaultBillingAddress);
     console.log("defaultShippingAddress", defaultShippingAddress);
     console.log("defaultBillingAddress", defaultBillingAddress);
@@ -100,25 +117,15 @@ export default function OrderSummary() {
     router.push("/cart/checkout/pay-ops");
   };
 
-  // const handleSelectShippingAddress = (defaultShippingAddress) => {
-  //   setSelectedShippingAddress(defaultShippingAddress);
-  //   // router.push("/cart/checkout/pay-ops");
-  // };
-
   const handleRemoveItem = () => {
     alert("Item removed from cart");
   };
 
-  // Calculate totals from selected items
-  // const subtotal = selectedItems.reduce(
-  //   (sum, item) => sum + item.price * item.quantity,
-  //   0
-  // );
   const subtotal = selectedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const shipping = 70;
+
   const total = subtotal + shipping;
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { handleOrder } from "@/utils/apiHelper";
@@ -62,6 +62,7 @@ const codDescription = (
 
 const PayOpsPage = () => {
   const [selected, setSelected] = useState("E");
+  const [shipping, setShipping] = useState(50);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const selectedShippingAddress = useCartStore(
     (state) => state.selectedShippingAddress
@@ -71,18 +72,38 @@ const PayOpsPage = () => {
   );
 
   console.log("selectedShippingAddress", selectedShippingAddress);
+
   console.log("selectedBillingAddress", selectedBillingAddress);
   const email = useCartStore((state) => state.email);
   const addOrder = useCartStore((state) => state.addOrder);
   const router = useRouter();
   console.log("email", email);
 
+  useEffect(() => {
+    if (email === null || email === "") {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
+    }
+    if (selectedShippingAddress?.city === null) {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
+    }
+    if (selectedShippingAddress?.city?.shipping_cost !== null) {
+      const cost = parseFloat(selectedShippingAddress?.city?.shipping_cost);
+      setShipping(cost);
+    } else {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
+    }
+  }, [selectedShippingAddress]);
   // Calculate totals from selected items
   const subtotal = selectedItems.reduce(
     (sum, item) => sum + item.price * (item.quantity || 1),
     0
   );
-  const shipping = 0;
   const total = subtotal + shipping;
 
   const handleConfirmOrder = async () => {
