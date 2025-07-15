@@ -7,7 +7,7 @@ const RefreshOnFirstLoad = () => {
   useEffect(() => {
     const hasRefreshed = sessionStorage.getItem("hasRefreshed");
 
-    if (!hasRefreshed) {
+    if (true) {
       sessionStorage.setItem("hasRefreshed", "true");
       // Option 1: Refresh using Next.js router (soft refresh)
       router.refresh();
