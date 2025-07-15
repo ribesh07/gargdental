@@ -70,6 +70,26 @@ export default function OrderSummaryBuyNow() {
       });
       return;
     }
+
+    if (selectedItems.length === 0) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please Add Item.{" "}
+            <a
+              href="/product"
+              className="text-blue-600 underline hover:text-blue-800"
+              style={{ cursor: "pointer" }}
+            >
+              Go to Product List
+            </a>{" "}
+            to buy your item.
+          </span>
+        ),
+      });
+      return;
+    }
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
     setSelectedBillingAddress(defaultBillingAddress);
