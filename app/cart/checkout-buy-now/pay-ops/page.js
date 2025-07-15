@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { handleOrder } from "@/utils/apiHelper";
@@ -64,6 +64,7 @@ const PayOpsPageBuyNow = () => {
   const [selected, setSelected] = useState("E");
   const [isProcessing, setIsProcessing] = useState(false);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
+  const [shipping, setShipping] = useState(50);
   const selectedShippingAddress = useCartStore(
     (state) => state.selectedShippingAddress
   );
@@ -83,8 +84,28 @@ const PayOpsPageBuyNow = () => {
     (sum, item) => sum + item.price * (item.quantity || 1),
     0
   );
-  const shipping = 0;
   const total = subtotal + shipping;
+
+  useEffect(() => {
+    if (email === null || email === "") {
+      toast.error("Please don't refresh the page.");
+      router.push("/dashboard");
+      return;
+    }
+    if (selectedShippingAddress?.city === null) {
+      toast.error("Please don't refresh the page.");
+      router.push("/dashboard");
+      return;
+    }
+    if (selectedShippingAddress?.city?.shipping_cost !== null) {
+      const cost = parseFloat(selectedShippingAddress?.city?.shipping_cost);
+      setShipping(cost);
+    } else {
+      toast.error("Please don't refresh the page.");
+      router.push("/dashboard");
+      return;
+    }
+  }, [selectedShippingAddress]);
 
   const handleConfirmOrderBuyNow = async () => {
     setIsProcessing(true);

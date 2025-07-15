@@ -80,9 +80,23 @@ const PayOpsPage = () => {
   console.log("email", email);
 
   useEffect(() => {
-    if (selectedShippingAddress.city?.shipping_cost) {
-      const cost = parseFloat(selectedShippingAddress.city?.shipping_cost);
+    if (email === null || email === "") {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
+    }
+    if (selectedShippingAddress?.city === null) {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
+    }
+    if (selectedShippingAddress?.city?.shipping_cost !== null) {
+      const cost = parseFloat(selectedShippingAddress?.city?.shipping_cost);
       setShipping(cost);
+    } else {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
     }
   }, [selectedShippingAddress]);
   // Calculate totals from selected items

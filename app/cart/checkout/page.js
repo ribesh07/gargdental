@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
 import { getAddress, userDetails } from "@/utils/apiHelper";
 import useInfoModalStore from "@/stores/infoModalStore";
+import { toast } from "react-hot-toast";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -53,6 +54,14 @@ export default function OrderSummary() {
     };
     fetchAddresses();
   }, []);
+
+  useEffect(() => {
+    if (selectedItems.length === 0) {
+      toast.error("Please don't refresh the page.");
+      router.push("/cart");
+      return;
+    }
+  }, [selectedItems.length]);
 
   const handleProceedToPay = () => {
     if (!defaultBillingAddress) {
@@ -108,20 +117,10 @@ export default function OrderSummary() {
     router.push("/cart/checkout/pay-ops");
   };
 
-  // const handleSelectShippingAddress = (defaultShippingAddress) => {
-  //   setSelectedShippingAddress(defaultShippingAddress);
-  //   // router.push("/cart/checkout/pay-ops");
-  // };
-
   const handleRemoveItem = () => {
     alert("Item removed from cart");
   };
 
-  // Calculate totals from selected items
-  // const subtotal = selectedItems.reduce(
-  //   (sum, item) => sum + item.price * item.quantity,
-  //   0
-  // );
   const subtotal = selectedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
