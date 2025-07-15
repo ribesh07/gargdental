@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ["dentalnepal.com", "www.dentalnepal.com"],
+  allowedDevOrigins: [
+    "dentalnepal.com",
+    "www.dentalnepal.com",
+    "gargdental.vercel.app",
+    "localhost:3000",
+  ],
   async redirects() {
     return [
       {
@@ -40,6 +45,11 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "dentalnepal.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "gargdental.vercel.app",
         pathname: "/**",
       },
     ],
