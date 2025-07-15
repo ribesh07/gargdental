@@ -387,7 +387,7 @@ export const sortAddressDropdowns = async () => {
     const cities = response.data.flatMap((province) =>
       province.cities.map((city) => ({
         id: city.id || "N/A",
-        name: city.name || "N/A",
+        name: city.city || "N/A",
         province_id: province.id,
       }))
     );
@@ -511,8 +511,8 @@ export const updateCustomerAddress = async (addressId, addressData) => {
       zone: addressData.zone_id,
       address: addressData.address,
       address_type: addressData.address_type || "H",
-      default_shipping: addressData.default_shipping || "Y",
-      default_billing: addressData.default_billing || "Y",
+      default_shipping: addressData.default_shipping || "N",
+      default_billing: addressData.default_billing || "N",
       landmark: addressData.landmark,
     };
 
@@ -555,8 +555,8 @@ export const addCustomerAddress = async (addressData) => {
       zone: addressData.zone_id,
       address: addressData.address,
       address_type: addressData.address_type || "H",
-      default_shipping: addressData.default_shipping || "Y",
-      default_billing: addressData.default_billing || "Y",
+      default_shipping: addressData.default_shipping || "N",
+      default_billing: addressData.default_billing || "N",
       landmark: addressData.landmark,
     };
     const response = await apiRequest(`/customer/address/add`, true, {

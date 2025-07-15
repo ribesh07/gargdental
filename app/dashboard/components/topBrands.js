@@ -45,7 +45,7 @@ export default function TopBrandPage() {
   };
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-100 ">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-left mb-4 pt-6 ml-2">
