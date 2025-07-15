@@ -43,7 +43,9 @@ export default function ManageMyAccount({
               {user.full_name ||
                 `${user.firstName || ""} ${user.lastName || ""}`.trim()}
             </div>
-            <div className="text-gray-700 text-sm">{user.email}</div>
+            <div className="text-gray-700 text-sm max-w-[50px]">
+              {user.email}
+            </div>
             <div className="text-gray-700 text-sm">
               {user.phone || user.mobile}
             </div>

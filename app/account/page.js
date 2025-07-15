@@ -68,6 +68,7 @@ export default function AuthPage() {
       console.log(data.message);
 
       if (data.success) {
+        router.replace("/dashboard");
         console.log("Login successful:", data);
 
         if (data.token) {
@@ -85,9 +86,10 @@ export default function AuthPage() {
 
           console.log("Token saved:", data.token);
         }
+        // router.push("/dashboard");
+        // router.replace("/dashboard");
 
         // success
-        router.push("/dashboard");
       } else {
         console.warn("Login failed:", data);
         useWarningModalStore.getState().open({
