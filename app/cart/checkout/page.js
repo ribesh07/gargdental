@@ -56,15 +56,34 @@ export default function OrderSummary() {
         title: "Info",
         message: (
           <span>
-            Please Add Address.{' '}
+            Please Add Address.{" "}
             <a
               href="/myaccount"
               className="text-blue-600 underline hover:text-blue-800"
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             >
               Go to My Account
-            </a>
-            {' '}to add your address.
+            </a>{" "}
+            to add your address.
+          </span>
+        ),
+      });
+      return;
+    }
+    if (selectedItems.length === 0) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please Add Item.{" "}
+            <a
+              href="/cart"
+              className="text-blue-600 underline hover:text-blue-800"
+              style={{ cursor: "pointer" }}
+            >
+              Go to Your Cart
+            </a>{" "}
+            to select your item.
           </span>
         ),
       });
@@ -87,7 +106,6 @@ export default function OrderSummary() {
   // };
 
   const handleRemoveItem = () => {
-    
     alert("Item removed from cart");
   };
 
@@ -306,9 +324,7 @@ export default function OrderSummary() {
 
               {/* Proceed to Pay */}
               <div className="space-y-4">
-                <div className="text-center">
-                 
-                </div>
+                <div className="text-center"></div>
 
                 <button
                   onClick={handleProceedToPay}
