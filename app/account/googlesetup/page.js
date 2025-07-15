@@ -1,7 +1,7 @@
 // app/page.tsx or pages/index.tsx
 import GoogleLoginButton from "./GoogleLogin";
 
-export default function Home() {
+export default function GoogleSetup() {
   return (
     <div className="flex justify-center my-2">
       {/* <h1>Login with Google</h1> */}

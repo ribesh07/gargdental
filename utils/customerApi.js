@@ -30,6 +30,8 @@ export const updateCustomerProfile = async (profileData) => {
       profileData,
       true
     );
+    console.log("Update profile response:", response);
+    console.log("Update profile data:", profileData);
     // const res = await apiPostRequest("/customer/update-profile", profileData, true);
     if (response.success) {
       return {
@@ -40,7 +42,7 @@ export const updateCustomerProfile = async (profileData) => {
     } else {
       return {
         success: false,
-        error: response.errors[0].message || "Failed to update profile",
+        error: response?.message || "Failed to update profile",
       };
     }
   } catch (error) {
