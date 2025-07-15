@@ -94,11 +94,14 @@ export default function AuthPage() {
           <div className="space-y-4">
             {/* Google Auth */}
             {/* Google Auth */}
-            <div className="flex justify-center my-2">
+            <div className="flex flex-col justify-center my-2">
               {/* <h1>Login with Google</h1> */}
               <div className="max-w-full w-full flex justify-center align-center">
                 <GoogleLoginButton />
               </div>
+              <span className="text-center font-bold text-[18px] mt-2 text-gray-700">
+                or,
+              </span>
             </div>
             <div>
               <label

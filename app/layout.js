@@ -5,6 +5,7 @@ import FooterBar from "@/components/FooterBar";
 import "./globals.css";
 import HeaderBarNew from "@/components/HeaderBarNew";
 import TawkToWidget from "@/components/TawkToWidget";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
       >
         <HeaderBarNew />
         <div className="w-full">{children}</div>
+        <CookieConsentBanner />
         <FooterBar />
         <TawkToWidget />
         <Toaster position="top-right" />
