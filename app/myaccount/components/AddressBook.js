@@ -1,3 +1,4 @@
+"use client";
 // import { useAddressStore } from "@/stores/addressStore";
 import { Trash2 } from "lucide-react";
 import { deleteCustomerAddress } from "@/utils/apiHelper";
@@ -7,6 +8,7 @@ import AddAddressForm from "./AddAddressForm";
 import { useRouter } from "next/navigation";
 import useConfirmModalStore from "@/stores/confirmModalStore";
 import useInfoModalStore from "@/stores/infoModalStore";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 export default function AddressBook({
   address,
@@ -66,6 +68,84 @@ export default function AddressBook({
       },
       onCancel: () => {},
     });
+  };
+
+  // Function to set an address as default shipping and billing
+  const setDefaultAddressAndBilling = async (id) => {
+    const payload = {
+      default_billing: "Y",
+    };
+    const [shipRes, billRes] = await Promise.all([
+      apiRequest(`/customer/address/set-default-address/${id}`, true, {
+        method: "POST",
+        body: JSON.stringify({ default_shipping: "Y" }),
+      }),
+      apiRequest(`/customer/address/set-default-billing/${id}`, true, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      }),
+    ]);
+
+    return {
+      success: shipRes.success && billRes.success,
+      message:
+        shipRes.success && billRes.success
+          ? "Address set as default successfully"
+          : shipRes.message ||
+            billRes.message ||
+            "Failed to set default address",
+      shipRes,
+      billRes,
+    };
+  };
+
+  const handleSetDefaultBilling = async (id) => {
+    console.log("set default address", id);
+    if (!id)
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "No address to set as default" });
+    // const response = await setDefaultAddressAndBilling(id);
+    const response = await apiRequest(
+      `/customer/address/set-default-billing/${id}`,
+      true,
+      { method: "POST", body: JSON.stringify({}) }
+    );
+    const { success, message } = response;
+    console.log("response from handleSetDefault", response);
+    if (success) {
+      router.refresh();
+      window.location.reload();
+      toast.success(message);
+    } else {
+      toast.error(
+        message || "Failed to set default address , Please try again later"
+      );
+    }
+  };
+  const handleSetDefaultShipping = async (id) => {
+    console.log("set default address", id);
+    if (!id)
+      return useInfoModalStore
+        .getState()
+        .open({ title: "Info", message: "No address to set as default" });
+    // const response = await setDefaultAddressAndBilling(id);
+    const response = await apiRequest(
+      `/customer/address/set-default-shipping/${id}`,
+      true,
+      { method: "POST", body: JSON.stringify({}) }
+    );
+    const { success, message } = response;
+    console.log("response from handleSetDefault", response);
+    if (success) {
+      router.refresh();
+      window.location.reload();
+      toast.success(message);
+    } else {
+      toast.error(
+        message || "Failed to set default address , Please try again later"
+      );
+    }
   };
 
   return (
@@ -212,12 +292,44 @@ export default function AddressBook({
                   <p>
                     <span className="font-semibold">Phone:</span> {addr.phone}
                   </p>
-                  {addr.default_shipping?.trim().toUpperCase() === "Y" &&
-                    addr.default_billing?.trim().toUpperCase() === "Y" && (
-                      <p className="text-gray-500 pt-2">
-                        Default Shipping & Billing Address
-                      </p>
+                  <div className="flex items-center gap-2">
+                    {addr.default_shipping?.trim().toUpperCase() === "Y" &&
+                      addr.default_billing?.trim().toUpperCase() === "Y" && (
+                        <p className="text-gray-500 pt-2">
+                          Default Shipping & Billing Address
+                        </p>
+                      )}
+                    {addr.default_shipping?.trim().toUpperCase() === "Y" &&
+                      addr.default_billing?.trim().toUpperCase() !== "Y" && (
+                        <p className="text-gray-500 pt-2">
+                          Default Shipping Address
+                        </p>
+                      )}
+                    {addr.default_shipping?.trim().toUpperCase() !== "Y" &&
+                      addr.default_billing?.trim().toUpperCase() === "Y" && (
+                        <p className="text-gray-500 pt-2">
+                          Default Billing Address
+                        </p>
+                      )}
+                  </div>
+                  <div className="flex flex-col items-start gap-2">
+                    {addr.default_shipping?.trim().toUpperCase() !== "Y" && (
+                      <button
+                        onClick={() => handleSetDefaultShipping(addr.id)}
+                        className="text-blue-500 text-sm hover:underline font-semibold cursor-pointer"
+                      >
+                        SET AS DEFAULT SHIPPING
+                      </button>
                     )}
+                    {addr.default_billing?.trim().toUpperCase() !== "Y" && (
+                      <button
+                        onClick={() => handleSetDefaultBilling(addr.id)}
+                        className="text-blue-500 text-sm hover:underline font-semibold cursor-pointer"
+                      >
+                        SET AS DEFAULT BILLING
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

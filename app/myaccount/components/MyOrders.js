@@ -162,7 +162,7 @@ export default function MyOrders() {
   };
 
   return (
-    <div className="w-full p-2 sm:p-4 md:p-6 bg-gray-50 min-h-screen">
+    <div className="w-full p-2 sm:p-4 md:p-6  min-h-screen">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-2 sm:gap-0">
         <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-900">
           MY ORDERS
@@ -170,7 +170,7 @@ export default function MyOrders() {
       </div>
       <div>
         {/* Tabs */}
-        <div className="flex flex-row gap-4 justify-around bg-gray-100 p-4 rounded-xl shadow">
+        <div className="flex flex-row gap-4 justify-around p-4 rounded-xl shadow">
           <button
             onClick={() => setActiveTab("Processing")}
             className={`px-4 py-2 rounded-lg font-semibold transition ${
@@ -218,7 +218,7 @@ export default function MyOrders() {
 
         {/* Tab Content */}
         {activeTab === "Processing" && (
-          <div className="bg-white p-4 rounded-xl shadow">
+          <div className=" p-4 rounded-xl shadow">
             <h2 className="text-2xl font-bold text-blue-600 mb-4">
               Orders Currently Processing
             </h2>
