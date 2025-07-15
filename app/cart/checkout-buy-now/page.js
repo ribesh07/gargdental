@@ -6,6 +6,7 @@ import useCartStore from "@/stores/useCartStore";
 import { getAddress, userDetails } from "@/utils/apiHelper";
 // import MainTopBar from "@/components/mainTopbar";
 import useInfoModalStore from "@/stores/infoModalStore";
+import { toast } from "react-hot-toast";
 
 export default function OrderSummaryBuyNow() {
   const [couponCode, setCouponCode] = useState("");
@@ -14,6 +15,7 @@ export default function OrderSummaryBuyNow() {
   const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
+  const [shipping, setShipping] = useState(50);
 
   const { setSelectedShippingAddress, setSelectedBillingAddress } =
     useCartStore();
@@ -44,11 +46,22 @@ export default function OrderSummaryBuyNow() {
 
       setAddresses(allAddresses);
       setDefaultBillingAddress(defaultBillingAddress);
+      if (defaultShippingAddress.city?.shipping_cost) {
+        const cost = parseFloat(defaultShippingAddress.city?.shipping_cost);
+        setShipping(cost);
+      }
       setDefaultShippingAddress(defaultShippingAddress);
       console.log("result", allAddresses);
     };
     fetchAddresses();
   }, []);
+  useEffect(() => {
+    if (selectedItems.length === 0) {
+      toast.error("Please don't refresh the page.");
+      router.push("/dashboard");
+      return;
+    }
+  }, [selectedItems.length]);
 
   const handleProceedToPay = () => {
     if (!defaultBillingAddress) {
@@ -121,7 +134,6 @@ export default function OrderSummaryBuyNow() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const shipping = 70;
   const total = subtotal + shipping;
 
   return (

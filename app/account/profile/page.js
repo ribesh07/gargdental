@@ -71,8 +71,9 @@ export default function CustomerProfilePage() {
           "Content-Type": "application/json",
         },
       });
+      const data = await response.json();
 
-      if (response.ok) {
+      if (data.success) {
         // Clear localStorage
         localStorage.removeItem("token");
 

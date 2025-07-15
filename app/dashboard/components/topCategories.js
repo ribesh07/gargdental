@@ -2,10 +2,12 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/utils/ApiSafeCalls";
+import { useRouter } from "next/navigation";
 
 export default function TopCategoriesPage() {
   const scrollRef = useRef(null);
   const [categories, setCategories] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -64,6 +66,7 @@ export default function TopCategoriesPage() {
               <div
                 key={brand.id}
                 className={`${brand.bgColor} rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer group flex-shrink-0 w-48 sm:w-52 ml-4`}
+                onClick={() => router.push(`/top_catlist?category_id=${brand.id}`)}
               >
                 {/* Image */}
                 <div className="relative overflow-hidden aspect-w-16 aspect-h-10">
