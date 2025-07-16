@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 
 // hardcoded reviews
 const mockReviews = [
-  
   {
     id: 1,
     name: "Delite Dental Chair",
@@ -13,7 +12,6 @@ const mockReviews = [
     reviewText: "Works great in my clinic. Patients are happy!",
   },
 ];
-
 
 export default function MyReviews() {
   const [reviews, setReviews] = useState([]);
@@ -61,9 +59,7 @@ export default function MyReviews() {
                     {renderStars(item.rating)}
                   </p>
 
-                  
-                    {item.reviewText}
-                  
+                  {item.reviewText}
                 </div>
               </div>
             </div>

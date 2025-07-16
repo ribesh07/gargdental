@@ -20,15 +20,20 @@ function FlashSaleProductPage() {
       setLoading(true);
       setError(null);
       try {
-        const response = await apiRequest(`/products/flash-sale?limit=${limit}&offset=${offset}`, false);
+        const response = await apiRequest(
+          `/products/flash-sale?limit=${limit}&offset=${offset}`,
+          false
+        );
         if (!response.success) {
           if (response.errors) {
-            const errorMessage = response.errors.map(e => e.message).join(', ');
+            const errorMessage = response.errors
+              .map((e) => e.message)
+              .join(", ");
             throw new Error(errorMessage);
           }
           throw new Error(response.message || "Failed to fetch products");
         }
-        
+
         const transformedProducts =
           response.products?.map((product) => ({
             id: product.id,
@@ -51,12 +56,13 @@ function FlashSaleProductPage() {
             delivery_days: product.delivery_target_days,
           })) || [];
 
-        setProducts(prev => offset === 0 ? transformedProducts : [...prev, ...transformedProducts]);
-        
+        setProducts((prev) =>
+          offset === 0 ? transformedProducts : [...prev, ...transformedProducts]
+        );
+
         if (transformedProducts.length < limit) {
           setCanLoadMore(false);
         }
-
       } catch (err) {
         setError(err.message || "Failed to fetch products");
       } finally {
@@ -67,7 +73,7 @@ function FlashSaleProductPage() {
   }, [offset, limit]);
 
   const loadMore = () => {
-    setOffset(prev => prev + limit);
+    setOffset((prev) => prev + limit);
   };
 
   return (
@@ -111,18 +117,21 @@ function FlashSaleProductPage() {
               <ProductCardMain
                 key={product.id}
                 product={product}
-                showDiscount={parseFloat(product.actual_price) > parseFloat(product.sell_price)}
+                showDiscount={
+                  parseFloat(product.actual_price) >
+                  parseFloat(product.sell_price)
+                }
               />
             ))}
           </div>
-          
+
           {/* Loading state for "Load More" */}
           {loading && products.length > 0 && (
-             <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-6 w-6 animate-spin" />
-             </div>
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-6 w-6 animate-spin" />
+            </div>
           )}
-          
+
           {/* Load More Button */}
           {!loading && canLoadMore && products.length > 0 && (
             <div className="flex justify-center mt-6">
@@ -141,7 +150,9 @@ function FlashSaleProductPage() {
         {!loading && products.length === 0 && !error && (
           <div className="text-center py-12">
             <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No products found for flash sale.</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              No products found for flash sale.
+            </h3>
             <p className="text-gray-600">Please check back later.</p>
           </div>
         )}
@@ -159,7 +170,10 @@ function ProductCardMain({ product, showDiscount }) {
         onClick={() => router.push(`/dashboard/${product.product_code}`)}
       >
         <div className="relative mb-2 sm:mb-3 lg:mb-4">
-          <ProductImageZoom imageUrl={product.image_url} alt={product.product_name} />
+          <ProductImageZoom
+            imageUrl={product.image_url}
+            alt={product.product_name}
+          />
           {product.flash_sale && (
             <div className="absolute top-0 sm:top-0 right-1 sm:right-2 border-2 border-red-500 rounded-full bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 animate-pulse">
               <span className="text-xs">Flash Sale</span>
@@ -172,14 +186,23 @@ function ProductCardMain({ product, showDiscount }) {
           )}
         </div>
         <p className="text-[14px] text-gray-500 uppercase">{product.brand}</p>
-        <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">{product.product_name}</h3>
+        <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
+          {product.product_name}
+        </h3>
         {!product.has_variations && (
           <div className="mt-2 justify-center">
             <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
-              {product.actual_price && product.actual_price !== "0.00" && parseFloat(product.actual_price) > parseFloat(product.sell_price) && (
-                <span className="text-[14px] text-gray-400 line-through">Rs. {product.actual_price}</span>
-              )}
-              <span className="text-[14px] sm:text-base font-bold text-red-600">Rs. {product.sell_price}</span>
+              {product.actual_price &&
+                product.actual_price !== "0.00" &&
+                parseFloat(product.actual_price) >
+                  parseFloat(product.sell_price) && (
+                  <span className="text-[14px] text-gray-400 line-through">
+                    Rs. {product.actual_price}
+                  </span>
+                )}
+              <span className="text-[14px] sm:text-base font-bold text-red-600">
+                Rs. {product.sell_price}
+              </span>
             </div>
           </div>
         )}
@@ -188,7 +211,9 @@ function ProductCardMain({ product, showDiscount }) {
         <div className="mt-auto w-full">
           <div className="mt-2 justify-center flex flex-col items-start">
             <span className="text-[16px] text-gray-400">Starting at</span>
-            <span className="text-[14px] sm:text-base font-bold text-red-600">Rs. {product.starting_price}</span>
+            <span className="text-[14px] sm:text-base font-bold text-red-600">
+              Rs. {product.starting_price}
+            </span>
           </div>
           <ViewProducts product={product} />
         </div>

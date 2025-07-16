@@ -1,18 +1,18 @@
 "use client";
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function ReviewPage() {
   const [currentRating, setCurrentRating] = useState(0);
-  const [reviewText, setReviewText] = useState('');
+  const [reviewText, setReviewText] = useState("");
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const ratingTexts = {
-    1: 'Poor - Not satisfied',
-    2: 'Fair - Below expectations',
-    3: 'Good - Satisfactory',
-    4: 'Very Good - Exceeded expectations',
-    5: 'Excellent - Outstanding service'
+    1: "Poor - Not satisfied",
+    2: "Fair - Below expectations",
+    3: "Good - Satisfactory",
+    4: "Very Good - Exceeded expectations",
+    5: "Excellent - Outstanding service",
   };
 
   const updateProgress = () => {
@@ -25,7 +25,7 @@ export default function ReviewPage() {
 
   const handlePhotoUpload = (e) => {
     const files = Array.from(e.target.files);
-    const photoPromises = files.map(file => {
+    const photoPromises = files.map((file) => {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => resolve(e.target.result);
@@ -33,31 +33,33 @@ export default function ReviewPage() {
       });
     });
 
-    Promise.all(photoPromises).then(photos => {
+    Promise.all(photoPromises).then((photos) => {
       setSelectedPhotos(photos);
     });
   };
 
   const submitReview = async () => {
     if (currentRating === 0) {
-      alert('Please select a rating');
+      alert("Please select a rating");
       return;
     }
-    
+
     if (reviewText.trim().length < 10) {
-      alert('Please write a detailed review (at least 10 characters)');
+      alert("Please write a detailed review (at least 10 characters)");
       return;
     }
 
     setIsSubmitting(true);
-    
+
     // Simulate API call
     setTimeout(() => {
-      alert('Thank you for your review! Your feedback helps us improve our dental services.');
-      
+      alert(
+        "Thank you for your review! Your feedback helps us improve our dental services."
+      );
+
       // Reset form
       setCurrentRating(0);
-      setReviewText('');
+      setReviewText("");
       setSelectedPhotos([]);
       setIsSubmitting(false);
     }, 2000);
@@ -68,13 +70,12 @@ export default function ReviewPage() {
       <div className="max-w-md mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden relative">
         {/* Progress Bar */}
         <div className="h-1 bg-blue-100 absolute top-0 left-0 right-0">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-blue-600 to-blue-800 transition-all duration-300"
             style={{ width: `${updateProgress()}%` }}
           />
         </div>
 
-    
         {/* Form Content */}
         <div className="p-8">
           <h2 className="text-xl font-semibold text-blue-600 text-center mb-6">
@@ -90,9 +91,9 @@ export default function ReviewPage() {
                   onClick={() => setCurrentRating(star)}
                   onMouseEnter={() => setCurrentRating(star)}
                   className={`text-4xl transition-all duration-300 hover:scale-110 ${
-                    star <= currentRating 
-                      ? 'text-yellow-400 drop-shadow-md' 
-                      : 'text-gray-300'
+                    star <= currentRating
+                      ? "text-yellow-400 drop-shadow-md"
+                      : "text-gray-300"
                   }`}
                 >
                   ★
@@ -100,7 +101,7 @@ export default function ReviewPage() {
               ))}
             </div>
             <div className="text-center text-gray-600 text-sm min-h-5">
-              {currentRating > 0 ? ratingTexts[currentRating] : 'Tap to rate'}
+              {currentRating > 0 ? ratingTexts[currentRating] : "Tap to rate"}
             </div>
           </div>
 
@@ -117,7 +118,7 @@ export default function ReviewPage() {
             />
           </div>
 
-          {/* Photo Upload Section - Made Smaller */}
+          {/* Photo Upload Section */}
           <div className="mb-8">
             <label className="relative block">
               <div className="flex items-center justify-center p-4 border-2 border-dashed border-blue-600 rounded-xl cursor-pointer hover:bg-blue-50 transition-all duration-300 bg-blue-50 bg-opacity-30">
@@ -125,7 +126,9 @@ export default function ReviewPage() {
                   <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
                     <span className="text-white text-sm">📷</span>
                   </div>
-                  <span className="text-blue-600 font-medium text-sm">Add Photos</span>
+                  <span className="text-blue-600 font-medium text-sm">
+                    Add Photos
+                  </span>
                 </div>
               </div>
               <input
@@ -136,7 +139,7 @@ export default function ReviewPage() {
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
             </label>
-            
+
             {/* Photo Previews */}
             {selectedPhotos.length > 0 && (
               <div className="flex gap-2 mt-3 flex-wrap">
@@ -158,7 +161,7 @@ export default function ReviewPage() {
             disabled={isSubmitting}
             className="w-full py-4 bg-[#0072bc] to-blue-800 text-white font-semibold rounded-xl text-base uppercase tracking-wide transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            {isSubmitting ? 'Submitting...' : 'Submit Review'}
+            {isSubmitting ? "Submitting..." : "Submit Review"}
           </button>
         </div>
       </div>

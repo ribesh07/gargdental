@@ -29,7 +29,9 @@ const Complains = () => {
   const removeFile = (indexToRemove) => {
     setFormData((prevData) => ({
       ...prevData,
-      returnFiles: prevData.returnFiles.filter((_, index) => index !== indexToRemove),
+      returnFiles: prevData.returnFiles.filter(
+        (_, index) => index !== indexToRemove
+      ),
     }));
   };
 
@@ -41,7 +43,13 @@ const Complains = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Validation
-    if (!formData.name || !formData.email || !formData.phone || !formData.city || !formData.remarks) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.city ||
+      !formData.remarks
+    ) {
       toast.error("Please fill all required fields.");
       return;
     }
@@ -58,7 +66,14 @@ const Complains = () => {
     setSubmitting(false);
     if (res.success) {
       toast.success(res.message || "Grievance submitted successfully");
-      setFormData({ name: "", email: "", phone: "", city: "", remarks: "", returnFiles: [] });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        city: "",
+        remarks: "",
+        returnFiles: [],
+      });
     } else {
       if (res.errors && res.errors.length > 0) {
         toast.error(res.errors[0].message || res.message);
@@ -72,10 +87,13 @@ const Complains = () => {
     <div>
       <div className="max-w-6xl mx-auto py-10 px-4 flex flex-col items-center mt-2">
         <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8">
-          Customer Grievance  Form
+          Customer Grievance Form
         </h2>
         <div className="mx-auto">
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white p-6 rounded-xl shadow" onSubmit={handleSubmit}>
+          <form
+            className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white p-6 rounded-xl shadow"
+            onSubmit={handleSubmit}
+          >
             <div>
               <label className="block text-sm font-medium mb-1">
                 Full Name *
@@ -141,7 +159,9 @@ const Complains = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Grievance Details *</label>
+              <label className="block text-sm font-medium mb-1">
+                Grievance Details *
+              </label>
               <textarea
                 name="remarks"
                 required
@@ -154,7 +174,7 @@ const Complains = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Attach Documents 
+                Attach Documents
               </label>
               {/* Custom Attach File Button */}
               <div className="flex items-center space-x-2 mb-2">
