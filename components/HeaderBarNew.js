@@ -413,7 +413,7 @@ const HeaderBarNew = () => {
                   Browse Products
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href="/hot-sales"
                   className="hover:underline font-semibold hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   Hot Sales
