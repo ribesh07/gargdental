@@ -64,7 +64,7 @@ export default function ReviewPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-5">
+    <div className="min-h-screen  p-5">
       <div className="max-w-md mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden relative">
         {/* Progress Bar */}
         <div className="h-1 bg-blue-100 absolute top-0 left-0 right-0">
@@ -74,20 +74,7 @@ export default function ReviewPage() {
           />
         </div>
 
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 text-center relative">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-5 left-5 w-1 h-1 bg-white rounded-full"></div>
-            <div className="absolute top-8 right-8 w-2 h-2 bg-white rounded-full"></div>
-            <div className="absolute bottom-6 left-12 w-1.5 h-1.5 bg-white rounded-full"></div>
-            <div className="absolute bottom-8 right-6 w-1 h-1 bg-white rounded-full"></div>
-          </div>
-          <div className="relative z-10">
-            <h1 className="text-3xl font-bold mb-2">🦷 Garg Dental</h1>
-            <p className="text-blue-100 text-sm">Professional Dental Care</p>
-          </div>
-        </div>
-
+    
         {/* Form Content */}
         <div className="p-8">
           <h2 className="text-xl font-semibold text-blue-600 text-center mb-6">
@@ -169,7 +156,7 @@ export default function ReviewPage() {
           <button
             onClick={submitReview}
             disabled={isSubmitting}
-            className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold rounded-xl text-base uppercase tracking-wide transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-[#0072bc] to-blue-800 text-white font-semibold rounded-xl text-base uppercase tracking-wide transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isSubmitting ? 'Submitting...' : 'Submit Review'}
           </button>
