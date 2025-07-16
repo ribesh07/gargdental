@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Share2, Heart } from "lucide-react";
-import useCartStore from "@/stores/useCartStore";
+import { addToWishlist, removeFromWishlist, getWishlist } from "@/utils/apiHelper";
+import toast from "react-hot-toast";
 
 const FilledHeart = (props) => (
   <svg
@@ -20,38 +21,65 @@ const FilledHeart = (props) => (
 );
 
 export default function ButtonForShare({ product }) {
-  const wishlist = useCartStore((state) => state.wishlist);
-  const addToWishlist = useCartStore((state) => state.addToWishlist);
-  const removeFromWishlist = useCartStore((state) => state.removeFromWishlist);
-  const isWishlisted = product && wishlist.some((item) => item.id === product.id);
+  const [wishlisted, setWishlisted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    // On mount, check if this product is in the wishlist
+    const checkWishlist = async () => {
+      if (!product) return;
+      const wishlist = await getWishlist();
+      setWishlisted(wishlist.some((item) => item.product_code === product.product_code));
+    };
+    checkWishlist();
+  }, [product]);
+
+  const handleWishlist = async () => {
+    if (!product) return;
+    setLoading(true);
+    if (wishlisted) {
+      // Remove from wishlist (need to find item_id)
+      const wishlist = await getWishlist();
+      const item = wishlist.find((item) => item.product_code === product.product_code);
+      if (!item) {
+        toast.error("Item not found in wishlist");
+        setLoading(false);
+        return;
+      }
+      const res = await removeFromWishlist(item.id);
+      if (res.success) {
+        setWishlisted(false);
+        toast.success("Removed from wishlist");
+      } else {
+        toast.error(res.message || "Failed to remove from wishlist");
+      }
+    } else {
+      // Add to wishlist
+      const res = await addToWishlist(product.product_code);
+      if (res.success) {
+        setWishlisted(true);
+        toast.success("Added to wishlist");
+      } else {
+        toast.error(res.message || "Failed to add to wishlist");
+      }
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="flex items-center">
       <button
-        onClick={() => {
-          if (!product) return;
-          if (isWishlisted) {
-            removeFromWishlist(product.id);
-          } else {
-            addToWishlist({
-              id: product.id,
-              name: product.product_name,
-              image: product.image_url,
-              price: product.sell_price || product.actual_price,
-              brand: product.brand,
-              product_code: product.product_code,
-              description: product.description,
-            });
-          }
-        }}
+        onClick={handleWishlist}
         className="flex items-center text-[12px] mr-2"
-        title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+        title={wishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+        disabled={loading}
       >
-        {isWishlisted ? (
+        {wishlisted ? (
           <FilledHeart />
         ) : (
           <Heart className="w-8 h-8 mr-1 text-[#0072bc] hover:text-[#bf0000]" />
         )}
+        {loading && <span className="ml-2 text-xs">...</span>}
       </button>
       <button
         onClick={() => {

@@ -1,29 +1,68 @@
-import useCartStore from "@/stores/useCartStore";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
+import { getWishlist, addToWishlist, removeFromWishlist } from "@/utils/apiHelper";
 
 export default function MyWishlist() {
-  const wishlist = useCartStore((state) => state.wishlist) || [];
-  const setWishlist = useCartStore((state) => state.setWishlist);
-  const addToCart = useCartStore((state) => state.addToCart);
+  const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [removingId, setRemovingId] = useState(null);
   const router = useRouter();
 
-  const removeFromWishlist = (id) => {
-    const updated = wishlist.filter((item) => item.id !== id);
-    setWishlist(updated);
+  // Fetch wishlist from API on mount
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getWishlist();
+        setWishlist(data);
+      } catch (err) {
+        setError("Failed to load wishlist");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchWishlist();
+  }, []);
+
+  // Remove from wishlist handler
+  const handleRemove = async (item_id, e) => {
+    e.stopPropagation();
+    setRemovingId(item_id);
+    try {
+      const res = await removeFromWishlist(item_id);
+      if (res.success) {
+        setWishlist((prev) => prev.filter((item) => item.id !== item_id));
+      } else {
+        setError(res.message || "Failed to remove item");
+      }
+    } catch (err) {
+      setError("Failed to remove item");
+    } finally {
+      setRemovingId(null);
+    }
   };
 
-  const handleAddToCart = (item, e) => {
-    e.stopPropagation();
-    addToCart({ ...item, quantity: 1 }); // assuming addToCart expects a full item with quantity
-    removeFromWishlist(item.id); // optional: remove from wishlist after adding to cart
-  };
+  // Optionally, add to wishlist handler (if you want to add from this page)
+  // const handleAdd = async (product_code) => {
+  //   const res = await addToWishlist(product_code);
+  //   if (res.success) {
+  //     // Optionally refetch or update state
+  //   } else {
+  //     setError(res.message || "Failed to add to wishlist");
+  //   }
+  // };
 
   return (
     <div className="w-full flex flex-col items-center px-4 py-6">
       <h2 className="text-2xl font-bold text-blue-900 mb-6">MY WISHLIST</h2>
-
-      {wishlist.length === 0 ? (
+      {loading ? (
+        <div className="text-gray-400 text-lg mt-12">Loading...</div>
+      ) : error ? (
+        <div className="text-red-500 text-lg mt-12">{error}</div>
+      ) : wishlist.length === 0 ? (
         <div className="text-gray-400 text-lg mt-12">No items in wishlist.</div>
       ) : (
         <div className="w-full max-w-5xl space-y-6">
@@ -39,22 +78,21 @@ export default function MyWishlist() {
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
                   <img
-                    src={item.image || "/placeholder.png"}
-                    alt={item.name}
+                    src={item.product?.image_full_url || "/placeholder.png"}
+                    alt={item.product?.product_name || "Product"}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       e.target.src = "/placeholder.png";
                     }}
                   />
                 </div>
-
                 <div className="flex flex-col">
                   <div className="text-sm sm:text-base font-semibold text-gray-900">
-                    {item.name}
+                    {item.product?.product_name || item.product_code}
                   </div>
-                  {item.brand && (
+                  {item.product?.brand?.brand_name && (
                     <div className="text-xs text-gray-500">
-                      Brand: {item.brand}
+                      Brand: {item.product.brand.brand_name}
                     </div>
                   )}
                   {item.product_code && (
@@ -62,29 +100,22 @@ export default function MyWishlist() {
                       Code: {item.product_code}
                     </div>
                   )}
-                  <div className="text-green-600 font-bold text-sm mt-1">
-                    Rs. {item.price}
-                  </div>
+                  {item.product?.sell_price && (
+                    <div className="text-green-600 font-bold text-sm mt-1">
+                      Rs. {item.product.sell_price}
+                    </div>
+                  )}
                 </div>
               </div>
-
-              {/* Right: Add to Cart + Remove */}
+              {/* Right: Remove */}
               <div className="flex items-center gap-4">
                 <button
-                  onClick={(e) => handleAddToCart(item, e)}
-                  className="bg-[#0072bc] text-white px-4 py-2 text-sm rounded  transition cursor-pointer hover:bg-[#005f9a]"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFromWishlist(item.id);
-                  }}
+                  onClick={(e) => handleRemove(item.id, e)}
                   className="text-red-500 hover:text-red-600 cursor-pointer transition"
                   title="Remove"
+                  disabled={removingId === item.id}
                 >
-                  <Trash2 className="w-5 h-5" />
+                  {removingId === item.id ? "Removing..." : <Trash2 className="w-5 h-5" />}
                 </button>
               </div>
             </div>

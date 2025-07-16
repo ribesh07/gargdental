@@ -815,3 +815,41 @@ export const submitGrievance = async (formData) => {
     };
   }
 };
+
+// Wishlist API helpers
+export const getWishlist = async () => {
+  try {
+    const response = await apiRequest("/customer/wishlist/list", true);
+    if (response.success) {
+      return response.wishlist || [];
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching wishlist:", err);
+    return [];
+  }
+};
+
+export const addToWishlist = async (product_code) => {
+  try {
+    const response = await apiPostRequest("/customer/wishlist/add", { product_code });
+    return response;
+  } catch (err) {
+    console.error("Error adding to wishlist:", err);
+    return { success: false, message: err.message };
+  }
+};
+
+export const removeFromWishlist = async (item_id) => {
+  try {
+    const response = await apiRequest("/customer/wishlist/remove-item", true, {
+      method: "DELETE",
+      body: JSON.stringify({ item_id }),
+    });
+    return response;
+  } catch (err) {
+    console.error("Error removing from wishlist:", err);
+    return { success: false, message: err.message };
+  }
+};
