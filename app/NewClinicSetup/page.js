@@ -230,7 +230,8 @@ export default function ClinicSetupPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white w-5xl p-6 rounded-xl shadow"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white w-full max-w-4xl p-6 rounded-xl shadow-md"
+
         >
           <div>
             <label className="block text-sm font-medium mb-1">
@@ -332,14 +333,15 @@ export default function ClinicSetupPage() {
             ></textarea>
           </div>
 
-          <div className="text-center mt-8">
-            <button
-              type="submit"
-              className="bg-[#0072bc] text-white px-6 py-3 rounded-full hover:opacity-90 transition-all cursor-pointer"
-            >
-              Submit
-            </button>
-          </div>
+          <div className="md:col-span-2 flex justify-center mt-4">
+  <button
+    type="submit"
+    className="bg-[#0072bc] text-white px-8 py-3 rounded-full hover:opacity-90 transition-all cursor-pointer w-full md:w-auto"
+  >
+    Submit
+  </button>
+</div>
+
         </form>
       </div>
 
