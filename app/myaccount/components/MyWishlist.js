@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
-import { getWishlist, addToWishlist, removeFromWishlist } from "@/utils/apiHelper";
+import { getWishlist, addToWishlist, removeFromWishlist, addToCart } from "@/utils/apiHelper";
+import toast from "react-hot-toast";
 
 export default function MyWishlist() {
   const [wishlist, setWishlist] = useState([]);
@@ -107,8 +108,35 @@ export default function MyWishlist() {
                   )}
                 </div>
               </div>
-              {/* Right: Remove */}
+              {/* Right: Add to Cart + Remove */}
               <div className="flex items-center gap-4">
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    if (!item.product) {
+                      toast.error("Product details not available");
+                      return;
+                    }
+                    try {
+                      // Optionally, show loading state
+                      const response = await addToCart(
+                        item.product.product_code,
+                        1,
+                        item.product.sell_price
+                      );
+                      if (response && response.success) {
+                        toast.success("Added to cart!");
+                      } else {
+                        toast.error(response?.message || "Failed to add to cart");
+                      }
+                    } catch (err) {
+                      toast.error("Failed to add to cart");
+                    }
+                  }}
+                  className="bg-[#0072bc] text-white px-4 py-2 text-sm rounded transition cursor-pointer hover:bg-[#005f9a]"
+                >
+                  Add to Cart
+                </button>
                 <button
                   onClick={(e) => handleRemove(item.id, e)}
                   className="text-red-500 hover:text-red-600 cursor-pointer transition"
