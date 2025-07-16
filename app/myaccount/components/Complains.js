@@ -34,7 +34,7 @@ const Complains = () => {
     <div>
       <div className="max-w-6xl mx-auto py-10 px-4 flex flex-col items-center mt-2">
         <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8">
-          Customer Complaint Form
+          Customer Grievance  Form
         </h2>
         <div className="mx-auto">
           <form className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white p-6 rounded-xl shadow">
@@ -81,16 +81,17 @@ const Complains = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">City</label>
+              <label className="block text-sm font-medium mb-1">City *</label>
               <input
                 type="text"
+                required
                 placeholder="Enter your city"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Remarks</label>
+              <label className="block text-sm font-medium mb-1">Grievance Details *</label>
               <textarea
                 placeholder="Any additional information"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md h-24"
@@ -99,7 +100,7 @@ const Complains = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Attach Documents (Photos / Videos)
+                Attach Documents 
               </label>
 
               {/* Custom Attach File Button */}
@@ -116,7 +117,7 @@ const Complains = () => {
                   />
                 </label>
                 <p className="text-xs text-gray-500">
-                  Supported: JPG, PNG, MP4. Max: 10MB each.
+                  Supported: JPG, PNG, JPEG, . Max: 2MB each.
                 </p>
               </div>
 

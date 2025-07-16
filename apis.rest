@@ -393,3 +393,7 @@ Content-Type: application/json
 ### product wise products
 GET https://gargdental.omsok.com/api/v1/products/brand-wise-products?brand_id=2&limit=5&offset=0
 Content-Type: application/json
+
+### flash sale products
+GET https://gargdental.omsok.com/api/v1/products/flash-sale
+Content-Type: application/json
