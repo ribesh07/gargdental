@@ -1,68 +1,150 @@
-import useCartStore from "@/stores/useCartStore";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
+import { getWishlist, addToWishlist, removeFromWishlist, addToCart } from "@/utils/apiHelper";
+import toast from "react-hot-toast";
 
 export default function MyWishlist() {
-  const wishlist = useCartStore((state) => state.wishlist) || [];
-  const setWishlist = useCartStore((state) => state.setWishlist);
+  const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [removingId, setRemovingId] = useState(null);
   const router = useRouter();
+
+  // Fetch wishlist from API on mount
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getWishlist();
+        setWishlist(data);
+      } catch (err) {
+        setError("Failed to load wishlist");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchWishlist();
+  }, []);
+
+  // Remove from wishlist handler
+  const handleRemove = async (item_id, e) => {
+    e.stopPropagation();
+    setRemovingId(item_id);
+    try {
+      const res = await removeFromWishlist(item_id);
+      if (res.success) {
+        setWishlist((prev) => prev.filter((item) => item.id !== item_id));
+      } else {
+        setError(res.message || "Failed to remove item");
+      }
+    } catch (err) {
+      setError("Failed to remove item");
+    } finally {
+      setRemovingId(null);
+    }
+  };
+
+  // Optionally, add to wishlist handler (if you want to add from this page)
+  // const handleAdd = async (product_code) => {
+  //   const res = await addToWishlist(product_code);
+  //   if (res.success) {
+  //     // Optionally refetch or update state
+  //   } else {
+  //     setError(res.message || "Failed to add to wishlist");
+  //   }
+  // };
+
   return (
-    <div className="w-full flex flex-col items-center">
-      <h2 className="text-xl sm:text-2xl font-bold text-center text-blue-900 mb-4">
-        MY WISHLIST
-      </h2>
-      {wishlist.length > 0 && (
-        <button
-          className="mb-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          onClick={() => setWishlist([])}
-        >
-          Clear Wishlist
-        </button>
-      )}
-      {wishlist.length === 0 ? (
+    <div className="w-full flex flex-col items-center px-4 py-6">
+      <h2 className="text-2xl font-bold text-blue-900 mb-6">MY WISHLIST</h2>
+      {loading ? (
+        <div className="text-gray-400 text-lg mt-12">Loading...</div>
+      ) : error ? (
+        <div className="text-red-500 text-lg mt-12">{error}</div>
+      ) : wishlist.length === 0 ? (
         <div className="text-gray-400 text-lg mt-12">No items in wishlist.</div>
       ) : (
-        <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+        <div className="w-full max-w-5xl space-y-6">
           {wishlist.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-lg shadow p-4 flex flex-col items-center cursor-pointer hover:shadow-xl hover:ring-2 hover:ring-blue-400 transition"
-              onClick={() => {
-                if (item.product_code) {
-                  router.push(`/dashboard/${item.product_code}`);
-                }
-              }}
-              title="View Product"
+              className="flex items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
+              onClick={() =>
+                item.product_code && router.push(`/dashboard/${item.product_code}`)
+              }
             >
-              <div className="w-24 h-24 bg-gray-100 rounded flex items-center justify-center overflow-hidden mb-2">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover rounded"
-                  onError={(e) => {
-                    e.target.src = "/placeholder.png";
+              {/* Left: Image + Info */}
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
+                  <img
+                    src={item.product?.image_full_url || "/placeholder.png"}
+                    alt={item.product?.product_name || "Product"}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.src = "/placeholder.png";
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-sm sm:text-base font-semibold text-gray-900">
+                    {item.product?.product_name || item.product_code}
+                  </div>
+                  {item.product?.brand?.brand_name && (
+                    <div className="text-xs text-gray-500">
+                      Brand: {item.product.brand.brand_name}
+                    </div>
+                  )}
+                  {item.product_code && (
+                    <div className="text-xs text-gray-500">
+                      Code: {item.product_code}
+                    </div>
+                  )}
+                  {item.product?.sell_price && (
+                    <div className="text-green-600 font-bold text-sm mt-1">
+                      Rs. {item.product.sell_price}
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* Right: Add to Cart + Remove */}
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    if (!item.product) {
+                      toast.error("Product details not available");
+                      return;
+                    }
+                    try {
+                      // Optionally, show loading state
+                      const response = await addToCart(
+                        item.product.product_code,
+                        1,
+                        item.product.sell_price
+                      );
+                      if (response && response.success) {
+                        toast.success("Added to cart!");
+                      } else {
+                        toast.error(response?.message || "Failed to add to cart");
+                      }
+                    } catch (err) {
+                      toast.error("Failed to add to cart");
+                    }
                   }}
-                />
-              </div>
-              <div className="font-semibold text-gray-800 text-center text-lg mb-1">
-                {item.name}
-              </div>
-              {item.brand && (
-                <div className="text-xs text-gray-500 mb-1">
-                  Brand: {item.brand}
-                </div>
-              )}
-              {item.product_code && (
-                <div className="text-xs text-gray-500 mb-1">
-                  Code: {item.product_code}
-                </div>
-              )}
-              {item.description && (
-                <div className="text-xs text-gray-600 mb-2 text-center">
-                  {item.description}
-                </div>
-              )}
-              <div className="text-green-700 font-bold mt-1 text-lg">
-                Rs. {item.price}
+                  className="bg-[#0072bc] text-white px-4 py-2 text-sm rounded transition cursor-pointer hover:bg-[#005f9a]"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  onClick={(e) => handleRemove(item.id, e)}
+                  className="text-red-500 hover:text-red-600 cursor-pointer transition"
+                  title="Remove"
+                  disabled={removingId === item.id}
+                >
+                  {removingId === item.id ? "Removing..." : <Trash2 className="w-5 h-5" />}
+                </button>
               </div>
             </div>
           ))}

@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { getCancelledOrders, cancelOrder } from "@/utils/apiHelper";
 import { Loader2, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
-import Link from 'next/link'; 
-
+import Link from "next/link";
+import AddReview from "@/components/AddReview";
 
 export default function CustomTab({ status }) {
   const [loading, setLoading] = useState(false);
@@ -18,6 +18,7 @@ export default function CustomTab({ status }) {
     orderNumber: null,
   });
   const [orderlength, setOrderlength] = useState(0);
+  const [showAddReview, setShowAddReview] = useState({});
 
   useEffect(() => {
     fetchOrders(status);
@@ -147,6 +148,19 @@ export default function CustomTab({ status }) {
     // Logic for handling return order can be added here
     console.log("Return order clicked for:", orderId, orderNumber);
     toast.error(`Return request for Order is not implemented yet.`);
+  };
+
+  const handleAddReview = (orderId, orderNumber, productId) => {
+    setShowAddReview((prev) => ({
+      ...prev,
+      [orderId + "-" + productId]: true,
+    }));
+  };
+  const handleCloseAddReview = (orderId, productId) => {
+    setShowAddReview((prev) => ({
+      ...prev,
+      [orderId + "-" + productId]: false,
+    }));
   };
 
   return (
@@ -319,12 +333,12 @@ export default function CustomTab({ status }) {
                               <div className="text-gray-800 font-semibold text-base sm:text-lg mb-1">
                                 {productName}
                               </div>
-                              <div className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">
+                              {/* <div className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">
                                 <span className="font-medium">
                                   Product Code:
                                 </span>{" "}
                                 {productCode}
-                              </div>
+                              </div> */}
                               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0">
                                 <div className="text-xs sm:text-sm text-gray-700">
                                   <span className="font-medium">Quantity:</span>
@@ -332,6 +346,7 @@ export default function CustomTab({ status }) {
                                     {item.quantity}
                                   </span>
                                 </div>
+
                                 <div className="text-right">
                                   <div className="font-semibold text-green-600 text-base sm:text-lg">
                                     Rs. {parseFloat(item.price || 0).toFixed(2)}
@@ -340,6 +355,45 @@ export default function CustomTab({ status }) {
                                     Total: Rs.{" "}
                                     {parseFloat(item.subtotal).toFixed(2)}
                                   </div>
+                                  {/* Show Add Review button only in delivered tab */}
+                                  {status === "delivered" && (
+                                    <div className="text-xs sm:text-sm text-gray-500">
+                                      
+
+                                      <button
+                                        onClick={() =>
+                                          handleAddReview(
+                                            order.id,
+                                            order.order_id,
+                                            item.product?.id || item.product_id
+                                          )
+                                        }
+                                        className="text-white bg-[#0072bc]  px-2 py-1 rounded hover:underline"
+                                      >
+                                        Add Review
+                                      </button>
+                                      {showAddReview[
+                                        order.id +
+                                          "-" +
+                                          (item.product?.id || item.product_id)
+                                      ] && (
+                                        <AddReview
+                                          orderId={order.id}
+                                          orderNumber={order.order_id}
+                                          productId={
+                                            item.product?.id || item.product_id
+                                          }
+                                          onClose={() =>
+                                            handleCloseAddReview(
+                                              order.id,
+                                              item.product?.id ||
+                                                item.product_id
+                                            )
+                                          }
+                                        />
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -428,9 +482,9 @@ export default function CustomTab({ status }) {
                             Rs.{" "}
                             {parseFloat(
                               order.total_amount ||
-                              order.grand_total ||
-                              order.total ||
-                              0
+                                order.grand_total ||
+                                order.total ||
+                                0
                             ).toFixed(2)}
                           </span>
                         </div>

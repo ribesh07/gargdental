@@ -784,3 +784,72 @@ export const getCancelledOrders = async (status) => {
     };
   }
 };
+
+// Submit grievance form
+export const submitGrievance = async (formData) => {
+  try {
+    const response = await apiRequest("/customer/grievance", true, {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+    if (response.success) {
+      // Optionally show a toast here if you want
+      return {
+        success: true,
+        message: response.message || "Grievance submitted successfully",
+        data: response.data,
+      };
+    } else {
+      // Optionally show a toast here if you want
+      return {
+        success: false,
+        message: response.message || "Failed to submit grievance",
+        errors: response.errors || [],
+      };
+    }
+  } catch (err) {
+    return {
+      success: false,
+      message: err.message || "An unexpected error occurred",
+      errors: [],
+    };
+  }
+};
+
+// Wishlist API helpers
+export const getWishlist = async () => {
+  try {
+    const response = await apiRequest("/customer/wishlist/list", true);
+    if (response.success) {
+      return response.wishlist || [];
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Error fetching wishlist:", err);
+    return [];
+  }
+};
+
+export const addToWishlist = async (product_code) => {
+  try {
+    const response = await apiPostRequest("/customer/wishlist/add", { product_code });
+    return response;
+  } catch (err) {
+    console.error("Error adding to wishlist:", err);
+    return { success: false, message: err.message };
+  }
+};
+
+export const removeFromWishlist = async (item_id) => {
+  try {
+    const response = await apiRequest("/customer/wishlist/remove-item", true, {
+      method: "DELETE",
+      body: JSON.stringify({ item_id }),
+    });
+    return response;
+  } catch (err) {
+    console.error("Error removing from wishlist:", err);
+    return { success: false, message: err.message };
+  }
+};
