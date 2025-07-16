@@ -784,3 +784,34 @@ export const getCancelledOrders = async (status) => {
     };
   }
 };
+
+// Submit grievance form
+export const submitGrievance = async (formData) => {
+  try {
+    const response = await apiRequest("/customer/grievance", true, {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+    if (response.success) {
+      // Optionally show a toast here if you want
+      return {
+        success: true,
+        message: response.message || "Grievance submitted successfully",
+        data: response.data,
+      };
+    } else {
+      // Optionally show a toast here if you want
+      return {
+        success: false,
+        message: response.message || "Failed to submit grievance",
+        errors: response.errors || [],
+      };
+    }
+  } catch (err) {
+    return {
+      success: false,
+      message: err.message || "An unexpected error occurred",
+      errors: [],
+    };
+  }
+};
