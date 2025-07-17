@@ -62,6 +62,7 @@ export default function MyReviews() {
                         src={
                           item.product?.image_full_url ||
                           item.product?.files_full_url[0] ||
+                          item.product?.main_image_full_url ||
                           "assets/logo.png"
                         }
                         alt={item?.product?.product_name}
