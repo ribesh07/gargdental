@@ -416,7 +416,7 @@ const HeaderBarNew = () => {
                   href="/hot-sales"
                   className="hover:underline font-semibold hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
-                  Hot Sales
+                  Flash Sales
                 </Link>
                 <Link
                   href="/NewClinicSetup"

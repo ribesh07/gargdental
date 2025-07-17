@@ -39,6 +39,7 @@ export async function POST(req) {
       console.log(backendRes.status);
       const data = await backendRes.json();
       console.warn("Error response !");
+      toast.error(data?.errors[0]?.message);
       console.log(data);
       return new Response({
         status: backendRes.status,

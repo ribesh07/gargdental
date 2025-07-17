@@ -66,7 +66,7 @@ export default function ProductTabs({ product }) {
               : "text-gray-600"
           }`}
         >
-          REVIEWS(0)
+          REVIEWS
         </button>
       </div>
 
@@ -113,7 +113,7 @@ export default function ProductTabs({ product }) {
                 setReview(""); // clear after "submit"
               }}
             >
-              <label className="block mb-2 font-semibold">
+              {/* <label className="block mb-2 font-semibold">
                 Write your review:
               </label>
               <textarea
@@ -128,10 +128,10 @@ export default function ProductTabs({ product }) {
                 className="mt-3 bg-blue-700 text-white  px-2 py-2 rounded hover:bg-blue-800"
               >
                 Submit Review
-              </button>
+              </button> */}
             </form>
-            <br />
-            <strong>Slug: {product.slug}</strong>
+            {/* <br />
+            <strong>Slug: {product.slug}</strong> */}
           </div>
         )}
       </div>

@@ -9,27 +9,18 @@ export default function CompanyInfo() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
+      const getData = async () => {
+        setLoading(true);
+        setError(null);
         const data = await fetchCompliances();
-        console.log("Fetched company info:", data);
         const compliances = data.compliances || [];
-        const section = compliances.find(
-          (item) => item.key === "about_company"
-        );
-        setContent(section?.value || "No company information found.");
+        const section = compliances.find((item) => item.key === "about_company");
+        setContent(section?.value || "No data found.");
         setFiles(section?.compliancefiles || []);
-      } catch (err) {
-        setError("Failed to fetch company info.");
-      } finally {
         setLoading(false);
-      }
-    };
-
-    getData();
-  }, []);
+      };
+      getData();
+    }, []);
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">

@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
-import { getWishlist, addToWishlist, removeFromWishlist, addToCart } from "@/utils/apiHelper";
+import {
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  addToCart,
+} from "@/utils/apiHelper";
 import toast from "react-hot-toast";
 
 export default function MyWishlist() {
@@ -72,7 +77,8 @@ export default function MyWishlist() {
               key={item.id}
               className="flex items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
               onClick={() =>
-                item.product_code && router.push(`/dashboard/${item.product_code}`)
+                item.product_code &&
+                router.push(`/dashboard/${item.product_code}`)
               }
             >
               {/* Left: Image + Info */}
@@ -96,11 +102,11 @@ export default function MyWishlist() {
                       Brand: {item.product.brand.brand_name}
                     </div>
                   )}
-                  {item.product_code && (
+                  {/* {item.product_code && (
                     <div className="text-xs text-gray-500">
                       Code: {item.product_code}
                     </div>
-                  )}
+                  )} */}
                   {item.product?.sell_price && (
                     <div className="text-green-600 font-bold text-sm mt-1">
                       Rs. {item.product.sell_price}
@@ -127,7 +133,9 @@ export default function MyWishlist() {
                       if (response && response.success) {
                         toast.success("Added to cart!");
                       } else {
-                        toast.error(response?.message || "Failed to add to cart");
+                        toast.error(
+                          response?.message || "Failed to add to cart"
+                        );
                       }
                     } catch (err) {
                       toast.error("Failed to add to cart");
@@ -143,7 +151,11 @@ export default function MyWishlist() {
                   title="Remove"
                   disabled={removingId === item.id}
                 >
-                  {removingId === item.id ? "Removing..." : <Trash2 className="w-5 h-5" />}
+                  {removingId === item.id ? (
+                    "Removing..."
+                  ) : (
+                    <Trash2 className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </div>

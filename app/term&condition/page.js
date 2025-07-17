@@ -1,8 +1,8 @@
-'use client'
+"use client"
 import React, { useEffect, useState } from "react";
 import { fetchCompliances } from "@/utils/apiHelper";
 
-export default function ReturnPolicy() {
+export default function PrivacyPolicy() {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ export default function ReturnPolicy() {
       setError(null);
       const data = await fetchCompliances();
       const compliances = data.compliances || [];
-      const section = compliances.find((item) => item.key === "about_us");
+      const section = compliances.find((item) => item.key === "terms_conditions");
       setContent(section?.value || "No data found.");
       setFiles(section?.compliancefiles || []);
       setLoading(false);
@@ -22,10 +22,10 @@ export default function ReturnPolicy() {
     getData();
   }, []);
 
-  return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-8 bg-white rounded-xl shadow mt-6 mb-10 text-gray-800">
+    return (
+      <div className="max-w-2xl mx-auto p-4 sm:p-8 bg-white rounded-xl shadow mt-6 mb-10 text-gray-800">
       <h1 className="text-2xl sm:text-3xl font-bold mb-2 flex items-center gap-2">
-        <span role="img" aria-label="tooth">🦷</span> About_us 
+        <span role="img" aria-label="tooth">🦷</span> Terms & Conditions
       </h1>
       {loading ? (
         <div className="text-gray-500">Loading...</div>
@@ -51,5 +51,6 @@ export default function ReturnPolicy() {
         </>
       )}
     </div>
-  );
-}
+    );
+  }
+  
