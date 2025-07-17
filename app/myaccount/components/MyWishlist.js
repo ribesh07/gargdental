@@ -102,11 +102,11 @@ export default function MyWishlist() {
                       Brand: {item.product.brand.brand_name}
                     </div>
                   )}
-                  {item.product_code && (
+                  {/* {item.product_code && (
                     <div className="text-xs text-gray-500">
                       Code: {item.product_code}
                     </div>
-                  )}
+                  )} */}
                   {item.product?.sell_price && (
                     <div className="text-green-600 font-bold text-sm mt-1">
                       Rs. {item.product.sell_price}
