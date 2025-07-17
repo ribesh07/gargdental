@@ -241,7 +241,7 @@ export default function FooterBar() {
 
                 <li className="footer-list">
                   <Link
-                    href="#"
+                    href="/term&condition"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Terms and Conditions
