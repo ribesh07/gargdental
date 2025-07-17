@@ -10,7 +10,7 @@ const Complains = () => {
     phone: "",
     city: "",
     remarks: "",
-    returnFiles: [],
+    returnFiles: "",
   });
   const [submitting, setSubmitting] = useState(false);
 

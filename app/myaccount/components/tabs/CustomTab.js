@@ -5,7 +5,7 @@ import { getCancelledOrders, cancelOrder } from "@/utils/apiHelper";
 import { Loader2, RefreshCw } from "lucide-react";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
-import AddReview from "@/components/AddReview";
+import ReviewPage from "@/components/AddReview";
 
 export default function CustomTab({ status }) {
   const [loading, setLoading] = useState(false);
@@ -19,10 +19,10 @@ export default function CustomTab({ status }) {
   });
   const [orderlength, setOrderlength] = useState(0);
   const [showAddReview, setShowAddReview] = useState({});
-
+  const [ischanged, setIsChanged] = useState(false);
   useEffect(() => {
     fetchOrders(status);
-  }, [status]);
+  }, [status, ischanged]);
 
   const fetchOrders = async (status) => {
     try {
@@ -151,11 +151,14 @@ export default function CustomTab({ status }) {
   };
 
   const handleAddReview = (orderId, orderNumber, productId) => {
+    console.log("Add review clicked for:", orderId, orderNumber, productId);
+    const key = orderId + "-" + productId;
     setShowAddReview((prev) => ({
       ...prev,
-      [orderId + "-" + productId]: true,
+      [key]: !prev[key], // Toggle
     }));
   };
+
   const handleCloseAddReview = (orderId, productId) => {
     setShowAddReview((prev) => ({
       ...prev,
@@ -309,18 +312,11 @@ export default function CustomTab({ status }) {
                             key={item.id || idx}
                             className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-2 sm:p-3 bg-gray-50 rounded-lg "
                           >
-                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden border flex-shrink-0 mx-auto sm:mx-0 mb-2 sm:mb-0">
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden border-blue-300 border-2 flex-shrink-0 mx-auto sm:mx-0 mb-2 sm:mb-0">
                               <img
                                 src={imageUrl}
                                 alt={productName}
                                 className="w-full h-full object-contain rounded-lg"
-                                onError={(e) => {
-                                  console.log(
-                                    `Image failed to load for item ${idx}:`,
-                                    imageUrl
-                                  );
-                                  e.target.src = "/assets/logo.png";
-                                }}
                                 onLoad={() => {
                                   console.log(
                                     `Image loaded successfully for item ${idx}:`,
@@ -333,21 +329,9 @@ export default function CustomTab({ status }) {
                               <div className="text-gray-800 font-semibold text-base sm:text-lg mb-1">
                                 {productName}
                               </div>
-                              {/* <div className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">
-                                <span className="font-medium">
-                                  Product Code:
-                                </span>{" "}
-                                {productCode}
-                              </div> */}
-                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0">
-                                <div className="text-xs sm:text-sm text-gray-700">
-                                  <span className="font-medium">Quantity:</span>
-                                  <span className="text-blue-700 font-bold ml-1">
-                                    {item.quantity}
-                                  </span>
-                                </div>
 
-                                <div className="text-right">
+                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0">
+                                <div className="text-left">
                                   <div className="font-semibold text-green-600 text-base sm:text-lg">
                                     Rs. {parseFloat(item.price || 0).toFixed(2)}
                                   </div>
@@ -355,41 +339,68 @@ export default function CustomTab({ status }) {
                                     Total: Rs.{" "}
                                     {parseFloat(item.subtotal).toFixed(2)}
                                   </div>
+                                </div>
+                                <div className="flex flex-col gap-1  sm:items-center ">
+                                  <div className="text-xs sm:text-sm text-gray-700">
+                                    <span className="font-medium">
+                                      Quantity:
+                                    </span>
+                                    <span className="text-blue-700 font-bold ml-1">
+                                      {item.quantity}
+                                    </span>
+                                  </div>
                                   {/* Show Add Review button only in delivered tab */}
                                   {status === "delivered" && (
                                     <div className="text-xs sm:text-sm text-gray-500">
-                                      
-
                                       <button
+                                        disabled={item.reviewed}
                                         onClick={() =>
                                           handleAddReview(
                                             order.id,
                                             order.order_id,
-                                            item.product?.id || item.product_id
+                                            item?.product?.product_code
                                           )
                                         }
-                                        className="text-white bg-[#0072bc]  px-2 py-1 rounded hover:underline"
+                                        className={`text-white font-semibold 
+                                         ${
+                                           item.reviewed
+                                             ? "bg-gray-400"
+                                             : "bg-[#0072bc]"
+                                         }
+                                          m-2  px-2 py-2 rounded 
+                                          ${
+                                            item.reviewed
+                                              ? "cursor-not-allowed"
+                                              : "cursor-pointer"
+                                          }
+                                          ${
+                                            item.reviewed
+                                              ? ""
+                                              : "hover:underline"
+                                          }
+                                          `}
                                       >
-                                        Add Review
+                                        {item.reviewed
+                                          ? "Reviewed"
+                                          : "Add Review"}
                                       </button>
                                       {showAddReview[
                                         order.id +
                                           "-" +
-                                          (item.product?.id || item.product_id)
+                                          item.product?.product_code
                                       ] && (
-                                        <AddReview
+                                        <ReviewPage
                                           orderId={order.id}
                                           orderNumber={order.order_id}
-                                          productId={
-                                            item.product?.id || item.product_id
-                                          }
-                                          onClose={() =>
+                                          productId={item.product?.product_code}
+                                          showAddReview={true}
+                                          onClose={() => {
+                                            setIsChanged(true);
                                             handleCloseAddReview(
                                               order.id,
-                                              item.product?.id ||
-                                                item.product_id
-                                            )
-                                          }
+                                              item?.product?.product_code
+                                            );
+                                          }}
                                         />
                                       )}
                                     </div>
