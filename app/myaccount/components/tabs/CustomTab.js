@@ -240,6 +240,7 @@ export default function CustomTab({ status }) {
                   {order.order_status}
                 </span>
                 {order.order_status !== "cancelled" &&
+                  order.order_status !== "shipped" &&
                   order.order_status !== "delivered" && (
                     <button
                       className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
@@ -294,6 +295,7 @@ export default function CustomTab({ status }) {
                         // Get image URL from the correct path
                         const imageUrl =
                           item.product?.image_full_url ||
+                          item.product?.main_image_full_url ||
                           item.product?.files_full_url?.[0] ||
                           "assets/logo.png";
 
@@ -396,6 +398,7 @@ export default function CustomTab({ status }) {
                                           showAddReview={true}
                                           onClose={() => {
                                             setIsChanged(true);
+                                            fetchOrders("delivered");
                                             handleCloseAddReview(
                                               order.id,
                                               item?.product?.product_code

@@ -1,17 +1,22 @@
 "use client";
 import { useState } from "react";
 import { HtmlContent } from "@/components/HtmlDataConversion";
+// import Reviews from "@/app/dashboard/[code]/Reviews";
 
 export default function ProductTabs({ product }) {
   const [activeTab, setActiveTab] = useState("description");
   const [review, setReview] = useState("");
+
+  const renderStars = (count) => {
+    return "⭐️".repeat(count) + "☆".repeat(5 - count);
+  };
 
   if (!product) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="max-w-full sm:max-w-4xl mx-auto">
+    <div className="max-w-full sm:max-w-3xl mx-auto ">
       {/* Tabs */}
       <div className=" flex flex-col sm:flex-row gap-2  sm:gap-3 border-b border-gray-300">
         <button
@@ -103,35 +108,59 @@ export default function ProductTabs({ product }) {
 
         {activeTab === "reviews" && (
           <div className="pl-2 sm:pl-4">
-            <p className="mb-4">No reviews yet. Be the first to write one!</p>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert(
-                  "Thanks for your review! (Functionality not connected to backend yet)"
-                );
-                setReview(""); // clear after "submit"
-              }}
-            >
-              {/* <label className="block mb-2 font-semibold">
-                Write your review:
-              </label>
-              <textarea
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                placeholder="Your thoughts about the product..."
-                className="w-full border border-gray-300 p-2 rounded-md"
-                rows="4"
-              ></textarea>
-              <button
-                type="submit"
-                className="mt-3 bg-blue-700 text-white  px-2 py-2 rounded hover:bg-blue-800"
-              >
-                Submit Review
-              </button> */}
-            </form>
-            {/* <br />
-            <strong>Slug: {product.slug}</strong> */}
+            {product.reviews.length > 0 ? (
+              (console.log("product.reviews", product.reviews),
+              (
+                <div className="w-full flex flex-col items-center px-4 py-2">
+                  <h2 className="text-[20px] font-semibold text-gray-800">
+                    {product.reviews.length} Reviews
+                  </h2>
+                  {product.reviews.length === 0 ? (
+                    <div className="text-gray-400 text-lg mt-12">....</div>
+                  ) : (
+                    <div className="w-full max-w-5xl h-80 space-y-6 overflow-y-scroll border-2 border-gray-200 rounded-2xl ">
+                      {product.reviews?.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-md transition "
+                        >
+                          {/* Product Info */}
+                          <div className="flex items-start gap-4 w-full sm:w-2/3">
+                            <div className="w-18 h-18 rounded justify-center overflow-hidden">
+                              <img
+                                src={
+                                  item.customer?.image_full_url ||
+                                  "assets/logo.png"
+                                }
+                                alt={item?.customer?.full_name}
+                                className="w-full h-full object-cover p-2 m-2 rounded-full"
+                              />
+                            </div>
+
+                            <div className="flex flex-col ml-1 self-center">
+                              <h3 className="text-base font-semibold text-gray-800">
+                                {item?.customer?.full_name}
+                              </h3>
+                              <p className="text-sm m-1 text-yellow-600">
+                                {renderStars(parseInt(item.rating))}
+                              </p>
+                              <p className="text-sm m-1 text-gray-600">
+                                {" "}
+                                Description : {item.review_detail}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              // <Reviews products={product} />
+              <p className="mb-4">No reviews yet. Be the first to write one!</p>
+            )}
+            {/*data fecth */}
           </div>
         )}
       </div>

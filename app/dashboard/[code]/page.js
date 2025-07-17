@@ -37,9 +37,7 @@ function transformProduct(product) {
 //fetch api data
 export async function getProductByCode(code) {
   try {
-    const res = await fetch(`${baseUrl}/products/details/${code}`, {
-      cache: "no-store", // prevent caching
-    });
+    const res = await fetch(`${baseUrl}/products/details/${code}`);
 
     if (!res.ok) {
       console.log("Failed to fetch product:", res.status);
@@ -55,6 +53,9 @@ export async function getProductByCode(code) {
     // Transform it to match your desired structure
     return {
       id: product.id,
+      average_rating: product.average_rating,
+      review_count: product.review_count,
+      reviews: product.reviews,
       product_name: product.product_name,
       product_code: product.product_code,
       slug: product.slug,
@@ -131,14 +132,19 @@ export default async function ProductPage({ params }) {
 
           {/* Product Details */}
           <div>
-            <div className="flex flex-col-2 justify-between space-x-2 mb-2">
-              <h1 className="text-2xl font-bold">{product.product_name}</h1>
+            <div className="flex justify-between items-center space-x-2 mb-2 w-full max-w-full">
+              <div className="max-w-[300px] break-words">
+                <p className="text-2xl font-bold text-gray-800 break-words whitespace-normal">
+                  {product.product_name || "N/A"}
+                </p>
+              </div>
               <ButtonForShare product={product} />
             </div>
+
             <div className="flex items-center space-x-1 mt-3 mb-3">
-              {renderStars(Math.floor(Math.random() * 5) + 1)}
+              {renderStars(parseInt(product.average_rating) || 0)}
               <span className="text-[12px] text-gray-500">
-                ({Math.floor(Math.random() * 100) + 1})
+                ({product.review_count})
               </span>
             </div>
             <div className="flex items-baseline space-x-4 mb-2">
@@ -148,22 +154,7 @@ export default async function ProductPage({ params }) {
               <span className="text-lg text-gray-400 line-through">
                 {product.actual_price}
               </span>
-              {/* <span className="text-green-600 text-sm font-semibold">
-                ({product.discount}% OFF)
-              </span> */}
             </div>
-            {/* <div className="mb-2 text-green-700 font-medium">
-              <span className="text-blue-600 text-sm font-semibold">
-                AVAILABLE :
-              </span>{" "}
-              {Math.floor(product.available_quantity)}
-            </div> */}
-            <br />
-
-            {/* {!product.has_variations && (
-              //add to cart button
-              
-            )} */}
 
             {product.catalogue_url && <CatalogButton product={product} />}
 
