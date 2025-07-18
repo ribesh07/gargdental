@@ -15,6 +15,7 @@ export default function MyWishlist() {
   const [error, setError] = useState(null);
   const [removingId, setRemovingId] = useState(null);
   const router = useRouter();
+  const [ischanged, setIsChanged] = useState(false);
 
   // Fetch wishlist from API on mount
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function MyWishlist() {
       }
     };
     fetchWishlist();
-  }, []);
+  }, [ischanged]);
 
   // Remove from wishlist handler
   const handleRemove = async (item_id, e) => {
@@ -85,7 +86,7 @@ export default function MyWishlist() {
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
                   <img
-                    src={item.product?.image_full_url || "/placeholder.png"}
+                    src={item.product?.image_full_url || item.product?.main_image_full_url || item.product?.file_full_url || "assets/logo.png"}
                     alt={item.product?.product_name || "Product"}
                     className="w-full h-full object-cover"
                     onError={(e) => {
@@ -124,7 +125,6 @@ export default function MyWishlist() {
                       return;
                     }
                     try {
-                      // Optionally, show loading state
                       const response = await addToCart(
                         item.product.product_code,
                         1,
@@ -132,6 +132,7 @@ export default function MyWishlist() {
                       );
                       if (response && response.success) {
                         toast.success("Added to cart!");
+                        setIsChanged(true);
                       } else {
                         toast.error(
                           response?.message || "Failed to add to cart"

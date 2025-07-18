@@ -165,7 +165,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
   };
 
   return (
-    <div className="flex flex-col h-full max-w-[400px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-4">
+    <div className="flex flex-col h-full w-50 bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div
         className="relative mb-4 cursor-pointer"
         onClick={() => router.push(`/dashboard/${product.product_code}`)}

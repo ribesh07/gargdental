@@ -42,7 +42,7 @@ export default function Test() {
               About Garg Dental
             </h2>
             <TypewriterParagraph
-              className="text-lg text-gray-600 leading-relaxed"
+              className="text-lg text-gray-600 leading-relaxed p-2 sm:p-4"
               text={
                 "Inndia is not merely a nation; it is a timeless legacy of culture, resilience, and unity in diversity. From its rich heritage to its modern advancements, India stands as a beacon of progress rooted in deep values. I take immense pride in being part of a country that embraces inclusivity, innovation, and tradition with equal grace. Every region, every language, and every citizen contributes to the vibrant fabric of this incredible nation. To love India is to uphold its ideals and strive for its continued growth and harmony. I am honored to call this extraordinary land my home. Jai Hind."
               }
@@ -50,7 +50,7 @@ export default function Test() {
           </div>
           <div className="flex justify-center">
             <div className="relative">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg w-[620px] h-[350px] text-white overflow-hidden flex items-center justify-center">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg w-full h-full sm:w-2xl sm:h-96 mr-9 ml-0.5 text-white overflow-hidden flex items-center justify-center">
                 <iframe
                   className="w-full h-full rounded-lg"
                   src="https://www.youtube.com/embed/dQw4w9WgXcQ"
