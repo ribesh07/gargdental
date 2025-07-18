@@ -191,16 +191,50 @@ const HeaderBarNew = () => {
 
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center space-x-2">
-              {/* Mobile Cart Icon */}
-              <button
-                onClick={() => router.push("/cart")}
-                className="relative p-2 text-gray-600 hover:text-red-600"
-              >
-                <ShoppingBag className="w-6 h-6" />
-                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartCount}
-                </span>
-              </button>
+              {isloggedin && user && (
+                <>
+                  <div className="flex flex-col items-center space-x-4 cursor-pointer group">
+                    <button
+                      onClick={() => router.push("/account/profile")}
+                      className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
+                    >
+                      {user.image_full_url ? (
+                        <img
+                          src={user.image_full_url}
+                          alt="Profile"
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <User className="w-10 h-10" />
+                      )}
+                    </button>
+
+                    <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
+                      Profile
+                    </span>
+                  </div>
+
+                  {/* Shop Button */}
+                  <button
+                    onClick={() => {
+                      if (!isloggedin) {
+                        router.push("/account");
+                      } else {
+                        router.push("/cart");
+                      }
+                    }}
+                    className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer transform hover:scale-105"
+                  >
+                    <div className="bg-red-100 p-2 rounded-lg mb-1 relative">
+                      <ShoppingBag className="w-6 h-6 text-red-600" />
+                      <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    </div>
+                    <span className="text-xs">Shop</span>
+                  </button>
+                </>
+              )}
 
               {/* Mobile Menu Toggle */}
               <button
@@ -538,8 +572,8 @@ const HeaderBarNew = () => {
                   </div>
                 )}
 
-                {/* Mobile Cart Summary */}
-                <div
+                {/* Mobile Cart Summary  remove feature*/}
+                {/* <div
                   className="mb-6 pb-4 border-b cursor-pointer"
                   onClick={() => {
                     router.push("/cart");
@@ -560,7 +594,7 @@ const HeaderBarNew = () => {
                       {cartCount}
                     </span>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Mobile Menu Items */}
                 <div className="space-y-2">
