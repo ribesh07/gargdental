@@ -177,7 +177,7 @@ export default async function ProductPage({ params }) {
           </div>
         </div>
         <br />
-        <RecommendedProducts />
+        <RecommendedProducts product={product.product_code} />
       </div>
     </>
   );
