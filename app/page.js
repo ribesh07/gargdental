@@ -235,12 +235,13 @@ export function CategoriesViews() {
 
           {/* Categories Tab */}
           {activeTab === "categories" && (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+            <div className="overflow-y-scroll h-160"> 
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 ">
               {categories.map((category) => (
                 <div
                   key={category.id}
                   onClick={() => router.push(`/product/${category.id}`)}
-                  className="bg-white rounded-lg shadow-lg transform hover:scale-105 hover:shadow-md transition-transform duration-300 cursor-pointer"
+                  className="bg-white rounded-lg shadow-lg transform hover:scale-105 hover:shadow-md transition-transform duration-300 cursor-pointer "
                 >
                   <div className="aspect-w-16 aspect-h-10">
                     <img
@@ -262,6 +263,7 @@ export function CategoriesViews() {
                   </div>
                 </div>
               ))}
+            </div>
             </div>
           )}
 
