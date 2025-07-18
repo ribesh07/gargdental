@@ -64,7 +64,9 @@ export default function TopBrandPage() {
               <div
                 key={brand.id}
                 className={`${brand.bgColor} rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer group flex-shrink-0 w-48 sm:w-52 ml-4`}
-                onClick={() => router.push(`/top_brandlist?brand_id=${brand.id}`)}
+                onClick={() =>
+                  router.push(`/top_brandlist?brand_id=${brand.id}`)
+                }
               >
                 {/* Image */}
                 <div className="relative overflow-hidden aspect-w-16 aspect-h-10">
