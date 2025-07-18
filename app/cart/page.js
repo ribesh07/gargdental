@@ -296,7 +296,7 @@ export default function ShoppingCart() {
                             {/* Product Image */}
                             <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                               <img
-                                src={item.image}
+                                src={item.image || "/assets/logo.png"}
                                 alt={item.name}
                                 className="w-full h-full object-cover rounded-lg"
                               />

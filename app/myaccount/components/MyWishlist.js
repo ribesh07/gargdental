@@ -86,7 +86,7 @@ export default function MyWishlist() {
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
                   <img
-                    src={item.product?.image_full_url || "/placeholder.png"}
+                    src={item.product?.image_full_url || item.product?.main_image_full_url || item.product?.file_full_url || "assets/logo.png"}
                     alt={item.product?.product_name || "Product"}
                     className="w-full h-full object-cover"
                     onError={(e) => {
