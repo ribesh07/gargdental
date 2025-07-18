@@ -2,6 +2,153 @@
 import { AddtoCartFeatured } from "@/components/addtocartbutton";
 import { useRouter } from "next/navigation";
 import { Star } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { apiRequest } from "@/utils/ApiSafeCalls";
+
+export default function RecommendedProducts({ product }) {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  const fetchRelatedProducts = async () => {
+    try {
+      const response = await apiRequest(
+        `/products/related-products/${product}`,
+        false
+      );
+      if (response.success) {
+        console.log("Related products:", response.related_products);
+        const mappeddata = response.related_products.map((product) => ({
+          id: product.id,
+          product_name: product.product_name,
+          product_code: product.product_code,
+          has_variations: product.has_variations,
+          starting_price: product.starting_price,
+          brand: product.brand?.brand_name || "No Brand",
+          category: product.category?.category_name || "Uncategorized",
+          item_number: `#${product.product_code}`,
+          actual_price: product.actual_price,
+          sell_price: product.sell_price,
+          rating: product.average_rating,
+          reviews: product.review_count,
+          image_url: product.image_url || "/assets/logo.png",
+          description: product.product_description,
+          available_quantity: product.available_quantity,
+          unit_info: product.stock_quantity,
+          flash_sale: product.flash_sale,
+          delivery_days: product.delivery_target_days,
+        }));
+        setFeaturedProducts(mappeddata);
+        console.log("Mapped data:", mappeddata);
+        // setFeaturedProducts();
+      } else {
+        setFeaturedProducts([]);
+      }
+    } catch (err) {
+      console.log("Error fetching related products:", err);
+      return [];
+    }
+  };
+  useEffect(() => {
+    if (product) {
+      fetchRelatedProducts();
+    }
+  }, []);
+  const router = useRouter();
+  const scrollRef = useRef(null);
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: -500,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: 500,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  return (
+    <div className="min-h-[200px] bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-blue-600 mb-2">
+            RECOMMENDED PRODUCTS
+          </h1>
+        </div>
+
+        {/* Scrollable Container */}
+        <div className="relative">
+          <div
+            ref={scrollRef}
+            className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide"
+          >
+            <ProductSection
+              title="Products"
+              products={featuredProducts}
+              showDiscount={true}
+            />
+          </div>
+
+          {/* Left Scroll */}
+          <button
+            onClick={scrollLeft}
+            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+          >
+            <svg
+              className="w-6 h-6 text-gray-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          {/* Right Scroll */}
+          <button
+            onClick={scrollRight}
+            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+          >
+            <svg
+              className="w-6 h-6 text-gray-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+        {/* Hide scrollbar style */}
+        <style jsx>{`
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+      </div>
+    </div>
+  );
+}
 
 const ProductCard = ({ product, showDiscount = false }) => {
   const router = useRouter();
@@ -63,7 +210,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="flex self-center justify-center">
         <AddtoCartFeatured product={product} fullWidth />
       </div>
     </div>
@@ -71,7 +218,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
 };
 const ProductSection = ({ title, products, showDiscount = false }) => (
   <div className="mb-2">
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div className="flex items-center space-x-2 gap-2 mb-2">
       {products.map((product, index) => (
         <ProductCard
           key={index}
@@ -82,146 +229,3 @@ const ProductSection = ({ title, products, showDiscount = false }) => (
     </div>
   </div>
 );
-
-export default function RecommendedProducts() {
-  const featuredProducts = [
-    {
-      id: 1,
-      product_name: "Articulating Paper 200 strips",
-      product_code: "HE00005",
-      brand: "Meta",
-      category: "category 1",
-      item_number: "#HE00005",
-      actual_price: "0.00",
-
-      rating: 2,
-      reviews: 18,
-      sell_price: "600.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
-      description: "Articulating Paper 200 strips",
-      available_quantity: "100.00",
-      unit_info: "PCS",
-      flash_sale: true,
-      delivery_days: null,
-    },
-    {
-      id: 2,
-      product_name: "Articulating Paper Forceps",
-      product_code: "A300001",
-      brand: "No Brand",
-      category: "Category 2",
-      item_number: "#A300001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      rating: 4,
-      reviews: 10,
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
-      description: "Articulating Paper Forceps",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 3,
-      product_name: "Bausch Progress 100",
-      product_code: "A500002",
-      brand: "No Brand",
-      rating: 3,
-      reviews: 8,
-      category: "category 1",
-      item_number: "#A500002",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
-      description: "Bausch Progress 100",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 4,
-      product_name: "Fleximeter Strips BK 253",
-      product_code: "A200001",
-      brand: "No Brand",
-      category: "category 1",
-
-      rating: 5,
-      reviews: 12,
-      item_number: "#A200001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
-      description: "Fleximeter Strips BK 253",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 5,
-      product_name: "Bausch articulating paper BK 81",
-      product_code: "A200002",
-      brand: "No Brand",
-      category: "category 1",
-
-      rating: 1,
-      reviews: 5,
-      item_number: "#A200002",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200002/bausch_articulating_paper_bk_81.jpeg",
-      description: "Bausch articulating paper BK 81",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 6,
-      product_name: "Arti Spot 2",
-      product_code: "A500003",
-      brand: "No Brand",
-      category: "Sub Sub category 1",
-
-      rating: 3,
-      reviews: 8,
-      item_number: "#A500003",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
-      description: "Arti Spot 2",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-  ];
-
-  return (
-    <div className="min-h-[200px] bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-blue-600 mb-2">
-            RECOMMENDED PRODUCTS
-          </h1>
-        </div>
-
-        {/* Featured Products */}
-        <ProductSection
-          title="Products"
-          products={featuredProducts}
-          showDiscount={true}
-        />
-      </div>
-    </div>
-  );
-}
