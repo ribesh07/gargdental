@@ -2,7 +2,11 @@
 
 import React, { useState } from "react";
 import { Share2, Heart } from "lucide-react";
-import { addToWishlist, removeFromWishlist, getWishlist } from "@/utils/apiHelper";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  getWishlist,
+} from "@/utils/apiHelper";
 import toast from "react-hot-toast";
 
 const FilledHeart = (props) => (
@@ -25,11 +29,12 @@ export default function ButtonForShare({ product }) {
   const [loading, setLoading] = useState(false);
 
   React.useEffect(() => {
-    // On mount, check if this product is in the wishlist
     const checkWishlist = async () => {
       if (!product) return;
       const wishlist = await getWishlist();
-      setWishlisted(wishlist.some((item) => item.product_code === product.product_code));
+      setWishlisted(
+        wishlist.some((item) => item.product_code === product.product_code)
+      );
     };
     checkWishlist();
   }, [product]);
@@ -40,7 +45,9 @@ export default function ButtonForShare({ product }) {
     if (wishlisted) {
       // Remove from wishlist (need to find item_id)
       const wishlist = await getWishlist();
-      const item = wishlist.find((item) => item.product_code === product.product_code);
+      const item = wishlist.find(
+        (item) => item.product_code === product.product_code
+      );
       if (!item) {
         toast.error("Item not found in wishlist");
         setLoading(false);

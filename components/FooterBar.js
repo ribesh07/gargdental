@@ -168,10 +168,10 @@ export default function FooterBar() {
 
             {/* Information Section */}
             <div className="space-y-2 sm:space-y-3">
-              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6 ml-10">
+              <h3 className="Main-Footer-title text-base sm:text-xl font-semibold mb-3 sm:mb-6 ml-10">
                 Information
               </h3>
-              <ul className="space-y-2 sm:space-y-3">
+              <ul className="space-y-2 sm:space-y-3 Main-Footer-title Bottom-list-margin">
                 <li className="footer-list">
                   <Link
                     href="/CompanyInfo"
@@ -218,10 +218,10 @@ export default function FooterBar() {
 
             {/* Our Company Section */}
             <div className="space-y-2 sm:space-y-3">
-              <h3 className="text-base sm:text-xl font-semibold mb-3 sm:mb-6 ml-9">
+              <h3 className="Main-Footer-title text-base sm:text-xl font-semibold mb-3 sm:mb-6 ml-9">
                 Our Company
               </h3>
-              <ul className="space-y-2 sm:space-y-3">
+              <ul className="space-y-2 sm:space-y-3 Main-Footer-title Bottom-list-margin">
                 <li className="footer-list">
                   <Link
                     href="/test"

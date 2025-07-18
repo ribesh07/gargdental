@@ -101,13 +101,22 @@ ul li {
 }
 .footer-list {
   list-style-type: none;
-  padding-left: 1.25rem; /* Tailwind's pl-5 */
+  /* padding-left: 1.25rem; Tailwind's pl-5 */
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   color: white; /* Tailwind's text-gray-700 */
   font-size: 1rem;
 }
-
+.Main-Footer-title {
+  /* margin-top: -1.25rem; */
+  list-style-type: none;
+  margin-left: 0; /* Reset any default left margin */
+  padding-left: 0; /* Remove any padding on the left */
+  text-align: left; /* Ensure text is aligned to the left */
+}
+.Bottom-list-margin {
+  margin-top: -0.45rem;
+}
 .map-wrapper iframe {
   width: 100% !important;
   height: 400px !important;

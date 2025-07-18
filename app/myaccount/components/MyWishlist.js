@@ -15,6 +15,7 @@ export default function MyWishlist() {
   const [error, setError] = useState(null);
   const [removingId, setRemovingId] = useState(null);
   const router = useRouter();
+  const [ischanged, setIsChanged] = useState(false);
 
   // Fetch wishlist from API on mount
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function MyWishlist() {
       }
     };
     fetchWishlist();
-  }, []);
+  }, [ischanged]);
 
   // Remove from wishlist handler
   const handleRemove = async (item_id, e) => {
@@ -124,7 +125,6 @@ export default function MyWishlist() {
                       return;
                     }
                     try {
-                      // Optionally, show loading state
                       const response = await addToCart(
                         item.product.product_code,
                         1,
@@ -132,6 +132,7 @@ export default function MyWishlist() {
                       );
                       if (response && response.success) {
                         toast.success("Added to cart!");
+                        setIsChanged(true);
                       } else {
                         toast.error(
                           response?.message || "Failed to add to cart"

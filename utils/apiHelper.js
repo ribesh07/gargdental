@@ -150,8 +150,8 @@ export const addToCart = async (product_code, quantity, price) => {
     console.log(product_code, quantity, price);
     const response = await apiPostRequest("/customer/cart/add", {
       product_code: product_code,
-      price: price,
       quantity: quantity,
+      price: price,
     });
     if (response.success) {
       // Update the local store after successful API call
@@ -820,9 +820,11 @@ export const submitGrievance = async (formData) => {
 export const getWishlist = async () => {
   try {
     const response = await apiRequest("/customer/wishlist/list", true);
+    console.log("response from getWishlist", response);
     if (response.success) {
       return response.wishlist || [];
     } else {
+      toast.error(response.message || "Failed to fetch wishlist !");
       return [];
     }
   } catch (err) {
@@ -833,7 +835,13 @@ export const getWishlist = async () => {
 
 export const addToWishlist = async (product_code) => {
   try {
-    const response = await apiPostRequest("/customer/wishlist/add", { product_code });
+    const response = await apiPostRequest(
+      "/customer/wishlist/add",
+      {
+        product_code,
+      },
+      true
+    );
     return response;
   } catch (err) {
     console.error("Error adding to wishlist:", err);
