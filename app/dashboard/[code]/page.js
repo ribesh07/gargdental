@@ -151,9 +151,12 @@ export default async function ProductPage({ params }) {
               <span className="text-2xl font-semibold text-red-600">
                 {product.sell_price}
               </span>
-              <span className="text-lg text-gray-400 line-through">
-                {product.actual_price}
-              </span>
+              {parseFloat(product.actual_price) >
+                parseFloat(product.sell_price) && (
+                <span className="text-sm text-gray-500 line-through">
+                  {product.actual_price}
+                </span>
+              )}
             </div>
 
             {product.catalogue_url && <CatalogButton product={product} />}
