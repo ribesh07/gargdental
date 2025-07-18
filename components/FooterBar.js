@@ -224,7 +224,7 @@ export default function FooterBar() {
               <ul className="space-y-2 sm:space-y-3">
                 <li className="footer-list">
                   <Link
-                    href="/AboutUs"
+                    href="/test"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     About us
