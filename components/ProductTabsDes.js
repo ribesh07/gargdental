@@ -80,7 +80,13 @@ export default function ProductTabs({ product }) {
         {activeTab === "description" && (
           <div className="pl-2 sm:pl-4">
             <br />
-            <HtmlContent html={product.description} className="table-auto" />
+            {product.description ? (
+              <HtmlContent html={product.description} className="table-auto" />
+            ) : (
+              <div className="text-center py-20 text-gray-500 text-xl">
+                No Description Available !
+              </div>
+            )}
             <br />
             <br />
           </div>
@@ -88,21 +94,36 @@ export default function ProductTabs({ product }) {
 
         {activeTab === "specifications" && (
           <div className="pl-2 sm:pl-4">
-            <HtmlContent html={product.specification} className="table" />
+            {product.specifications ? (
+              <HtmlContent html={product.specifications} className="table" />
+            ) : (
+              <div className="text-center py-20 text-gray-500 text-xl">
+                No Specifications Available !
+              </div>
+            )}
           </div>
         )}
         {activeTab === "packaging" && (
           <div className="pl-2 sm:pl-4">
-            <HtmlContent html={product.packaging} className="table" />
+            {product.packaging ? (
+              <HtmlContent html={product.packaging} className="table" />
+            ) : (
+              <div className="text-center py-20 text-gray-500 text-xl">
+                No Packaging Available !
+              </div>
+            )}
           </div>
         )}
 
         {activeTab === "warranty" && (
           <div className="pl-2 sm:pl-4">
-            <HtmlContent
-              html={product.warranty}
-              className="text-gray-700 mb-3 flex-grow"
-            />
+            {product.warranty ? (
+              <HtmlContent html={product.warranty} className="table" />
+            ) : (
+              <div className="text-center py-20 text-gray-500 text-xl">
+                No Warranty Available !
+              </div>
+            )}
           </div>
         )}
 

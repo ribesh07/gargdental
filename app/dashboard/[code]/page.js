@@ -25,7 +25,7 @@ function transformProduct(product) {
     item_number: `#${product.product_code}`,
     actual_price: product.actual_price,
     sell_price: product.sell_price,
-    image_url: product.image_full_url || "",
+    image_url: product.image_full_url || "/assets/logo.png",
     description: product.product_description,
     available_quantity: product.available_quantity,
     unit_info: product.unit_info,
@@ -70,10 +70,12 @@ export async function getProductByCode(code) {
       item_number: `#${product.product_code}`,
       actual_price: product.actual_price,
       sell_price: product.sell_price,
+      stock_quantity: product.stock_quantity,
+      available_quantity: product.available_quantity,
       image_url:
         product.image_full_url ||
         product.main_image_full_url ||
-        "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
+        "/assets/logo.png",
       description: product.product_description,
       available_quantity: product.available_quantity,
       unit_info: product.unit_info,
@@ -151,9 +153,12 @@ export default async function ProductPage({ params }) {
               <span className="text-2xl font-semibold text-red-600">
                 {product.sell_price}
               </span>
-              <span className="text-lg text-gray-400 line-through">
-                {product.actual_price}
-              </span>
+              {parseFloat(product.actual_price) >
+                parseFloat(product.sell_price) && (
+                <span className="text-sm text-gray-500 line-through">
+                  {product.actual_price}
+                </span>
+              )}
             </div>
 
             {product.catalogue_url && <CatalogButton product={product} />}
@@ -164,7 +169,9 @@ export default async function ProductPage({ params }) {
             <ProductCardList products={product.variations} />
 
             <br />
-            {!product.has_variations && <AddToCart product={product} />}
+            {!product.has_variations &&
+              product.stock_quantity > 0 &&
+              product.available_quantity > 0 && <AddToCart product={product} />}
             <br />
             <ProductTabs product={product} />
           </div>

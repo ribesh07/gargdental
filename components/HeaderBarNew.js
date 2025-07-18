@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import { userDetails } from "@/utils/apiHelper";
 import { apiRequest } from "@/utils/ApiSafeCalls";
@@ -146,7 +147,7 @@ const HeaderBarNew = () => {
 
         console.log("settings", response.settings);
       } else {
-        console.error("Failed to fetch settings:", response.error);
+        // console.error("Failed to fetch settings:", response.error);
         toast.error(response?.errors[0]?.message || "Failed to fetch settings");
         // setSettings();
       }
@@ -459,7 +460,7 @@ const HeaderBarNew = () => {
                   New Clinic Setup
                 </Link>
                 <Link
-                  href="/AboutUs"
+                  href="/test"
                   className="hover:underline font-semibold hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   About Us

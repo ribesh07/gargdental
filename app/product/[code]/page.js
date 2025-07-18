@@ -104,7 +104,7 @@ const ProductAPIRequest = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [offset]);
 
   // Fetch categories
   useEffect(() => {
@@ -221,9 +221,8 @@ const ProductAPIRequest = () => {
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
             <div className="flex items-center gap-2 text-red-700">
               <AlertCircle className="h-5 w-5" />
-              <span className="font-medium">Error fetching products:</span>
+              <span className="font-medium">Error fetching products !</span>
             </div>
-            <p className="text-red-600 mt-1">{error}</p>
           </div>
         )}
 
@@ -287,7 +286,7 @@ const ProductAPIRequest = () => {
               No products available
             </h3>
             <p className="text-gray-600">
-              Check your API connection or try refreshing.
+              Check your connection or try refreshing.
             </p>
           </div>
         )}

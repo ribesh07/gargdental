@@ -303,10 +303,12 @@ export default function ShoppingCart() {
                             </div>
 
                             {/* Product Details */}
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-medium text-gray-900 text-sm leading-tight">
-                                {item.name}
-                              </h3>
+                            <div className="max-w-[300px] flex-wrap">
+                              <div className="max-w-[50px] break-words">
+                                <h3 className="font-medium text-gray-900 text-sm leading-tight break-words whitespace-normal">
+                                  {item.name || "N/A"}
+                                </h3>
+                              </div>
                               <p className="text-xs text-gray-500 mt-1">
                                 {item.category}
                               </p>
@@ -376,7 +378,7 @@ export default function ShoppingCart() {
                           />
 
                           {/* Product Image */}
-                          <div className="w-[60px] h-[60px] bg-gray-100 rounded-lg flex items-center justify-center">
+                          <div className="w-[60px] h-[60px] max-w-[60px] flex-shrink-0 bg-gray-100 rounded-lg flex items-center justify-center">
                             <img
                               src={item.image}
                               alt={item.name}
@@ -385,10 +387,11 @@ export default function ShoppingCart() {
                           </div>
 
                           {/* Product Details */}
-                          <div className="flex-1">
-                            <h3 className="font-medium text-gray-900">
-                              {item.name}
+                          <div className="flex-1 max-w-[250px]">
+                            <h3 className="font-medium text-gray-900  text-sm leading-tight break-words whitespace-normal">
+                              {item.name || "N/A"}
                             </h3>
+
                             <p className="text-sm text-gray-500">
                               {item.category}
                             </p>
