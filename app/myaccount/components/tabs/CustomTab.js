@@ -210,18 +210,17 @@ export default function CustomTab({ status }) {
                   Placed on {formatDate(order.created_at)}
                 </div>
                 <div className="text-xs sm:text-sm text-gray-600 mt-1">
-                  Total Amount:{" "}
+                  {/* Total Amount:{" "}
                   <strong>
                     Rs.{" "}
                     {order.total_amount ||
                       order.grand_total ||
                       order.total ||
                       0}
-                  </strong>
+                  </strong> */}
                   {order.order_items && order.order_items.length > 0 && (
                     <span className="ml-2 text-gray-500">
-                      ({order.order_items.length} item
-                      {order.order_items.length > 1 ? "s" : ""})
+                      ({order.order_items.length} item Ordered)
                     </span>
                   )}
                 </div>
@@ -333,15 +332,17 @@ export default function CustomTab({ status }) {
                               </div>
 
                               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 sm:gap-0">
-                                <div className="text-left">
+                                {/* <div className="text-left">
                                   <div className="font-semibold text-green-600 text-base sm:text-lg">
                                     Rs. {parseFloat(item.price || 0).toFixed(2)}
                                   </div>
                                   <div className="text-xs sm:text-sm text-gray-500">
                                     Total: Rs.{" "}
-                                    {parseFloat(item.subtotal).toFixed(2)}
+                                    {parseFloat(
+                                      item.subtotal_without_tax
+                                    ).toFixed(2)}
                                   </div>
-                                </div>
+                                </div> */}
                                 <div className="flex flex-col gap-1  sm:items-center ">
                                   <div className="text-xs sm:text-sm text-gray-700">
                                     <span className="font-medium">
@@ -462,7 +463,10 @@ export default function CustomTab({ status }) {
                             Subtotal:
                           </span>
                           <span className="font-semibold text-green-800">
-                            Rs. {parseFloat(order.subtotal || 0).toFixed(2)}
+                            Rs.{" "}
+                            {parseFloat(
+                              order.subtotal_without_tax || 0
+                            ).toFixed(2)}
                           </span>
                         </div>
                         <div className="flex justify-between text-xs sm:text-sm">
