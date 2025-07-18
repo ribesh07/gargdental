@@ -104,7 +104,7 @@ const ProductAPIRequest = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [offset]);
 
   // Fetch categories
   useEffect(() => {

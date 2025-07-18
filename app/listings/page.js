@@ -29,13 +29,16 @@ const DentalSuppliesListing = () => {
 
   const [manufacturers, setManufacturers] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [filterON, setfilterON] = useState(false);
   // console.warn(`Base Api Url: ${baseUrl}`);
 
   // const API_URL = `${baseUrl}/products/latest`;
 
   //handle load more
   const handleLoadMore = () => {
-    setOffset((prev) => prev + 6);
+    //update later
+    // setOffset((prev) => prev + 6);
+    setVisibleCount((prev) => prev + 8);
     // router.push("/product");
   };
   const fetchProducts = async () => {
@@ -44,7 +47,7 @@ const DentalSuppliesListing = () => {
 
     try {
       const data = await apiRequest(
-        `/products/all?limit=24&offset=${offset}`,
+        `/products/all?limit=200&offset=${offset}`,
         false
       );
       // const limited = data.products?.slice(0, 10) || [];
@@ -128,7 +131,7 @@ const DentalSuppliesListing = () => {
   useEffect(() => {
     setIsReady(true);
     fetchProducts();
-  }, []);
+  }, [offset]);
 
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
@@ -218,6 +221,7 @@ const DentalSuppliesListing = () => {
   }, [products, filters, sortBy]);
 
   const handleFilterChange = (filterType, value) => {
+    setfilterON(true);
     setFilters((prev) => ({
       ...prev,
       [filterType]: value,
@@ -225,6 +229,7 @@ const DentalSuppliesListing = () => {
   };
 
   const clearFilters = () => {
+    setfilterON(false);
     setFilters({
       category: "",
       brand: "",
@@ -344,44 +349,50 @@ const DentalSuppliesListing = () => {
         </div>
 
         {loading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
         ) : (
           <div>
             {/* Results Count */}
             <div className="mb-4 sm:mb-6">
-              <p className="text-gray-600 text-sm sm:text-base">
-                Showing {filteredAndSortedProducts.length} of {products.length}{" "}
-                products
-              </p>
+              {/* <p className="text-gray-600 text-sm sm:text-base">
+                Showing {visibleCount} products
+              </p> */}
             </div>
 
             {/* Product Grid */}
             <div className="max-w-7xl mx-auto px-2 sm:px-4">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
-                {filteredAndSortedProducts.map((product, index) => (
-                  <ProductCardMain
-                    key={product.id || index}
-                    product={product}
-                    showDiscount={
-                      parseFloat(product.actual_price) >
-                      parseFloat(product.sell_price)
-                    }
-                  />
-                ))}
+                {filteredAndSortedProducts
+                  .slice(0, visibleCount)
+                  .map((product, index) =>
+                    product.has_variations ? null : (
+                      <ProductCardMain
+                        key={product.id || index}
+                        product={product}
+                        showDiscount={
+                          parseFloat(product.actual_price) >
+                          parseFloat(product.sell_price)
+                        }
+                      />
+                    )
+                  )}
               </div>
             </div>
 
             {/* load more */}
-            {filteredProducts.length > 0 && (
-              <div className="flex justify-center mt-6">
-                <button
-                  onClick={handleLoadMore}
-                  className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Load More
-                </button>
-              </div>
-            )}
+            {filteredAndSortedProducts.length > 0 &&
+              !filters.brand &&
+              !filters.priceRange &&
+              !filters.category && (
+                <div className="flex justify-center mt-6">
+                  <button
+                    onClick={handleLoadMore}
+                    className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Load More
+                  </button>
+                </div>
+              )}
 
             {/* No Results */}
             {filteredAndSortedProducts.length === 0 && (
