@@ -12,6 +12,13 @@ const RefreshOnFirstLoad = () => {
     if (!alreadyReloaded) {
       sessionStorage.setItem("reloaded", "true");
       window.location.reload();
+    }
+    if (PathnameContext.pathname === "/account" && alreadyReloaded) {
+      // localStorage.removeItem("hasReloadedd");
+      return;
+    } else if (PathnameContext.pathname === "/account" && !alreadyReloaded) {
+      sessionStorage.setItem("reloaded", "true");
+      window.location.reload();
     } else {
       sessionStorage.removeItem("reloaded"); // reset for next visit
     }

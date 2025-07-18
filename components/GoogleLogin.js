@@ -8,11 +8,22 @@ import { getFullInfo } from "@/utils/apiHelper";
 import { toast } from "react-hot-toast";
 import useWarningModalStore from "@/stores/warningModalStore";
 import useCartStore from "@/stores/useCartStore";
+import { PathnameContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
+// import RefreshOnFirstLoad from "./RefreshOnFirstLoad";
 // import { Loader2 } from "lucide-react";
 
 const GoogleLoginButton = () => {
   const { userProfile, setUserProfile } = useCartStore();
   const router = useRouter();
+
+  // useEffect(() => {
+  //   const hasReloaded = localStorage.getItem("hasReloadedd");
+
+  //   if (!hasReloaded) {
+  //     localStorage.setItem("hasReloadedd", "true");
+  //     window.location.reload();
+  //   }
+  // }, []);
   useEffect(() => {
     if (window.google && process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) {
       window.google.accounts.id.initialize({
@@ -22,7 +33,7 @@ const GoogleLoginButton = () => {
 
       window.google.accounts.id.renderButton(
         document.getElementById("google-button"),
-        { theme: "outline", size: "large" }
+        { theme: "outline", size: "large", text: "continue_with" }
       );
     }
   }, []);
@@ -30,9 +41,10 @@ const GoogleLoginButton = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (window.google && document.getElementById("google-button")) {
+        router.refresh();
         window.google.accounts.id.renderButton(
           document.getElementById("google-button"),
-          { theme: "outline", size: "large" }
+          { theme: "outline", size: "large", text: "continue_with" }
         );
         clearInterval(interval);
       }
@@ -40,7 +52,6 @@ const GoogleLoginButton = () => {
 
     return () => clearInterval(interval); // Clean up
   }, []);
-
   const handleCredentialResponse = async (response) => {
     const id_token = response.credential;
 
@@ -84,10 +95,12 @@ const GoogleLoginButton = () => {
 
   return (
     <>
+      {/* <RefreshOnFirstLoad /> */}
       <Script
         src="https://accounts.google.com/gsi/client"
         strategy="beforeInteractive"
       />
+
       <div id="google-button"></div>
     </>
   );

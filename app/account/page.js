@@ -5,13 +5,14 @@ import { baseUrl } from "@/utils/config";
 import Cookies from "js-cookie";
 import useInfoModalStore from "@/stores/infoModalStore";
 import useWarningModalStore from "@/stores/warningModalStore";
+import useAccountReload from "./AccountRefresh";
 // import toast from "react-hot-toast";
 import useCartStore from "@/stores/useCartStore";
 import { getFullInfo } from "@/utils/apiHelper";
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import GoogleLoginButton from "@/components/GoogleLogin";
-import RefreshOnFirstLoad from "@/components/RefreshOnFirstLoad";
+// import RefreshOnFirstLoad from "@/components/RefreshOnFirstLoad";
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -96,17 +97,20 @@ export default function AuthPage() {
           title: "Error",
           message: data.message || "Invalid Gmail or Password",
         });
+        // toast.error(data.message || "Invalid Gmail or Password");
       }
     } catch (error) {
-      // console.error("Error during login:", error);
       useInfoModalStore.getState().open({
         title: "Info",
         message: "Something went wrong. Please try again.",
       });
+      // toast.error("Something went wrong. Please try again later !");
     } finally {
       setIsLoading(false);
     }
   };
+
+  useAccountReload();
 
   return isLoading ? (
     <div className="flex justify-center items-center h-screen">
@@ -114,7 +118,7 @@ export default function AuthPage() {
     </div>
   ) : (
     <>
-      <RefreshOnFirstLoad />
+      {/* <RefreshOnFirstLoad /> */}
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
           <div className="text-center mb-1">
