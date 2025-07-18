@@ -169,6 +169,11 @@ export default async function ProductPage({ params }) {
             <ProductCardList products={product.variations} />
 
             <br />
+            {!product.stock_quantity > 0 && !product.available_quantity > 0 && (
+              <p className="font-semibold text-[18px] text-red-600">
+                Out of stock !
+              </p>
+            )}
             {!product.has_variations &&
               product.stock_quantity > 0 &&
               product.available_quantity > 0 && <AddToCart product={product} />}
