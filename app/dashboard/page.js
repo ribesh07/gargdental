@@ -11,6 +11,7 @@ import ProductShowcase from "@/components/FeaturedProduct";
 import { CategoriesViews } from "../page";
 // import TawkToWidget from "@/components/TawkToWidget";
 import TopBrandPage from "./components/topBrands";
+import toast from "react-hot-toast";
 import TopCategoriesPage from "./components/topCategories";
 
 //import TopCategoriesPage from "@/app/dashboard/components/topCategories";
@@ -48,7 +49,8 @@ const GargDental = () => {
   useEffect(() => {
     const fetchSlides = async () => {
       const data = await apiRequest("/banners", false);
-      if (data) {
+
+      if (data.success) {
         const mappedSlides = data.banners.map((item) => ({
           image_full_url: item.image_full_url,
           id: item.id,
@@ -99,7 +101,7 @@ const GargDental = () => {
 
         console.log("settings", response.settings);
       } else {
-        console.error("Failed to fetch settings:", response.error);
+        // console.error("Failed to fetch settings:", response.error);
         toast.error(response?.errors[0]?.message || "Failed to fetch settings");
         // setSettings();
       }

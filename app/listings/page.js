@@ -14,6 +14,7 @@ import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
 import ProductImageZoom from "@/components/ProductImageZoom";
 import { BuyNow } from "@/components/BuyNow";
 // import { HtmlContent } from "@/components/HtmlDataConversion";
+import { Loader2 } from "lucide-react";
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -27,13 +28,14 @@ const DentalSuppliesListing = () => {
   const [categories, setCategories] = useState([]);
 
   const [manufacturers, setManufacturers] = useState([]);
+  const [offset, setOffset] = useState(0);
   // console.warn(`Base Api Url: ${baseUrl}`);
 
   // const API_URL = `${baseUrl}/products/latest`;
 
   //handle load more
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 4);
+    setOffset((prev) => prev + 6);
     // router.push("/product");
   };
   const fetchProducts = async () => {
@@ -41,7 +43,10 @@ const DentalSuppliesListing = () => {
     setError(null);
 
     try {
-      const data = await apiRequest("/products/latest", false);
+      const data = await apiRequest(
+        `/products/all?limit=24&offset=${offset}`,
+        false
+      );
       // const limited = data.products?.slice(0, 10) || [];
       // Transform the API data to match the expected format
       const transformedProducts =
@@ -67,11 +72,12 @@ const DentalSuppliesListing = () => {
           delivery_days: product.delivery_target_days,
         })) || [];
 
-      visibleProducts = transformedProducts.slice(0, visibleCount);
-      setProducts(visibleProducts);
-      console.warn(
-        `Transformed products: ${JSON.stringify(transformedProducts)}`
-      );
+      // visibleProducts = transformedProducts.slice(0, visibleCount);
+
+      setProducts([...products, ...transformedProducts]);
+      // console.warn(
+      //   `Transformed products: ${JSON.stringify(transformedProducts)}`
+      // );
     } catch (err) {
       setError(err.message);
     } finally {
@@ -122,7 +128,7 @@ const DentalSuppliesListing = () => {
   useEffect(() => {
     setIsReady(true);
     fetchProducts();
-  }, [visibleCount]);
+  }, []);
 
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
@@ -155,11 +161,12 @@ const DentalSuppliesListing = () => {
   // const categories = [...new Set(products.map((p) => p.category))];
   // const brands = [...new Set(products.map((p) => p.brand))];
   const priceRanges = [
-    { label: "Under Rs.100", min: 0, max: 100 },
-    { label: "Rs.100 - Rs.200", min: 100, max: 200 },
-    { label: "Rs.200 - Rs.300", min: 200, max: 300 },
-    { label: "Rs.200 - Rs.500", min: 200, max: 500 },
-    { label: "Above Rs.500", min: 500, max: Infinity },
+    { label: "Under Rs.1000", min: 0, max: 1000 },
+    { label: "Rs.1000 - Rs.5000", min: 1000, max: 5000 },
+    { label: "Rs.5000 - Rs.10000", min: 5000, max: 10000 },
+    { label: "Rs.10000 - Rs.50000", min: 10000, max: 50000 },
+    { label: "Rs.50000 - Rs.100000", min: 50000, max: 100000 },
+    { label: "Above Rs.100000", min: 100000, max: Infinity },
   ];
 
   // Filter and sort products
@@ -336,54 +343,60 @@ const DentalSuppliesListing = () => {
           </div>
         </div>
 
-        {/* Results Count */}
-        <div className="mb-4 sm:mb-6">
-          <p className="text-gray-600 text-sm sm:text-base">
-            Showing {filteredAndSortedProducts.length} of {products.length}{" "}
-            products
-          </p>
-        </div>
+        {loading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <div>
+            {/* Results Count */}
+            <div className="mb-4 sm:mb-6">
+              <p className="text-gray-600 text-sm sm:text-base">
+                Showing {filteredAndSortedProducts.length} of {products.length}{" "}
+                products
+              </p>
+            </div>
 
-        {/* Product Grid */}
-        <div className="max-w-7xl mx-auto px-2 sm:px-4">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
-            {filteredAndSortedProducts.map((product) => (
-              <ProductCardMain
-                key={product.id}
-                product={product}
-                showDiscount={
-                  parseFloat(product.actual_price) >
-                  parseFloat(product.sell_price)
-                }
-              />
-            ))}
-          </div>
-        </div>
+            {/* Product Grid */}
+            <div className="max-w-7xl mx-auto px-2 sm:px-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
+                {filteredAndSortedProducts.map((product, index) => (
+                  <ProductCardMain
+                    key={product.id || index}
+                    product={product}
+                    showDiscount={
+                      parseFloat(product.actual_price) >
+                      parseFloat(product.sell_price)
+                    }
+                  />
+                ))}
+              </div>
+            </div>
 
-        {/* load more */}
-        {visibleCount && (
-          <div className="text-center mt-6 sm:mt-8">
-            <button
-              onClick={() => handleLoadMore()}
-              className="bg-[#bf0000] text-white px-3 sm:px-4 py-2 rounded-md hover:bg-blue-600 transition text-sm sm:text-base cursor-pointer"
-            >
-              Load More
-            </button>
-          </div>
-        )}
+            {/* load more */}
+            {filteredProducts.length > 0 && (
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={handleLoadMore}
+                  className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Load More
+                </button>
+              </div>
+            )}
 
-        {/* No Results */}
-        {filteredAndSortedProducts.length === 0 && (
-          <div className="text-center py-8 sm:py-12">
-            <p className="text-gray-500 text-base sm:text-lg">
-              No products found matching your filters.
-            </p>
-            <button
-              onClick={() => clearFilters}
-              className="mt-3 sm:mt-4 text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base"
-            >
-              Clear all filters to see all products
-            </button>
+            {/* No Results */}
+            {filteredAndSortedProducts.length === 0 && (
+              <div className="text-center py-8 sm:py-12">
+                <p className="text-gray-500 text-base sm:text-lg">
+                  No products found matching your filters.
+                </p>
+                <button
+                  onClick={() => clearFilters}
+                  className="mt-3 sm:mt-4 text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base"
+                >
+                  Clear all filters to see all products
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
