@@ -25,6 +25,9 @@ import MyWishlist from "./components/MyWishlist";
 import MyReviews from "./components/MyReview";
 // import MyCancellations from "./components/CancellationPage";
 import Complains from "./components/Complains";
+import { getWishlist } from "@/utils/apiHelper";
+//import { fetchReview } from "@/app/myaccount/components/MyReview";
+//import { getCustomerComplains } from "@/utils/apiHelper";
 
 const AccountPage = () => {
   const { provinces, cities, zones, fetchAddressDropdowns } = useAddressStore();
@@ -37,17 +40,22 @@ const AccountPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [addressToEdit, setAddressToEdit] = useState(null);
   // const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [orderlength, setOrderlength] = useState(0);
-  const [user, setUser] = useState({
-    id: "",
-    email: "",
-    phone: "",
-    full_name: "",
-    profileImage: "",
-    profile_image: "",
-  });
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+const [orderlength, setOrderlength] = useState(0);
+const [user, setUser] = useState({
+  id: "",
+  email: "",
+  phone: "",
+  full_name: "",
+  profileImage: "",
+  profile_image: "",
+});
+  
+const [wishlist, setWishlist] = useState([]);
+//const [reviews, setReviews] = useState([]);
+const [wishlistlength, setWishlistlength] = useState(0);
+//const [reviewlength, setReviewlength] = useState(0);
 
   const [address, setAddress] = useState([]);
   const [homeAddress, setHomeAddress] = useState(null);
@@ -57,10 +65,12 @@ const AccountPage = () => {
     { key: "account", label: "Manage My Account", icon: User },
     { key: "address", label: "Address Book", icon: MapPin },
     { key: "orders", label: "My Orders", icon: List, badge: orderlength },
-    { key: "wishlist", label: "My Wishlist", icon: Heart },
+    { key: "wishlist", label: "My Wishlist", icon: Heart, badge: wishlistlength},
     { key: "reviews", label: "My Reviews", icon: MessageSquare },
     { key: "complaint", label: "Complaint", icon: RotateCcw },
   ];
+
+  
 
   const router = useRouter();
 
@@ -170,6 +180,70 @@ const AccountPage = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+
+  const fetchWishlist = async () => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    const wishlistItems = await getWishlist();
+
+    setWishlist(wishlistItems);
+    setWishlistlength(wishlistItems.length || 0);
+
+    if (wishlistItems.length > 0) {
+      console.log(
+        "First wishlist item:",
+        JSON.stringify(wishlistItems[0], null, 2)
+      );
+    }
+  } catch (err) {
+    console.error("Error fetching wishlist:", err);
+    setError("Failed to load wishlist");
+    toast.error("Failed to load wishlist");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+// const fetchReviews = async () => {
+//   try {
+//     setLoading(true);
+//     setError(null);
+//     const result = await fetchReview();
+
+//     console.log("Reviews API Response:", result);
+
+//     if (result.success) {
+//       const reviewItems = result.reviews || [];
+
+//       setReviews(reviewItems);
+//       setReviewlength(reviewItems.length || 0);
+
+//       if (reviewItems.length > 0) {
+//         console.log(
+//           "First review item:",
+//           JSON.stringify(reviewItems[0], null, 2)
+//         );
+//       }
+//     } else {
+//       setError(result.error);
+//       toast.error(result.error);
+//     }
+//   } catch (err) {
+//     console.error("Error fetching reviews:", err);
+//     setError("Failed to load reviews");
+//     toast.error("Failed to load reviews");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+  useEffect(() => {
+    fetchWishlist();
+    
+  }, []); 
 
   //update profile
   const handleUpdateProfile = (updatedData) => {
