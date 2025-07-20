@@ -23,11 +23,11 @@ export default function ManageMyAccount({
     zones.find((z) => z.id === homeAddress?.zone_id)?.zone_name || "";
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex flex-col md:flex-row p-4 sm:p-6">
+    <div className="min-h-screen w-full bg-gray-50 flex flex-col px-4 sm:px-6 py-6">
       {/* Main Content */}
-      <div className="flex-1 w-full md:pl-6 flex flex-col ">
+      <div className="w-full max-w-7xl mx-auto flex flex-col space-y-6">
         {/* Profile / Address Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Personal Profile */}
           <div className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition-shadow duration-300">
             <div className="flex justify-between items-center mb-2">
@@ -95,12 +95,12 @@ export default function ManageMyAccount({
         </div>
 
         {/* Account Security Section */}
-        <div className="bg-white rounded-xl shadow p-6 mb-6">
+        <div className="bg-white rounded-xl shadow p-4 md:p-6 w-full">
           <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
             <Shield className="w-5 h-5" />
             Account Security
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
               <div className="flex items-center gap-3">
                 <div className="bg-blue-100 p-2 rounded-full">
