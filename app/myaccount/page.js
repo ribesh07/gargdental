@@ -23,11 +23,9 @@ import AddressBook from "./components/AddressBook";
 import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 import MyReviews from "./components/MyReview";
-// import MyCancellations from "./components/CancellationPage";
+
 import Complains from "./components/Complains";
 import { getWishlist } from "@/utils/apiHelper";
-//import { fetchReview } from "@/app/myaccount/components/MyReview";
-//import { getCustomerComplains } from "@/utils/apiHelper";
 
 const AccountPage = () => {
   const { provinces, cities, zones, fetchAddressDropdowns } = useAddressStore();
@@ -39,7 +37,7 @@ const AccountPage = () => {
   const [showRemoveAccount, setShowRemoveAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [addressToEdit, setAddressToEdit] = useState(null);
-  // const [orders, setOrders] = useState([]);
+  
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
 const [orderlength, setOrderlength] = useState(0);
@@ -53,9 +51,9 @@ const [user, setUser] = useState({
 });
   
 const [wishlist, setWishlist] = useState([]);
-//const [reviews, setReviews] = useState([]);
+
 const [wishlistlength, setWishlistlength] = useState(0);
-//const [reviewlength, setReviewlength] = useState(0);
+
 
   const [address, setAddress] = useState([]);
   const [homeAddress, setHomeAddress] = useState(null);
@@ -84,10 +82,7 @@ const [wishlistlength, setWishlistlength] = useState(0);
     fetchAddressDropdowns();
   }, [fetchAddressDropdowns]);
 
-  //all data here
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+ 
 
   const fetchUserData = async () => {
     try {
@@ -177,9 +172,7 @@ const [wishlistlength, setWishlistlength] = useState(0);
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+ 
 
 
   const fetchWishlist = async () => {
@@ -207,43 +200,47 @@ const [wishlistlength, setWishlistlength] = useState(0);
   }
 };
 
-
-// const fetchReviews = async () => {
-//   try {
-//     setLoading(true);
-//     setError(null);
-//     const result = await fetchReview();
-
-//     console.log("Reviews API Response:", result);
-
-//     if (result.success) {
-//       const reviewItems = result.reviews || [];
-
-//       setReviews(reviewItems);
-//       setReviewlength(reviewItems.length || 0);
-
-//       if (reviewItems.length > 0) {
-//         console.log(
-//           "First review item:",
-//           JSON.stringify(reviewItems[0], null, 2)
-//         );
-//       }
-//     } else {
-//       setError(result.error);
-//       toast.error(result.error);
-//     }
-//   } catch (err) {
-//     console.error("Error fetching reviews:", err);
-//     setError("Failed to load reviews");
-//     toast.error("Failed to load reviews");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
+ //all data here
   useEffect(() => {
+    fetchUserData();
+    fetchOrders();
     fetchWishlist();
+  }, []);
+// //   try {
+// //     setLoading(true);
+// //     setError(null);
+// //     const result = await fetchReview();
+
+// //     console.log("Reviews API Response:", result);
+
+// //     if (result.success) {
+// //       const reviewItems = result.reviews || [];
+
+// //       setReviews(reviewItems);
+// //       setReviewlength(reviewItems.length || 0);
+
+// //       if (reviewItems.length > 0) {
+// //         console.log(
+// //           "First review item:",
+// //           JSON.stringify(reviewItems[0], null, 2)
+// //         );
+// //       }
+// //     } else {
+// //       setError(result.error);
+// //       toast.error(result.error);
+// //     }
+// //   } catch (err) {
+// //     console.error("Error fetching reviews:", err);
+// //     setError("Failed to load reviews");
+// //     toast.error("Failed to load reviews");
+// //   } finally {
+// //     setLoading(false);
+// //   }
+// // };
+//   useEffect(() => {
+//     fetchWishlist();
     
-  }, []); 
+//   }, []); 
 
   //update profile
   const handleUpdateProfile = (updatedData) => {
