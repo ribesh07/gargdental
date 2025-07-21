@@ -201,65 +201,64 @@ export default function CustomTab({ status }) {
             className="bg-white rounded-lg shadow p-3 sm:p-4 mb-4 sm:mb-6 border"
           >
             {/* Header: Order ID + Status */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-start mb-3 sm:mb-4 gap-2 sm:gap-0">
-              <div className="flex-1 w-full">
-                <span className="text-blue-700 font-semibold block text-base sm:text-lg">
-                  Order #{order.order_id}
-                </span>
-                <div className="text-xs sm:text-sm text-gray-500 mt-1">
-                  Placed on {formatDate(order.created_at)}
-                </div>
-                <div className="text-xs sm:text-sm text-gray-600 mt-1">
-                  {/* Total Amount:{" "}
-                  <strong>
-                    Rs.{" "}
-                    {order.total_amount ||
-                      order.grand_total ||
-                      order.total ||
-                      0}
-                  </strong> */}
-                  {order.order_items && order.order_items.length > 0 && (
-                    <span className="ml-2 text-gray-500">
-                      ({order.order_items.length} item Ordered)
-                    </span>
-                  )}
-                </div>
-                {order.invoice_email && (
-                  <div className="text-xs sm:text-sm text-gray-600">
-                    Invoice Email: <strong>{order.invoice_email}</strong>
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 w-full sm:w-auto">
-                <span
-                  className={`text-xs sm:text-sm font-semibold px-2 sm:px-3 py-1 rounded-full ${getStatusColor(
-                    order.order_status
-                  )}`}
-                >
-                  {order.order_status}
-                </span>
-                {order.order_status !== "cancelled" &&
-                  order.order_status !== "shipped" &&
-                  order.order_status !== "delivered" && (
-                    <button
-                      className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
-                      onClick={() =>
-                        handleCancelOrder(order.id, order.order_id)
-                      }
-                    >
-                      Cancel
-                    </button>
-                  )}
-                {order.order_status === "delivered" && (
-                  <Link
-                    href={`myaccount/return`}
-                    className="text-red-600 text-xs sm:text-sm font-bold underline px-3 sm:px-5 py-1 sm:py-2 rounded-full hover:bg-red-50 cursor-pointer"
-                  >
-                    Return
-                  </Link>
-                )}
-              </div>
-            </div>
+            <div className="flex flex-col lg:flex-row justify-between items-start gap-4 mb-4 w-full">
+  {/* LEFT SIDE */}
+  <div className="flex-1 min-w-0">
+    <span className="text-blue-700 font-semibold block text-base sm:text-lg">
+      Order #{order.order_id}
+    </span>
+    <div className="text-xs sm:text-sm text-gray-500 mt-1">
+      Placed on {formatDate(order.created_at)}
+    </div>
+    <div className="text-xs sm:text-sm text-gray-600 mt-1">
+      {order.order_items?.length > 0 && (
+        <span className="text-gray-500">
+          ({order.order_items.length} item Ordered)
+        </span>
+      )}
+    </div>
+    {order.invoice_email && (
+      <div className="text-xs sm:text-sm text-gray-600 mt-1 break-all">
+        Invoice Email: <strong>{order.invoice_email}</strong>
+      </div>
+    )}
+  </div>
+
+  {/* RIGHT SIDE */}
+  <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end w-full lg:w-auto gap-2">
+    {/* Order Status */}
+    <span
+      className={`text-xs sm:text-sm font-semibold px-3 py-1 rounded-full text-center break-words whitespace-normal w-full sm:w-auto max-w-full sm:max-w-[200px] lg:max-w-[150px] overflow-hidden ${getStatusColor(
+        order.order_status
+      )}`}
+    >
+      {order.order_status}
+    </span>
+
+    {/* Cancel Button */}
+    {order.order_status !== "cancelled" &&
+      order.order_status !== "shipped" &&
+      order.order_status !== "delivered" && (
+        <button
+          className="text-red-600 text-xs sm:text-sm font-bold underline px-3 py-1 rounded hover:bg-red-50 transition w-full sm:w-auto"
+          onClick={() => handleCancelOrder(order.id, order.order_id)}
+        >
+          Cancel
+        </button>
+      )}
+
+    {/* Return Button */}
+    {order.order_status === "delivered" && (
+      <Link
+        href={`/myaccount/return`}
+        className="text-red-600 text-xs sm:text-sm font-bold underline px-3 py-1 rounded hover:bg-red-50 transition w-full sm:w-auto"
+      >
+        Return
+      </Link>
+    )}
+  </div>
+</div>
+
 
             {/* Order Items Dropdown */}
             {order.order_items && order.order_items.length > 0 && (

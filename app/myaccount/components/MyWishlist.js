@@ -24,7 +24,8 @@ export default function MyWishlist() {
       setError(null);
       try {
         const data = await getWishlist();
-        setWishlist(data);
+        console.log(data.wishlist);
+        setWishlist(data.wishlist);
       } catch (err) {
         setError("Failed to load wishlist");
       } finally {
@@ -51,7 +52,25 @@ export default function MyWishlist() {
       setRemovingId(null);
     }
   };
+  const handleaddtocart = async () => {
+    // e.stopPropagation();
 
+    try {
+      const response = await addToCart(
+        item.product.product_code,
+        1,
+        item.product.sell_price
+      );
+      if (response && response.success) {
+        toast.success("Added to cart!");
+        setIsChanged(true);
+      } else {
+        toast.error(response?.message || "Failed to add to cart");
+      }
+    } catch (err) {
+      toast.error("Failed to add to cart");
+    }
+  };
   // Optionally, add to wishlist handler (if you want to add from this page)
   // const handleAdd = async (product_code) => {
   //   const res = await addToWishlist(product_code);
@@ -73,94 +92,88 @@ export default function MyWishlist() {
         <div className="text-gray-400 text-lg mt-12">No items in wishlist.</div>
       ) : (
         <div className="w-full max-w-5xl space-y-6">
-          {wishlist.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
-              onClick={() =>
-                item.product_code &&
-                router.push(`/dashboard/${item.product_code}`)
-              }
-            >
-              {/* Left: Image + Info */}
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
-                  <img
-                    src={item.product?.image_full_url || item.product?.main_image_full_url || item.product?.file_full_url || "assets/logo.png"}
-                    alt={item.product?.product_name || "Product"}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.src = "/placeholder.png";
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-sm sm:text-base font-semibold text-gray-900">
-                    {item.product?.product_name || item.product_code}
+          {wishlist.map((item) => {
+            return (
+              <div
+                key={item.id}
+                className="flex items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
+                onClick={() =>
+                  item.product_code &&
+                  router.push(`/dashboard/${item.product_code}`)
+                }
+              >
+                {/* Left: Image + Info */}
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
+                    <img
+                      src={
+                        item.product?.image_full_url ||
+                        item.product?.main_image_full_url ||
+                        item.product?.file_full_url ||
+                        "assets/logo.png"
+                      }
+                      alt={item.product?.product_name || "Product"}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = "/placeholder.png";
+                      }}
+                    />
                   </div>
-                  {item.product?.brand?.brand_name && (
-                    <div className="text-xs text-gray-500">
-                      Brand: {item.product.brand.brand_name}
+                  <div className="flex flex-col">
+                    <div className="text-sm sm:text-base font-semibold text-gray-900">
+                      {item.product?.product_name || item.product_code}
                     </div>
-                  )}
-                  {/* {item.product_code && (
+                    {item.product?.brand?.brand_name && (
+                      <div className="text-xs text-gray-500">
+                        Brand: {item.product.brand.brand_name}
+                      </div>
+                    )}
+                    {/* {item.product_code && (
                     <div className="text-xs text-gray-500">
                       Code: {item.product_code}
                     </div>
                   )} */}
-                  {item.product?.sell_price && (
-                    <div className="text-green-600 font-bold text-sm mt-1">
-                      Rs. {item.product.sell_price}
-                    </div>
-                  )}
+                    {item.product?.sell_price && (
+                      <div className="text-green-600 font-bold text-sm mt-1">
+                        Rs. {item.product.sell_price}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                {/* Right: Add to Cart + Remove */}
+                <div className="flex items-center gap-4">
+                  {item.product.available_quantity === 0 &&
+                    item.product.stock_quantity === 0 && (
+                      <div className="text-red-600 font-bold text-sm">
+                        Out of Stock !!!{" "}
+                      </div>
+                    )}
+                  {item.product.available_quantity > 0 &&
+                    item.product.stock_quantity > 0 && (
+                      <button
+                        onClick={handleaddtocart}
+                        className="bg-[#0072bc] text-white px-4 py-2 text-sm rounded transition cursor-pointer hover:bg-[#005f9a]"
+                      >
+                        Add to Cart
+                      </button>
+                    )}
+
+                  <button
+                    onClick={(e) => handleRemove(item.id, e)}
+                    className="text-red-500 hover:text-red-600 cursor-pointer transition"
+                    title="Remove"
+                    disabled={removingId === item.id}
+                  >
+                    {removingId === item.id ? (
+                      "Removing..."
+                    ) : (
+                      <Trash2 className="w-5 h-5" />
+                    )}
+                  </button>
                 </div>
               </div>
-              {/* Right: Add to Cart + Remove */}
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    if (!item.product) {
-                      toast.error("Product details not available");
-                      return;
-                    }
-                    try {
-                      const response = await addToCart(
-                        item.product.product_code,
-                        1,
-                        item.product.sell_price
-                      );
-                      if (response && response.success) {
-                        toast.success("Added to cart!");
-                        setIsChanged(true);
-                      } else {
-                        toast.error(
-                          response?.message || "Failed to add to cart"
-                        );
-                      }
-                    } catch (err) {
-                      toast.error("Failed to add to cart");
-                    }
-                  }}
-                  className="bg-[#0072bc] text-white px-4 py-2 text-sm rounded transition cursor-pointer hover:bg-[#005f9a]"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  onClick={(e) => handleRemove(item.id, e)}
-                  className="text-red-500 hover:text-red-600 cursor-pointer transition"
-                  title="Remove"
-                  disabled={removingId === item.id}
-                >
-                  {removingId === item.id ? (
-                    "Removing..."
-                  ) : (
-                    <Trash2 className="w-5 h-5" />
-                  )}
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

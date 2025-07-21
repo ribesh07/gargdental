@@ -822,7 +822,7 @@ export const getWishlist = async () => {
     const response = await apiRequest("/customer/wishlist/list", true);
     console.log("response from getWishlist", response);
     if (response.success) {
-      return response.wishlist || [];
+      return response;
     } else {
       toast.error(response.message || "Failed to fetch wishlist !");
       return [];
