@@ -114,9 +114,6 @@ export default function MyWishlist() {
                       }
                       alt={item.product?.product_name || "Product"}
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = "/placeholder.png";
-                      }}
                     />
                   </div>
                   <div className="flex flex-col">

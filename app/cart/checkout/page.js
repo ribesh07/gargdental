@@ -121,12 +121,29 @@ export default function OrderSummary() {
     alert("Item removed from cart");
   };
 
+  // const subtotal = selectedItems.reduce(
+  //   (sum, item) => sum + item.price * item.quantity,
+  //   0
+  // );
+
+  // const total = subtotal + shipping;
+
+  const itemsWithVat = selectedItems.map((item) => ({
+    ...item,
+    vatAmount: item.price * item.quantity * 0.13,
+  }));
+
+  const totalVatAmount = itemsWithVat.reduce(
+    (sum, item) => sum + item.vatAmount,
+    0
+  );
+
   const subtotal = selectedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  const total = subtotal + shipping;
+  const total = subtotal + totalVatAmount + shipping;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -237,7 +254,7 @@ export default function OrderSummary() {
               {/* Invoice & Billing */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                  INVOICE & BILLING
+                  BILLING DETAILS
                 </h2>
                 <div className="space-y-4">
                   <div>
@@ -297,6 +314,14 @@ export default function OrderSummary() {
                   </span>
                   <span className="font-semibold text-gray-800">
                     Rs. {subtotal.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-600">
+                    VAT {"13%"}
+                  </span>
+                  <span className="font-semibold text-gray-800">
+                    Rs. {totalVatAmount.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">

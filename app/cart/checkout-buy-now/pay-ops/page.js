@@ -80,11 +80,28 @@ const PayOpsPageBuyNow = () => {
   console.log("email", email);
 
   // Calculate totals from selected items
-  const subtotal = selectedItems.reduce(
-    (sum, item) => sum + item.price * (item.quantity || 1),
+  // const subtotal = selectedItems.reduce(
+  //   (sum, item) => sum + item.price * (item.quantity || 1),
+  //   0
+  // );
+  // const total = subtotal + shipping;
+
+  const itemsWithVat = selectedItems.map((item) => ({
+    ...item,
+    vatAmount: item.price * item.quantity * 0.13,
+  }));
+
+  const totalVatAmount = itemsWithVat.reduce(
+    (sum, item) => sum + item.vatAmount,
     0
   );
-  const total = subtotal + shipping;
+
+  const subtotal = selectedItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const total = subtotal + totalVatAmount + shipping;
 
   useEffect(() => {
     if (email === null || email === "") {
@@ -270,6 +287,12 @@ const PayOpsPageBuyNow = () => {
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">SUBTOTAL</span>
               <span className="font-bold text-lg">Rs. {subtotal}</span>
+            </div>
+            <div className="flex justify-between mb-4">
+              <span className="font-bold text-lg">VAT {"13%"}</span>
+              <span className="font-bold text-lg">
+                Rs. {totalVatAmount.toFixed(2)}
+              </span>
             </div>
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">SHIPPING</span>

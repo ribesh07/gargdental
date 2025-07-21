@@ -15,6 +15,8 @@ import ProductImageZoom from "@/components/ProductImageZoom";
 import { BuyNow } from "@/components/BuyNow";
 // import { HtmlContent } from "@/components/HtmlDataConversion";
 import { Loader2 } from "lucide-react";
+import WishListHeart from "@/components/WishListHeart";
+import Link from "next/link";
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -56,6 +58,8 @@ const DentalSuppliesListing = () => {
         data.products?.map((product) => ({
           id: product.id,
           product_name: product.product_name,
+          stock_quantity: product.stock_quantity,
+          available_quantity: product.available_quantity,
           product_code: product.product_code,
           has_variations: product.has_variations,
           starting_price: product.starting_price,
@@ -420,15 +424,18 @@ function ProductCardMain({ product, showDiscount }) {
   const router = useRouter();
   return (
     <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
-      <div
-        className="flex-1 flex flex-col cursor-pointer"
-        onClick={() => router.push(`/dashboard/${product.product_code}`)}
-      >
+      <div className="flex-1 flex flex-col cursor-pointer">
         <div className="relative mb-2 sm:mb-3 lg:mb-4">
-          <ProductImageZoom
-            imageUrl={product.image_url}
-            alt={product.product_name}
-          />
+          <div className="absolute flex self-start top-1 left-1 z-50">
+            <WishListHeart product={product} />
+          </div>
+
+          <Link href={`/dashboard/${product.product_code}`}>
+            <ProductImageZoom
+              imageUrl={product.image_url}
+              alt={product.product_name}
+            />
+          </Link>
           {product.flash_sale === 1 && (
             <div className="absolute top-0 sm:top-0 right-1 sm:right-2 border-2 border-red-500 rounded-full bg-red-500 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-0.5 animate-pulse">
               <span className="text-xs">Flash Sale</span>
@@ -440,33 +447,40 @@ function ProductCardMain({ product, showDiscount }) {
             </div>
           )}
         </div>
-        <p className="text-[14px] text-gray-500 uppercase">{product.brand}</p>
-        <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
-          {product.product_name}
-        </h3>
-        {/* <HtmlContent
+
+        <Link href={`/dashboard/${product.product_code}`}>
+          <>
+            <p className="text-[14px] text-gray-500 uppercase">
+              {product.brand}
+            </p>
+            <h3 className="text-[14px] sm:text-sm font-medium text-gray-800 line-clamp-2 mb-1">
+              {product.product_name}
+            </h3>
+            {/* <HtmlContent
           html={product.description}
           className="text-gray-500 text-[14px] mb-0.5 flex-grow line-clamp-1"
         /> */}
-        {/* <HtmlDataConversion description={product.description} /> */}
+            {/* <HtmlDataConversion description={product.description} /> */}
 
-        {!product.has_variations && (
-          <div className="mt-2 justify-center">
-            <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
-              {product.actual_price &&
-                product.actual_price !== "0.00" &&
-                parseFloat(product.actual_price) >
-                  parseFloat(product.sell_price) && (
-                  <span className="text-[14px] text-gray-400 line-through">
-                    Rs. {product.actual_price}
+            {!product.has_variations && (
+              <div className="mt-2 justify-center">
+                <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
+                  {product.actual_price &&
+                    product.actual_price !== "0.00" &&
+                    parseFloat(product.actual_price) >
+                      parseFloat(product.sell_price) && (
+                      <span className="text-[14px] text-gray-400 line-through">
+                        Rs. {product.actual_price}
+                      </span>
+                    )}
+                  <span className="text-[14px] sm:text-base font-bold text-red-600">
+                    Rs. {product.sell_price}
                   </span>
-                )}
-              <span className="text-[14px] sm:text-base font-bold text-red-600">
-                Rs. {product.sell_price}
-              </span>
-            </div>
-          </div>
-        )}
+                </div>
+              </div>
+            )}
+          </>
+        </Link>
       </div>
 
       {product.has_variations === 1 && (
