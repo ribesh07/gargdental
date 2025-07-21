@@ -62,8 +62,8 @@ const [wishlistlength, setWishlistlength] = useState(0);
   const sidebarItems = [
     { key: "account", label: "Manage My Account", icon: User },
     { key: "address", label: "Address Book", icon: MapPin },
-    { key: "orders", label: "My Orders", icon: List, badge: orderlength },
-    { key: "wishlist", label: "My Wishlist", icon: Heart, badge: wishlistlength},
+    { key: "orders", label: "My Orders", icon: List},
+    { key: "wishlist", label: "My Wishlist", icon: Heart},
     { key: "reviews", label: "My Reviews", icon: MessageSquare },
     { key: "complaint", label: "Complaint", icon: RotateCcw },
   ];
@@ -85,8 +85,9 @@ const [wishlistlength, setWishlistlength] = useState(0);
  
 
   const fetchUserData = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
+      
       const result = await getFullInfo();
       console.log("response", result);
 
@@ -175,36 +176,37 @@ const [wishlistlength, setWishlistlength] = useState(0);
  
 
 
-  const fetchWishlist = async () => {
-  try {
-    setLoading(true);
-    setError(null);
+//   const fetchWishlist = async () => {
+//   try {
+//     setLoading(true);
+//     setError(null);
 
-    const wishlistItems = await getWishlist();
+//     const wishlistItems = await getWishlist();
 
-    setWishlist(wishlistItems);
-    setWishlistlength(wishlistItems.length || 0);
+//     setWishlist(wishlistItems);
+//     setWishlistlength(wishlistItems.length || 0);
 
-    if (wishlistItems.length > 0) {
-      console.log(
-        "First wishlist item:",
-        JSON.stringify(wishlistItems[0], null, 2)
-      );
-    }
-  } catch (err) {
-    console.error("Error fetching wishlist:", err);
-    setError("Failed to load wishlist");
-    toast.error("Failed to load wishlist");
-  } finally {
-    setLoading(false);
-  }
-};
+//     if (wishlistItems.length > 0) {
+//       console.log(
+//         "First wishlist item:",
+//         JSON.stringify(wishlistItems[0], null, 2)
+//       );
+//     }
+//   } catch (err) {
+//     console.error("Error fetching wishlist:", err);
+//     setError("Failed to load wishlist");
+//     toast.error("Failed to load wishlist");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
 
  //all data here
   useEffect(() => {
     fetchUserData();
     fetchOrders();
-    fetchWishlist();
+    
+    
   }, []);
 // //   try {
 // //     setLoading(true);
