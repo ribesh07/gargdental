@@ -170,7 +170,9 @@ export default function MyOrders() {
       </div>
       <div>
         {/* Tabs */}
-        <div className="flex flex-row gap-4 justify-around p-4 rounded-xl shadow">
+        <div className="flex flex-col lg:flex-row gap-4 justify-around p-4 rounded-xl shadow">
+
+
           <button
             onClick={() => setActiveTab("Processing")}
             className={`px-4 py-2 rounded-lg font-semibold transition ${
