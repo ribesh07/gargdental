@@ -28,16 +28,32 @@ export default function ButtonForShare({ product }) {
   const [wishlisted, setWishlisted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // React.useEffect(() => {
+  //   const checkWishlist = async () => {
+  //     if (!product) return;
+  //     const wishlist = await getWishlist();
+  //     setWishlisted(
+  //       wishlist.some((item) => item.product_code === product.product_code)
+  //     );
+  //   };
+  //   checkWishlist();
+  // }, [product]);
+
   React.useEffect(() => {
-    const checkWishlist = async () => {
-      if (!product) return;
-      const wishlist = await getWishlist();
-      setWishlisted(
-        wishlist.some((item) => item.product_code === product.product_code)
-      );
-    };
-    checkWishlist();
-  }, [product]);
+  const checkWishlist = async () => {
+    if (!product) return;
+    const res = await getWishlist();
+    const wishlistArray = Array.isArray(res) ? res : res?.data || [];
+
+    setWishlisted(
+      wishlistArray.some(
+        (item) => item.product_code === product.product_code
+      )
+    );
+  };
+  checkWishlist();
+}, [product]);
+
 
   const handleWishlist = async () => {
     if (!product) return;
