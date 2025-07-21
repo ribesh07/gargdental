@@ -22,11 +22,16 @@ export function BuyNow({ product }) {
       quantity: 1,
       price: parseFloat(product.sell_price),
       category: product.category,
+      available_quantity: product.available_quantity,
+      stock_quantity: product.stock_quantity,
     };
     setSelectedItemsStore([formattedProduct]);
     console.log("selectedItems after", formattedProduct);
     router.push("/cart/checkout-buy-now");
   };
+  if (product.available_quantity === 0 && product.stock_quantity === 0) {
+    return <div className="w-full "> {"  "}</div>;
+  }
 
   return (
     <button

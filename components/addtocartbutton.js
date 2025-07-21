@@ -20,12 +20,21 @@ const AddToCartButton = ({ product }) => {
   };
 
   return (
-    <button
-      onClick={handleAddToCart}
-      className="btn w-full bg-cyan-500 hover:bg-blue-800 text-white px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 mt-auto text-xs sm:text-sm"
-    >
-      Add to Cart
-    </button>
+    <>
+      {product.available_quantity === 0 && product.stock_quantity === 0 && (
+        <div className="w-full text-center text-red-600 font-bold text-sm">
+          Out of Stock !!!{" "}
+        </div>
+      )}
+      {product.available_quantity > 0 && product.stock_quantity > 0 && (
+        <button
+          onClick={handleAddToCart}
+          className="btn w-full bg-cyan-500 hover:bg-blue-800 text-white px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-1 sm:space-x-2 transition-colors duration-200 mt-auto text-xs sm:text-sm"
+        >
+          Add to Cart
+        </button>
+      )}
+    </>
   );
 };
 export default AddToCartButton;
@@ -52,7 +61,13 @@ export function AddToCart({ product, quantity = 1 }) {
       toast.success(`${product.product_name} added to cart!`);
     }
   };
-
+  if (product.available_quantity === 0 && product.stock_quantity === 0) {
+    return (
+      <div className="w-full text-center text-red-600 font-bold text-sm">
+        Out of Stock !!!{" "}
+      </div>
+    );
+  }
   return (
     <button
       onClick={handleAdd}
@@ -88,6 +103,13 @@ export function AddtoCartFeatured({ product }) {
       toast.success(`${product.product_name} added to cart!`);
     }
   };
+  if (product.available_quantity === 0 && product.stock_quantity === 0) {
+    return (
+      <div className="w-full text-center text-red-600 font-bold text-sm">
+        Out of Stock !!!{" "}
+      </div>
+    );
+  }
   return (
     <button
       onClick={handleAdd}

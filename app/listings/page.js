@@ -56,6 +56,8 @@ const DentalSuppliesListing = () => {
         data.products?.map((product) => ({
           id: product.id,
           product_name: product.product_name,
+          stock_quantity: product.stock_quantity,
+          available_quantity: product.available_quantity,
           product_code: product.product_code,
           has_variations: product.has_variations,
           starting_price: product.starting_price,
