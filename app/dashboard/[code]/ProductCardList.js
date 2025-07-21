@@ -33,8 +33,10 @@ export default function ProductCardList({ products }) {
             >
               <div>
                 <div className="flex-1 min-w-0">
-                  <div className="w-full font-semibold text-base sm:text-lg mb-1 sm:mb-2 truncate">
-                    <p classsName="line-clamp-2"> {product.product_name}</p>
+                  <div className="max-w-full break-words">
+                    <p className="font-medium text-gray-800 break-words whitespace-normal">
+                      {product.product_name}
+                    </p>
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 mb-1">
                     <span className="text-lg sm:text-xl font-bold text-gray-800">
