@@ -7,11 +7,21 @@ import { Suspense } from "react";
 import toast from "react-hot-toast";
 
 function PaymentSuccessContent() {
+
   const searchParams = useSearchParams();
   const method = searchParams.get("method");
   const encodeddata = searchParams.get("data");
   const [loading, setLoading] = useState(false);
-  const [decodedData, setDecodedData] = useState(null);
+  type EsewaDecodedData = {
+  status: string;
+  transaction_code?: string;
+  total_amount?: string;
+  transaction_uuid?: string;
+  product_code?: string;
+};
+
+const [decodedData, setDecodedData] = useState<EsewaDecodedData | null>(null);
+
 
   useEffect( () => {
     const decodeapi = async () => {
