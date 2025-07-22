@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "google-auth-library": "^10.1.0",
     "js-cookie": "^3.0.5",
     "js-cookies": "^1.0.4",
@@ -23,7 +24,10 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/node": "^24.0.15",
+    "@types/react": "^19.1.8",
     "tailwind-scrollbar-hide": "^4.0.0",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "typescript": "^5.8.3"
   }
 }
