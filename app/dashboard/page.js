@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import BannerGarg from "@/components/bannerGarg";
 import ProductShowcase from "@/components/FeaturedProduct";
 // import HeaderBarNew from "@/components/HeaderBarNew";
-import { CategoriesViews } from "../page";
+import { CategoriesViews } from "@/components/CategoriesVews";
 // import TawkToWidget from "@/components/TawkToWidget";
 import TopBrandPage from "./components/topBrands";
 import toast from "react-hot-toast";

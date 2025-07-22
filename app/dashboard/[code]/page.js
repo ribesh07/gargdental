@@ -35,7 +35,7 @@ function transformProduct(product) {
 }
 
 //fetch api data
-export async function getProductByCode(code) {
+const getProductByCode = async (code) => {
   try {
     const res = await fetch(`${baseUrl}/products/details/${code}`);
 
@@ -87,7 +87,7 @@ export async function getProductByCode(code) {
     console.log("API fetch error:", error.message);
     return null;
   }
-}
+};
 
 export default async function ProductPage({ params }) {
   params = await params;
