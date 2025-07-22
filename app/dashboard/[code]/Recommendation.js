@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { Star } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { apiRequest } from "@/utils/ApiSafeCalls";
+import WishListHeart from "@/components/WishListHeart";
+import Link from "next/link";
 
 export default function RecommendedProducts({ product }) {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -71,83 +73,85 @@ export default function RecommendedProducts({ product }) {
       });
     }
   };
-
-  return (
-    <div className="min-h-[200px] bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-blue-600 mb-2">
-            RECOMMENDED PRODUCTS
-          </h1>
-        </div>
-
-        {/* Scrollable Container */}
-        <div className="relative">
-          <div
-            ref={scrollRef}
-            className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide"
-          >
-            <ProductSection
-              title="Products"
-              products={featuredProducts}
-              showDiscount={true}
-            />
+  if (featuredProducts.length > 0) {
+    return (
+      <div className="min-h-[200px] bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-blue-600 mb-2">
+              RELATED PRODUCTS
+            </h1>
           </div>
 
-          {/* Left Scroll */}
-          <button
-            onClick={scrollLeft}
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
-          >
-            <svg
-              className="w-6 h-6 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {/* Scrollable Container */}
+          <div className="relative">
+            <div
+              ref={scrollRef}
+              className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
+              <ProductSection
+                title="Products"
+                products={featuredProducts}
+                showDiscount={true}
               />
-            </svg>
-          </button>
+            </div>
 
-          {/* Right Scroll */}
-          <button
-            onClick={scrollRight}
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
-          >
-            <svg
-              className="w-6 h-6 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            {/* Left Scroll */}
+            <button
+              onClick={scrollLeft}
+              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+              <svg
+                className="w-6 h-6 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Right Scroll */}
+            <button
+              onClick={scrollRight}
+              className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            >
+              <svg
+                className="w-6 h-6 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+          {/* Hide scrollbar style */}
+          <style jsx>{`
+            .scrollbar-hide {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
         </div>
-        {/* Hide scrollbar style */}
-        <style jsx>{`
-          .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
       </div>
-    </div>
-  );
+    );
+  }
+  return null;
 }
 
 const ProductCard = ({ product, showDiscount = false }) => {
@@ -166,24 +170,28 @@ const ProductCard = ({ product, showDiscount = false }) => {
 
   return (
     <div className="flex flex-col h-full w-50 bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
-      <div
-        className="relative mb-4 cursor-pointer"
-        onClick={() => router.push(`/dashboard/${product.product_code}`)}
-      >
-        <img
-          src={product.image_url}
-          alt={product.product_name}
-          className="w-full h-32 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300"
-        />
+      <div className="relative mb-4">
+        <div className="absolute flex self-start top-1 left-1 z-50">
+          <WishListHeart product={product} />
+        </div>
+
+        <Link href={`/dashboard/${product.product_code}`}>
+          <img
+            src={product.image_url}
+            alt={product.product_name}
+            className="w-full h-32 object-contain bg-gray-50 rounded hover:scale-105 transition-transform duration-300 cursor-pointer"
+          />
+        </Link>
         {showDiscount && product.actual_price && (
           <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
             SALE
           </div>
         )}
       </div>
-      <div
+
+      <Link
+        href={`/dashboard/${product.product_code}`}
         className="flex-1 flex flex-col justify-between cursor-pointer"
-        onClick={() => router.push(`/dashboard/${product.product_code}`)}
       >
         <div className="space-y-1 hover:underline">
           <p className="text-xs text-gray-500 uppercase">{product.brand}</p>
@@ -197,8 +205,8 @@ const ProductCard = ({ product, showDiscount = false }) => {
             </span>
           </div>
         </div>
-        <div className="mt-2  justify-center">
-          <div className="flex items-center  space-x-2 mb-2">
+        <div className="mt-2 justify-center">
+          <div className="flex items-center space-x-2 mb-2">
             {product.actual_price && product.actual_price !== "0.00" && (
               <span className="text-xs text-gray-400 line-through">
                 Rs. {product.actual_price}
@@ -209,7 +217,8 @@ const ProductCard = ({ product, showDiscount = false }) => {
             </span>
           </div>
         </div>
-      </div>
+      </Link>
+
       <div className="flex self-center justify-center">
         <AddtoCartFeatured product={product} fullWidth />
       </div>

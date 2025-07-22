@@ -1,19 +1,17 @@
 "use client";
-
 import React, { useState } from "react";
-import { Share2, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import {
   addToWishlist,
   removeFromWishlist,
   getWishlist,
 } from "@/utils/apiHelper";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const FilledHeart = (props) => (
   <Heart stroke="red" size={25} fill="red" {...props} />
 );
-
-export default function ButtonForShare({ product }) {
+export default function WishListHeart({ product }) {
   const [wishlisted, setWishlisted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +35,6 @@ export default function ButtonForShare({ product }) {
 
     checkWishlist();
   }, [product]);
-
   const handleWishlist = async () => {
     if (!product) return;
     setLoading(true);
@@ -73,43 +70,19 @@ export default function ButtonForShare({ product }) {
 
     setLoading(false);
   };
-
   return (
-    <div className="flex items-center">
-      <button
-        onClick={handleWishlist}
-        className="flex items-center text-[12px] mr-2"
-        title={wishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
-        disabled={loading}
-      >
-        {wishlisted ? (
-          <FilledHeart />
-        ) : (
-          <Heart
-            size={25}
-            className=" mr-1 text-[#0072bc] hover:text-[#bf0000]"
-          />
-        )}
-        {loading && <span className="ml-2 text-xs">...</span>}
-      </button>
-      <button
-        onClick={() => {
-          if (navigator.share) {
-            navigator
-              .share({
-                title: product?.product_name || "Product",
-                text: "Check out this product!",
-                url: window.location.href,
-              })
-              .catch((error) => console.log("Error sharing", error));
-          } else {
-            alert("Sharing not supported on this browser.");
-          }
-        }}
-        className="flex items-center text-[12px]"
-      >
-        <Share2 className="w-8 h-8 mr-1 text-[#0072bc] hover:text-[#bf0000]" />
-      </button>
-    </div>
+    <button
+      onClick={handleWishlist}
+      className="flex items-center text-[12px] mr-2"
+      title={wishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+      disabled={loading}
+    >
+      {wishlisted ? (
+        <FilledHeart />
+      ) : (
+        <Heart size={25} className="mr-1 text-[#0072bc] hover:text-[#bf0000]" />
+      )}
+      {loading && <span className="ml-2 text-xs">...</span>}
+    </button>
   );
 }
