@@ -18,6 +18,7 @@ function PaymentSuccessContent() {
   total_amount?: string;
   transaction_uuid?: string;
   product_code?: string;
+  signature?: string;
 };
 
 const [decodedData, setDecodedData] = useState<EsewaDecodedData | null>(null);
