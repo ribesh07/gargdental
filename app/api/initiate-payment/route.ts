@@ -40,16 +40,17 @@ export async function POST(req: Request) {
       case "esewa": {
         console.log("Initiating eSewa payment");
         const transactionUuid = `${Date.now()}-${uuidv4()}`;
+        console.log("Transaction UUID:", transactionUuid);
 
         const esewaConfig = {
           amount: amount,
-          tax_amount: "0",
+          tax_amount: 0,
           total_amount: amount,
           transaction_uuid: transactionUuid,
           product_code: process.env.NEXT_PUBLIC_ESEWA_MERCHANT_CODE,
-          product_service_charge: "0",
-          product_delivery_charge: "0",
-          success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?method=esewa`,
+          product_service_charge: 0,
+          product_delivery_charge: 0,
+          success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart/payment/success`,
           failure_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
           signed_field_names: "total_amount,transaction_uuid,product_code",
         };
@@ -78,7 +79,7 @@ export async function POST(req: Request) {
       case "khalti": {
         console.log("Initiating Khalti payment");
         const khaltiConfig = {
-          return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?method=khalti`,
+          return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart/payment/success?method=khalti`,
           website_url: process.env.NEXT_PUBLIC_BASE_URL!,
           amount: Math.round(parseFloat(amount) * 100),
           purchase_order_id: transactionId,
@@ -135,3 +136,6 @@ export async function POST(req: Request) {
     );
   }
 }
+
+// for verification of status
+// https://rc.esewa.com.np/api/epay/transaction/status/?product_code=EPAYTEST&total_amount=100&transaction_uuid=123

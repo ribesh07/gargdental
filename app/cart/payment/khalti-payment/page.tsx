@@ -68,10 +68,10 @@ export default function KhaltiPayment() {
 
   return (
     <>
-      <Script
+      {/* <Script
         src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.22.0.0.0/khalti-checkout.iffe.js"
         strategy="lazyOnload"
-      />
+      /> */}
       <div className="flex max-w-4xl max-h-50 mx-auto justify-center items-center min-h-screen bg-gray-100">
         <form onSubmit={handlePayment}>
           <div className="space-y-2">
@@ -92,7 +92,7 @@ export default function KhaltiPayment() {
               onChange={(e) => setProductName(e.target.value)}
               required
             />
-            
+
           </div>
           <div className="space-y-2">
             <label htmlFor="transactionId">Transaction ID : </label>

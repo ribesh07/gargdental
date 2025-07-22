@@ -83,6 +83,7 @@ export default function EsewaPayment() {
 
       const paymentData: PaymentResponse = await response.json();
      toast.success("Payment initiated successfully!");
+     console.log(paymentData);
 
       const form = document.createElement("form");
       form.method = "POST";
@@ -126,11 +127,11 @@ export default function EsewaPayment() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <h1>Make Payment</h1>
+    <div className="min-h-screen bg-gray-50 flex space-y-4 items-center justify-center p-4">
+    
           <form onSubmit={handlePayment}>
             
-            <div className="space-y-2">
+            <div className="space-y-2 space-x-1">
               <label htmlFor="amount">Amount (NPR)</label>
               <input
                 id="amount"

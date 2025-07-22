@@ -25,14 +25,14 @@ export default function PaymentMethods() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 p-4">
+    <div className="h-[70vh] flex flex-col items-center gap-4 p-4">
       <h2 className="text-xl font-semibold">Select a Payment Method</h2>
       <div className="flex gap-4">
         {paymentMethods.map((method) => (
           <button
             type="button"
             key={method.name}
-            onClick={() => setSelectedMethod(method.name)}
+            onClick={() => handlePayment(method.name)}
             className={`px-6 py-3 rounded-lg text-white font-medium transition ${
               method.color
             } ${
@@ -45,19 +45,7 @@ export default function PaymentMethods() {
           </button>
         ))}
       </div>
-      <button
-        type="button"
-        onClick={() => {
-          if (selectedMethod) {
-            handlePayment(selectedMethod);
-          } else {
-            alert("Please select a payment method first.");
-          }
-        }}
-        className="mt-6 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-      >
-        Continue
-      </button>
+     
     </div>
   );
 }
