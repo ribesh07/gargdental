@@ -137,9 +137,10 @@ export default function OrderSummaryBuyNow() {
   // const total = subtotal + shipping;
 
   const itemsWithVat = selectedItems.map((item) => ({
-    ...item,
-    vatAmount: item.price * item.quantity * 0.13,
-  }));
+  ...item,
+  vatAmount: Number((item.price * item.quantity * 0.13).toFixed(3)),
+}));
+
 
   const totalVatAmount = itemsWithVat.reduce(
     (sum, item) => sum + item.vatAmount,
