@@ -103,6 +103,8 @@ const GargDental = () => {
       } else {
         // console.error("Failed to fetch settings:", response.error);
         toast.error(response?.errors[0]?.message || "Failed to fetch settings");
+        console.log("Response error:", response);
+
         // setSettings();
       }
     };
