@@ -249,7 +249,7 @@ const DentalSuppliesListing = () => {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto -my-3 sm:-my-4 lg:-my-6 p-2 sm:p-4 lg:p-6">
+      <div className="max-w-7xl mx-auto -my-3 sm:-my-4 lg:-my-6 p-2 sm:p-4 lg:p-6 ">
         {/* Header */}
         <div className="bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-lg mb-3 sm:mb-4 lg:mb-5 shadow">
           <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900 mb-2 sm:mb-2.5">
@@ -365,7 +365,7 @@ const DentalSuppliesListing = () => {
 
             {/* Product Grid */}
             <div className="max-w-7xl mx-auto px-2 sm:px-4">
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4 ">
                 {filteredAndSortedProducts
                   .slice(0, visibleCount)
                   .map((product, index) =>
