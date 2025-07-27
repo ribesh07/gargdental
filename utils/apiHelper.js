@@ -89,7 +89,9 @@ export const userDetails = async () => {
     }
   } catch (err) {
     console.log(err);
-    alert("Something went wrong. Please try again. Error: " + err.message);
+    console.log(
+      "Something went wrong. Please try again. Error: " + err.message
+    );
   }
 };
 
@@ -171,7 +173,7 @@ export const addToCart = async (product_code, quantity, price) => {
       // toast.success(response.message);
       return response;
     } else {
-      alert(response.message);
+      console.log(response.message);
     }
   } catch (err) {
     console.error("Error adding to cart:", err);

@@ -55,7 +55,7 @@ const ProductAPIRequest = () => {
 
     try {
       const response = await fetch(
-        `${baseUrl}/products/all?limit=50&offset=${offset}`,
+        `${baseUrl}/products/all?limit=100&offset=${offset}`,
         {
           method: "GET",
           headers: {
@@ -84,11 +84,13 @@ const ProductAPIRequest = () => {
           item_number: `#${product.product_code}`,
           actual_price: product.actual_price,
           sell_price: product.sell_price,
+
           image_url:
             product.image_full_url ||
             "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
           description: product.product_description,
           available_quantity: product.available_quantity,
+          stock_quantity: product.stock_quantity,
           unit_info: product.unit_info,
           flash_sale: product.flash_sale === "1",
           delivery_days: product.delivery_target_days,
@@ -360,16 +362,25 @@ function ProductCardMain({ product, showDiscount }) {
         </div>
       )}
 
-      {!product.has_variations && (
-        <>
-          <div className="mt-auto w-full">
-            <BuyNow product={product} />
-          </div>
-          <div className="mt-auto w-full">
-            <AddToCart product={product} />
-          </div>
-        </>
-      )}
+      {!product.has_variations &&
+        product.stock_quantity > 0 &&
+        product.available_quantity > 0 && (
+          <>
+            <div className="mt-auto w-full">
+              <BuyNow product={product} />
+            </div>
+            <div className="mt-auto w-full">
+              <AddToCart product={product} />
+            </div>
+          </>
+        )}
+      {product.stock_quantity === 0 &&
+        product.available_quantity === 0 &&
+        !product.has_variations && (
+          <p className="font-semibold text-[18px] text-red-600">
+            Out of stock !
+          </p>
+        )}
     </div>
   );
 }

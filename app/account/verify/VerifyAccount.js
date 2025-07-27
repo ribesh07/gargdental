@@ -77,7 +77,7 @@ export default function VerifyAccountPage() {
     // Simulate API call
     setTimeout(async () => {
       setIsLoading(false);
-      alert("Verification code has been resent to your email");
+      // alert("Verification code has been resent to your email");
       // resend code api here
       try {
         const response = await fetch(`${baseUrl}/resend-code`, {
@@ -93,9 +93,9 @@ export default function VerifyAccountPage() {
         const data = await response.json();
         console.log(data);
         if (response.ok) {
-          alert(
-            `Verification code has been resent to your email ${data.code}!`
-          );
+          // alert(
+          //   `Verification code has been resent to your email ${data.code}!`
+          // );
         } else {
           toast.error(data.errors[0].message || "Resend failed");
         }

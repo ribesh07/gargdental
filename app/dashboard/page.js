@@ -103,6 +103,8 @@ const GargDental = () => {
       } else {
         // console.error("Failed to fetch settings:", response.error);
         toast.error(response?.errors[0]?.message || "Failed to fetch settings");
+        console.log("Response error:", response);
+
         // setSettings();
       }
     };
@@ -364,7 +366,7 @@ const GargDental = () => {
                   Manufacturers
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs overflow-y-scroll h-48 sm:h-70 hide-scrollbar">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs overflow-y-scroll h-48 sm:h-180 hide-scrollbar">
                   {manufacturers.map((manufacturer, index) => (
                     <Link
                       key={manufacturer.id || index}

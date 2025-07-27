@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 function PaymentSuccessContent() {
 
   const searchParams = useSearchParams();
-  const method = searchParams.get("method");
-  const encodeddata = searchParams.get("data");
+  const method = searchParams?.get("method");
+  const encodeddata = searchParams?.get("data");
   const [loading, setLoading] = useState(false);
   type EsewaDecodedData = {
   status: string;

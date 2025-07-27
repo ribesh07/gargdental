@@ -119,6 +119,7 @@ const HeaderBarNew = () => {
   // Search functionality
   const handleSearch = () => {
     if (searchTerm) {
+      setSearchTerm("");
       router.push(`/product/`);
       router.refresh();
     }

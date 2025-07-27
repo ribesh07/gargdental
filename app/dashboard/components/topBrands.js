@@ -46,6 +46,10 @@ export default function TopBrandPage() {
     }
   };
 
+  if (!brands) {
+    return null;
+  }
+
   return (
     <div className="bg-gray-100 ">
       <div className="max-w-7xl mx-auto">

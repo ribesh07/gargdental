@@ -84,6 +84,8 @@ const ProductAPIRequest = () => {
           brand: product.brand?.brand_name || "No Brand",
           category: product.category?.category_name || "Uncategorized",
           item_number: `#${product.product_code}`,
+          stock_quantity: product.stock_quantity,
+          available_quantity: product.available_quantity,
           actual_price: product.actual_price,
           sell_price: product.sell_price,
           image_url:
@@ -352,16 +354,25 @@ function ProductCardMain({ product, showDiscount }) {
         </div>
       )}
 
-      {!product.has_variations && (
-        <>
-          <div className="mt-auto w-full">
-            <BuyNow product={product} />
-          </div>
-          <div className="mt-auto w-full">
-            <AddToCart product={product} />
-          </div>
-        </>
-      )}
+      {!product.has_variations &&
+        product.stock_quantity > 0 &&
+        product.available_quantity > 0 && (
+          <>
+            <div className="mt-auto w-full">
+              <BuyNow product={product} />
+            </div>
+            <div className="mt-auto w-full">
+              <AddToCart product={product} />
+            </div>
+          </>
+        )}
+      {product.stock_quantity === 0 &&
+        product.available_quantity === 0 &&
+        !product.has_variations && (
+          <p className="font-semibold text-[18px] text-red-600">
+            Out of stock !
+          </p>
+        )}
     </div>
   );
 }

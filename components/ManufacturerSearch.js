@@ -137,7 +137,7 @@ export default function ManufacturerFilter() {
       </div>
 
       {/* Manufacturers Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 overflow-y-scroll h-118">
         {filteredManufacturers.map((manufacturer, index) => (
           <div
             key={manufacturer.id || index}
@@ -152,7 +152,7 @@ export default function ManufacturerFilter() {
           </div>
         ))}
         {filteredManufacturers.length === 0 && (
-          <div className="col-span-full text-gray-500 text-center py-8 text-sm sm:text-base">
+          <div className="col-span-full text-gray-500 text-center py-8 text-sm ssm:text-base">
             No manufacturers found.
           </div>
         )}
