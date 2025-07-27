@@ -495,16 +495,25 @@ function ProductCardMain({ product, showDiscount }) {
         </div>
       )}
 
-      {!product.has_variations && (
-        <>
-          <div className="mt-auto w-full">
-            <BuyNow product={product} />
-          </div>
-          <div className="mt-auto w-full">
-            <AddToCart product={product} />
-          </div>
-        </>
-      )}
+      {!product.has_variations &&
+        product.available_quantity > 0 &&
+        product.stock_quantity > 0 && (
+          <>
+            <div className="mt-auto w-full">
+              <BuyNow product={product} />
+            </div>
+            <div className="mt-auto w-full">
+              <AddToCart product={product} />
+            </div>
+          </>
+        )}
+      {product.stock_quantity === 0 &&
+        product.available_quantity === 0 &&
+        !product.has_variations && (
+          <p className="font-semibold text-[18px] text-red-600">
+            Out of stock !
+          </p>
+        )}
     </div>
   );
 }

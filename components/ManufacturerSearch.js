@@ -152,7 +152,7 @@ export default function ManufacturerFilter() {
           </div>
         ))}
         {filteredManufacturers.length === 0 && (
-          <div className="col-span-full text-gray-500 text-center py-8 text-sm sm:text-base">
+          <div className="col-span-full text-gray-500 text-center py-8 text-sm ssm:text-base">
             No manufacturers found.
           </div>
         )}
