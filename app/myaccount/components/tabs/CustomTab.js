@@ -250,14 +250,15 @@ export default function CustomTab({ status }) {
                   )}
 
                 {/* Return Button */}
-                {order.order_status === "delivered" && (
-                  <Link
-                    href={`/myaccount/return?order_id=${order.order_id}`}
-                    className="text-red-600 text-xs sm:text-sm font-bold underline px-3 py-1 rounded hover:bg-red-50 transition w-full sm:w-auto"
-                  >
-                    Return
-                  </Link>
-                )}
+                {order.order_status === "delivered" &&
+                  order.return_available && (
+                    <Link
+                      href={`/myaccount/return?order_id=${order.order_id}`}
+                      className="text-red-600 text-xs sm:text-sm font-bold underline px-3 py-1 rounded hover:bg-red-50 transition w-full sm:w-auto"
+                    >
+                      Return
+                    </Link>
+                  )}
               </div>
             </div>
 

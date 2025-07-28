@@ -6,6 +6,7 @@ import useCartStore from "@/stores/useCartStore";
 import { getAddress, userDetails } from "@/utils/apiHelper";
 import useInfoModalStore from "@/stores/infoModalStore";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -129,10 +130,9 @@ export default function OrderSummary() {
   // const total = subtotal + shipping;
 
   const itemsWithVat = selectedItems.map((item) => ({
-  ...item,
-  vatAmount: Number((item.price * item.quantity * 0.13).toFixed(3)),
-}));
-
+    ...item,
+    vatAmount: Number((item.price * item.quantity * 0.13).toFixed(3)),
+  }));
 
   const totalVatAmount = itemsWithVat.reduce(
     (sum, item) => sum + item.vatAmount,
@@ -342,6 +342,16 @@ export default function OrderSummary() {
                     Rs. {total.toFixed(2)}
                   </span>
                 </div>
+                <label htmlFor="terms" className="text-sm text-gray-700">
+                  By Continuing, you agree to our{" "}
+                  <Link
+                    href="/returnpolicy"
+                    className="text-blue-600 underline cursor-pointer"
+                  >
+                    terms
+                  </Link>
+                  <label> & policies</label>
+                </label>
               </div>
 
               {/* Coupon Code */}
