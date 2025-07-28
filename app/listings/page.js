@@ -25,7 +25,7 @@ const DentalSuppliesListing = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isReady, setIsReady] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(12); // Number of products to display initially
+  const [visibleCount, setVisibleCount] = useState(15); // Number of products to display initially
   var visibleProducts = [];
   const [categories, setCategories] = useState([]);
 
