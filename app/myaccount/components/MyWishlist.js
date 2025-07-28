@@ -68,6 +68,7 @@ export default function MyWishlist() {
         toast.error(response?.message || "Failed to add to cart");
       }
     } catch (err) {
+      console.log(err);
       toast.error("Failed to add to cart");
     }
   };
@@ -97,13 +98,15 @@ export default function MyWishlist() {
               <div
                 key={item.id}
                 className="flex items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
-                onClick={() =>
-                  item.product_code &&
-                  router.push(`/dashboard/${item.product_code}`)
-                }
               >
                 {/* Left: Image + Info */}
-                <div className="flex items-center gap-4">
+                <div
+                  onClick={() =>
+                    item.product_code &&
+                    router.push(`/dashboard/${item.product_code}`)
+                  }
+                  className="flex items-center gap-4"
+                >
                   <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
                     <img
                       src={

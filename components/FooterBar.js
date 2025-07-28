@@ -182,20 +182,20 @@ export default function FooterBar() {
                 </li>
                 <li className="footer-list">
                   <Link
-                    href="/BusinessReg"
+                    href="/legal-registration"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
-                    Business Registration
+                    Legal Registration
                   </Link>
                 </li>
-                <li className="footer-list">
+                {/* <li className="footer-list">
                   <Link
                     href="/MedicalCertification"
                     className="text-xs sm:text-sm hover:text-blue-200 transition-colors"
                   >
                     Medical Certifications
                   </Link>
-                </li>
+                </li> */}
 
                 <li className="footer-list">
                   <Link

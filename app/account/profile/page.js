@@ -183,10 +183,7 @@ export default function CustomerProfilePage() {
               {/* Profile Image */}
               <div className="flex items-center gap-6 mb-8">
                 <img
-                  src={
-                    user.image_full_url ||
-                    "https://via.placeholder.com/120x120?text=Profile"
-                  }
+                  src={user.image_full_url || "/assets/logo.png"}
                   alt="Profile"
                   className="w-24 h-24 rounded-full object-cover border-4 border-blue-100"
                 />
@@ -272,26 +269,29 @@ export default function CustomerProfilePage() {
                 Account Security
               </h3>
 
-              <div className="space-y-4 mb-2">
-                <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
-                  <div>
-                    <h4 className="font-medium text-gray-800">Password</h4>
+              {user.login_medium === "manual" && (
+                // <button>Google</button>
+                <div className="space-y-4 mb-2">
+                  <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                    <div>
+                      <h4 className="font-medium text-gray-800">Password</h4>
+                    </div>
+                    <button
+                      onClick={() => setShowChangePassword(true)}
+                      className="text-white bg-red-600 p-2 rounded-2xl text-sm font-medium cursor-pointer"
+                    >
+                      Change
+                    </button>
                   </div>
-                  <button
-                    onClick={() => setShowChangePassword(true)}
-                    className="text-white bg-red-600 p-2 rounded-2xl text-sm font-medium cursor-pointer"
-                  >
-                    Change
-                  </button>
                 </div>
-              </div>
+              )}
 
               {/* Danger Zone */}
               <div className="bg-white rounded-xl shadow-lg p-6 border border-red-200">
-                <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
+                {/* <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
                   <Trash2 className="w-5 h-5 text-red-600" />
                   Danger Zone
-                </h3>
+                </h3> */}
 
                 <div className="space-y-4">
                   <div>
