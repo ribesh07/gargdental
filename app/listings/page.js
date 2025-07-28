@@ -48,10 +48,7 @@ const DentalSuppliesListing = () => {
     setError(null);
 
     try {
-      const data = await apiRequest(
-        `/products/all?limit=200&offset=${offset}`,
-        false
-      );
+      const data = await apiRequest(`/products/all`, false);
       // const limited = data.products?.slice(0, 10) || [];
       // Transform the API data to match the expected format
       const transformedProducts =

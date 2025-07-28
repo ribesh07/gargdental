@@ -55,16 +55,13 @@ const ProductAPIRequest = () => {
     setError(null);
 
     try {
-      const response = await fetch(
-        `${baseUrl}/products/all?limit=50&offset=${offset}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${baseUrl}/products/all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
       console.log("Offset value :", offset);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -247,7 +244,7 @@ const ProductAPIRequest = () => {
               ))}
             </div>
             {/* Load More Button */}
-            {filteredProducts.length > 0 && (
+            {/* {filteredProducts.length > 0 && (
               <div className="flex justify-center mt-6">
                 <button
                   onClick={loadMore}
@@ -256,7 +253,7 @@ const ProductAPIRequest = () => {
                   Load More
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         )}
 

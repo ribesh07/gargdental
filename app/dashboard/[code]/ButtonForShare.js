@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Share2, Heart } from "lucide-react";
 import {
   addToWishlist,
@@ -8,6 +8,10 @@ import {
   getWishlist,
 } from "@/utils/apiHelper";
 import toast from "react-hot-toast";
+import { usePathname } from "next/navigation";
+// import { handleLogout } from "@/utils/authHelper";
+import { userDetails } from "@/utils/apiHelper";
+// import { usePathname } from "next/navigation";
 
 const FilledHeart = (props) => (
   <Heart stroke="red" size={25} fill="red" {...props} />
@@ -17,9 +21,40 @@ export default function ButtonForShare({ product }) {
   const [wishlisted, setWishlisted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const pathname = usePathname();
+
+  const [isloggedin, setIsloggedin] = useState(false);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        setIsloggedin(true);
+        const details = await userDetails();
+        if (details) {
+          setUser(details);
+        } else {
+          // It's possible the token is invalid, so log out.
+          // handleLogout();
+        }
+      } else {
+        setIsloggedin(false);
+        setUser({});
+      }
+    };
+
+    checkAuth();
+
+    // document.addEventListener("mousedown", handleClickOutside);
+    // return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [pathname]);
   React.useEffect(() => {
     const checkWishlist = async () => {
       if (!product) return;
+      if (!isloggedin) {
+        return;
+      }
 
       const res = await getWishlist();
 
@@ -41,6 +76,12 @@ export default function ButtonForShare({ product }) {
   const handleWishlist = async () => {
     if (!product) return;
     setLoading(true);
+
+    if (!isloggedin) {
+      toast.error("Please login to add to wishlist");
+      setLoading(false);
+      return;
+    }
 
     const res = await getWishlist();
     const wishlistArray = res?.wishlist || [];
