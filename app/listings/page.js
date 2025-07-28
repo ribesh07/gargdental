@@ -25,7 +25,7 @@ const DentalSuppliesListing = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isReady, setIsReady] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(12); // Number of products to display initially
+  const [visibleCount, setVisibleCount] = useState(15); // Number of products to display initially
   var visibleProducts = [];
   const [categories, setCategories] = useState([]);
 
@@ -48,10 +48,7 @@ const DentalSuppliesListing = () => {
     setError(null);
 
     try {
-      const data = await apiRequest(
-        `/products/all?limit=200&offset=${offset}`,
-        false
-      );
+      const data = await apiRequest(`/products/all`, false);
       // const limited = data.products?.slice(0, 10) || [];
       // Transform the API data to match the expected format
       const transformedProducts =

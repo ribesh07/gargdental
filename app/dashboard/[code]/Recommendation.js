@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 import WishListHeart from "@/components/WishListHeart";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function RecommendedProducts({ product }) {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -155,7 +156,36 @@ export default function RecommendedProducts({ product }) {
 }
 
 const ProductCard = ({ product, showDiscount = false }) => {
+  const pathname = usePathname();
+  const [user, setUser] = useState({});
+
   const router = useRouter();
+  const [isloggedin, setIsloggedin] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        setIsloggedin(true);
+        const details = await userDetails();
+        if (details) {
+          setUser(details);
+        } else {
+          // It's possible the token is invalid, so log out.
+          // handleLogout();
+        }
+      } else {
+        setIsloggedin(false);
+        setUser({});
+      }
+    };
+
+    checkAuth();
+
+    // document.addEventListener("mousedown", handleClickOutside);
+    // return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [pathname]);
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -171,9 +201,11 @@ const ProductCard = ({ product, showDiscount = false }) => {
   return (
     <div className="flex flex-col h-full w-50 bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div className="relative mb-4">
-        <div className="absolute flex self-start top-1 left-1 z-50">
-          <WishListHeart product={product} />
-        </div>
+        {isloggedin && (
+          <div className="absolute flex self-start top-1 left-1 z-50">
+            <WishListHeart product={product} />
+          </div>
+        )}
 
         <Link href={`/dashboard/${product.product_code}`}>
           <img

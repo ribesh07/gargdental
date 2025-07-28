@@ -7,6 +7,7 @@ import {
   getWishlist,
 } from "@/utils/apiHelper";
 import { toast } from "react-hot-toast";
+import { usePathname } from "next/navigation";
 
 const FilledHeart = (props) => (
   <Heart stroke="red" size={25} fill="red" {...props} />
@@ -15,9 +16,32 @@ export default function WishListHeart({ product }) {
   const [wishlisted, setWishlisted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const pathname = usePathname();
+  const [isloggedin, setIsloggedin] = useState(false);
+
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        setIsloggedin(true);
+        const details = await userDetails();
+      } else {
+        setIsloggedin(false);
+        // setUser({});
+      }
+    };
+
+    // document.addEventListener("mousedown", handleClickOutside);
+    // return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [pathname]);
+
   React.useEffect(() => {
     const checkWishlist = async () => {
       if (!product) return;
+      if (!isloggedin) {
+        return;
+      }
 
       const res = await getWishlist();
 
