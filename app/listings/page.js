@@ -267,7 +267,7 @@ const DentalSuppliesListing = () => {
                 <option>Price: Low to High</option>
                 <option>Price: High to Low</option>
                 <option>Name: A to Z</option>
-                <option>Brand</option>
+                
               </select>
             </div>
           </div>

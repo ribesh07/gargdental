@@ -171,16 +171,11 @@ const ProductCard = ({ product, showDiscount = false }) => {
 
       if (token) {
         setIsloggedin(true);
-        const details = await userDetails();
-        if (details) {
-          setUser(details);
-        } else {
-          // It's possible the token is invalid, so log out.
-          // handleLogout();
-        }
+        // const details = await userDetails();
+        
       } else {
         setIsloggedin(false);
-        setUser({});
+        
       }
     };
 
