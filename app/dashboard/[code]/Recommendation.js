@@ -32,7 +32,10 @@ export default function RecommendedProducts({ product }) {
           sell_price: product.sell_price,
           rating: product.average_rating,
           reviews: product.review_count,
-          image_url: product.image_url || "/assets/logo.png",
+          image_url:
+            product.main_image_full_url ||
+            product.image_url ||
+            "/assets/logo.png",
           description: product.product_description,
           available_quantity: product.available_quantity,
           unit_info: product.stock_quantity,

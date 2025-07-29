@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
+    "dompurify": "^3.2.6",
     "google-auth-library": "^10.1.0",
+    "html-react-parser": "^5.2.6",
     "js-cookie": "^3.0.5",
     "js-cookies": "^1.0.4",
     "jsonwebtoken": "^9.0.2",
