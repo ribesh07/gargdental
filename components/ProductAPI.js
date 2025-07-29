@@ -227,12 +227,12 @@ const ProductAPIRequest = () => {
                       <span className="text-lg font-bold text-green-600">
                         ${product.sell_price}
                       </span>
-                      {product.actual_price !== product.sell_price &&
-                        product.actual_price !== "0.00" && (
-                          <span className="text-sm text-gray-500 line-through">
-                            ${product.actual_price}
-                          </span>
-                        )}
+                      {parseFloat(product.actual_price) >
+                        parseFloat(product.sell_price) && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {product.actual_price}
+                        </span>
+                      )}
                     </div>
                   </div>
 

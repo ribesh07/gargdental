@@ -113,12 +113,12 @@ export function CategoriesViews() {
                 </button>
               </div>
 
-              <Link
+              {/* <Link
                 href="/"
                 className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Order from History
-              </Link>
+              </Link> */}
               <Link
                 href="/"
                 className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"

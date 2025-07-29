@@ -52,8 +52,8 @@ export default function MyWishlist() {
       setRemovingId(null);
     }
   };
-  const handleaddtocart = async () => {
-    // e.stopPropagation();
+  const handleaddtocart = async (item, e) => {
+    e.stopPropagation();
 
     try {
       const response = await addToCart(
@@ -65,6 +65,7 @@ export default function MyWishlist() {
         toast.success("Added to cart!");
         setIsChanged(true);
       } else {
+        console.log(response);
         toast.error(response?.message || "Failed to add to cart");
       }
     } catch (err) {
@@ -151,7 +152,7 @@ export default function MyWishlist() {
                   {item.product.available_quantity > 0 &&
                     item.product.stock_quantity > 0 && (
                       <button
-                        onClick={handleaddtocart}
+                        onClick={(e) => handleaddtocart(item, e)}
                         className="bg-[#0072bc] text-white px-4 py-2 text-sm rounded transition cursor-pointer hover:bg-[#005f9a]"
                       >
                         Add to Cart
