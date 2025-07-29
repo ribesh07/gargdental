@@ -171,16 +171,9 @@ const ProductCard = ({ product, showDiscount = false }) => {
 
       if (token) {
         setIsloggedin(true);
-        const details = await userDetails();
-        if (details) {
-          setUser(details);
-        } else {
-          // It's possible the token is invalid, so log out.
-          // handleLogout();
-        }
+        // const details = await userDetails();
       } else {
         setIsloggedin(false);
-        setUser({});
       }
     };
 
@@ -242,9 +235,10 @@ const ProductCard = ({ product, showDiscount = false }) => {
         </div>
         <div className="mt-2 justify-center">
           <div className="flex items-center space-x-2 mb-2">
-            {product.actual_price && product.actual_price !== "0.00" && (
-              <span className="text-xs text-gray-400 line-through">
-                Rs. {product.actual_price}
+            {parseFloat(product.actual_price) >
+              parseFloat(product.sell_price) && (
+              <span className="text-sm text-gray-500 line-through">
+                {product.actual_price}
               </span>
             )}
             <span className="text-base font-bold text-red-600">

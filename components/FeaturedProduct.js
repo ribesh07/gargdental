@@ -55,9 +55,10 @@ export const ProductCard = ({ product, showDiscount = false }) => {
         </div>
         <div className="mt-2 justify-center">
           <div className="flex items-center space-x-1 sm:space-x-2 mb-2 cursor-pointer">
-            {product.actual_price && product.actual_price !== "0.00" && (
-              <span className="text-xs text-gray-400 line-through">
-                Rs. {product.actual_price}
+            {parseFloat(product.actual_price) >
+              parseFloat(product.sell_price) && (
+              <span className="text-sm text-gray-500 line-through">
+                {product.actual_price}
               </span>
             )}
             <span className="text-sm sm:text-base font-bold text-red-600">
@@ -456,9 +457,12 @@ export default function ProductShowcase() {
                       {product.product_name}
                     </h3>
                     <div className="flex items-center space-x-1 sm:space-x-2">
-                      <span className="text-xs sm:text-sm text-gray-400 line-through">
-                        {product.actual_price}
-                      </span>
+                      {parseFloat(product.actual_price) >
+                        parseFloat(product.sell_price) && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {product.actual_price}
+                        </span>
+                      )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
                         {product.sell_price}
                       </span>
@@ -494,9 +498,12 @@ export default function ProductShowcase() {
                       {product.product_name}
                     </h3>
                     <div className="flex items-center space-x-1 sm:space-x-2">
-                      <span className="text-xs sm:text-sm text-gray-400 line-through">
-                        {product.actual_price}
-                      </span>
+                      {parseFloat(product.actual_price) >
+                        parseFloat(product.sell_price) && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {product.actual_price}
+                        </span>
+                      )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
                         {product.sell_price}
                       </span>
@@ -533,9 +540,12 @@ export default function ProductShowcase() {
                     </h3>
 
                     <div className="flex items-center space-x-1 sm:space-x-2">
-                      <span className="text-xs sm:text-sm text-gray-400 line-through">
-                        {product.actual_price}
-                      </span>
+                      {parseFloat(product.actual_price) >
+                        parseFloat(product.sell_price) && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {product.actual_price}
+                        </span>
+                      )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
                         {product.sell_price}
                       </span>
