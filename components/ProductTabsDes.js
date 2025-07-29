@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import { HtmlContent } from "@/components/HtmlDataConversion";
+import HtmlRenderer from "./HtmlDataConversion";
 // import Reviews from "@/app/dashboard/[code]/Reviews";
 
 export default function ProductTabs({ product }) {
   const [activeTab, setActiveTab] = useState("description");
   const [review, setReview] = useState("");
+  console.log("product", product.warranty);
 
   const renderStars = (count) => {
     return "⭐️".repeat(count) + "☆".repeat(5 - count);
@@ -16,9 +18,8 @@ export default function ProductTabs({ product }) {
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 md:px-8 max-w-full sm:max-w-3xl mx-auto">
-  <div className="flex flex-col md:flex-row flex-wrap gap-2 md:gap-4 border-b border-gray-300">
-
+    <div className="w-full px-4 sm:px-4 md:px-4 max-w-full sm:max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row flex-wrap xl:flex-nowrap sm:flex-shrink gap-2 md:gap-4 border-b border-gray-300">
         <button
           onClick={() => setActiveTab("description")}
           className={`px-2 py-2 font-semibold ${
@@ -81,7 +82,7 @@ export default function ProductTabs({ product }) {
           <div className="pl-2 sm:pl-4">
             <br />
             {product.description ? (
-              <HtmlContent html={product.description} className="table-auto" />
+              <HtmlContent html={product.description} />
             ) : (
               <div className="text-center py-20 text-gray-500 text-xl">
                 No Description Available !
@@ -94,9 +95,67 @@ export default function ProductTabs({ product }) {
 
         {activeTab === "specifications" && (
           <div className="pl-2 sm:pl-4">
-            {product.specifications ? (
-              <HtmlContent html={product.specifications} className="table" />
+            {product.specification ? (
+              // <HtmlContent html={product.specifications} className="table" />
+              // <HtmlRenderer htmlContent={product.specifications} />
+              // <HtmlRenderer htmlContent={product.specification} />
+              <div
+                className="prose text-gray-700 text-[15px]"
+                dangerouslySetInnerHTML={{ __html: product.specification }}
+              />
             ) : (
+              // <figure class="table">
+              //   <table>
+              //     <thead>
+              //       <tr>
+              //         <th>
+              //           <strong>Specification</strong>
+              //         </th>
+              //         <th>
+              //           <strong>Details</strong>
+              //         </th>
+              //       </tr>
+              //     </thead>
+              //     <tbody>
+              //       <tr>
+              //         <td>
+              //           <strong>Composition</strong>
+              //         </td>
+              //         <td>
+              //           - Aluminum chloride (25%) - Benzalkonium chloride - Gel
+              //           forming agent
+              //         </td>
+              //       </tr>
+              //       <tr>
+              //         <td>
+              //           <strong>Storage Temperature</strong>
+              //         </td>
+              //         <td>5°C to 25°C</td>
+              //       </tr>
+              //       <tr>
+              //         <td>
+              //           <strong>Storage Instructions</strong>
+              //         </td>
+              //         <td>
+              //           - Keep in a dry place - Tightly close the container
+              //           after use
+              //         </td>
+              //       </tr>
+              //       <tr>
+              //         <td>
+              //           <strong>Expiry Warning</strong>
+              //         </td>
+              //         <td>Do not use after the expiry date</td>
+              //       </tr>
+              //       <tr>
+              //         <td>
+              //           <strong>Shelf Life</strong>
+              //         </td>
+              //         <td>3 years</td>
+              //       </tr>
+              //     </tbody>
+              //   </table>
+              // </figure>
               <div className="text-center py-20 text-gray-500 text-xl">
                 No Specifications Available !
               </div>
@@ -106,7 +165,11 @@ export default function ProductTabs({ product }) {
         {activeTab === "packaging" && (
           <div className="pl-2 sm:pl-4">
             {product.packaging ? (
-              <HtmlContent html={product.packaging} className="table" />
+              // <HtmlContent html={product.packaging} />
+              <div
+                className="prose text-gray-700 text-[15px]"
+                dangerouslySetInnerHTML={{ __html: product.packaging }}
+              />
             ) : (
               <div className="text-center py-20 text-gray-500 text-xl">
                 No Packaging Available !
@@ -118,7 +181,11 @@ export default function ProductTabs({ product }) {
         {activeTab === "warranty" && (
           <div className="pl-2 sm:pl-4">
             {product.warranty ? (
-              <HtmlContent html={product.warranty} className="table" />
+              // <HtmlContent html={product.warranty} />
+              <div
+                className="prose text-gray-700 text-[15px]"
+                dangerouslySetInnerHTML={{ __html: product.warranty }}
+              />
             ) : (
               <div className="text-center py-20 text-gray-500 text-xl">
                 No Warranty Available !
@@ -178,10 +245,8 @@ export default function ProductTabs({ product }) {
                 </div>
               ))
             ) : (
-              // <Reviews products={product} />
               <p className="mb-4">No reviews yet. Be the first to write one!</p>
             )}
-            {/*data fecth */}
           </div>
         )}
       </div>
