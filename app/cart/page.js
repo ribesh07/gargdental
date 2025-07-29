@@ -556,9 +556,7 @@ export default function ShoppingCart() {
                     <span className="font-bold">GRAND TOTAL</span>
                     <div className="text-right">
                       <div className="font-bold">Rs. {total.toFixed(2)}</div>
-                      <div className="text-sm text-gray-500">
-                        All tax included.
-                      </div>
+                      
                     </div>
                   </div>
                   <div className="flex justify-center mt-6">

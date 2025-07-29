@@ -174,7 +174,6 @@ const ProductCard = ({ product, showDiscount = false }) => {
         // const details = await userDetails();
       } else {
         setIsloggedin(false);
-        setUser({});
       }
     };
 

@@ -460,12 +460,12 @@ const HeaderBarNew = () => {
                 >
                   New Clinic Setup
                 </Link>
-                <Link
+                {/* <Link
                   href="/AboutUs"
                   className="hover:underline font-semibold hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   About Us
-                </Link>
+                </Link> */}
               </div>
 
               {/* Cart + Logout */}

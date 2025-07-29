@@ -77,7 +77,7 @@ export function CategoriesViews() {
             sidebarOpen ? "block" : "hidden"
           } lg:w-64 xl:w-72`}
         >
-          <div className="bg-gray-50 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
+          <div className="bg-white rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
             <h2 className="font-bold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4">
               Supplis and Equipment
             </h2>

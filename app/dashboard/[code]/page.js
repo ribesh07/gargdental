@@ -151,7 +151,7 @@ export default async function ProductPage({ params }) {
             </div>
             <div className="flex items-baseline space-x-4 mb-2">
               <span className="text-2xl font-semibold text-red-600">
-                {product.sell_price}
+               Rs. {product.sell_price}
               </span>
               {parseFloat(product.actual_price) >
                 parseFloat(product.sell_price) && (
