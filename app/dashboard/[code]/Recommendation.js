@@ -80,7 +80,7 @@ export default function RecommendedProducts({ product }) {
   if (featuredProducts.length > 0) {
     return (
       <div className="min-h-[200px] bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-screen-2xl mx-auto px-4 py-8">
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-blue-600 mb-2">

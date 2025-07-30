@@ -28,8 +28,7 @@ export function HtmlContent({ html, className = "" }) {
 }
 
 import React from "react";
-import parse from "html-react-parser";
-
+// import parse from "html-react-parser";
 // const HtmlRenderer = ({ htmlContent }) => {
 //   return (
 //     <div className="max-w-4xl mx-auto p-4">

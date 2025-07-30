@@ -29,9 +29,7 @@ export default function BusinessRegistration() {
     <>
       <TawkToWidget />
       <div className="max-w-3xl mx-auto px-6 py-10">
-        <h1 className="text-3xl font-bold text-[#0072bc] mb-4">
-          Legal Registration
-        </h1>
+        
         {loading ? (
           <div className="text-gray-500">Loading...</div>
         ) : error ? (

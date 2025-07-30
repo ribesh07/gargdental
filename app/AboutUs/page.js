@@ -7,6 +7,7 @@ export default function AboutUsPage() {
   const [aboutData, setAboutData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [embedUrl, setEmbedUrl] = useState("");
 
   useEffect(() => {
     const fetchAboutUs = async () => {
@@ -27,6 +28,20 @@ export default function AboutUsPage() {
     };
     fetchAboutUs();
   }, []);
+
+  useEffect(() => {
+    const convertToEmbedUrl = (url) => {
+      const match = url?.match(
+        /(?:youtu\.be\/|youtube\.com\/watch\?v=)([^\s&]+)/
+      );
+      return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+    };
+
+    const embed = convertToEmbedUrl(
+      aboutData?.youtube_video || "https://www.youtube.com/watch?v=bVujKtgoq-U"
+    );
+    setEmbedUrl(embed);
+  }, [aboutData?.youtube_video]);
 
   if (loading) {
     return (
@@ -54,7 +69,7 @@ export default function AboutUsPage() {
     <div className="min-h-screen bg-white">
       {/* Video Section (if present) */}
       {aboutData.introduction_video_url && (
-        <div className="max-w-7xl mx-auto h-100 relative overflow-hidden">
+        <div className="max-w-screen-2xl mx-auto h-100 relative overflow-hidden">
           <video
             className="w-full h-full object-cover"
             autoPlay
@@ -68,7 +83,7 @@ export default function AboutUsPage() {
       )}
 
       {/* About Us Section */}
-      <div className="max-w-7xl mx-auto px-6 py-16 ">
+      <div className="max-w-screen-2xl mx-auto px-6 py-16 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ">
           <div>
             {aboutData.about_us_title && (
@@ -85,13 +100,13 @@ export default function AboutUsPage() {
               {aboutData.youtube_video && (
                 <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg w-full h-full sm:w-2xl sm:h-96 mr-9 ml-0.5 text-white overflow-hidden flex items-center justify-center">
                   <iframe
-                    className="w-full h-full rounded-lg"
-                    src={aboutData.youtube_video}
-                    title="YouTube video player"
+                    className="w-full h-full"
+                    src={embedUrl}
+                    title={aboutData?.youtube_video || "About Us"}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                  ></iframe>
+                  />
                 </div>
               )}
             </div>
@@ -104,7 +119,7 @@ export default function AboutUsPage() {
         aboutData.story_1?.description ||
         aboutData.story_2?.description) && (
         <div className="bg-gray-50 py-16">
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-screen-2xl mx-auto px-6">
             {aboutData.story_title && (
               <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
                 {aboutData.story_title}
@@ -179,7 +194,7 @@ export default function AboutUsPage() {
       )}
 
       <div className="bg-blue-900 py-8">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-screen-2xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center text-white">
               <div className="text-3xl mb-2">🏪</div>
@@ -203,7 +218,7 @@ export default function AboutUsPage() {
 
       {/* Core Values Section */}
       <div className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-screen-2xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
             Our Core Values
           </h2>
