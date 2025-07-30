@@ -246,7 +246,7 @@ const DentalSuppliesListing = () => {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto -ml-8 -my-3 sm:-my-4 lg:-my-6 p-2 sm:p-4 lg:p-6 ">
+      <div className="max-w-7xl mx-auto sm:-ml-8 -my-3 sm:-my-4 lg:-my-6 p-2 sm:p-4 lg:p-6 ">
         {/* Header */}
         <div className="bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-lg mb-3 sm:mb-4 lg:mb-5 shadow">
           <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900 mb-2 sm:mb-2.5">
