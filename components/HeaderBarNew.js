@@ -195,7 +195,7 @@ const HeaderBarNew = () => {
             <div className="md:hidden flex items-center space-x-2">
               {isloggedin && user && (
                 <>
-                  <div className="flex flex-col items-center space-x-4 cursor-pointer group">
+                  {/* <div className="flex flex-col items-center space-x-4 cursor-pointer group">
                     <button
                       onClick={() => router.push("/account/profile")}
                       className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
@@ -214,7 +214,7 @@ const HeaderBarNew = () => {
                     <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
                       Profile
                     </span>
-                  </div>
+                  </div> */}
 
                   {/* Shop Button */}
                   <button
@@ -511,8 +511,28 @@ const HeaderBarNew = () => {
               <div className="p-4">
                 {/* Mobile Menu Header */}
 
-                <div className="flex items-center justify-between mb-6 border-b pb-4">
-                  <h2 className="text-lg font-semibold">Menu</h2>
+                <div className="flex items-center justify-between mb-2 border-b">
+                  {/* <h2 className="text-lg font-semibold">Menu</h2> */}
+                  <div className="flex flex-col items-center space-x-4 cursor-pointer group">
+                    <button
+                      onClick={() => router.push("/account/profile")}
+                      className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
+                    >
+                      {user.image_full_url ? (
+                        <img
+                          src={user.image_full_url}
+                          alt="Profile"
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <User className="w-8 h-8" />
+                      )}
+                    </button>
+
+                    <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
+                      Profile
+                    </span>
+                  </div>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-2 hover:bg-gray-100 rounded"
