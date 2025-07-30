@@ -72,12 +72,12 @@ export function CategoriesViews() {
 
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
         {/* Sidebar */}
-        <div
+        {/* <div
           className={`lg:block ${
             sidebarOpen ? "block" : "hidden"
           } lg:w-64 xl:w-72`}
-        >
-          <div className="bg-white rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
+        > */}
+        {/* <div className="bg-white rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
             <h2 className="font-bold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4">
               Supplis and Equipment
             </h2>
@@ -113,12 +113,6 @@ export function CategoriesViews() {
                 </button>
               </div>
 
-              {/* <Link
-                href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
-              >
-                Order from History
-              </Link> */}
               <Link
                 href="/"
                 className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
@@ -187,11 +181,11 @@ export function CategoriesViews() {
                 Webinars & Videos
               </Link>
             </nav>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
 
         {/* Main Content */}
-        <div className="flex-1 mt-2 lg:mt-0">
+        <div className="flex-1 mt-2 p-6 lg:mt-0">
           {/* Tabs */}
           <div className="border-b border-gray-200 mb-4 sm:mb-6">
             <nav className="-mb-px flex flex-row sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
