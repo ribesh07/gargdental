@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Star, Truck, Shield, Headphones } from "lucide-react";
 import { AddtoCartFeatured } from "./addtocartbutton";
 import { BuyNow } from "./BuyNow";
 import fetchProducts from "@/utils/apiHelper";
 import { useRouter } from "next/navigation";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 
 export const ProductCard = ({ product, showDiscount = false }) => {
   const router = useRouter();
@@ -108,306 +109,359 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 );
 
 export default function ProductShowcase() {
-  const featuredProducts = [
-    {
-      id: 1,
-      product_name: "Articulating Paper 200 strips",
-      product_code: "HE00005",
-      brand: "Meta",
-      category: "category 1",
-      item_number: "#HE00005",
-      actual_price: "0.00",
+  // const featuredProducts = [
+  //   {
+  //     id: 1,
+  //     product_name: "Articulating Paper 200 strips",
+  //     product_code: "HE00005",
+  //     brand: "Meta",
+  //     category: "category 1",
+  //     item_number: "#HE00005",
+  //     actual_price: "0.00",
 
-      rating: 2,
-      reviews: 18,
-      sell_price: "600.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
-      description: "Articulating Paper 200 strips",
-      available_quantity: "100.00",
-      unit_info: "PCS",
-      flash_sale: true,
-      delivery_days: null,
-    },
-    {
-      id: 2,
-      product_name: "Articulating Paper Forceps",
-      product_code: "A300001",
-      brand: "No Brand",
-      category: "Category 2",
-      item_number: "#A300001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      rating: 4,
-      reviews: 10,
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
-      description: "Articulating Paper Forceps",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 3,
-      product_name: "Bausch Progress 100",
-      product_code: "A500002",
-      brand: "No Brand",
-      rating: 3,
-      reviews: 8,
-      category: "category 1",
-      item_number: "#A500002",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
-      description: "Bausch Progress 100",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 4,
-      product_name: "Fleximeter Strips BK 253",
-      product_code: "A200001",
-      brand: "No Brand",
-      category: "category 1",
+  //     rating: 2,
+  //     reviews: 18,
+  //     sell_price: "600.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
+  //     description: "Articulating Paper 200 strips",
+  //     available_quantity: "100.00",
+  //     unit_info: "PCS",
+  //     flash_sale: true,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 2,
+  //     product_name: "Articulating Paper Forceps",
+  //     product_code: "A300001",
+  //     brand: "No Brand",
+  //     category: "Category 2",
+  //     item_number: "#A300001",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     rating: 4,
+  //     reviews: 10,
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+  //     description: "Articulating Paper Forceps",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 3,
+  //     product_name: "Bausch Progress 100",
+  //     product_code: "A500002",
+  //     brand: "No Brand",
+  //     rating: 3,
+  //     reviews: 8,
+  //     category: "category 1",
+  //     item_number: "#A500002",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
+  //     description: "Bausch Progress 100",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 4,
+  //     product_name: "Fleximeter Strips BK 253",
+  //     product_code: "A200001",
+  //     brand: "No Brand",
+  //     category: "category 1",
 
-      rating: 5,
-      reviews: 12,
-      item_number: "#A200001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
-      description: "Fleximeter Strips BK 253",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 5,
-      product_name: "Bausch articulating paper BK 81",
-      product_code: "A200002",
-      brand: "No Brand",
-      category: "category 1",
+  //     rating: 5,
+  //     reviews: 12,
+  //     item_number: "#A200001",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
+  //     description: "Fleximeter Strips BK 253",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 5,
+  //     product_name: "Bausch articulating paper BK 81",
+  //     product_code: "A200002",
+  //     brand: "No Brand",
+  //     category: "category 1",
 
-      rating: 1,
-      reviews: 5,
-      item_number: "#A200002",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200002/bausch_articulating_paper_bk_81.jpeg",
-      description: "Bausch articulating paper BK 81",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 6,
-      product_name: "Arti Spot 2",
-      product_code: "A500003",
-      brand: "No Brand",
-      category: "Sub Sub category 1",
+  //     rating: 1,
+  //     reviews: 5,
+  //     item_number: "#A200002",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A200002/bausch_articulating_paper_bk_81.jpeg",
+  //     description: "Bausch articulating paper BK 81",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 6,
+  //     product_name: "Arti Spot 2",
+  //     product_code: "A500003",
+  //     brand: "No Brand",
+  //     category: "Sub Sub category 1",
 
-      rating: 3,
-      reviews: 8,
-      item_number: "#A500003",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
-      description: "Arti Spot 2",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-  ];
+  //     rating: 3,
+  //     reviews: 8,
+  //     item_number: "#A500003",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
+  //     description: "Arti Spot 2",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  // ];
 
-  const specialProducts = [
-    {
-      id: 2,
-      product_name: "Articulating Paper Forceps",
-      product_code: "A300001",
-      brand: "No Brand",
-      category: "Category 2",
-      item_number: "#A300001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      rating: 4,
-      reviews: 10,
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
-      description: "Articulating Paper Forceps",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 3,
-      product_name: "Bausch Progress 100",
-      product_code: "A500002",
-      brand: "No Brand",
-      rating: 3,
-      reviews: 8,
-      category: "category 1",
-      item_number: "#A500002",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
-      description: "Bausch Progress 100",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 4,
-      product_name: "Fleximeter Strips BK 253",
-      product_code: "A200001",
-      brand: "No Brand",
-      category: "category 1",
+  const [featuredProducts, setProducts] = useState([]);
+  const [specialProducts, setSpecialProducts] = useState([]);
+  const [weeklyProducts, setWeeklyProducts] = useState([]);
+  const [flashProducts, setFlashSaleProducts] = useState([]);
 
-      rating: 5,
-      reviews: 12,
-      item_number: "#A200001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
-      description: "Fleximeter Strips BK 253",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-  ];
+  useEffect(() => {
+    const fetchaLatestProducts = async () => {
+      try {
+        const response = await apiRequest("/products/latest", false);
+        if (!response.success) return;
+        const data = response.products;
+        console.log("Latest products:", data);
 
-  const weeklyProducts = [
-    {
-      id: 2,
-      product_name: "Articulating Paper Forceps",
-      product_code: "A300001",
-      brand: "No Brand",
-      category: "Category 2",
-      item_number: "#A300001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      rating: 4,
-      reviews: 10,
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
-      description: "Articulating Paper Forceps",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 4,
-      product_name: "Fleximeter Strips BK 253",
-      product_code: "A200001",
-      brand: "No Brand",
-      category: "category 1",
+        const mappeddata = data.map((product) => ({
+          id: product.id,
+          product_name: product.product_name,
+          product_code: product.product_code,
+          has_variations: product.has_variations,
+          starting_price: product.starting_price,
+          brand: product.brand?.brand_name || "No Brand",
+          category: product.category?.category_name || "Uncategorized",
+          item_number: `#${product.product_code}`,
+          actual_price: product.actual_price,
+          sell_price: product.sell_price,
+          rating: product.average_rating,
+          reviews: product.review_count,
+          image_url:
+            product.main_image_full_url ||
+            product.image_url ||
+            "/assets/logo.png",
+          description: product.product_description,
+          available_quantity: product.available_quantity,
+          unit_info: product.stock_quantity,
+          flash_sale: product.flash_sale,
+          delivery_days: product.delivery_target_days,
+        }));
 
-      rating: 5,
-      reviews: 12,
-      item_number: "#A200001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
-      description: "Fleximeter Strips BK 253",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 6,
-      product_name: "Arti Spot 2",
-      product_code: "A500003",
-      brand: "No Brand",
-      category: "Sub Sub category 1",
+        const mapProduct = mappeddata.slice(0, 6);
+        const mapSpecial = mappeddata.slice(6, 9);
+        const mapWeekly = mappeddata.slice(9, 12);
+        const mapFlashSale = mappeddata.slice(12, 15);
+        setProducts(mapProduct);
+        setSpecialProducts(mapSpecial);
+        setWeeklyProducts(mapWeekly);
+        setFlashSaleProducts(mapFlashSale);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
 
-      rating: 3,
-      reviews: 8,
-      item_number: "#A500003",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
-      description: "Arti Spot 2",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-  ];
+    fetchaLatestProducts();
+  }, []);
 
-  const flashProducts = [
-    {
-      id: 6,
-      product_name: "Arti Spot 2",
-      product_code: "A500003",
-      brand: "No Brand",
-      category: "Sub Sub category 1",
+  // const specialProducts = [
+  //   {
+  //     id: 2,
+  //     product_name: "Articulating Paper Forceps",
+  //     product_code: "A300001",
+  //     brand: "No Brand",
+  //     category: "Category 2",
+  //     item_number: "#A300001",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     rating: 4,
+  //     reviews: 10,
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+  //     description: "Articulating Paper Forceps",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 3,
+  //     product_name: "Bausch Progress 100",
+  //     product_code: "A500002",
+  //     brand: "No Brand",
+  //     rating: 3,
+  //     reviews: 8,
+  //     category: "category 1",
+  //     item_number: "#A500002",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A500002/bausch_progress_100.jpeg",
+  //     description: "Bausch Progress 100",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 4,
+  //     product_name: "Fleximeter Strips BK 253",
+  //     product_code: "A200001",
+  //     brand: "No Brand",
+  //     category: "category 1",
 
-      rating: 3,
-      reviews: 8,
-      item_number: "#A500003",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
-      description: "Arti Spot 2",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-    {
-      id: 1,
-      product_name: "Articulating Paper 200 strips",
-      product_code: "HE00005",
-      brand: "Meta",
-      category: "category 1",
-      item_number: "#HE00005",
-      actual_price: "0.00",
-      sell_price: "600.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
-      description: "Articulating Paper 200 strips",
-      available_quantity: "100.00",
-      unit_info: "PCS",
-      flash_sale: true,
-      delivery_days: null,
-    },
-    {
-      id: 2,
-      product_name: "Articulating Paper Forceps",
-      product_code: "A300001",
-      brand: "No Brand",
-      category: "Category 2",
-      item_number: "#A300001",
-      actual_price: "1000.00",
-      sell_price: "900.00",
-      image_url:
-        "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
-      description: "Articulating Paper Forceps",
-      available_quantity: "50.00",
-      unit_info: null,
-      flash_sale: false,
-      delivery_days: null,
-    },
-  ];
+  //     rating: 5,
+  //     reviews: 12,
+  //     item_number: "#A200001",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
+  //     description: "Fleximeter Strips BK 253",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  // ];
+
+  // const weeklyProducts = [
+  //   {
+  //     id: 2,
+  //     product_name: "Articulating Paper Forceps",
+  //     product_code: "A300001",
+  //     brand: "No Brand",
+  //     category: "Category 2",
+  //     item_number: "#A300001",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     rating: 4,
+  //     reviews: 10,
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+  //     description: "Articulating Paper Forceps",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 4,
+  //     product_name: "Fleximeter Strips BK 253",
+  //     product_code: "A200001",
+  //     brand: "No Brand",
+  //     category: "category 1",
+
+  //     rating: 5,
+  //     reviews: 12,
+  //     item_number: "#A200001",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A200001/fleximeter_strips_bk_253.jpeg",
+  //     description: "Fleximeter Strips BK 253",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 6,
+  //     product_name: "Arti Spot 2",
+  //     product_code: "A500003",
+  //     brand: "No Brand",
+  //     category: "Sub Sub category 1",
+
+  //     rating: 3,
+  //     reviews: 8,
+  //     item_number: "#A500003",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
+  //     description: "Arti Spot 2",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  // ];
+
+  // const flashProducts = [
+  //   {
+  //     id: 6,
+  //     product_name: "Arti Spot 2",
+  //     product_code: "A500003",
+  //     brand: "No Brand",
+  //     category: "Sub Sub category 1",
+
+  //     rating: 3,
+  //     reviews: 8,
+  //     item_number: "#A500003",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A500003/arti_spot_2.jpeg",
+  //     description: "Arti Spot 2",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 1,
+  //     product_name: "Articulating Paper 200 strips",
+  //     product_code: "HE00005",
+  //     brand: "Meta",
+  //     category: "category 1",
+  //     item_number: "#HE00005",
+  //     actual_price: "0.00",
+  //     sell_price: "600.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/HE00005/articulating_paper_200_strips.jpeg",
+  //     description: "Articulating Paper 200 strips",
+  //     available_quantity: "100.00",
+  //     unit_info: "PCS",
+  //     flash_sale: true,
+  //     delivery_days: null,
+  //   },
+  //   {
+  //     id: 2,
+  //     product_name: "Articulating Paper Forceps",
+  //     product_code: "A300001",
+  //     brand: "No Brand",
+  //     category: "Category 2",
+  //     item_number: "#A300001",
+  //     actual_price: "1000.00",
+  //     sell_price: "900.00",
+  //     image_url:
+  //       "https://garg.omsok.com/storage/app/public/backend/productimages/A300001/articulating_paper_forceps.jpeg",
+  //     description: "Articulating Paper Forceps",
+  //     available_quantity: "50.00",
+  //     unit_info: null,
+  //     flash_sale: false,
+  //     delivery_days: null,
+  //   },
+  // ];
   const router = useRouter();
 
   return (
@@ -416,16 +470,16 @@ export default function ProductShowcase() {
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-2">
-            FEATURED PRODUCTS
+            LATEST PRODUCTS
           </h1>
           <p className="text-gray-600 text-sm sm:text-base">
-            FIND NEW FEATURED PRODUCTS
+            FIND NEW LATEST PRODUCTS
           </p>
         </div>
 
         {/* Featured Products */}
         <ProductSection
-          title="Featured Products"
+          title="LATEST Products"
           products={featuredProducts}
           showDiscount={true}
         />

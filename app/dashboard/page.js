@@ -286,7 +286,7 @@ const GargDental = () => {
         <CategoriesViews />
 
         {/* Browse more */}
-        <div className="text-center text-lg sm:text-xl lg:text-2xl font-bold">
+        <div className="text-center text-lg -mb-5 sm:text-xl lg:text-2xl font-bold">
           <div className="max-w-full px-2 sm:px-4 py-2 sm:py-6 lg:py-8 text-center">
             <div className="relative max-w-7xl h-[60px] sm:h-[80px] lg:h-[80px] mx-auto">
               <img
