@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import HtmlDataConversion from "@/components/HtmlDataConversion";
+import { HtmlDataConversion } from "@/components/HtmlDataConversion";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 
 export default function AboutUsPage() {
@@ -29,13 +29,25 @@ export default function AboutUsPage() {
   }, []);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
   }
   if (error) {
-    return <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        {error}
+      </div>
+    );
   }
   if (!aboutData) {
-    return <div className="min-h-screen flex items-center justify-center text-gray-500">No data found.</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        No data found.
+      </div>
+    );
   }
 
   return (
@@ -88,7 +100,9 @@ export default function AboutUsPage() {
       </div>
 
       {/* Our Story Section (if present) */}
-      {(aboutData.story_title || aboutData.story_1?.description || aboutData.story_2?.description) && (
+      {(aboutData.story_title ||
+        aboutData.story_1?.description ||
+        aboutData.story_2?.description) && (
         <div className="bg-gray-50 py-16">
           <div className="max-w-7xl mx-auto px-6">
             {aboutData.story_title && (
@@ -107,10 +121,14 @@ export default function AboutUsPage() {
                         className="w-64 h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center"
                       />
                       {aboutData.story_1.name && (
-                        <h3 className="text-xl font-bold text-gray-900">{aboutData.story_1.name}</h3>
+                        <h3 className="text-xl font-bold text-gray-900">
+                          {aboutData.story_1.name}
+                        </h3>
                       )}
                       {aboutData.story_1.designation && (
-                        <p className="text-sm text-gray-600">{aboutData.story_1.designation}</p>
+                        <p className="text-sm text-gray-600">
+                          {aboutData.story_1.designation}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -118,14 +136,18 @@ export default function AboutUsPage() {
               )}
               <div>
                 {aboutData.story_1?.description && (
-                  <HtmlDataConversion description={aboutData.story_1.description} />
+                  <HtmlDataConversion
+                    description={aboutData.story_1.description}
+                  />
                 )}
               </div>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 {aboutData.story_2?.description && (
-                  <HtmlDataConversion description={aboutData.story_2.description} />
+                  <HtmlDataConversion
+                    description={aboutData.story_2.description}
+                  />
                 )}
               </div>
               {aboutData.story_2?.image_url && (
@@ -138,10 +160,14 @@ export default function AboutUsPage() {
                         className="w-64 h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center"
                       />
                       {aboutData.story_2.name && (
-                        <h3 className="text-xl font-bold text-gray-900">{aboutData.story_2.name}</h3>
+                        <h3 className="text-xl font-bold text-gray-900">
+                          {aboutData.story_2.name}
+                        </h3>
                       )}
                       {aboutData.story_2.designation && (
-                        <p className="text-sm text-gray-600">{aboutData.story_2.designation}</p>
+                        <p className="text-sm text-gray-600">
+                          {aboutData.story_2.designation}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -152,7 +178,7 @@ export default function AboutUsPage() {
         </div>
       )}
 
-<div className="bg-blue-900 py-8">
+      <div className="bg-blue-900 py-8">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center text-white">
