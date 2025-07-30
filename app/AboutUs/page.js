@@ -7,6 +7,7 @@ export default function AboutUsPage() {
   const [aboutData, setAboutData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [embedUrl, setEmbedUrl] = useState("");
 
   useEffect(() => {
     const fetchAboutUs = async () => {
@@ -27,6 +28,20 @@ export default function AboutUsPage() {
     };
     fetchAboutUs();
   }, []);
+
+  useEffect(() => {
+    const convertToEmbedUrl = (url) => {
+      const match = url?.match(
+        /(?:youtu\.be\/|youtube\.com\/watch\?v=)([^\s&]+)/
+      );
+      return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+    };
+
+    const embed = convertToEmbedUrl(
+      aboutData?.youtube_video || "https://www.youtube.com/watch?v=bVujKtgoq-U"
+    );
+    setEmbedUrl(embed);
+  }, [aboutData?.youtube_video]);
 
   if (loading) {
     return (
@@ -85,13 +100,13 @@ export default function AboutUsPage() {
               {aboutData.youtube_video && (
                 <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg w-full h-full sm:w-2xl sm:h-96 mr-9 ml-0.5 text-white overflow-hidden flex items-center justify-center">
                   <iframe
-                    className="w-full h-full rounded-lg"
-                    src={aboutData.youtube_video}
-                    title="YouTube video player"
+                    className="w-full h-full"
+                    src={embedUrl}
+                    title={aboutData?.youtube_video || "About Us"}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                  ></iframe>
+                  />
                 </div>
               )}
             </div>
