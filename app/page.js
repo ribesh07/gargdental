@@ -31,7 +31,7 @@ import GargDental from "./dashboard/page";
 
 //   return (
 //     // <div className="min-h-screen bg-gray-100">
-//     //   <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5">
+//     //   <div className="max-w-screen-2xl mx-auto p-2 sm:p-3 md:p-5">
 //     <>
 //       {/* Mobile Menu Button */}
 

@@ -157,10 +157,10 @@ const HeaderBarNew = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto bg-white sticky top-0 z-50">
+    <div className="max-w-screen-2xl mx-auto bg-white sticky top-0 z-50">
       <div className="w-full">
         {/* Main Header */}
-        <div className="max-w-7xl mx-auto mb-2 bg-white">
+        <div className="max-w-screen-2xl mx-auto mb-2 bg-white">
           <div className="flex items-center justify-between py-2 md:py-4">
             {/* Logo */}
             {settings.company_logo_header ? (
@@ -195,7 +195,7 @@ const HeaderBarNew = () => {
             <div className="md:hidden flex items-center space-x-2">
               {isloggedin && user && (
                 <>
-                  {/* <div className="flex flex-col items-center space-x-4 cursor-pointer group">
+                  <div className="flex flex-col items-center space-x-4 cursor-pointer group">
                     <button
                       onClick={() => router.push("/account/profile")}
                       className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
@@ -214,7 +214,7 @@ const HeaderBarNew = () => {
                     <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
                       Profile
                     </span>
-                  </div> */}
+                  </div>
 
                   {/* Shop Button */}
                   <button
@@ -434,7 +434,7 @@ const HeaderBarNew = () => {
 
           {/* Desktop Login Section */}
           <div className="sm:block w-full bg-gradient-to-r from-[#1FA2FF] via-[#12D8FA] to-[#1FA2FF] border-t border-b border-gray-200 rounded-lg px-2 sm:px-6 py-3">
-            <div className="max-w-7xl mx-auto flex justify-center">
+            <div className="max-w-screen-2xl mx-auto flex justify-center">
               <div className="flex w-full max-w-xl justify-between items-center text-white sm:text-gray-600 text-[10px] sm:text-[16px] gap-x-2 sm:gap-x-4 p-0.5">
                 <Link
                   href="/dashboard"
@@ -511,28 +511,8 @@ const HeaderBarNew = () => {
               <div className="p-4">
                 {/* Mobile Menu Header */}
 
-                <div className="flex items-center justify-between mb-2 border-b">
-                  {/* <h2 className="text-lg font-semibold">Menu</h2> */}
-                  <div className="flex flex-col items-center space-x-4 cursor-pointer group">
-                    <button
-                      onClick={() => router.push("/account/profile")}
-                      className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
-                    >
-                      {user.image_full_url ? (
-                        <img
-                          src={user.image_full_url}
-                          alt="Profile"
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <User className="w-8 h-8" />
-                      )}
-                    </button>
-
-                    <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
-                      Profile
-                    </span>
-                  </div>
+                <div className="flex items-center justify-between mb-6 border-b pb-4">
+                  <h2 className="text-lg font-semibold">Menu</h2>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-2 hover:bg-gray-100 rounded"
@@ -543,7 +523,7 @@ const HeaderBarNew = () => {
 
                 {/* Mobile Login/Logout/My Account Section */}
                 {!isloggedin ? (
-                  <div className="mb-2 border-b">
+                  <div className="mb-6 pb-4 border-b">
                     <button
                       className="w-full bg-[#bf0000] text-white text-sm py-3 rounded hover:bg-red-600  transition-colors flex items-center justify-center mb-3"
                       onClick={() => {

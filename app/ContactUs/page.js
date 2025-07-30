@@ -205,7 +205,7 @@ export default function ContactUs() {
       {/* Map Embed */}
       {contact.map && (
         <div className="mt-10 w-full flex justify-center px-4">
-          <div className="map-wrapper max-w-7xl w-full rounded overflow-hidden shadow">
+          <div className="map-wrapper max-w-screen-2xl w-full rounded overflow-hidden shadow">
             <div
               className="map-html"
               dangerouslySetInnerHTML={{ __html: contact.map }}

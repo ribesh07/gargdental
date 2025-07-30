@@ -54,7 +54,7 @@ export default function TopCategoriesPage() {
 
   return (
     <div className="bg-gray-100 -mt-10 -mb-12">
-      <div className="max-w-7xl mx-auto my-8">
+      <div className="max-w-screen-2xl mx-auto my-8">
         {/* Header */}
         <div className="text-left mb-4 ml-2 pt-6">
           <h1 className="text-2xl font-bold text-gray-900">Top Categories</h1>

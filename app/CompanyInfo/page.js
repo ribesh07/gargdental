@@ -24,9 +24,7 @@ export default function CompanyInfo() {
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold text-[#0072bc] mb-6">
-        Company Information
-      </h1>
+      
 
       {loading ? (
         <div className="text-gray-500">Loading...</div>
