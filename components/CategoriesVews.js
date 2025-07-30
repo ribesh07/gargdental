@@ -70,7 +70,7 @@ export function CategoriesViews() {
         </button>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+      <div className="flex flex-col lg:flex-row gap-4 -mb-5 lg:gap-8">
         {/* Sidebar */}
         {/* <div
           className={`lg:block ${
