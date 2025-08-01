@@ -333,7 +333,7 @@ function ProductCardMain({ product, showDiscount }) {
                   </span>
                 )}
               <span className="text-[14px] sm:text-base font-bold text-red-600">
-                Rs. {product.sell_price}
+                Rs. {Number(product.sell_price).toLocaleString()}
               </span>
             </div>
           </div>
@@ -345,7 +345,7 @@ function ProductCardMain({ product, showDiscount }) {
           <div className="mt-2 justify-center flex flex-col items-start">
             <span className="text-[16px] text-gray-400">Starting at</span>
             <span className="text-[14px] sm:text-base font-bold text-red-600">
-              Rs. {product.starting_price}
+              Rs. {Number(product.sell_price).toLocaleString()}
             </span>
           </div>
           <ViewProducts product={product} />

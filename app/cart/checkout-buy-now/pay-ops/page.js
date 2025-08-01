@@ -149,7 +149,7 @@ const PayOpsPageBuyNow = () => {
     });
     setTimeout(() => {
       setIsProcessing(false);
-      router.push("/myaccount");
+      router.push("/product");
     }, 400);
   };
 
