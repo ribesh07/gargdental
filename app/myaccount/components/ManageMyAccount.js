@@ -1,4 +1,8 @@
-import { Shield, Trash2 } from "lucide-react";
+import { Shield, Trash2, LogOut} from "lucide-react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 
 export default function ManageMyAccount({
   onEditProfile,
@@ -21,6 +25,48 @@ export default function ManageMyAccount({
     cities.find((c) => c.id === homeAddress?.city_id)?.name || "";
   const zoneName =
     zones.find((z) => z.id === homeAddress?.zone_id)?.zone_name || "";
+
+  
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter(); 
+
+const handleLogout = async () => {
+  try {
+    setIsLoading(true);
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      localStorage.removeItem("token");
+
+      const useCartStore = await import("@/stores/useCartStore");
+      useCartStore.default.getState().clearCart();
+
+      toast.success("Logged out successfully");
+      router.push("/dashboard"); 
+    } else {
+      toast.error("Logout failed");
+    }
+  } catch (error) {
+    console.error("Logout error:", error);
+    toast.error("An error occurred during logout");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+
+
+
+
 
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col px-4 sm:px-6 py-6">
@@ -118,6 +164,27 @@ export default function ManageMyAccount({
                 className="text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
               >
                 Change
+              </button>
+            </div>
+
+
+            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="bg-red-100 p-2 rounded-full">
+                  <LogOut className="w-4 h-4 text-red-600" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Account logout</h4>
+                  <p className="text-sm text-gray-600">
+                    
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="text-red-600 hover:text-red-800 text-sm font-medium cursor-pointer"
+              >
+                Logout
               </button>
             </div>
 
