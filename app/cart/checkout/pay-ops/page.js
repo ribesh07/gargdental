@@ -153,7 +153,7 @@ const PayOpsPage = () => {
         useCartStore.getState().setSelectedItems([]);
 
         // Redirect to my account page
-        router.push("/myaccount");
+        router.push("/product");
       } else {
         // Error is already handled by the modal in handleOrder function
         console.error("Order failed:", result?.message || "Unknown error");
