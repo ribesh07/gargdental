@@ -157,10 +157,10 @@ const HeaderBarNew = () => {
   }, []);
 
   return (
-    <div className="max-w-screen-2xl mx-auto bg-white sticky top-0 z-50 ">
+    <div className="max-w-7xl mx-auto bg-white sticky top-0 z-50 ">
       <div className="w-full">
         {/* Main Header */}
-        <div className="max-w-screen-2xl mx-auto mb-2 bg-white">
+        <div className="max-w-7xl mx-auto mb-2 bg-white">
           <div className="flex items-center justify-between py-2 md:py-4">
             {/* Logo */}
             {settings.company_logo_header ? (
@@ -434,7 +434,7 @@ const HeaderBarNew = () => {
 
           {/* Desktop Login Section */}
           <div className="sm:block w-full bg-gradient-to-r from-[#1FA2FF] via-[#12D8FA] to-[#1FA2FF] border-t border-b border-gray-200 rounded-lg px-2 sm:px-6 py-3">
-            <div className="max-w-screen-2xl mx-auto flex justify-center">
+            <div className="max-w-7xl mx-auto flex justify-center">
               <div className="flex w-full max-w-xl justify-between items-center text-white sm:text-gray-600 text-[10px] sm:text-[16px] gap-x-2 sm:gap-x-4 p-0.5">
                 <Link
                   href="/dashboard"

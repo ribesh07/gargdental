@@ -152,7 +152,7 @@ const ProductAPIRequest = () => {
   return (
     <div className="min-h-screen origin-top bg-gray-50 p-6">
       {/* <MainTopBar /> */}
-      <div className="max-w-screen-2xl  my-6 mx-auto ">
+      <div className="max-w-7xl  my-6 mx-auto ">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -238,7 +238,7 @@ const ProductAPIRequest = () => {
 
         {/* Products Grid */}
         {!loading && (
-          <div className="max-w-screen-2xl mx-auto px-4 mt-10">
+          <div className="max-w-7xl mx-auto px-4 mt-10">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
               {filteredProducts.map((product) => (
                 <ProductCardMain

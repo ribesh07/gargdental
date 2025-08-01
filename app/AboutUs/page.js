@@ -69,7 +69,7 @@ export default function AboutUsPage() {
     <div className="min-h-screen bg-white">
       {/* Video Section (if present) */}
       {aboutData.introduction_video_url && (
-        <div className="max-w-screen-2xl mx-auto h-100 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto h-100 relative overflow-hidden">
           <video
             className="w-full h-full object-cover"
             autoPlay
@@ -83,7 +83,7 @@ export default function AboutUsPage() {
       )}
 
       {/* About Us Section */}
-      <div className="max-w-screen-2xl mx-auto px-6 py-16 ">
+      <div className="max-w-7xl mx-auto px-6 py-16 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ">
           <div>
             {aboutData.about_us_title && (
@@ -119,7 +119,7 @@ export default function AboutUsPage() {
         aboutData.story_1?.description ||
         aboutData.story_2?.description) && (
         <div className="bg-gray-50 py-16">
-          <div className="max-w-screen-2xl mx-auto px-6">
+          <div className="max-w-7xl mx-auto px-6">
             {aboutData.story_title && (
               <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
                 {aboutData.story_title}
@@ -194,7 +194,7 @@ export default function AboutUsPage() {
       )}
 
       <div className="bg-blue-900 py-8">
-        <div className="max-w-screen-2xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center text-white">
               <div className="text-3xl mb-2">🏪</div>
@@ -218,7 +218,7 @@ export default function AboutUsPage() {
 
       {/* Core Values Section */}
       <div className="py-16 bg-white">
-        <div className="max-w-screen-2xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
             Our Core Values
           </h2>

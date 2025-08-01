@@ -191,12 +191,12 @@ const GargDental = () => {
 
   return (
     <div>
-      <div className="max-w-screen-2xl mx-auto bg-gray-100 font-sans">
-        {/* <div className="max-w-screen-2xl mx-auto p-2 sm:p-3 md:p-5"> */}
+      <div className="max-w-7xl mx-auto bg-gray-100 font-sans">
+        {/* <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5"> */}
         {/* Top Bar */}
 
         {/* Image Slider */}
-        <div className="max-w-screen-2xl mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg">
+        <div className="max-w-7xl mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg">
           {/* Slides */}
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;
@@ -288,7 +288,7 @@ const GargDental = () => {
         {/* Browse more */}
         <div className="text-center text-lg -mb-5 sm:text-xl lg:text-2xl font-bold">
           <div className="max-w-full px-2 sm:px-4 py-2 sm:py-6 lg:py-8 text-center">
-            <div className="relative max-w-screen-2xl h-[60px] sm:h-[80px] lg:h-[80px] mx-auto">
+            <div className="relative max-w-7xl h-[60px] sm:h-[80px] lg:h-[80px] mx-auto">
               <img
                 src="/assets/banner.png"
                 alt="Garg Logo"
@@ -304,7 +304,7 @@ const GargDental = () => {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-screen-2xl mx-auto p-2 sm:p-3 lg:p-5">
+        <div className="max-w-7xl mx-auto p-2 sm:p-3 lg:p-5">
           {/* Mobile Menu Button */}
           <div className="lg:hidden mb-4">
             <button

@@ -327,8 +327,8 @@ const AccountPage = () => {
   }
 
   return (
-    <div className="max-w-screen-2xl mx-auto bg-gray-50">
-      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto bg-gray-50">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
         {/* Sidebar */}
         <aside className="w-full md:w-80 flex-shrink-0">
           <div className="bg-white rounded-xl shadow p-6 text-center">

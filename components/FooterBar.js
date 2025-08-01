@@ -106,7 +106,7 @@ export default function FooterBar() {
     <footer className="relative w-full">
       {/* Main Footer */}
       <div className="bg-gradient-to-r from-[#446c87] via-[#76b9e6] to-blue-600 text-white">
-        <div className="max-w-screen-2xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-12">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {/* Contact Us Section */}
             <div className="space-y-2 sm:space-y-4">
@@ -311,7 +311,7 @@ export default function FooterBar() {
 
       {/* Bottom Footer */}
       <div className="bg-slate-800 text-gray-300 py-2 sm:py-4">
-        <div className="max-w-screen-2xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-xs sm:text-sm text-center sm:text-left">
               Copyright © 2025 Garg Dental All Right Reserved
