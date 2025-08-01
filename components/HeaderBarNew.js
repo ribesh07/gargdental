@@ -157,7 +157,7 @@ const HeaderBarNew = () => {
   }, []);
 
   return (
-    <div className="max-w-screen-2xl mx-auto bg-white sticky top-0 z-50">
+    <div className="max-w-screen-2xl mx-auto bg-white sticky top-0 z-50 ">
       <div className="w-full">
         {/* Main Header */}
         <div className="max-w-screen-2xl mx-auto mb-2 bg-white">
@@ -353,7 +353,7 @@ const HeaderBarNew = () => {
 
               {isloggedin && user && (
                 <>
-                  <div className="flex flex-col items-center space-x-4 cursor-pointer group">
+                  {/* <div className="flex flex-col items-center space-x-4 cursor-pointer group">
                     <button
                       onClick={() => router.push("/account/profile")}
                       className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
@@ -372,7 +372,7 @@ const HeaderBarNew = () => {
                     <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
                       Profile
                     </span>
-                  </div>
+                  </div> */}
 
                   {/* Shop Button */}
                   <button
