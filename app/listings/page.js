@@ -422,7 +422,7 @@ function ProductCardMain({ product, showDiscount }) {
     <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div className="flex-1 flex flex-col cursor-pointer">
         <div className="relative mb-2 sm:mb-3 lg:mb-4">
-          <div className="absolute flex self-start top-1 left-1 z-50">
+          <div className="absolute top-1  z-10 p-1 rounded-full bg-white/70 backdrop-blur-sm  hover:scale-105 transition-transform duration-200">
             <WishListHeart product={product} />
           </div>
 

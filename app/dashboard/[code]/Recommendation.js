@@ -198,7 +198,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
     <div className="flex flex-col h-full w-50 bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div className="relative mb-4">
         {isloggedin && (
-          <div className="absolute flex self-start top-1 left-1 z-50">
+          <div className="absolute top-1 left-1 z-10 p-1 rounded-full bg-white/70 backdrop-blur-sm  hover:scale-105 transition-transform duration-200">
             <WishListHeart product={product} />
           </div>
         )}
