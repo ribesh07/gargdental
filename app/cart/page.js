@@ -555,7 +555,10 @@ export default function ShoppingCart() {
                   <div className="flex justify-between text-lg ">
                     <span className="font-bold">GRAND TOTAL</span>
                     <div className="text-right">
-                      <div className="font-bold">Rs. {total.toFixed(2)}</div>
+                      <div className="font-bold">Rs. {total.toLocaleString("en-IN", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})}</div>
                       
                     </div>
                   </div>

@@ -306,7 +306,11 @@ export default function OrderSummaryBuyNow() {
                     SUBTOTAL
                   </span>
                   <span className="font-semibold text-gray-800">
-                    Rs. {subtotal.toFixed(2)}
+                    Rs.{" "}
+                    {subtotal.toLocaleString("en-IN", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -314,7 +318,11 @@ export default function OrderSummaryBuyNow() {
                     VAT {"13%"}
                   </span>
                   <span className="font-semibold text-gray-800">
-                    Rs. {totalVatAmount.toFixed(2)}
+                    Rs.{" "}
+                    {totalVatAmount.toLocaleString("en-IN", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -331,7 +339,11 @@ export default function OrderSummaryBuyNow() {
                     GRAND TOTAL
                   </span>
                   <span className="text-lg font-bold text-gray-800">
-                    Rs. {total.toFixed(2)}
+                    Rs.{" "}
+                    {total.toLocaleString("en-IN", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
                 <label htmlFor="terms" className="text-sm text-gray-700">

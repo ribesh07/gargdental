@@ -292,7 +292,10 @@ const PayOpsPageBuyNow = () => {
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">VAT {"13%"}</span>
               <span className="font-bold text-lg">
-                Rs. {totalVatAmount.toFixed(2)}
+                Rs. {totalVatAmount.toLocaleString("en-IN", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})}
               </span>
             </div>
             <div className="flex justify-between mb-4">
