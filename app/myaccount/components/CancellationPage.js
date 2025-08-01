@@ -105,7 +105,7 @@ export default function MyCancellations() {
         cancelledOrders.map((order, index) => (
           <div
             key={order.id || index}
-            className="bg-white rounded-lg shadow p-4 mb-6 border"
+            className="bg-gray-50 rounded-lg shadow p-4 mb-6 border"
           >
             {/* Header: Order ID + Status */}
             <div className="flex justify-between items-center mb-4">
@@ -168,7 +168,7 @@ export default function MyCancellations() {
                       key={item.id || idx}
                       className="flex items-center gap-4 border-b pb-2 last:border-b-0 last:pb-0"
                     >
-                      <div className="w-14 h-14 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
+                      <div className="w-14 h-14 bg-gray-50 rounded flex items-center justify-center overflow-hidden">
                         <img
                           src={imageUrl}
                           alt={productName}

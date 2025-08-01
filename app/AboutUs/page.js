@@ -66,7 +66,7 @@ export default function AboutUsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Video Section (if present) */}
       {aboutData.introduction_video_url && (
         <div className="max-w-7xl mx-auto h-100 relative overflow-hidden">
@@ -217,7 +217,7 @@ export default function AboutUsPage() {
       </div>
 
       {/* Core Values Section */}
-      <div className="py-16 bg-white">
+      <div className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
             Our Core Values

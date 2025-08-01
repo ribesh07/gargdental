@@ -157,10 +157,10 @@ const HeaderBarNew = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto bg-white sticky top-0 z-50 ">
+    <div className="max-w-7xl mx-auto bg-gray-50 sticky top-0 z-50 ">
       <div className="w-full">
         {/* Main Header */}
-        <div className="max-w-7xl mx-auto mb-2 bg-white">
+        <div className="max-w-7xl mx-auto mb-2 bg-gray-50">
           <div className="flex items-center justify-between py-2 md:py-4">
             {/* Logo */}
             {settings.company_logo_header ? (
@@ -287,7 +287,7 @@ const HeaderBarNew = () => {
                 </button>
 
                 {isMenuOpen && (
-                  <div className="absolute left-full top-full mt-2 w-64 bg-white border-gray-100 rounded-lg shadow-lg z-50">
+                  <div className="absolute left-full top-full mt-2 w-64 bg-gray-50 border-gray-100 rounded-lg shadow-lg z-50">
                     <div className="py-2">
                       {menuItems.map((item, index) => (
                         <div key={index} className="relative">
@@ -296,7 +296,7 @@ const HeaderBarNew = () => {
                             className={`flex items-center justify-between px-4 py-2 text-gray-700 transition-all duration-200 ${
                               item.hasSubmenu && isSuppliesDropdownOpen
                                 ? "border-l-2 border-blue-500 text-red-600"
-                                : " hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
+                                : " hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
                             }`}
                             onClick={() =>
                               item.hasSubmenu &&
@@ -317,7 +317,7 @@ const HeaderBarNew = () => {
                 {isSuppliesDropdownOpen && (
                   <div
                     ref={suppliesRef}
-                    className="absolute top-full right-0 mt-2 w-56 bg-white border-2 border-gray-100 shadow-lg z-50"
+                    className="absolute top-full right-0 mt-2 w-56 bg-gray-50 border-2 border-gray-100 shadow-lg z-50"
                     onClick={() => setIsMenuOpen(!isSuppliesDropdownOpen)}
                   >
                     <div className="py-2">
@@ -328,7 +328,7 @@ const HeaderBarNew = () => {
                         <Link
                           key={index}
                           href={item.href}
-                          className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200 ${item.color}`}
+                          className={`block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200 ${item.color}`}
                         >
                           {item.label}
                         </Link>
@@ -433,7 +433,7 @@ const HeaderBarNew = () => {
           )}
 
           {/* Desktop Login Section */}
-          <div className="sm:block w-full bg-white border-t border-b border-gray-200 rounded-lg px-2 sm:px-6 py-3">
+          <div className="sm:block w-full bg-gray-50 border-t border-b border-gray-200 rounded-lg px-2 sm:px-6 py-3">
             <div className="max-w-7xl mx-auto flex justify-center">
               <div className="flex w-full max-w-xl justify-between items-center text-white sm:text-gray-600 text-[10px] sm:text-[16px] gap-x-2 sm:gap-x-4 p-0.5">
                 <Link
@@ -507,7 +507,7 @@ const HeaderBarNew = () => {
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
           <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40">
-            <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 overflow-y-auto">
+            <div className="fixed top-0 right-0 h-full w-80 bg-gray-50 shadow-lg z-50 overflow-y-auto">
               <div className="p-4">
                 {/* Mobile Menu Header */}
 
@@ -535,7 +535,7 @@ const HeaderBarNew = () => {
                   </div>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2 hover:bg-gray-100 rounded"
+                    className="p-2 hover:bg-gray-50 rounded"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -624,7 +624,7 @@ const HeaderBarNew = () => {
                     <Link
                       key={index}
                       href={item.href}
-                      className="block px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-red-600 rounded transition-colors"
+                      className="block px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-red-600 rounded transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}

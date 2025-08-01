@@ -240,7 +240,7 @@ export default function ShoppingCart() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4  p-6">
           {/* Cart Items */}
-          <div className=" relative lg:col-span-2  border border-gray-200 bg-white rounded-lg  p-6 shadow-lg hover:shadow-2xl">
+          <div className=" relative lg:col-span-2  border border-gray-200 bg-gray-50 rounded-lg  p-6 shadow-lg hover:shadow-2xl">
             {cart == 0 && (
               <div className="text-center py-20 text-gray-500 text-xl">
                 Your cart is empty
@@ -254,7 +254,7 @@ export default function ShoppingCart() {
                   </h1>
 
                   {/* Select All */}
-                  <div className="bg-white rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                  <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                     <label className="flex items-center space-x-3 cursor-pointer">
                       <input
                         type="checkbox"
@@ -280,7 +280,7 @@ export default function ShoppingCart() {
                     {cartItems.map((item) => (
                       <div
                         key={item.id}
-                        className="bg-white rounded-lg p-4 sm:p-6"
+                        className="bg-gray-50 rounded-lg p-4 sm:p-6"
                       >
                         {/* Mobile Layout */}
                         <div className="block sm:hidden">
@@ -294,7 +294,7 @@ export default function ShoppingCart() {
                             />
 
                             {/* Product Image */}
-                            <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0">
                               <img
                                 src={item.image || "/assets/logo.png"}
                                 alt={item.name}
@@ -378,7 +378,7 @@ export default function ShoppingCart() {
                           />
 
                           {/* Product Image */}
-                          <div className="w-[60px] h-[60px] max-w-[60px] flex-shrink-0 bg-gray-100 rounded-lg flex items-center justify-center">
+                          <div className="w-[60px] h-[60px] max-w-[60px] flex-shrink-0 bg-gray-50 rounded-lg flex items-center justify-center">
                             <img
                               src={item.image}
                               alt={item.name}
@@ -470,7 +470,7 @@ export default function ShoppingCart() {
             )}
 
             {/* Fixed at bottom */}
-            <div className="absolute bottom-0 left-0 w-full flex justify-between items-center p-4 bg-white">
+            <div className="absolute bottom-0 left-0 w-full flex justify-between items-center p-4 bg-gray-50">
               <Link
                 href="/dashboard"
                 className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
@@ -493,8 +493,8 @@ export default function ShoppingCart() {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-1 border border-gray-200 bg-white rounded-lg p-6 shadow-lg hover:shadow-2xl">
-            <div className="bg-white rounded-lg p-6 sticky top-8">
+          <div className="lg:col-span-1 border border-gray-200 bg-gray-50 rounded-lg p-6 shadow-lg hover:shadow-2xl">
+            <div className="bg-gray-50 rounded-lg p-6 sticky top-8">
               {/* Shipping Address */}
               <div className="mb-8">
                 <h3 className="text-lg font-medium text-gray-500 mb-3">
@@ -568,7 +568,7 @@ export default function ShoppingCart() {
                       className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                         isProcessing
                           ? "bg-green-500 text-white cursor-not-allowed"
-                          : "bg-blue-500 text-white hover:bg-white-300"
+                          : "bg-blue-500 text-white hover:bg-gray-50-300"
                       }`}
                       onClick={handleProceedToCheckout}
                     >

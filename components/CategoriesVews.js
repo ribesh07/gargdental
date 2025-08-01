@@ -34,7 +34,7 @@ export function CategoriesViews() {
   }, []);
 
   return (
-    // <div className="min-h-screen bg-gray-100">
+    // <div className="min-h-screen bg-gray-50">
     //   <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5">
     <>
       {/* Mobile Menu Button */}
@@ -77,106 +77,106 @@ export function CategoriesViews() {
             sidebarOpen ? "block" : "hidden"
           } lg:w-64 xl:w-72`}
         > */}
-        {/* <div className="bg-white rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
+        {/* <div className="bg-gray-50 rounded-lg p-3 sm:p-4 lg:p-5 h-fit shadow">
             <h2 className="font-bold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4">
               Supplis and Equipment
             </h2>
             <nav className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Deal Of The Week
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Top Deals
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Browse Supplies
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Web Priced Products
               </Link>
 
               <div className="pt-1">
-                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
+                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
                   <span>Top Categories</span>
                 </button>
               </div>
 
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 My Order
               </Link>
 
               <div className="pt-1">
-                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
+                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
                   <span>Sale</span>
                 </button>
               </div>
 
               <div className="pt-1">
-                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
+                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
                   <span>Featured Suppliers</span>
                 </button>
               </div>
 
               <div className="pt-1">
-                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
+                <button className="flex items-center justify-between w-full text-left text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1">
                   <span>Ordering Tools</span>
                 </button>
               </div>
 
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 No Charge Goods & Redemptions
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Flyers & Magazines
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Catalogs
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Garg Brand
               </Link>
               <Link
                 href="/request-catalog"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Request Catalog
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 SDS Look-up
               </Link>
               <Link
                 href="/"
-                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
+                className="block text-[#0072bc] pl-2 sm:pl-4 transition-all duration-200 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 py-1"
               >
                 Webinars & Videos
               </Link>
@@ -234,7 +234,7 @@ export function CategoriesViews() {
                   <div
                     key={category.id}
                     onClick={() => router.push(`/product/${category.id}`)}
-                    className="bg-white rounded-lg shadow-lg transform hover:scale-105 hover:shadow-md transition-transform duration-300 cursor-pointer "
+                    className="bg-gray-50 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-md transition-transform duration-300 cursor-pointer "
                   >
                     <div className="aspect-w-16 aspect-h-10">
                       <img

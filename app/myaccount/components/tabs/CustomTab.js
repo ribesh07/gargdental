@@ -80,7 +80,7 @@ export default function CustomTab({ status }) {
       case "shipped":
         return "bg-purple-100 text-purple-600";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-gray-50 text-gray-600";
     }
   };
 
@@ -198,7 +198,7 @@ export default function CustomTab({ status }) {
         orders.map((order, index) => (
           <div
             key={order.id || index}
-            className="bg-white rounded-lg shadow p-3 sm:p-4 mb-4 sm:mb-6 border"
+            className="bg-gray-50 rounded-lg shadow p-3 sm:p-4 mb-4 sm:mb-6 border"
           >
             {/* Header: Order ID + Status */}
             <div className="flex flex-col lg:flex-row justify-between items-start gap-4 mb-4 w-full">
@@ -314,7 +314,7 @@ export default function CustomTab({ status }) {
                             key={item.id || idx}
                             className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 p-2 sm:p-3 bg-gray-50 rounded-lg "
                           >
-                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden border-blue-300 border-2 flex-shrink-0 mx-auto sm:mx-0 mb-2 sm:mb-0">
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden border-blue-300 border-2 flex-shrink-0 mx-auto sm:mx-0 mb-2 sm:mb-0">
                               <img
                                 src={imageUrl}
                                 alt={productName}

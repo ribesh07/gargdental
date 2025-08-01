@@ -191,7 +191,7 @@ const GargDental = () => {
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto bg-gray-100 font-sans">
+      <div className="max-w-7xl mx-auto bg-gray-50 font-sans">
         {/* <div className="max-w-7xl mx-auto p-2 sm:p-3 md:p-5"> */}
         {/* Top Bar */}
 
@@ -243,7 +243,7 @@ const GargDental = () => {
           {/* Left Scroll */}
           <button
             onClick={slideNavigation.prev}
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
             <svg
               className="w-6 h-6 text-gray-600"
@@ -262,7 +262,7 @@ const GargDental = () => {
           {/* Right Scroll */}
           <button
             onClick={slideNavigation.next}
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
             <svg
               className="w-6 h-6 text-gray-600"
@@ -283,7 +283,7 @@ const GargDental = () => {
         <TopCategoriesPage />
 
         {/* categories and manufacturers */}
-        <CategoriesViews />
+        {/* <CategoriesViews /> */}
 
         {/* Browse more */}
         <div className="text-center text-lg -mb-5 sm:text-xl lg:text-2xl font-bold">
@@ -344,7 +344,7 @@ const GargDental = () => {
                 sidebarOpen ? "block" : "hidden"
               } lg:w-64 xl:w-72`}
             >
-              <div className="bg-gray-100 h-full flex flex-row sm:flex-col flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 shadow ">
+              <div className="bg-gray-50 h-full flex flex-row sm:flex-col flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 shadow ">
                 <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                   Categories
                 </h3>
@@ -354,7 +354,7 @@ const GargDental = () => {
                     <li className="category-list" key={category.id || index}>
                       <Link
                         href="/product"
-                        className="block py-1 sm:py-1.5 px-2 sm:px-2.5 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200"
+                        className="block py-1 sm:py-1.5 px-2 sm:px-2.5 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200"
                       >
                         {category.name}
                       </Link>
@@ -371,7 +371,7 @@ const GargDental = () => {
                     <Link
                       key={manufacturer.id || index}
                       href="#"
-                      className="block py-1 sm:py-1.5 px-2 hover:border-l-2 text-gray-700 hover:bg-gray-100 hover:text-red-600 transition-colors duration-200"
+                      className="block py-1 sm:py-1.5 px-2 hover:border-l-2 text-gray-700 hover:bg-gray-50 hover:text-red-600 transition-colors duration-200"
                     >
                       {manufacturer.brand_name}
                     </Link>

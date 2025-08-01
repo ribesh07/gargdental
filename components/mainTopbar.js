@@ -54,7 +54,7 @@ export default function MainTopBar() {
         </div>
 
         {/* Main Navigation */}
-        <div className="bg-white shadow-md py-4">
+        <div className="bg-gray-50 shadow-md py-4">
           <div className="max-w-6xl mx-auto px-5 flex justify-between items-center">
             <div className="flex items-center cursor-pointer">
               <img

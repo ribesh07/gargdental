@@ -22,7 +22,7 @@ export const ProductCard = ({ product, showDiscount = false }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+    <div className="flex flex-col h-full bg-gray-50 rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div
         className="relative mb-2 sm:mb-3 lg:mb-4 cursor-pointer"
         onClick={() => router.push(`/dashboard/${product.product_code}`)}
@@ -99,7 +99,7 @@ const ProductSection = ({ title, products, showDiscount = false }) => (
 );
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
-  <div className="flex items-center space-x-3 sm:space-x-4 p-4 sm:p-6 bg-white rounded-lg shadow-sm">
+  <div className="flex items-center space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-sm">
     <div className="flex-shrink-0">
       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center">
         <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
@@ -504,7 +504,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-gray-50 rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}
@@ -551,7 +551,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-gray-50 rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}
@@ -598,7 +598,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-gray-50 rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}

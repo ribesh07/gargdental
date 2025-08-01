@@ -8,7 +8,7 @@ const CartPage = () => {
       <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center mb-4 sm:mb-6 tracking-wide text-gray-500 break-words">YOUR SHOPPING CART</h1>
       <div className="flex flex-col gap-4">
         {cart.map((item) => (
-          <div key={item.id} className="bg-white rounded-xl shadow p-3 sm:p-5 flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <div key={item.id} className="bg-gray-50 rounded-xl shadow p-3 sm:p-5 flex flex-col sm:flex-row items-center sm:items-start gap-4">
             <div className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
               <img src={item.image_url} alt={item.product_name} className="object-contain w-full h-full" />
             </div>

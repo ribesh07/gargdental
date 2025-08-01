@@ -75,7 +75,7 @@ const handleLogout = async () => {
         {/* Profile / Address Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Personal Profile */}
-          <div className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition-shadow duration-300">
+          <div className="bg-gray-50 rounded-xl shadow p-4 hover:shadow-lg transition-shadow duration-300">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Personal Profile</span>
               <button
@@ -98,7 +98,7 @@ const handleLogout = async () => {
           </div>
 
           {/* Address Book */}
-          <div className="bg-white rounded-xl shadow p-4">
+          <div className="bg-gray-50 rounded-xl shadow p-4">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Address Book</span>
               <button
@@ -126,7 +126,7 @@ const handleLogout = async () => {
           </div>
 
           {/* Billing Address */}
-          <div className="bg-white rounded-xl shadow p-4">
+          <div className="bg-gray-50 rounded-xl shadow p-4">
             <div className="font-semibold mb-2">Default Billing Address</div>
             <div className="text-gray-700 text-sm">
               {defaultBillingAddress?.full_name}
@@ -141,7 +141,7 @@ const handleLogout = async () => {
         </div>
 
         {/* Account Security Section */}
-        <div className="bg-white rounded-xl shadow p-4 md:p-6 w-full">
+        <div className="bg-gray-50 rounded-xl shadow p-4 md:p-6 w-full">
           <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
             <Shield className="w-5 h-5" />
             Account Security
@@ -212,17 +212,17 @@ const handleLogout = async () => {
 
         {/* Order Stats */}
         {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white rounded-xl shadow flex flex-col items-center py-6">
+          <div className="bg-gray-50 rounded-xl shadow flex flex-col items-center py-6">
             <span className="text-orange-500 text-3xl">🛒</span>
             <div className="text-xl font-bold mt-2">0</div>
             <div className="text-gray-500 text-sm">Orders Placed</div>
           </div>
-          <div className="bg-white rounded-xl shadow flex flex-col items-center py-6">
+          <div className="bg-gray-50 rounded-xl shadow flex flex-col items-center py-6">
             <span className="text-green-500 text-3xl">❌</span>
             <div className="text-xl font-bold mt-2">0</div>
             <div className="text-gray-500 text-sm">Orders Cancelled</div>
           </div>
-          <div className="bg-white rounded-xl shadow flex flex-col items-center py-6">
+          <div className="bg-gray-50 rounded-xl shadow flex flex-col items-center py-6">
             <span className="text-blue-500 text-3xl">💙</span>
             <div className="text-xl font-bold mt-2">0</div>
             <div className="text-gray-500 text-sm">Wishlist</div>

@@ -106,7 +106,7 @@ const ProductAPIRequest = () => {
             </button>
           </div>
 
-          <div className="bg-white p-4 rounded-lg shadow-sm border">
+          <div className="bg-gray-50 p-4 rounded-lg shadow-sm border">
             <p className="text-sm text-gray-600 mb-2">
               <strong>API Endpoint:</strong> GET {API_URL}
             </p>
@@ -120,7 +120,7 @@ const ProductAPIRequest = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+        <div className="bg-gray-50 p-6 rounded-lg shadow-sm border mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -175,7 +175,7 @@ const ProductAPIRequest = () => {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+                className="bg-gray-50 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
               >
                 <div className="relative">
                   <img

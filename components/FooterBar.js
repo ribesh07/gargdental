@@ -265,7 +265,7 @@ export default function FooterBar() {
                     value="male"
                     checked={gender === "male"}
                     onChange={(e) => setGender(e.target.value)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    className="w-4 h-4 text-blue-600 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:ring-2"
                   />
                   <span className="text-sm">Male</span>
                 </label>
@@ -276,7 +276,7 @@ export default function FooterBar() {
                     value="female"
                     checked={gender === "female"}
                     onChange={(e) => setGender(e.target.value)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    className="w-4 h-4 text-blue-600 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:ring-2"
                   />
                   <span className="text-sm">Female</span>
                 </label>
@@ -290,7 +290,7 @@ export default function FooterBar() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email"
-                  className="flex-1 px-4 py-2 text-gray-900 bg-white border-none focus:outline-none text-sm"
+                  className="flex-1 px-4 py-2 text-gray-900 bg-gray-50 border-none focus:outline-none text-sm"
                 />
                 <button
                   onClick={() => handleSubscribe(email)}

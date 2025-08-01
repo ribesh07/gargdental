@@ -149,7 +149,7 @@ export default function OrderSummary() {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       {/* <MainTopBar /> */}
-      <div className="max-w-4xl mx-auto my-5 border border-gray-200 bg-white rounded-lg shadow-sm hover:shadow-xl">
+      <div className="max-w-4xl mx-auto my-5 border border-gray-200 bg-gray-50 rounded-lg shadow-sm hover:shadow-xl">
         <div className="p-8">
           {/* Header */}
           <div className="text-center mb-8">
@@ -185,7 +185,7 @@ export default function OrderSummary() {
 
                 <div className="space-y-2">
                   {defaultShippingAddress ? (
-                    <div className="bg-white border-gray-200 border-2 rounded-lg p-3 text-sm text-gray-700">
+                    <div className="bg-gray-50 border-gray-200 border-2 rounded-lg p-3 text-sm text-gray-700">
                       <div>
                         <span className="font-semibold">Name:</span>{" "}
                         {defaultShippingAddress.full_name}
@@ -384,7 +384,7 @@ export default function OrderSummary() {
                   className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                     isProcessing
                       ? "bg-green-500 text-white cursor-not-allowed"
-                      : "bg-blue-500 text-white hover:bg-white-300"
+                      : "bg-blue-500 text-white hover:bg-gray-50-300"
                   }`}
                 >
                   {isProcessing ? "Processing..." : "Proceed to Pay"}

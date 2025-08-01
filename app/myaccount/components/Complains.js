@@ -91,7 +91,7 @@ const Complains = () => {
         </h2>
         <div className="mx-auto">
           <form
-            className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white p-6 rounded-xl shadow"
+            className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-gray-50 p-6 rounded-xl shadow"
             onSubmit={handleSubmit}
           >
             <div>
@@ -201,7 +201,7 @@ const Complains = () => {
                       <button
                         type="button"
                         onClick={() => removeFile(index)}
-                        className="absolute top-1 right-1 bg-white text-red-500 border border-red-300 rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
+                        className="absolute top-1 right-1 bg-gray-50 text-red-500 border border-red-300 rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
                         title="Remove file"
                       >
                         ×

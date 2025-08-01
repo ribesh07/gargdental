@@ -53,7 +53,7 @@ export default function TopCategoriesPage() {
   }
 
   return (
-    <div className="bg-gray-100 -mt-10 -mb-12">
+    <div className="bg-gray-50 -mt-10 -mb-12">
       <div className="max-w-7xl mx-auto my-8">
         {/* Header */}
         <div className="text-left mb-4 ml-2 pt-6">
@@ -97,7 +97,7 @@ export default function TopCategoriesPage() {
           {/* Left Scroll */}
           <button
             onClick={scrollLeft}
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
             <svg
               className="w-6 h-6 text-gray-600"
@@ -117,7 +117,7 @@ export default function TopCategoriesPage() {
           {/* Right Scroll */}
           <button
             onClick={scrollRight}
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
             <svg
               className="w-6 h-6 text-gray-600"

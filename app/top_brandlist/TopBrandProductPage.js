@@ -132,7 +132,7 @@ function TopBrandProductPage() {
   const loadMore = () => setOffset((prev) => prev + limit);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl my-6 mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -220,7 +220,7 @@ function TopBrandProductPage() {
 function ProductCardMain({ product, showDiscount }) {
   const router = useRouter();
   return (
-    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-gray-50 rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div
         className="flex-1 flex flex-col cursor-pointer"
         onClick={() => router.push(`/dashboard/${product.product_code}`)}

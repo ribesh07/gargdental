@@ -210,7 +210,7 @@ export default function ProductTabs({ product }) {
                       {product.reviews?.map((item) => (
                         <div
                           key={item.id}
-                          className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-md transition "
+                          className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 shadow rounded-xl p-4 hover:shadow-md transition "
                         >
                           {/* Product Info */}
                           <div className="flex items-start gap-4 w-full sm:w-2/3">

@@ -96,7 +96,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
   }, [user]);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-2xl mx-auto">
+    <div className="bg-gray-50 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold text-center text-blue-900 mb-8">
         EDIT PROFILE
       </h2>
@@ -181,7 +181,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
             name="email"
             value={formData.email}
             readOnly
-            className={`w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed ${errors.email ? "border-red-500" : "border-gray-300"
+            className={`w-full px-4 py-2 border rounded-lg bg-gray-50 text-gray-700 cursor-not-allowed ${errors.email ? "border-red-500" : "border-gray-300"
               }`}
             placeholder="Enter your email address"
           />

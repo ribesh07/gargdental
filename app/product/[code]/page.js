@@ -174,7 +174,7 @@ const ProductAPIRequest = () => {
             </button>
           </div>
 
-          <div className="bg-white p-4 rounded-lg border-gray-300 shadow-sm border">
+          <div className="bg-gray-50 p-4 rounded-lg border-gray-300 shadow-sm border">
             {/* <p className="text-sm text-gray-600 mb-2">
               <strong>API Endpoint:</strong> GET {API_URL}
             </p> */}
@@ -188,7 +188,7 @@ const ProductAPIRequest = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-300 mb-6">
+        <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-300 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -298,7 +298,7 @@ const ProductAPIRequest = () => {
 function ProductCardMain({ product, showDiscount }) {
   const router = useRouter();
   return (
-    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-gray-50 rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div
         className="flex-1 flex flex-col cursor-pointer"
         onClick={() => router.push(`/dashboard/${product.product_code}`)}

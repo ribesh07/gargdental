@@ -331,7 +331,7 @@ const AccountPage = () => {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
         {/* Sidebar */}
         <aside className="w-full md:w-80 flex-shrink-0">
-          <div className="bg-white rounded-xl shadow p-6 text-center">
+          <div className="bg-gray-50 rounded-xl shadow p-6 text-center">
             <img
               src={user.profile_image || null}
               alt="Profile"
@@ -346,7 +346,7 @@ const AccountPage = () => {
 
           
 
-          <nav className="bg-white rounded-xl shadow p-4 mt-6">
+          <nav className="bg-gray-50 rounded-xl shadow p-4 mt-6">
             {sidebarItems.map((item) => (
               <button
                 key={item.key}
@@ -358,7 +358,7 @@ const AccountPage = () => {
                   ${
                     activeTab === item.key
                       ? "bg-blue-50 text-blue-800 font-bold shadow-sm"
-                      : "hover:bg-gray-100 text-gray-700"
+                      : "hover:bg-gray-50 text-gray-700"
                   }
                 `}
               >
@@ -375,7 +375,7 @@ const AccountPage = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 min-w-0 bg-white rounded-xl shadow p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 min-w-0 bg-gray-50 rounded-xl shadow p-4 sm:p-6 lg:p-8">
           {activeTab === "account" && (
             <ManageMyAccount
               onEditProfile={() => setShowEditProfile(true)}

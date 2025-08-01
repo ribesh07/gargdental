@@ -186,7 +186,7 @@ export default function ClinicSetupPage() {
           {benefits.map((item, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-xl shadow-md border border-gray-100"
+              className="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-100"
             >
               <h3 className="text-lg font-semibold text-[#003366] mb-2">
                 {item.title}
@@ -230,7 +230,7 @@ export default function ClinicSetupPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white w-full max-w-4xl p-6 rounded-xl shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 w-full max-w-4xl p-6 rounded-xl shadow-md"
 
         >
           <div>

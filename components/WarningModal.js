@@ -18,7 +18,7 @@ const WarningModal = () => {
             <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
-        <div className="bg-white rounded-b-lg p-4 sm:p-6 pt-3 sm:pt-4 flex flex-col items-center">
+        <div className="bg-gray-50 rounded-b-lg p-4 sm:p-6 pt-3 sm:pt-4 flex flex-col items-center">
           <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2 text-center">{title || "Warning Title"}</h2>
           <p className="text-gray-600 mb-4 sm:mb-6 text-center text-sm sm:text-base">{message || "Warning Message"}</p>
           <button

@@ -22,7 +22,7 @@ const CatalogButton = ({ product }) => {
       <a
         target="_blank"
         href={dummyPdfUrl}
-        className="flex items-center gap-2 px-2 py-2 bg-white border-2 border-[#0072bc] text-gray-500 font-semibold rounded-2xl hover:bg-orange-50 hover:border-orange-500 hover:text-orange-600 transition-all duration-200 shadow-sm hover:shadow-md"
+        className="flex items-center gap-2 px-2 py-2 bg-gray-50 border-2 border-[#0072bc] text-gray-500 font-semibold rounded-2xl hover:bg-orange-50 hover:border-orange-500 hover:text-orange-600 transition-all duration-200 shadow-sm hover:shadow-md"
         download
       >
         <span className="text-sm">Catalog</span>

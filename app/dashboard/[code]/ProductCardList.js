@@ -29,7 +29,7 @@ export default function ProductCardList({ products }) {
           product.stock_quantity > 0 && product.available_quantity > 0 ? (
             <div
               key={product.id || idx}
-              className="flex justify-between items-center border rounded-xl  p-3 sm:p-4 shadow-sm hover:shadow-md transition bg-white w-full min-w-0"
+              className="flex justify-between items-center border rounded-xl  p-3 sm:p-4 shadow-sm hover:shadow-md transition bg-gray-50 w-full min-w-0"
             >
               <div>
                 <div className="flex-1 min-w-0">

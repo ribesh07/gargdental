@@ -76,7 +76,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-8">
+      <div className="bg-gray-50 rounded-2xl shadow-2xl w-full max-w-2xl p-8">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-blue-600 mb-2">
@@ -153,7 +153,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center">
           <button
             onClick={handleCancel}
-            className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+            className="w-full bg-gray-50 text-blue-600 border-2 border-blue-600 px-6 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
           >
             CANCEL
           </button>

@@ -104,7 +104,7 @@ export default function RecommendedProducts({ product }) {
             {/* Left Scroll */}
             <button
               onClick={scrollLeft}
-              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+              className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
             >
               <svg
                 className="w-6 h-6 text-gray-600"
@@ -124,7 +124,7 @@ export default function RecommendedProducts({ product }) {
             {/* Right Scroll */}
             <button
               onClick={scrollRight}
-              className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+              className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
             >
               <svg
                 className="w-6 h-6 text-gray-600"
@@ -195,10 +195,10 @@ const ProductCard = ({ product, showDiscount = false }) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-50 bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+    <div className="flex flex-col h-full w-50 bg-gray-50 rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div className="relative mb-4">
         {isloggedin && (
-          <div className="absolute top-1 left-1 z-10 p-1 rounded-full bg-white/70 backdrop-blur-sm  hover:scale-105 transition-transform duration-200">
+          <div className="absolute top-1 left-1 z-10 p-1 rounded-full bg-gray-50/70 backdrop-blur-sm  hover:scale-105 transition-transform duration-200">
             <WishListHeart product={product} />
           </div>
         )}
