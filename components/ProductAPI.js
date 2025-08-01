@@ -225,12 +225,18 @@ const ProductAPIRequest = () => {
                     <div className="flex items-center gap-2">
                       <DollarSign className="h-4 w-4 text-green-600" />
                       <span className="text-lg font-bold text-green-600">
-                        ${product.sell_price}
+                        ${Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                     </div>

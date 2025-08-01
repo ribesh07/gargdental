@@ -163,9 +163,15 @@ function ProductCardMain({ product, showDiscount }) {
           <div className="mt-2 justify-center">
             <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
               {product.actual_price && product.actual_price !== "0.00" && parseFloat(product.actual_price) > parseFloat(product.sell_price) && (
-                <span className="text-[14px] text-gray-400 line-through">Rs. {product.actual_price}</span>
+                <span className="text-[14px] text-gray-400 line-through">Rs. {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}</span>
               )}
-              <span className="text-[14px] sm:text-base font-bold text-red-600">Rs. {product.sell_price}</span>
+              <span className="text-[14px] sm:text-base font-bold text-red-600">Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}</span>
             </div>
           </div>
         )}

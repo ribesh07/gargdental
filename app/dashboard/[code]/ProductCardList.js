@@ -40,12 +40,18 @@ export default function ProductCardList({ products }) {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 mb-1">
                     <span className="text-lg sm:text-xl font-bold text-gray-800">
-                      Rs. {product.sell_price}
+                      Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                     </span>
                     {parseFloat(product.actual_price) >
                       parseFloat(product.sell_price) && (
                       <span className="text-gray-400 line-through text-sm sm:text-base">
-                        Rs. {product.actual_price}
+                        Rs. {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     )}
                     {product.discount && (

@@ -337,11 +337,17 @@ function ProductCardMain({ product, showDiscount }) {
                 parseFloat(product.actual_price) >
                   parseFloat(product.sell_price) && (
                   <span className="text-[14px] text-gray-400 line-through">
-                    Rs. {product.actual_price}
+                    Rs. {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                   </span>
                 )}
               <span className="text-[14px] sm:text-base font-bold text-red-600">
-                Rs. {product.sell_price}
+                Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
               </span>
             </div>
           </div>

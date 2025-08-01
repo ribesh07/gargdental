@@ -59,11 +59,17 @@ export const ProductCard = ({ product, showDiscount = false }) => {
             {parseFloat(product.actual_price) >
               parseFloat(product.sell_price) && (
               <span className="text-sm text-gray-500 line-through">
-                {product.actual_price}
+                {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
               </span>
             )}
             <span className="text-sm sm:text-base font-bold text-red-600">
-              Rs. {product.sell_price}
+              Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
             </span>
           </div>
           {/* <BuyNow product={product} /> */}
@@ -514,11 +520,17 @@ export default function ProductShowcase() {
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
-                        {product.sell_price}
+                        {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     </div>
                   </div>
@@ -555,11 +567,17 @@ export default function ProductShowcase() {
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
-                        {product.sell_price}
+                        {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     </div>
                   </div>
@@ -597,11 +615,17 @@ export default function ProductShowcase() {
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
-                        {product.sell_price}
+                        {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     </div>
                   </div>
