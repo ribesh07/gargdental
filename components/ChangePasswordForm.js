@@ -77,7 +77,7 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-md mx-auto">
+    <div className="bg-gray-50 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-md mx-auto">
       <div className="flex items-center justify-center mb-6">
         <div className="bg-blue-100 p-3 rounded-full">
           <Lock className="w-6 h-6 text-blue-600" />

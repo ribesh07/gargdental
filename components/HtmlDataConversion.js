@@ -32,7 +32,7 @@ import React from "react";
 // const HtmlRenderer = ({ htmlContent }) => {
 //   return (
 //     <div className="max-w-4xl mx-auto p-4">
-//       <div className="bg-white shadow-md rounded-lg p-6">
+//       <div className="bg-gray-50 shadow-md rounded-lg p-6">
 //         {parse(htmlContent, {
 //           replace: (domNode) => {
 //             // Handle table

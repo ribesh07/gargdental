@@ -106,7 +106,7 @@ export default function FooterBar() {
     <footer className="relative w-full">
       {/* Main Footer */}
       <div className="bg-gradient-to-r from-[#446c87] via-[#76b9e6] to-blue-600 text-white">
-        <div className="max-w-screen-2xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-12">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {/* Contact Us Section */}
             <div className="space-y-2 sm:space-y-4">
@@ -265,7 +265,7 @@ export default function FooterBar() {
                     value="male"
                     checked={gender === "male"}
                     onChange={(e) => setGender(e.target.value)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    className="w-4 h-4 text-blue-600 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:ring-2"
                   />
                   <span className="text-sm">Male</span>
                 </label>
@@ -276,7 +276,7 @@ export default function FooterBar() {
                     value="female"
                     checked={gender === "female"}
                     onChange={(e) => setGender(e.target.value)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    className="w-4 h-4 text-blue-600 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:ring-2"
                   />
                   <span className="text-sm">Female</span>
                 </label>
@@ -290,7 +290,7 @@ export default function FooterBar() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email"
-                  className="flex-1 px-4 py-2 text-gray-900 bg-white border-none focus:outline-none text-sm"
+                  className="flex-1 px-4 py-2 text-gray-900 bg-gray-50 border-none focus:outline-none text-sm"
                 />
                 <button
                   onClick={() => handleSubscribe(email)}
@@ -311,7 +311,7 @@ export default function FooterBar() {
 
       {/* Bottom Footer */}
       <div className="bg-slate-800 text-gray-300 py-2 sm:py-4">
-        <div className="max-w-screen-2xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-xs sm:text-sm text-center sm:text-left">
               Copyright © 2025 Garg Dental All Right Reserved

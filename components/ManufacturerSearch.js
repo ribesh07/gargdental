@@ -127,7 +127,7 @@ export default function ManufacturerFilter() {
               className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 selectedLetter === letter
                   ? "bg-[#0072bc] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-orange-300"
+                  : "bg-gray-50 text-gray-600 hover:bg-orange-300"
               }`}
             >
               {letter}
@@ -142,7 +142,7 @@ export default function ManufacturerFilter() {
           <div
             key={manufacturer.id || index}
             onClick={() => router.push(`/product`)}
-            className="p-2 sm:p-3 lg:p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-white border-gray-200 hover:border-gray-300"
+            className="p-2 sm:p-3 lg:p-4 rounded-lg border cursor-pointer hover:shadow-md transition-shadow hover:text-white hover:bg-[#0072bc] bg-gray-50 border-gray-200 hover:border-gray-300"
           >
             <Link href={`/product`}>
               <span className="text-xs sm:text-sm font-medium block text-center">

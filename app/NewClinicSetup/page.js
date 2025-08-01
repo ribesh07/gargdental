@@ -168,14 +168,14 @@ export default function ClinicSetupPage() {
   ];
 
   return (
-    <div className="max-w-screen-2xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {clinicData?.imageUrl && (
-        <div className="max-w-screen-2xl mx-auto mt-1 mb-3">
+        <div className="max-w-7xl mx-auto mt-1 mb-3">
           <img src={clinicData?.imageUrl} alt="Dental Clinic Setup" />
         </div>
       )}
 
-      <div className="bg-[#f3f8ff] max-w-screen-2xl mx-auto py-10 px-4 flex flex-col items-center ">
+      <div className="bg-[#f3f8ff] max-w-7xl mx-auto py-10 px-4 flex flex-col items-center ">
         <h2 className="text-3xl md:text-4xl font-semibold text-center mb-10">
           {
             " What Added Benefits Do You Get With DentalKart’s New Clinic Setup?"
@@ -186,7 +186,7 @@ export default function ClinicSetupPage() {
           {benefits.map((item, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-xl shadow-md border border-gray-100"
+              className="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-100"
             >
               <h3 className="text-lg font-semibold text-[#003366] mb-2">
                 {item.title}
@@ -207,7 +207,7 @@ export default function ClinicSetupPage() {
       {/* --- Form Section Starts --- */}
       <div
         ref={formRef}
-        className="bg-[#f3f8ff] max-w-screen-2xl mx-auto py-10 px-4 flex flex-col items-center mt-2"
+        className="bg-[#f3f8ff] max-w-7xl mx-auto py-10 px-4 flex flex-col items-center mt-2"
       >
         <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8">
           Setting Up A Dental Clinic? We've Got You Covered!
@@ -230,7 +230,7 @@ export default function ClinicSetupPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white w-full max-w-4xl p-6 rounded-xl shadow-md"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 w-full max-w-4xl p-6 rounded-xl shadow-md"
 
         >
           <div>

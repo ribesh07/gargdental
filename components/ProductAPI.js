@@ -84,7 +84,7 @@ const ProductAPIRequest = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-screen-2xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -106,7 +106,7 @@ const ProductAPIRequest = () => {
             </button>
           </div>
 
-          <div className="bg-white p-4 rounded-lg shadow-sm border">
+          <div className="bg-gray-50 p-4 rounded-lg shadow-sm border">
             <p className="text-sm text-gray-600 mb-2">
               <strong>API Endpoint:</strong> GET {API_URL}
             </p>
@@ -120,7 +120,7 @@ const ProductAPIRequest = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+        <div className="bg-gray-50 p-6 rounded-lg shadow-sm border mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -175,7 +175,7 @@ const ProductAPIRequest = () => {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+                className="bg-gray-50 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
               >
                 <div className="relative">
                   <img
@@ -225,12 +225,18 @@ const ProductAPIRequest = () => {
                     <div className="flex items-center gap-2">
                       <DollarSign className="h-4 w-4 text-green-600" />
                       <span className="text-lg font-bold text-green-600">
-                        ${product.sell_price}
+                        ${Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                     </div>

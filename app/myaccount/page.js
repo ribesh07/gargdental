@@ -8,7 +8,9 @@ import {
   Heart,
   MessageSquare,
   RotateCcw,
+  Edit,
 } from "lucide-react";
+
 import EditProfileForm from "./components/EditProfileForm";
 import EditAddressForm from "./components/EditAddressForm";
 import ChangePasswordForm from "@/components/ChangePasswordForm";
@@ -37,23 +39,22 @@ const AccountPage = () => {
   const [showRemoveAccount, setShowRemoveAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [addressToEdit, setAddressToEdit] = useState(null);
-  
-const [loading, setLoading] = useState(true);
-const [error, setError] = useState(null);
-const [orderlength, setOrderlength] = useState(0);
-const [user, setUser] = useState({
-  id: "",
-  email: "",
-  phone: "",
-  full_name: "",
-  profileImage: "",
-  profile_image: "",
-});
-  
-const [wishlist, setWishlist] = useState([]);
 
-const [wishlistlength, setWishlistlength] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [orderlength, setOrderlength] = useState(0);
+  const [user, setUser] = useState({
+    id: "",
+    email: "",
+    phone: "",
+    full_name: "",
+    profileImage: "",
+    profile_image: "",
+  });
 
+  const [wishlist, setWishlist] = useState([]);
+
+  const [wishlistlength, setWishlistlength] = useState(0);
 
   const [address, setAddress] = useState([]);
   const [homeAddress, setHomeAddress] = useState(null);
@@ -62,13 +63,11 @@ const [wishlistlength, setWishlistlength] = useState(0);
   const sidebarItems = [
     { key: "account", label: "Manage My Account", icon: User },
     { key: "address", label: "Address Book", icon: MapPin },
-    { key: "orders", label: "My Orders", icon: List},
-    { key: "wishlist", label: "My Wishlist", icon: Heart},
+    { key: "orders", label: "My Orders", icon: List },
+    { key: "wishlist", label: "My Wishlist", icon: Heart },
     { key: "reviews", label: "My Reviews", icon: MessageSquare },
     { key: "complaint", label: "Complaint", icon: RotateCcw },
   ];
-
-  
 
   const router = useRouter();
 
@@ -82,12 +81,9 @@ const [wishlistlength, setWishlistlength] = useState(0);
     fetchAddressDropdowns();
   }, [fetchAddressDropdowns]);
 
- 
-
   const fetchUserData = async () => {
     setIsLoading(true);
     try {
-      
       const result = await getFullInfo();
       console.log("response", result);
 
@@ -173,76 +169,71 @@ const [wishlistlength, setWishlistlength] = useState(0);
     }
   };
 
- 
+  //   const fetchWishlist = async () => {
+  //   try {
+  //     setLoading(true);
+  //     setError(null);
 
+  //     const wishlistItems = await getWishlist();
 
-//   const fetchWishlist = async () => {
-//   try {
-//     setLoading(true);
-//     setError(null);
+  //     setWishlist(wishlistItems);
+  //     setWishlistlength(wishlistItems.length || 0);
 
-//     const wishlistItems = await getWishlist();
+  //     if (wishlistItems.length > 0) {
+  //       console.log(
+  //         "First wishlist item:",
+  //         JSON.stringify(wishlistItems[0], null, 2)
+  //       );
+  //     }
+  //   } catch (err) {
+  //     console.error("Error fetching wishlist:", err);
+  //     setError("Failed to load wishlist");
+  //     toast.error("Failed to load wishlist");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-//     setWishlist(wishlistItems);
-//     setWishlistlength(wishlistItems.length || 0);
-
-//     if (wishlistItems.length > 0) {
-//       console.log(
-//         "First wishlist item:",
-//         JSON.stringify(wishlistItems[0], null, 2)
-//       );
-//     }
-//   } catch (err) {
-//     console.error("Error fetching wishlist:", err);
-//     setError("Failed to load wishlist");
-//     toast.error("Failed to load wishlist");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-
- //all data here
+  //all data here
   useEffect(() => {
     fetchUserData();
     fetchOrders();
-    
-    
   }, []);
-// //   try {
-// //     setLoading(true);
-// //     setError(null);
-// //     const result = await fetchReview();
+  // //   try {
+  // //     setLoading(true);
+  // //     setError(null);
+  // //     const result = await fetchReview();
 
-// //     console.log("Reviews API Response:", result);
+  // //     console.log("Reviews API Response:", result);
 
-// //     if (result.success) {
-// //       const reviewItems = result.reviews || [];
+  // //     if (result.success) {
+  // //       const reviewItems = result.reviews || [];
 
-// //       setReviews(reviewItems);
-// //       setReviewlength(reviewItems.length || 0);
+  // //       setReviews(reviewItems);
+  // //       setReviewlength(reviewItems.length || 0);
 
-// //       if (reviewItems.length > 0) {
-// //         console.log(
-// //           "First review item:",
-// //           JSON.stringify(reviewItems[0], null, 2)
-// //         );
-// //       }
-// //     } else {
-// //       setError(result.error);
-// //       toast.error(result.error);
-// //     }
-// //   } catch (err) {
-// //     console.error("Error fetching reviews:", err);
-// //     setError("Failed to load reviews");
-// //     toast.error("Failed to load reviews");
-// //   } finally {
-// //     setLoading(false);
-// //   }
-// // };
-//   useEffect(() => {
-//     fetchWishlist();
-    
-//   }, []); 
+  // //       if (reviewItems.length > 0) {
+  // //         console.log(
+  // //           "First review item:",
+  // //           JSON.stringify(reviewItems[0], null, 2)
+  // //         );
+  // //       }
+  // //     } else {
+  // //       setError(result.error);
+  // //       toast.error(result.error);
+  // //     }
+  // //   } catch (err) {
+  // //     console.error("Error fetching reviews:", err);
+  // //     setError("Failed to load reviews");
+  // //     toast.error("Failed to load reviews");
+  // //   } finally {
+  // //     setLoading(false);
+  // //   }
+  // // };
+  //   useEffect(() => {
+  //     fetchWishlist();
+
+  //   }, []);
 
   //update profile
   const handleUpdateProfile = (updatedData) => {
@@ -297,6 +288,8 @@ const [wishlistlength, setWishlistlength] = useState(0);
     setShowEditAddress(true);
   };
 
+ 
+
   if (isLoading || loading) {
     return <FullScreenLoader />;
   }
@@ -334,11 +327,11 @@ const [wishlistlength, setWishlistlength] = useState(0);
   }
 
   return (
-    <div className="max-w-screen-2xl mx-auto bg-gray-50">
-      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto bg-gray-50">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
         {/* Sidebar */}
         <aside className="w-full md:w-80 flex-shrink-0">
-          <div className="bg-white rounded-xl shadow p-6 text-center">
+          <div className="bg-gray-50 rounded-xl shadow p-6 text-center">
             <img
               src={user.profile_image || null}
               alt="Profile"
@@ -351,7 +344,9 @@ const [wishlistlength, setWishlistlength] = useState(0);
             <p className="text-sm text-gray-500 mt-1">{user.phone}</p>
           </div>
 
-          <nav className="bg-white rounded-xl shadow p-4 mt-6">
+          
+
+          <nav className="bg-gray-50 rounded-xl shadow p-4 mt-6">
             {sidebarItems.map((item) => (
               <button
                 key={item.key}
@@ -363,7 +358,7 @@ const [wishlistlength, setWishlistlength] = useState(0);
                   ${
                     activeTab === item.key
                       ? "bg-blue-50 text-blue-800 font-bold shadow-sm"
-                      : "hover:bg-gray-100 text-gray-700"
+                      : "hover:bg-gray-50 text-gray-700"
                   }
                 `}
               >
@@ -380,7 +375,7 @@ const [wishlistlength, setWishlistlength] = useState(0);
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 min-w-0 bg-white rounded-xl shadow p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 min-w-0 bg-gray-50 rounded-xl shadow p-4 sm:p-6 lg:p-8">
           {activeTab === "account" && (
             <ManageMyAccount
               onEditProfile={() => setShowEditProfile(true)}
@@ -415,6 +410,8 @@ const [wishlistlength, setWishlistlength] = useState(0);
           {activeTab === "complaint" && <Complains />}
         </main>
       </div>
+
+      
 
       {/* Remove Account Modal */}
       <RemoveAccountModal

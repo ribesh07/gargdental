@@ -64,8 +64,8 @@ function TopCategoryProductPage() {
   const loadMore = () => setOffset((prev) => prev + limit);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-screen-2xl my-6 mx-auto">
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl my-6 mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -99,7 +99,7 @@ function TopCategoryProductPage() {
 
         {/* Products Grid */}
         {!loading && (
-          <div className="max-w-screen-2xl mx-auto px-4 mt-10">
+          <div className="max-w-7xl mx-auto px-4 mt-10">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
               {products.map((product) => (
                 <ProductCardMain
@@ -139,7 +139,7 @@ function TopCategoryProductPage() {
 function ProductCardMain({ product, showDiscount }) {
   const router = useRouter();
   return (
-    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-gray-50 rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div
         className="flex-1 flex flex-col cursor-pointer"
         onClick={() => router.push(`/dashboard/${product.product_code}`)}
@@ -163,9 +163,15 @@ function ProductCardMain({ product, showDiscount }) {
           <div className="mt-2 justify-center">
             <div className="flex items-center space-x-1 sm:space-x-2 mb-0.5 cursor-pointer">
               {product.actual_price && product.actual_price !== "0.00" && parseFloat(product.actual_price) > parseFloat(product.sell_price) && (
-                <span className="text-[14px] text-gray-400 line-through">Rs. {product.actual_price}</span>
+                <span className="text-[14px] text-gray-400 line-through">Rs. {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}</span>
               )}
-              <span className="text-[14px] sm:text-base font-bold text-red-600">Rs. {product.sell_price}</span>
+              <span className="text-[14px] sm:text-base font-bold text-red-600">Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}</span>
             </div>
           </div>
         )}

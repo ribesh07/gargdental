@@ -149,7 +149,7 @@ const PayOpsPageBuyNow = () => {
     });
     setTimeout(() => {
       setIsProcessing(false);
-      router.push("/myaccount");
+      router.push("/product");
     }, 400);
   };
 
@@ -160,7 +160,7 @@ const PayOpsPageBuyNow = () => {
       </h2>
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Payment Methods */}
-        <div className="bg-white rounded-xl shadow p-8">
+        <div className="bg-gray-50 rounded-xl shadow p-8">
           <h3 className="text-xl font-semibold mb-6">Payment Methods</h3>
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             {paymentMethods.map((method) => (
@@ -170,7 +170,7 @@ const PayOpsPageBuyNow = () => {
                 className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 cursor-pointer ${
                   selected === method.id
                     ? "border-blue-700 bg-blue-50 shadow"
-                    : "border-gray-200 bg-white hover:bg-gray-50"
+                    : "border-gray-200 bg-gray-50 hover:bg-gray-50"
                 }`}
               >
                 {method.icon}
@@ -190,7 +190,7 @@ const PayOpsPageBuyNow = () => {
                 className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                   isProcessing
                     ? "bg-green-500 text-white cursor-not-allowed"
-                    : "bg-blue-500 text-white hover:bg-white-300"
+                    : "bg-blue-500 text-white hover:bg-gray-50-300"
                 }`}
                 onClick={() => toast.error("Under Development !")}
               >
@@ -207,7 +207,7 @@ const PayOpsPageBuyNow = () => {
                 className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
                   isProcessing
                     ? "bg-green-500 text-white cursor-not-allowed"
-                    : "bg-blue-500 text-white hover:bg-white-300"
+                    : "bg-blue-500 text-white hover:bg-gray-50-300"
                 }`}
               >
                 {isProcessing ? "Processing..." : "Confirm Order"}
@@ -218,7 +218,7 @@ const PayOpsPageBuyNow = () => {
 
         {/* Order Summary + Selected Items & Address */}
         {/* Order Summary + Selected Items & Address */}
-        <div className="bg-white rounded-xl shadow p-8 flex flex-col justify-center">
+        <div className="bg-gray-50 rounded-xl shadow p-8 flex flex-col justify-center">
           {/* Shipping Address */}
           <div className="mb-6">
             <h4 className="font-semibold mb-2">Shipping Address</h4>
@@ -262,7 +262,7 @@ const PayOpsPageBuyNow = () => {
                     key={item.id}
                     className="flex items-center gap-3 border-b pb-2"
                   >
-                    <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
+                    <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center overflow-hidden">
                       <img
                         src={item.image}
                         alt={item.name}
@@ -292,7 +292,10 @@ const PayOpsPageBuyNow = () => {
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">VAT {"13%"}</span>
               <span className="font-bold text-lg">
-                Rs. {totalVatAmount.toFixed(2)}
+                Rs. {totalVatAmount.toLocaleString("en-IN", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})}
               </span>
             </div>
             <div className="flex justify-between mb-4">

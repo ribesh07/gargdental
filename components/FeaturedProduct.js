@@ -22,7 +22,7 @@ export const ProductCard = ({ product, showDiscount = false }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+    <div className="flex flex-col h-full bg-gray-50 rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div
         className="relative mb-2 sm:mb-3 lg:mb-4 cursor-pointer"
         onClick={() => router.push(`/dashboard/${product.product_code}`)}
@@ -59,11 +59,17 @@ export const ProductCard = ({ product, showDiscount = false }) => {
             {parseFloat(product.actual_price) >
               parseFloat(product.sell_price) && (
               <span className="text-sm text-gray-500 line-through">
-                {product.actual_price}
+                {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
               </span>
             )}
             <span className="text-sm sm:text-base font-bold text-red-600">
-              Rs. {product.sell_price}
+              Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
             </span>
           </div>
           {/* <BuyNow product={product} /> */}
@@ -93,7 +99,7 @@ const ProductSection = ({ title, products, showDiscount = false }) => (
 );
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
-  <div className="flex items-center space-x-3 sm:space-x-4 p-4 sm:p-6 bg-white rounded-lg shadow-sm">
+  <div className="flex items-center space-x-3 sm:space-x-4 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-sm">
     <div className="flex-shrink-0">
       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center">
         <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
@@ -466,7 +472,7 @@ export default function ProductShowcase() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-screen-2xl mx-auto px-2 sm:px-4 py-4 sm:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6 lg:py-8">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-2">
@@ -498,7 +504,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-gray-50 rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}
@@ -514,11 +520,17 @@ export default function ProductShowcase() {
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
-                        {product.sell_price}
+                        {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     </div>
                   </div>
@@ -539,7 +551,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-gray-50 rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}
@@ -555,11 +567,17 @@ export default function ProductShowcase() {
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
-                        {product.sell_price}
+                        {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     </div>
                   </div>
@@ -580,7 +598,7 @@ export default function ProductShowcase() {
                     router.push(`/dashboard/${product.product_code}`)
                   }
                   key={index}
-                  className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
+                  className="bg-gray-50 rounded-lg shadow-md cursor-pointer hover:shadow-2xl p-3 sm:p-4 flex items-center space-x-3 sm:space-x-4 hover:scale-105 transition-transform duration-300"
                 >
                   <img
                     src={product.image_url}
@@ -597,11 +615,17 @@ export default function ProductShowcase() {
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
                         <span className="text-sm text-gray-500 line-through">
-                          {product.actual_price}
+                          {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                         </span>
                       )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
-                        {product.sell_price}
+                        {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     </div>
                   </div>

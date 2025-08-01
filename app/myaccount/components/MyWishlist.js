@@ -98,7 +98,7 @@ export default function MyWishlist() {
             return (
               <div
                 key={item.id}
-                className="flex items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
+                className="flex items-center justify-between bg-gray-50 shadow rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
               >
                 {/* Left: Image + Info */}
                 <div
@@ -108,7 +108,7 @@ export default function MyWishlist() {
                   }
                   className="flex items-center gap-4"
                 >
-                  <div className="w-16 h-16 rounded bg-gray-100 overflow-hidden flex items-center justify-center">
+                  <div className="w-16 h-16 rounded bg-gray-50 overflow-hidden flex items-center justify-center">
                     <img
                       src={
                         item.product?.image_full_url ||

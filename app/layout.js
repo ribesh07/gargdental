@@ -111,7 +111,7 @@ export default function RootLayout({ children }) {
         <link rel="manifest" href="/site.webmanifest" /> */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
       >
         <HeaderBarNew />
         <div className="w-full">{children}</div>

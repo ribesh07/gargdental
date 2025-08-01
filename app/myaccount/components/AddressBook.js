@@ -151,7 +151,7 @@ export default function AddressBook({
   return (
     <>
       {!showEditAddress && (
-        <div className="bg-white rounded shadow p-6 relative min-h-[calc(65vh-180px)]">
+        <div className="bg-gray-50 rounded shadow p-6 relative min-h-[calc(65vh-180px)]">
           <h1 className="text-2xl font-bold text-blue-900 mb-6">
             Address Book
           </h1>

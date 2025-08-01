@@ -17,9 +17,9 @@ function TypewriterParagraph({ text, className = "" }) {
 
 export default function Test() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Video Section */}
-      <div className="max-w-screen-2xl mx-auto h-100 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto h-100 relative overflow-hidden">
         <video
           className="w-full h-full object-cover"
           autoPlay
@@ -35,7 +35,7 @@ export default function Test() {
       </div>
 
       {/* About DentalKart Section */}
-      <div className="max-w-screen-2xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
@@ -67,7 +67,7 @@ export default function Test() {
 
       {/* Our Story Section */}
       <div className="bg-gray-50 py-16">
-        <div className="max-w-screen-2xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
             Our Story
           </h2>
@@ -131,7 +131,7 @@ export default function Test() {
 
       {/* Statistics Section */}
       <div className="bg-blue-900 py-8">
-        <div className="max-w-screen-2xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center text-white">
               <div className="text-3xl mb-2">🏪</div>
@@ -154,8 +154,8 @@ export default function Test() {
       </div>
 
       {/* Core Values Section */}
-      <div className="py-16 bg-white">
-        <div className="max-w-screen-2xl mx-auto px-6">
+      <div className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
             Our Core Values
           </h2>
@@ -214,7 +214,7 @@ export default function Test() {
 
       {/* Leadership Section */}
       <div className="bg-gray-50 py-16">
-        <div className="max-w-screen-2xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
             Our Team
           </h2>

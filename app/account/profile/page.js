@@ -140,7 +140,7 @@ export default function CustomerProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-gray-50 shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <h1 className="text-2xl font-bold text-blue-900">
@@ -161,7 +161,7 @@ export default function CustomerProfilePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Profile Card */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-gray-50 rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-800">
                   Personal Information
@@ -263,7 +263,7 @@ export default function CustomerProfilePage() {
           {/* Security & Actions */}
           <div className="space-y-6">
             {/* Security Card */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-gray-50 rounded-xl shadow-lg p-6">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <Shield className="w-5 h-5 text-blue-600" />
                 Account Security
@@ -287,7 +287,7 @@ export default function CustomerProfilePage() {
               )}
 
               {/* Danger Zone */}
-              <div className="bg-white rounded-xl shadow-lg p-6 border border-red-200">
+              <div className="bg-gray-50 rounded-xl shadow-lg p-6 border border-red-200">
                 {/* <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
                   <Trash2 className="w-5 h-5 text-red-600" />
                   Danger Zone

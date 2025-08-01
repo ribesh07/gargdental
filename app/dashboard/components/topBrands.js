@@ -51,8 +51,8 @@ export default function TopBrandPage() {
   }
 
   return (
-    <div className="bg-gray-100 -mt-6">
-      <div className="max-w-screen-2xl mx-auto">
+    <div className="bg-gray-50 -mt-6">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-left mb-4 pt-6 ml-2">
           <h1 className="text-2xl font-bold text-gray-900">Top Brands</h1>
@@ -95,7 +95,7 @@ export default function TopBrandPage() {
           {/* Left Scroll */}
           <button
             onClick={scrollLeft}
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
             <svg
               className="w-6 h-6 text-gray-600"
@@ -115,7 +115,7 @@ export default function TopBrandPage() {
           {/* Right Scroll */}
           <button
             onClick={scrollRight}
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
           >
             <svg
               className="w-6 h-6 text-gray-600"

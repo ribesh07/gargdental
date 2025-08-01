@@ -44,7 +44,7 @@ const RemoveAccountModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-200 bg-opacity-90 flex items-center justify-center p-4 z-50 hide-scrollbar overflow-auto">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md m-4 max-h-full hide-scrollbar overflow-y-auto">
+      <div className="bg-gray-50 rounded-xl shadow-2xl w-full max-w-md m-4 max-h-full hide-scrollbar overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">

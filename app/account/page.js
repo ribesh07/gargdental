@@ -120,7 +120,7 @@ export default function AuthPage() {
     <>
       {/* <RefreshOnFirstLoad /> */}
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+        <div className="bg-gray-50 rounded-2xl shadow-2xl w-full max-w-md p-8">
           <div className="text-center mb-1">
             <h1 className="text-2xl font-bold text-blue-600">
               ALREADY REGISTERED?
@@ -210,7 +210,7 @@ export default function AuthPage() {
               </p>
               <button
                 onClick={() => router.push("/account/signup")}
-                className="w-full bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+                className="w-full bg-gray-50 text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
               >
                 CREATE AN ACCOUNT
               </button>

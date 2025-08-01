@@ -72,7 +72,7 @@ export default function KhaltiPayment() {
         src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.22.0.0.0/khalti-checkout.iffe.js"
         strategy="lazyOnload"
       /> */}
-      <div className="flex max-w-4xl max-h-50 mx-auto justify-center items-center min-h-screen bg-gray-100">
+      <div className="flex max-w-4xl max-h-50 mx-auto justify-center items-center min-h-screen bg-gray-50">
         <form onSubmit={handlePayment}>
           <div className="space-y-2">
             <label htmlFor="amount">Amount (NPR) : </label>

@@ -249,7 +249,7 @@ export default function ReturnProduct() {
                   <button
                     type="button"
                     onClick={() => removeFile(index)}
-                    className="absolute top-1 right-1 bg-white text-red-500 border border-red-300 rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
+                    className="absolute top-1 right-1 bg-gray-50 text-red-500 border border-red-300 rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
                     title="Remove file"
                   >
                     ×
@@ -331,7 +331,7 @@ export default function ReturnProduct() {
   return (
     <div className="min-h-screen  bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-gray-50 shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center space-x-4">
             <Link href="/myaccount">
@@ -349,8 +349,8 @@ export default function ReturnProduct() {
       {/* Main Content */}
       <div className="max-w-4xl flex justify-center align-center mx-auto px-4 py-8">
         <div className="w-full mx-auto px-4 py-8">
-          <div className="bg-white ">
-            <div className="bg-white rounded-xl shadow-sm border p-6">
+          <div className="bg-gray-50 ">
+            <div className="bg-gray-50 rounded-xl shadow-sm border p-6">
               {step === 1 && renderStep1()}
               {step === 2 && renderStep2()}
               {step === 3 && renderStep2()}

@@ -1,4 +1,8 @@
-import { Shield, Trash2 } from "lucide-react";
+import { Shield, Trash2, LogOut} from "lucide-react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 
 export default function ManageMyAccount({
   onEditProfile,
@@ -22,14 +26,56 @@ export default function ManageMyAccount({
   const zoneName =
     zones.find((z) => z.id === homeAddress?.zone_id)?.zone_name || "";
 
+  
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter(); 
+
+const handleLogout = async () => {
+  try {
+    setIsLoading(true);
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      localStorage.removeItem("token");
+
+      const useCartStore = await import("@/stores/useCartStore");
+      useCartStore.default.getState().clearCart();
+
+      toast.success("Logged out successfully");
+      router.push("/dashboard"); 
+    } else {
+      toast.error("Logout failed");
+    }
+  } catch (error) {
+    console.error("Logout error:", error);
+    toast.error("An error occurred during logout");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+
+
+
+
+
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col px-4 sm:px-6 py-6">
       {/* Main Content */}
-      <div className="w-full max-w-screen-2xl mx-auto flex flex-col space-y-6">
+      <div className="w-full max-w-7xl mx-auto flex flex-col space-y-6">
         {/* Profile / Address Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Personal Profile */}
-          <div className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition-shadow duration-300">
+          <div className="bg-gray-50 rounded-xl shadow p-4 hover:shadow-lg transition-shadow duration-300">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Personal Profile</span>
               <button
@@ -52,7 +98,7 @@ export default function ManageMyAccount({
           </div>
 
           {/* Address Book */}
-          <div className="bg-white rounded-xl shadow p-4">
+          <div className="bg-gray-50 rounded-xl shadow p-4">
             <div className="flex justify-between items-center mb-2">
               <span className="font-semibold">Address Book</span>
               <button
@@ -80,7 +126,7 @@ export default function ManageMyAccount({
           </div>
 
           {/* Billing Address */}
-          <div className="bg-white rounded-xl shadow p-4">
+          <div className="bg-gray-50 rounded-xl shadow p-4">
             <div className="font-semibold mb-2">Default Billing Address</div>
             <div className="text-gray-700 text-sm">
               {defaultBillingAddress?.full_name}
@@ -95,7 +141,7 @@ export default function ManageMyAccount({
         </div>
 
         {/* Account Security Section */}
-        <div className="bg-white rounded-xl shadow p-4 md:p-6 w-full">
+        <div className="bg-gray-50 rounded-xl shadow p-4 md:p-6 w-full">
           <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center gap-2">
             <Shield className="w-5 h-5" />
             Account Security
@@ -118,6 +164,27 @@ export default function ManageMyAccount({
                 className="text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
               >
                 Change
+              </button>
+            </div>
+
+
+            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="bg-red-100 p-2 rounded-full">
+                  <LogOut className="w-4 h-4 text-red-600" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-800">Account logout</h4>
+                  <p className="text-sm text-gray-600">
+                    
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="text-red-600 hover:text-red-800 text-sm font-medium cursor-pointer"
+              >
+                Logout
               </button>
             </div>
 
@@ -145,17 +212,17 @@ export default function ManageMyAccount({
 
         {/* Order Stats */}
         {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white rounded-xl shadow flex flex-col items-center py-6">
+          <div className="bg-gray-50 rounded-xl shadow flex flex-col items-center py-6">
             <span className="text-orange-500 text-3xl">🛒</span>
             <div className="text-xl font-bold mt-2">0</div>
             <div className="text-gray-500 text-sm">Orders Placed</div>
           </div>
-          <div className="bg-white rounded-xl shadow flex flex-col items-center py-6">
+          <div className="bg-gray-50 rounded-xl shadow flex flex-col items-center py-6">
             <span className="text-green-500 text-3xl">❌</span>
             <div className="text-xl font-bold mt-2">0</div>
             <div className="text-gray-500 text-sm">Orders Cancelled</div>
           </div>
-          <div className="bg-white rounded-xl shadow flex flex-col items-center py-6">
+          <div className="bg-gray-50 rounded-xl shadow flex flex-col items-center py-6">
             <span className="text-blue-500 text-3xl">💙</span>
             <div className="text-xl font-bold mt-2">0</div>
             <div className="text-gray-500 text-sm">Wishlist</div>

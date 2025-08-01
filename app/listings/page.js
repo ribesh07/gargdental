@@ -246,9 +246,9 @@ const DentalSuppliesListing = () => {
 
   return (
     <>
-      <div className="max-w-screen-2xl mx-auto sm:-ml-8 -my-3 sm:-my-4 lg:-my-6 p-2 sm:p-4 lg:p-6 ">
+      <div className="max-w-7xl mx-auto sm:-ml-8 -my-3 sm:-my-4 lg:-my-6 p-2 sm:p-4 lg:p-6 ">
         {/* Header */}
-        <div className="bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-lg mb-3 sm:mb-4 lg:mb-5 shadow">
+        <div className="bg-gray-50 p-3 sm:p-4 lg:p-5 rounded-lg mb-3 sm:mb-4 lg:mb-5 shadow">
           <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900 mb-2 sm:mb-2.5">
             Browse Supplies Results
           </h1>
@@ -261,7 +261,7 @@ const DentalSuppliesListing = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-2 sm:px-4 py-1 sm:py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-sm flex-1 sm:flex-none"
+                className="appearance-none border border-gray-300 rounded-lg px-2 sm:px-4 py-1 sm:py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50 text-sm flex-1 sm:flex-none"
               >
                 <option>Relevance</option>
                 <option>Price: Low to High</option>
@@ -284,7 +284,7 @@ const DentalSuppliesListing = () => {
               <select
                 value={filters.category}
                 onChange={(e) => handleFilterChange("category", e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
               >
                 <option value="">All Categories</option>
                 {categories.length === 0 ? (
@@ -305,7 +305,7 @@ const DentalSuppliesListing = () => {
               <select
                 value={filters.brand}
                 onChange={(e) => handleFilterChange("brand", e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
               >
                 <option value="">All Brands</option>
                 {manufacturers.map((brand) => (
@@ -324,7 +324,7 @@ const DentalSuppliesListing = () => {
                 onChange={(e) =>
                   handleFilterChange("priceRange", e.target.value)
                 }
-                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm w-full sm:w-auto"
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
               >
                 <option value="">All Prices</option>
                 {priceRanges.map((range) => (
@@ -360,7 +360,7 @@ const DentalSuppliesListing = () => {
             </div>
 
             {/* Product Grid */}
-            <div className="max-w-screen-2xl mx-auto px-2 sm:px-4">
+            <div className="max-w-7xl mx-auto px-2 sm:px-4">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4 ">
                 {filteredAndSortedProducts
                   .slice(0, visibleCount)
@@ -419,10 +419,10 @@ const DentalSuppliesListing = () => {
 function ProductCardMain({ product, showDiscount }) {
   const router = useRouter();
   return (
-    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-white rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
+    <div className="flex flex-col sm-h-[250px] h-full min-h-[340px] bg-gray-50 rounded-lg shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-2 sm:p-3 lg:p-4">
       <div className="flex-1 flex flex-col cursor-pointer">
         <div className="relative mb-2 sm:mb-3 lg:mb-4">
-          <div className="absolute flex self-start top-1 left-1 z-50">
+          <div className="absolute top-1  z-10 p-1 rounded-full bg-gray-50/70 backdrop-blur-sm  hover:scale-105 transition-transform duration-200">
             <WishListHeart product={product} />
           </div>
 
@@ -466,11 +466,17 @@ function ProductCardMain({ product, showDiscount }) {
                     parseFloat(product.actual_price) >
                       parseFloat(product.sell_price) && (
                       <span className="text-[14px] text-gray-400 line-through">
-                        Rs. {product.actual_price}
+                        Rs. {Number(product.actual_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                       </span>
                     )}
                   <span className="text-[14px] sm:text-base font-bold text-red-600">
-                    Rs. {product.sell_price}
+                    Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
                   </span>
                 </div>
               </div>

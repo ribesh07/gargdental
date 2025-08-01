@@ -153,7 +153,7 @@ const PayOpsPage = () => {
         useCartStore.getState().setSelectedItems([]);
 
         // Redirect to my account page
-        router.push("/myaccount");
+        router.push("/product");
       } else {
         // Error is already handled by the modal in handleOrder function
         console.error("Order failed:", result?.message || "Unknown error");
@@ -171,7 +171,7 @@ const PayOpsPage = () => {
       </h2>
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Payment Methods */}
-        <div className="bg-white rounded-xl shadow p-8">
+        <div className="bg-gray-50 rounded-xl shadow p-8">
           <h3 className="text-xl font-semibold mb-6">Payment Methods</h3>
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             {paymentMethods.map((method) => (
@@ -181,7 +181,7 @@ const PayOpsPage = () => {
                 className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 ${
                   selected === method.id
                     ? "border-blue-700 bg-blue-50 shadow"
-                    : "border-gray-200 bg-white hover:bg-gray-50"
+                    : "border-gray-200 bg-gray-50 hover:bg-gray-50"
                 }`}
               >
                 {method.icon}
@@ -219,7 +219,7 @@ const PayOpsPage = () => {
 
         {/* Order Summary + Selected Items & Address */}
         {/* Order Summary + Selected Items & Address */}
-        <div className="bg-white rounded-xl shadow p-8 flex flex-col justify-center">
+        <div className="bg-gray-50 rounded-xl shadow p-8 flex flex-col justify-center">
           {/* Shipping Address */}
           <div className="mb-6">
             <h4 className="font-semibold mb-2">Shipping Address</h4>
@@ -263,7 +263,7 @@ const PayOpsPage = () => {
                     key={item.id}
                     className="flex items-center gap-3 border-b pb-2"
                   >
-                    <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
+                    <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center overflow-hidden">
                       <img
                         src={item.image}
                         alt={item.name}

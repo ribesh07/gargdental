@@ -139,7 +139,7 @@ export default function MyOrders() {
       case "shipped":
         return "bg-purple-100 text-purple-600";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-gray-50 text-gray-600";
     }
   };
 
@@ -178,7 +178,7 @@ export default function MyOrders() {
             className={`px-4 py-2 rounded-lg font-semibold transition ${
               activeTab === "Processing"
                 ? "bg-blue-600 text-white"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-100"
+                : "bg-gray-50 text-gray-700 border border-gray-300 hover:bg-blue-100"
             }`}
           >
             Processing
@@ -189,7 +189,7 @@ export default function MyOrders() {
             className={`px-4 py-2 rounded-lg font-semibold transition ${
               activeTab === "Shipped"
                 ? "bg-blue-600 text-white"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-100"
+                : "bg-gray-50 text-gray-700 border border-gray-300 hover:bg-blue-100"
             }`}
           >
             Shipped
@@ -200,7 +200,7 @@ export default function MyOrders() {
             className={`px-4 py-2 rounded-lg font-semibold transition ${
               activeTab === "Delivered"
                 ? "bg-blue-600 text-white"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-green-100"
+                : "bg-gray-50 text-gray-700 border border-gray-300 hover:bg-green-100"
             }`}
           >
             Delivered
@@ -211,7 +211,7 @@ export default function MyOrders() {
             className={`px-4 py-2 rounded-lg font-semibold transition ${
               activeTab === "Cancelled"
                 ? "bg-blue-600 text-white"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-red-100"
+                : "bg-gray-50 text-gray-700 border border-gray-300 hover:bg-red-100"
             }`}
           >
             Cancelled
@@ -229,7 +229,7 @@ export default function MyOrders() {
         )}
 
         {activeTab === "Shipped" && (
-          <div className="bg-white p-4 rounded-xl shadow">
+          <div className="bg-gray-50 p-4 rounded-xl shadow">
             <h2 className="text-2xl font-bold text-blue-600 mb-4">
               Orders Shipped
             </h2>
@@ -238,7 +238,7 @@ export default function MyOrders() {
         )}
 
         {activeTab === "Delivered" && (
-          <div className="bg-white p-4 rounded-xl shadow">
+          <div className="bg-gray-50 p-4 rounded-xl shadow">
             <h2 className="text-2xl font-bold text-blue-600 mb-4">
               Orders Delivered
             </h2>
@@ -247,7 +247,7 @@ export default function MyOrders() {
         )}
 
         {activeTab === "Cancelled" && (
-          <div className="bg-white p-4 rounded-xl shadow">
+          <div className="bg-gray-50 p-4 rounded-xl shadow">
             <h2 className="text-2xl font-bold text-blue-600 mb-4">
               Orders Cancelled
             </h2>

@@ -72,7 +72,7 @@ const EditAddressForm = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-4xl mx-auto">
+    <div className="bg-gray-50 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold text-center text-blue-900 mb-8">
         EDIT ADDRESS
       </h2>

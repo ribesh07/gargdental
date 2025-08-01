@@ -53,11 +53,11 @@ export default function MyReviews() {
               {reviews.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white shadow rounded-xl p-4 hover:shadow-md transition"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 shadow rounded-xl p-4 hover:shadow-md transition"
                 >
                   {/* Product Info */}
                   <div className="flex items-start gap-4 w-full sm:w-2/3">
-                    <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden">
+                    <div className="w-16 h-16 bg-gray-50 rounded overflow-hidden">
                       <img
                         src={
                           item.product?.image_full_url ||
