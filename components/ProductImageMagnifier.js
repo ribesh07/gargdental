@@ -5,7 +5,7 @@ export default function ProductImageMagnifier({
   alt,
   boxWidth = 320,
   boxHeight = 320,
-  zoomBoxWidth = 400,
+  zoomBoxWidth = 700,
   zoomBoxHeight = 400,
   zoomScale = 2, // how much to zoom
   effect = "",
