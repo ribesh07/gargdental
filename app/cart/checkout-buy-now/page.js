@@ -8,6 +8,9 @@ import { getAddress, userDetails } from "@/utils/apiHelper";
 import useInfoModalStore from "@/stores/infoModalStore";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { useFreeShippingStore } from "@/stores/ShippingThreshold";
+import FormatCurrencyNPR from "@/components/NprStyleBalance";
+
 
 export default function OrderSummaryBuyNow() {
   const [couponCode, setCouponCode] = useState("");
@@ -31,6 +34,9 @@ export default function OrderSummaryBuyNow() {
     (state) => state.selectedShippingAddress
   );
   const [userProfile, setUserProfile] = useState(null);
+  const [isFreeShipping , setisFreeShipping] = useState(false);
+  
+  const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -152,7 +158,18 @@ export default function OrderSummaryBuyNow() {
     0
   );
 
-  const total = subtotal + totalVatAmount + shipping;
+  useEffect(() => {
+    if (subtotal >= currentThreshold) {
+      setisFreeShipping(true);
+      // setShipping(0);
+      console.log("current threshold : ", currentThreshold);
+    }else{
+      setisFreeShipping(false);
+    }
+  }, [subtotal, currentThreshold]);
+
+  // const total = subtotal + totalVatAmount + shipping;
+  const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -228,7 +245,7 @@ export default function OrderSummaryBuyNow() {
                           Quantity x {item.quantity}
                         </p>
                         <p className="font-semibold text-gray-800">
-                          Rs. {item.price}
+                          Rs. {FormatCurrencyNPR(item.price)}
                         </p>
                       </div>
                       {/* Remove button can be implemented if needed */}
@@ -329,7 +346,9 @@ export default function OrderSummaryBuyNow() {
                   <span className="text-sm font-medium text-gray-600">
                     SHIPPING
                   </span>
-                  <span className="font-semibold text-gray-800">
+                  <span    className={`font-semibold text-gray-800 ${
+        isFreeShipping ? "line-through text-gray-500" : ""
+      }`}>
                     Rs. {shipping.toFixed(2)}
                   </span>
                 </div>
