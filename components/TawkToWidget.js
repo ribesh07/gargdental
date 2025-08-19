@@ -6,7 +6,7 @@ import { apiRequest } from "@/utils/ApiSafeCalls";
 export default function TawkToWidget() {
   const [settings, setSettings] = useState({
     whatsapp: "",
-    viber: "9762875051", // Viber is now static
+    viber: "9762875051", // fallback if API fails
   });
 
   const [showSelection, setShowSelection] = useState(false);
@@ -16,11 +16,13 @@ export default function TawkToWidget() {
       const response = await apiRequest("/settings", false);
       if (response.success) {
         const { whatsapp } = response.settings;
-        console.log("Fetched settings:", whatsapp?.value);
-        setSettings((prev) => ({
-          ...prev,
-          whatsapp: whatsapp?.value || "",
-        }));
+        const number = whatsapp?.value || "98"; // fallback number
+        console.log("Fetched settings:", number);
+
+        setSettings({
+          whatsapp: number,
+          viber: number, // match viber with whatsapp
+        });
       } else {
         console.log("Failed to fetch settings:", response.message);
       }
@@ -28,7 +30,7 @@ export default function TawkToWidget() {
     fetchSettings();
   }, []);
 
-  const message = "Hello! I'm interested in your products.";
+  const message = "Hello! I'm intere in your products.";
 
   const handleChatIconClick = (e) => {
     e.preventDefault();
@@ -47,15 +49,21 @@ export default function TawkToWidget() {
   };
 
   const handleViberClick = () => {
-    if (settings.viber) {
-      window.open(
-        `viber://chat?number=${settings.viber}&text=${encodeURIComponent(message)}`,
-        "_blank",
-        "noopener,noreferrer"
-      );
-      setShowSelection(false);
-    }
-  };
+  if (settings.viber) {
+    // Ensure international format, e.g., +9779812345678
+    const phone = settings.viber.startsWith("+")
+      ? settings.viber
+      : `+${settings.viber}`;
+
+    window.open(
+      `viber://chat?number=${encodeURIComponent(phone)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+    setShowSelection(false);
+  }
+};
+
 
   const closeSelection = () => {
     setShowSelection(false);
@@ -102,7 +110,6 @@ export default function TawkToWidget() {
               >
                 <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
                   <img src="/assets/whatsapp.svg" alt="WhatsApp Icon" className="w-6 h-6" />
-                 
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">WhatsApp</div>

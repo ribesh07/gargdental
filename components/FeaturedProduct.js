@@ -6,6 +6,7 @@ import { BuyNow } from "./BuyNow";
 import fetchProducts from "@/utils/apiHelper";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
+import WeeklySpecial from "@/components/WeeklySpecial";
 
 export const ProductCard = ({ product, showDiscount = false }) => {
   const router = useRouter();
@@ -14,9 +15,8 @@ export const ProductCard = ({ product, showDiscount = false }) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-2 h-2 sm:w-3 sm:h-3 ${
-          i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-        }`}
+        className={`w-2 h-2 sm:w-3 sm:h-3 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+          }`}
       />
     ));
   };
@@ -58,18 +58,18 @@ export const ProductCard = ({ product, showDiscount = false }) => {
           <div className="flex items-center space-x-1 sm:space-x-2 mb-2 cursor-pointer">
             {parseFloat(product.actual_price) >
               parseFloat(product.sell_price) && (
-              <span className="text-sm text-gray-500 line-through">
-                {Number(product.actual_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
-              </span>
-            )}
+                <span className="text-sm text-gray-500 line-through">
+                  {Number(product.actual_price).toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
+              )}
             <span className="text-sm sm:text-base font-bold text-red-600">
               Rs. {Number(product.sell_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </span>
           </div>
           {/* <BuyNow product={product} /> */}
@@ -237,9 +237,9 @@ export default function ProductShowcase() {
   // ];
 
   const [featuredProducts, setProducts] = useState([]);
-  const [specialProducts, setSpecialProducts] = useState([]);
-  const [weeklyProducts, setWeeklyProducts] = useState([]);
-  const [flashProducts, setFlashSaleProducts] = useState([]);
+  // const [specialProducts, setSpecialProducts] = useState([]);
+  // const [weeklyProducts, setWeeklyProducts] = useState([]);
+  // const [flashProducts, setFlashSaleProducts] = useState([]);
 
   useEffect(() => {
     const fetchaLatestProducts = async () => {
@@ -274,13 +274,13 @@ export default function ProductShowcase() {
         }));
 
         const mapProduct = mappeddata.slice(0, 6);
-        const mapSpecial = mappeddata.slice(6, 9);
-        const mapWeekly = mappeddata.slice(9, 12);
-        const mapFlashSale = mappeddata.slice(12, 15);
+        // const mapSpecial = mappeddata.slice(6, 9);
+        // const mapWeekly = mappeddata.slice(9, 12);
+        // const mapFlashSale = mappeddata.slice(12, 15);
         setProducts(mapProduct);
-        setSpecialProducts(mapSpecial);
-        setWeeklyProducts(mapWeekly);
-        setFlashSaleProducts(mapFlashSale);
+        // setSpecialProducts(mapSpecial);
+        // setWeeklyProducts(mapWeekly);
+        // setFlashSaleProducts(mapFlashSale);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -490,9 +490,11 @@ export default function ProductShowcase() {
           showDiscount={true}
         />
 
+        <WeeklySpecial />
+
         {/* Three Column Layout for Special, Weekly, and Flash Products */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 lg:mb-12">
-          {/* Special Products */}
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 lg:mb-12"> */}
+          {/* Special Products
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-gray-600 mb-3 sm:mb-4 uppercase">
               Special Products
@@ -519,18 +521,18 @@ export default function ProductShowcase() {
                     <div className="flex items-center space-x-1 sm:space-x-2">
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
-                        <span className="text-sm text-gray-500 line-through">
-                          {Number(product.actual_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
-                        </span>
-                      )}
-                      <span className="text-red-600 font-bold text-xs sm:text-sm">
+                          <span className="text-sm text-gray-500 line-through">
+                            {Number(product.actual_price).toLocaleString("en-IN", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                          </span>
+                        )}
+                     <span className="text-red-600 font-bold text-xs sm:text-sm">
                         {Number(product.sell_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </span>
                     </div>
                   </div>
@@ -539,7 +541,7 @@ export default function ProductShowcase() {
             </div>
           </div>
 
-          {/* Weekly Products */}
+          Weekly Products
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-gray-600 mb-3 sm:mb-4 uppercase">
               Weekly Products
@@ -566,18 +568,18 @@ export default function ProductShowcase() {
                     <div className="flex items-center space-x-1 sm:space-x-2">
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
-                        <span className="text-sm text-gray-500 line-through">
-                          {Number(product.actual_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
-                        </span>
-                      )}
+                          <span className="text-sm text-gray-500 line-through">
+                            {Number(product.actual_price).toLocaleString("en-IN", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                          </span>
+                        )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
                         {Number(product.sell_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </span>
                     </div>
                   </div>
@@ -586,7 +588,7 @@ export default function ProductShowcase() {
             </div>
           </div>
 
-          {/* Flash Products */}
+          Flash Products
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-gray-600 mb-3 sm:mb-4 uppercase">
               Flash Products
@@ -614,18 +616,18 @@ export default function ProductShowcase() {
                     <div className="flex items-center space-x-1 sm:space-x-2">
                       {parseFloat(product.actual_price) >
                         parseFloat(product.sell_price) && (
-                        <span className="text-sm text-gray-500 line-through">
-                          {Number(product.actual_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
-                        </span>
-                      )}
+                          <span className="text-sm text-gray-500 line-through">
+                            {Number(product.actual_price).toLocaleString("en-IN", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
+                          </span>
+                        )}
                       <span className="text-red-600 font-bold text-xs sm:text-sm">
                         {Number(product.sell_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </span>
                     </div>
                   </div>
@@ -633,7 +635,7 @@ export default function ProductShowcase() {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Features Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 my-6 sm:my-8 pt-4 sm:pt-5">

@@ -46,6 +46,50 @@ const GargDental = () => {
   });
   const router = useRouter();
 
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await apiRequest("/categories", false);
+        if (response.success) {
+          const mapCategory = (category) => ({
+            id: category.id,
+            name: category.category_name,
+            parent_id: category.parent_id,
+            image: category.image_full_url,
+            active_children: category.active_children?.map(mapCategory) || [],
+          });
+
+          setCategories(response.categories.map(mapCategory));
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Recursive render (dropdown-below)
+  const renderCategory = (category) => (
+    <li key={category.id} className="relative group">
+      <Link
+        // 👇 Pass category id in query so products filter correctly
+        href={`/product?category=${category.id}`}
+        className="block py-1.5 px-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 transition-all rounded-md"
+      >
+        {category.name}
+      </Link>
+
+      {/* Subcategories appear BELOW */}
+      {category.active_children.length > 0 && (
+        <ul className="hidden group-hover:block pl-4 mt-1 space-y-1 border-l border-gray-200">
+          {category.active_children.map((sub) => renderCategory(sub))}
+        </ul>
+      )}
+    </li>
+  );
+
   // Fetch slides
   useEffect(() => {
     const fetchSlides = async () => {
@@ -153,26 +197,26 @@ console.log("Current Free Shipping Threshold:", currentThreshold);
     }
   }, [currentSlide, slides]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await apiRequest("/categories", false);
-      if (response.success) {
-        const mapCategory = (category) => {
-          return {
-            id: category.id,
-            name: category.category_name,
-            image: category.image_full_url,
-            parent_id: category.parent_id,
-            active_children: category.active_children?.map(mapCategory) || [],
-          };
-        };
-        const mappedCategories = response.categories.map(mapCategory);
-        console.log("mappedCategories", mappedCategories);
-        setCategories(mappedCategories);
-      }
-    };
-    fetchCategories();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     const response = await apiRequest("/categories", false);
+  //     if (response.success) {
+  //       const mapCategory = (category) => {
+  //         return {
+  //           id: category.id,
+  //           name: category.category_name,
+  //           image: category.image_full_url,
+  //           parent_id: category.parent_id,
+  //           active_children: category.active_children?.map(mapCategory) || [],
+  //         };
+  //       };
+  //       const mappedCategories = response.categories.map(mapCategory);
+  //       console.log("mappedCategories", mappedCategories);
+  //       setCategories(mappedCategories);
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
 
   useEffect(() => {
     const fetchManufacturers = async () => {
@@ -361,17 +405,12 @@ console.log("Current Free Shipping Threshold:", currentThreshold);
                 </h3>
 
                 <ul className="mb-6 sm:mb-8 space-y-1 overflow-y-scroll h-48 sm:h-180 hide-scrollbar">
-                  {categories.map((category, index) => (
-                    <li className="category-list" key={category.id || index}>
-                      <Link
-                        href="/product"
-                        className="block py-1 sm:py-1.5 px-2 sm:px-2.5 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200"
-                      >
-                        {category.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                    {categories.length > 0 ? (
+                      categories.map((category) => renderCategory(category))
+                    ) : (
+                      <li className="text-gray-500 text-sm">No categories found</li>
+                    )}
+                  </ul>
 
                 <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                   Manufacturers
