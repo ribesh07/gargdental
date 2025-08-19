@@ -84,7 +84,7 @@ const CACHE_DURATION = 2 * 60 * 1000;
       image_url:
         product.main_image_full_url ||
         product.image_full_url ||
-        `https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png`,
+        `/assets/logo.png`,
       description: product.product_description,
       unit_info: product.unit_info,
       flash_sale: product.flash_sale,
@@ -198,52 +198,99 @@ const CACHE_DURATION = 2 * 60 * 1000;
   ];
 
   // Filter and sort products
+  // const filteredAndSortedProducts = useMemo(() => {
+  //   let filtered = products.filter((product) => {
+  //     if (
+  //       filters.category &&
+  //       product.category.toLowerCase() !== filters.category.toLowerCase()
+  //     ) {
+  //       return false;
+  //     }
+
+  //     if (
+  //       filters.brand &&
+  //       product.brand.toLowerCase() !== filters.brand.toLowerCase()
+  //     ) {
+  //       return false;
+  //     }
+
+  //     if (filters.priceRange) {
+  //       const priceRange = priceRanges.find(
+  //         (range) => range.label === filters.priceRange
+  //       );
+  //       const price = parseFloat(product.sell_price);
+  //       if (priceRange && (price < priceRange.min || price > priceRange.max)) {
+  //         return false;
+  //       }
+  //     }
+
+  //     return true;
+  //   });
+
+  //   filtered.sort((a, b) => {
+  //     switch (sortBy) {
+  //       case "price-low-high":
+  //         return parseFloat(a.sell_price) - parseFloat(b.sell_price);
+  //       case "price-high-low":
+  //         return parseFloat(b.sell_price) - parseFloat(a.sell_price);
+  //       case "name-a-z":
+  //         return a.product_name.localeCompare(b.product_name);
+  //       case "name-z-a":
+  //         return b.product_name.localeCompare(a.product_name);
+  //       default:
+  //         return 0; // or sort by relevance
+  //     }
+  //   });
+
+  //   return filtered;
+  // }, [products, filters, sortBy]);
   const filteredAndSortedProducts = useMemo(() => {
-    let filtered = products.filter((product) => {
-      if (
-        filters.category &&
-        product.category.toLowerCase() !== filters.category.toLowerCase()
-      ) {
+  let filtered = products.filter((product) => {
+    if (
+      filters.category &&
+      String(product.category_id) !== String(filters.category)
+    ) {
+      return false;
+    }
+
+    if (
+      filters.brand &&
+      product.brand.toLowerCase() !== filters.brand.toLowerCase()
+    ) {
+      return false;
+    }
+
+    if (filters.priceRange) {
+      const priceRange = priceRanges.find(
+        (range) => range.label === filters.priceRange
+      );
+      const price = parseFloat(product.sell_price);
+      if (priceRange && (price < priceRange.min || price > priceRange.max)) {
         return false;
       }
+    }
 
-      if (
-        filters.brand &&
-        product.brand.toLowerCase() !== filters.brand.toLowerCase()
-      ) {
-        return false;
-      }
+    return true;
+  });
 
-      if (filters.priceRange) {
-        const priceRange = priceRanges.find(
-          (range) => range.label === filters.priceRange
-        );
-        const price = parseFloat(product.sell_price);
-        if (priceRange && (price < priceRange.min || price > priceRange.max)) {
-          return false;
-        }
-      }
+  filtered.sort((a, b) => {
+    switch (sortBy) {
+      case "price-low-high":
+        return parseFloat(a.sell_price) - parseFloat(b.sell_price);
+      case "price-high-low":
+        return parseFloat(b.sell_price) - parseFloat(a.sell_price);
+      case "name-a-z":
+        return a.product_name.localeCompare(b.product_name);
+      case "name-z-a":
+        return b.product_name.localeCompare(a.product_name);
+      default:
+        return 0;
+    }
+  });
 
-      return true;
-    });
+  return filtered;
+}, [products, filters, sortBy]);
 
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case "price-low-high":
-          return parseFloat(a.sell_price) - parseFloat(b.sell_price);
-        case "price-high-low":
-          return parseFloat(b.sell_price) - parseFloat(a.sell_price);
-        case "name-a-z":
-          return a.product_name.localeCompare(b.product_name);
-        case "name-z-a":
-          return b.product_name.localeCompare(a.product_name);
-        default:
-          return 0; // or sort by relevance
-      }
-    });
-
-    return filtered;
-  }, [products, filters, sortBy]);
 
   const handleFilterChange = (filterType, value) => {
     setfilterON(true);
@@ -265,6 +312,16 @@ const CACHE_DURATION = 2 * 60 * 1000;
   const formatPrice = (price) => {
     return `Rs.${parseFloat(price).toFixed(2)}`;
   };
+
+  const renderCategoryOptions = (categories, prefix = "") => {
+  return categories.flatMap((category) => [
+    <option key={category.id} value={category.id}>
+      {prefix + category.name}
+    </option>,
+    ...renderCategoryOptions(category.active_children || [], prefix + "-- ")
+  ]);
+};
+
 
   // if (!isReady) return null; //check for persist zustand to load
 
@@ -305,22 +362,19 @@ const CACHE_DURATION = 2 * 60 * 1000;
 
             {/* Category Filter */}
             <div className="relative w-full sm:w-auto">
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange("category", e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
-              >
-                <option value="">All Categories</option>
-                {categories.length === 0 ? (
-                  <option disabled>Loading...</option>
-                ) : (
-                  categories.map((category) => (
-                    <option key={category.id} value={category.name}>
-                      {category.name}
-                    </option>
-                  ))
-                )}
-              </select>
+             <select
+  value={filters.category}
+  onChange={(e) => handleFilterChange("category", e.target.value)}
+  className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
+>
+  <option value="">All Categories</option>
+  {categories.length === 0 ? (
+    <option disabled>Loading...</option>
+  ) : (
+    renderCategoryOptions(categories)
+  )}
+</select>
+
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
 
