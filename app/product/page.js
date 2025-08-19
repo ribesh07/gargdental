@@ -1,4 +1,16 @@
 "use client";
+import { Suspense } from "react";
+
+ function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductAPIRequest />
+    </Suspense>
+  );
+}
+
+
+
 import React, { useState, useEffect } from "react";
 import {
   Search,
@@ -709,4 +721,4 @@ function ProductCardMain({ product, showDiscount }) {
   );
 }
 
-export default ProductAPIRequest;
+export default Page;
