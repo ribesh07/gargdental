@@ -50,53 +50,67 @@ const ProductAPIRequest = () => {
   const formatPrice = (price) => {
     return `Rs.${parseFloat(price).toFixed(2)}`;
   };
+
+  const CACHE_KEY = "productsCache";
+  const CACHE_DURATION = 5 * 60 * 1000;
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${baseUrl}/products/all`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-      console.log("Offset value :", offset);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Data:", data);
-
-      // Transform the API data to match the expected format
-      const transformedProducts =
-        data.products?.map((product) => ({
-          id: product.id,
-          product_name: product.product_name,
-          product_code: product.product_code,
-          has_variations: product.has_variations,
-          starting_price: product.starting_price,
-          brand: product.brand?.brand_name || "No Brand",
-          category: product.category?.category_name || "Uncategorized",
-          item_number: `#${product.product_code}`,
-          stock_quantity: product.stock_quantity,
-          available_quantity: product.available_quantity,
-          actual_price: product.actual_price,
-          sell_price: product.sell_price,
-          image_url:
-            product.main_image_full_url ||
-            product.image_full_url ||
-            `https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png`,
-          description: product.product_description,
-          available_quantity: product.available_quantity,
-          unit_info: product.unit_info,
-          flash_sale: product.flash_sale === "1",
-          delivery_days: product.delivery_target_days,
-        })) || [];
-
-      setProducts([...products, ...transformedProducts]);
+         //  Client-side check to avoid hydration issues
+        if (typeof window !== "undefined") {
+          const cached = localStorage.getItem(CACHE_KEY);
+          if (cached) {
+            const { data, expiry } = JSON.parse(cached);
+            if (Date.now() < expiry) {
+              console.log("✅ Returning cached data");
+              setProducts([...products, ...data]); // directly set from cache
+              return; // stop execution, use cached data
+            }
+          }
+        }
+      
+        //  Fetch new data
+        const data = await apiRequest(`/products/all`, false);
+      
+        const transformedProducts =
+          data.products?.map((product) => ({
+            id: product.id,
+            product_name: product.product_name,
+            stock_quantity: product.stock_quantity,
+            available_quantity: product.available_quantity,
+            product_code: product.product_code,
+            has_variations: product.has_variations,
+            starting_price: product.starting_price,
+            brand: product.brand?.brand_name || "No Brand",
+            category: product.category?.category_name || "Uncategorized",
+            item_number: `#${product.product_code}`,
+            actual_price: product.actual_price,
+            sell_price: product.sell_price,
+            image_url:
+              product.main_image_full_url ||
+              product.image_full_url ||
+              `assets/logo.png`,
+            description: product.product_description,
+            unit_info: product.unit_info,
+            flash_sale: product.flash_sale,
+            delivery_days: product.delivery_target_days,
+          })) || [];
+      
+        //  Save to localStorage for caching
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            CACHE_KEY,
+            JSON.stringify({
+              data: transformedProducts,
+              expiry: Date.now() + CACHE_DURATION,
+            })
+          );
+        }
+      
+        setProducts([...products, ...transformedProducts]);
+       
     } catch (err) {
       setError(err.message);
     } finally {

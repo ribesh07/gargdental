@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { Trash2, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/useCartStore";
@@ -7,6 +7,8 @@ import { getAddress, userDetails } from "@/utils/apiHelper";
 import useInfoModalStore from "@/stores/infoModalStore";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { useFreeShippingStore } from "@/stores/ShippingThreshold";
+import FormatCurrencyNPR from "@/components/NprStyleBalance"; 
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -16,9 +18,12 @@ export default function OrderSummary() {
   const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
+  const [isFreeShipping , setisFreeShipping ] = useState(false);
   const [shipping, setShipping] = useState(50);
   const { setSelectedShippingAddress, setSelectedBillingAddress } =
     useCartStore();
+  
+const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
   const router = useRouter();
   const setEmail = useCartStore((state) => state.setEmail);
   // Get selected items from Zustand store
@@ -43,14 +48,21 @@ export default function OrderSummary() {
     const fetchAddresses = async () => {
       const { allAddresses, defaultBillingAddress, defaultShippingAddress } =
         await getAddress();
-
-      setAddresses(allAddresses);
-      setDefaultBillingAddress(defaultBillingAddress);
-      if (defaultShippingAddress.city?.shipping_cost) {
-        const cost = parseFloat(defaultShippingAddress.city?.shipping_cost);
-        setShipping(cost);
+      if(allAddresses){
+        setAddresses(allAddresses);
+        
+        setDefaultBillingAddress(defaultBillingAddress);
+        if (defaultShippingAddress?.city?.shipping_cost) {
+          const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
+  
+          setShipping(cost);
+        }
+        setDefaultShippingAddress(defaultShippingAddress);
       }
-      setDefaultShippingAddress(defaultShippingAddress);
+      else{
+        setAddresses(null);
+
+      }
       console.log("result", allAddresses);
     };
     fetchAddresses();
@@ -106,7 +118,7 @@ export default function OrderSummary() {
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
     if (defaultShippingAddress.city?.shipping_cost) {
-      const cost = parseFloat(defaultShippingAddress.city?.shipping_cost);
+      const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
       setShipping(cost);
     }
     setSelectedBillingAddress(defaultBillingAddress);
@@ -144,7 +156,20 @@ export default function OrderSummary() {
     0
   );
 
-  const total = subtotal + totalVatAmount + shipping;
+  useEffect(() => {
+    if (subtotal >= currentThreshold) {
+      
+      setisFreeShipping(true);
+      // setShipping(0);
+      console.log("current threshold : ", currentThreshold);
+    }else{
+      setisFreeShipping(false);
+    }
+  }, [subtotal, currentThreshold]);
+
+  // const total = subtotal + totalVatAmount + shipping;
+  const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -236,7 +261,7 @@ export default function OrderSummary() {
                           Quantity x {item.quantity}
                         </p>
                         <p className="font-semibold text-gray-800">
-                          Rs. {item.price}
+                          Rs. {FormatCurrencyNPR(item.price)}
                         </p>
                       </div>
                       {/* Remove button can be implemented if needed */}
@@ -335,7 +360,11 @@ export default function OrderSummary() {
                   <span className="text-sm font-medium text-gray-600">
                     SHIPPING
                   </span>
-                  <span className="font-semibold text-gray-800">
+                 <span
+      className={`font-semibold text-gray-800 ${
+        isFreeShipping ? "line-through text-gray-500" : ""
+      }`}
+    >
                     Rs. {shipping.toFixed(2)}
                   </span>
                 </div>

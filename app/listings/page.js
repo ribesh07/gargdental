@@ -32,6 +32,9 @@ const DentalSuppliesListing = () => {
   const [manufacturers, setManufacturers] = useState([]);
   const [offset, setOffset] = useState(0);
   const [filterON, setfilterON] = useState(false);
+
+  const CACHE_KEY = "productsCache";
+const CACHE_DURATION = 2 * 60 * 1000;
   // console.warn(`Base Api Url: ${baseUrl}`);
 
   // const API_URL = `${baseUrl}/products/latest`;
@@ -47,51 +50,72 @@ const DentalSuppliesListing = () => {
     setLoading(true);
     setError(null);
 
-    try {
-      const data = await apiRequest(`/products/all`, false);
-      // const limited = data.products?.slice(0, 10) || [];
-      // Transform the API data to match the expected format
-      const transformedProducts =
-        data.products?.map((product) => ({
-          id: product.id,
-          product_name: product.product_name,
-          stock_quantity: product.stock_quantity,
-          available_quantity: product.available_quantity,
-          product_code: product.product_code,
-          has_variations: product.has_variations,
-          starting_price: product.starting_price,
-          brand: product.brand?.brand_name || "No Brand",
-          category: product.category?.category_name || "Uncategorized",
-          item_number: `#${product.product_code}`,
-          actual_price: product.actual_price,
-          sell_price: product.sell_price,
-          image_url:
-            product.main_image_full_url ||
-            product.image_full_url ||
-            `https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png`,
-          description: product.product_description,
-          available_quantity: product.available_quantity,
-          unit_info: product.unit_info,
-          flash_sale: product.flash_sale,
-          delivery_days: product.delivery_target_days,
-        })) || [];
+  try{
+      // ✅ Client-side check to avoid hydration issues
+  if (typeof window !== "undefined") {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const { data, expiry } = JSON.parse(cached);
+      if (Date.now() < expiry) {
+        console.log("✅ Returning cached data");
+        setProducts([...products, ...data]); // directly set from cache
+        return; // stop execution, use cached data
+      }
+    }
+  }
 
-      // visibleProducts = transformedProducts.slice(0, visibleCount);
+  // 🌐 Fetch new data
+  const data = await apiRequest(`/products/all`, false);
 
-      setProducts([...products, ...transformedProducts]);
-      // console.warn(
-      //   `Transformed products: ${JSON.stringify(transformedProducts)}`
-      // );
-    } catch (err) {
+  const transformedProducts =
+    data.products?.map((product) => ({
+      id: product.id,
+      product_name: product.product_name,
+      stock_quantity: product.stock_quantity,
+      available_quantity: product.available_quantity,
+      product_code: product.product_code,
+      has_variations: product.has_variations,
+      starting_price: product.starting_price,
+      brand: product.brand?.brand_name || "No Brand",
+      category: product.category?.category_name || "Uncategorized",
+      item_number: `#${product.product_code}`,
+      actual_price: product.actual_price,
+      sell_price: product.sell_price,
+      image_url:
+        product.main_image_full_url ||
+        product.image_full_url ||
+        `https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png`,
+      description: product.product_description,
+      unit_info: product.unit_info,
+      flash_sale: product.flash_sale,
+      delivery_days: product.delivery_target_days,
+    })) || [];
+
+  // ⏺ Save to localStorage for caching
+  if (typeof window !== "undefined") {
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        data: transformedProducts,
+        expiry: Date.now() + CACHE_DURATION,
+      })
+    );
+  }
+
+  setProducts([...products, ...transformedProducts]);
+  }catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 
   // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
+
       const response = await apiRequest("/categories", false);
       if (response.success) {
         const mapCategory = (category) => {

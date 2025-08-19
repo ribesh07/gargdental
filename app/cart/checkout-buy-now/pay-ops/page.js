@@ -7,6 +7,8 @@ import { handleOrder } from "@/utils/apiHelper";
 import useWarningModalStore from "@/stores/warningModalStore";
 import { handleOrderBuyNow } from "@/utils/apiHelper";
 import toast from "react-hot-toast";
+import { useFreeShippingStore } from "@/stores/ShippingThreshold";
+import FormatCurrencyNPR from "@/components/NprStyleBalance";
 
 const paymentMethods = [
   {
@@ -65,12 +67,15 @@ const PayOpsPageBuyNow = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const [shipping, setShipping] = useState(50);
+  const [isFreeShipping , setisFreeShipping ] = useState(false);
   const selectedShippingAddress = useCartStore(
     (state) => state.selectedShippingAddress
   );
   const selectedBillingAddress = useCartStore(
     (state) => state.selectedBillingAddress
   );
+  
+  const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
 
   console.log("selectedShippingAddress", selectedShippingAddress);
   console.log("selectedBillingAddress", selectedBillingAddress);
@@ -102,8 +107,19 @@ const PayOpsPageBuyNow = () => {
     0
   );
 
-  const total = subtotal + totalVatAmount + shipping;
+  useEffect(() => {
+    if (subtotal >= currentThreshold) {
+      
+      setisFreeShipping(true);
+      // setShipping(0);
+      console.log("current threshold : ", currentThreshold);
+    }else{
+      setisFreeShipping(false);
+    }
+  }, [subtotal, currentThreshold]);
 
+  // const total = subtotal + totalVatAmount + shipping;
+  const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
   useEffect(() => {
     if (email === null || email === "") {
       toast.error("Please don't refresh the page.");
@@ -140,6 +156,12 @@ const PayOpsPageBuyNow = () => {
     console.log("orderData", orderData);
     const result = await handleOrderBuyNow(orderData);
     // console.log("result", result.message);
+    // if (result.success) {
+    //    useInfoModalStore.getState().open({
+    //     title: "Info",
+    //     message: result.message || "Order placed successfully",
+    //   });
+    // }
     addOrder({
       items: selectedItems,
       address: selectedShippingAddress,
@@ -276,7 +298,7 @@ const PayOpsPageBuyNow = () => {
                       </div>
                     </div>
                     <div className="font-medium text-green-700">
-                      Rs. {item.price * (item.quantity || 1)}
+                      Rs. {FormatCurrencyNPR(item.price * item.quantity)}
                     </div>
                   </li>
                 ))}
@@ -287,24 +309,26 @@ const PayOpsPageBuyNow = () => {
           <div className="mb-6">
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">SUBTOTAL</span>
-              <span className="font-bold text-lg">Rs. {subtotal}</span>
+              <span className="font-bold text-lg">Rs. {FormatCurrencyNPR(subtotal)}</span>
             </div>
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">VAT {"13%"}</span>
               <span className="font-bold text-lg">
                 Rs. {totalVatAmount.toLocaleString("en-IN", {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-})}
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          })}
               </span>
             </div>
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">SHIPPING</span>
-              <span className="font-bold text-lg">Rs. {shipping}</span>
+              <span    className={`font-semibold text-gray-800 ${
+        isFreeShipping ? "line-through text-gray-500" : ""
+      }`}>Rs. {shipping}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span className="font-bold text-xl">GRAND TOTAL</span>
-              <span className="font-bold text-xl">Rs. {total}</span>
+              <span className="font-bold text-xl">Rs. {FormatCurrencyNPR(total)}</span>
             </div>
             <div className="text-right font-semibold text-gray-700 mt-2">
               All Tax Included.

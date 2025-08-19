@@ -333,9 +333,9 @@ const AccountPage = () => {
         <aside className="w-full md:w-80 flex-shrink-0">
           <div className="bg-gray-50 rounded-xl shadow p-6 text-center">
             <img
-              src={user.profile_image || null}
+              src={user.profile_image || 'assets/logo.png'}
               alt="Profile"
-              className="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-blue-100 object-cover"
+              className="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-blue-100 object-contain"
             />
             <h3 className="font-bold text-xl text-gray-800">
               {user.full_name}

@@ -13,6 +13,7 @@ import { CategoriesViews } from "@/components/CategoriesVews";
 import TopBrandPage from "./components/topBrands";
 import toast from "react-hot-toast";
 import TopCategoriesPage from "./components/topCategories";
+import {useFreeShippingStore} from "@/stores/ShippingThreshold"
 
 //import TopCategoriesPage from "@/app/dashboard/components/topCategories";
 
@@ -81,11 +82,21 @@ const GargDental = () => {
           secondary_email,
           address,
           whatsapp,
+          free_shipping_threshold
         } = response.settings;
 
         const companyName = company_name?.value || "";
         const headerLogo = company_logo_header?.header_logo_full_url || "";
         const footerLogo = company_logo_footer?.footer_logo_full_url || "";
+
+        const freeShippingThreshold = free_shipping_threshold?.value || null;
+        if(freeShippingThreshold && !isNaN(parseFloat(freeShippingThreshold))) {
+          const threshold = parseFloat(freeShippingThreshold);
+          useFreeShippingStore.getState().setFreeShippingThreshold(threshold);
+        }
+        
+const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
+console.log("Current Free Shipping Threshold:", currentThreshold);
         setSettings({
           company_name: companyName,
           timezone: timezone?.value || null,

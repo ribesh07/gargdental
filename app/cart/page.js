@@ -16,6 +16,7 @@ import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import useInfoModalStore from "@/stores/infoModalStore";
 import toast from "react-hot-toast";
+import FormatCurrencyNPR from "@/components/NprStyleBalance"; 
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -88,13 +89,14 @@ export default function ShoppingCart() {
             defaultShippingAddress,
             allAddresses,
           } = await getAddress();
+          console.log("all addresses", allAddresses);
           console.log("default billing", defaultBillingAddress);
           console.log("default shipping", defaultShippingAddress);
           console.log(
             "shipping cost ",
             defaultShippingAddress.city?.shipping_cost
           );
-          if (defaultBillingAddress && defaultShippingAddress) {
+          if (allAddresses && defaultBillingAddress && defaultShippingAddress) {
             setHomeAddress(defaultShippingAddress);
             if (defaultShippingAddress.city?.shipping_cost) {
               const cost = parseFloat(
@@ -105,8 +107,28 @@ export default function ShoppingCart() {
             setBillingAddress(defaultBillingAddress);
           }
         } catch (error) {
-          // console.error("Error fetching addresses:", error);
-          toast.error("Failed to fetch addresses. Please try again later.");
+          console.log("Error fetching addresses:", error);
+            if (error) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please Add Address.{" "}
+            <a
+              href="/myaccount"
+              className="text-blue-600 underline hover:text-blue-800"
+              style={{ cursor: "pointer" }}
+            >
+              Go to My Account
+            </a>{" "}
+            to add your address.
+          </span>
+        ),
+      });
+      return;
+    }
+ 
+          // toast.error("Failed to fetch addresses. Please try again later.");
         } finally {
           setIsLoading(false);
         }
@@ -215,6 +237,27 @@ export default function ShoppingCart() {
       });
       return;
     }
+      if (!homeAddress) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please Add Address.{" "}
+            <a
+              href="/myaccount"
+              className="text-blue-600 underline hover:text-blue-800"
+              style={{ cursor: "pointer" }}
+            >
+              Go to My Account
+            </a>{" "}
+            to add your address.
+          </span>
+        ),
+      });
+      return;
+    }
+  
+
     setIsProcessing(true);
 
     // Save selected items to store
@@ -313,7 +356,7 @@ export default function ShoppingCart() {
                                 {item.category}
                               </p>
                               <div className="text-sm text-gray-600 mt-1">
-                                Rs. {item.price}
+                                Rs. {FormatCurrencyNPR(item.price)}
                               </div>
                             </div>
 
@@ -362,7 +405,7 @@ export default function ShoppingCart() {
 
                             {/* Total Price */}
                             <div className="font-medium text-green-600">
-                              Rs. {item.price * item.quantity}
+                              Rs. {FormatCurrencyNPR(item.price * item.quantity)}
                             </div>
                           </div>
                         </div>
@@ -400,7 +443,7 @@ export default function ShoppingCart() {
                           {/* Price */}
                           <div className="text-right">
                             <div className="text-gray-500 text-sm">
-                              Rs. {item.price}
+                              Rs. {FormatCurrencyNPR(item.price)}
                             </div>
                           </div>
 
@@ -439,7 +482,7 @@ export default function ShoppingCart() {
 
                           {/* Total Price */}
                           <div className="text-right font-medium text-green-600">
-                            Rs. {item.price * item.quantity}
+                            Rs. {FormatCurrencyNPR(item.price * item.quantity)}
                           </div>
 
                           {/* Remove Button */}
@@ -538,7 +581,7 @@ export default function ShoppingCart() {
                   <div className="flex justify-between">
                     <span className="font-medium">SUBTOTAL</span>
                     <span className="font-medium">
-                      Rs. {selectedSubtotal.toFixed(2)}
+                      Rs. {FormatCurrencyNPR(selectedSubtotal)}
                     </span>
                   </div>
 
