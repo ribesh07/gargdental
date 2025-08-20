@@ -483,7 +483,7 @@ const ProductAPIRequest = () => {
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Filters  part*/}
         <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-300 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Search */}
