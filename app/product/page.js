@@ -483,7 +483,7 @@ const ProductAPIRequest = () => {
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Filters  part*/}
         <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-300 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Search */}
@@ -498,35 +498,7 @@ const ProductAPIRequest = () => {
               />
             </div>
 
-            {/* Category Select */}
-            {/* <select
-              value={selectedCategory?.id || ""}
-              onChange={(e) => {
-                const selected = categories
-                  .flatMap((cat) => [cat, ...(cat.active_children || [])])
-                  .flatMap((c) => [c, ...(c.active_children || [])])
-                  .find((c) => c.id === parseInt(e.target.value));
-                setSelectedCategory(selected || null);
-              }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <React.Fragment key={category.id}>
-                  <option value={category.id}>{category.name}</option>
-                  {category.active_children.map((sub) => (
-                    <React.Fragment key={sub.id}>
-                      <option value={sub.id}>-- {sub.name}</option>
-                      {sub.active_children.map((subsub) => (
-                        <option key={subsub.id} value={subsub.id}>
-                          ---- {subsub.name}
-                        </option>
-                      ))}
-                    </React.Fragment>
-                  ))}
-                </React.Fragment>
-              ))}
-            </select> */}
+           
              <select
       value={selectedCategory?.id || ""}
       onChange={(e) => {
