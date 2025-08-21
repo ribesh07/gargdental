@@ -13,7 +13,10 @@ import { CategoriesViews } from "@/components/CategoriesVews";
 import TopBrandPage from "./components/topBrands";
 import toast from "react-hot-toast";
 import TopCategoriesPage from "./components/topCategories";
-import {useFreeShippingStore} from "@/stores/ShippingThreshold"
+import { useFreeShippingStore } from "@/stores/ShippingThreshold";
+import CategoryMenu from "@/components/CategoriesMenu";
+import { Grid3X3, ChevronRight } from 'lucide-react';
+
 
 //import TopCategoriesPage from "@/app/dashboard/components/topCategories";
 
@@ -47,48 +50,50 @@ const GargDental = () => {
   const router = useRouter();
 
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await apiRequest("/categories", false);
-        if (response.success) {
-          const mapCategory = (category) => ({
-            id: category.id,
-            name: category.category_name,
-            parent_id: category.parent_id,
-            image: category.image_full_url,
-            active_children: category.active_children?.map(mapCategory) || [],
-          });
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await apiRequest("/categories", false);
+  //       if (response.success) {
+  //         const mapCategory = (category) => ({
+  //           id: category.id,
+  //           name: category.category_name,
+  //           parent_id: category.parent_id,
+  //           image: category.image_full_url,
+  //           active_children: category.active_children?.map(mapCategory) || [],
+  //         });
 
-          setCategories(response.categories.map(mapCategory));
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+  //         setCategories(response.categories.map(mapCategory));
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching categories:", error);
+  //     }
+  //   };
 
-    fetchCategories();
-  }, []);
+  //   fetchCategories();
+  // }, []);
+
+
 
   // Recursive render (dropdown-below)
-  const renderCategory = (category) => (
-    <li key={category.id} className="relative group">
-      <Link
-        // 👇 Pass category id in query so products filter correctly
-        href={`/product?category=${category.id}`}
-        className="block py-1.5 px-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 transition-all rounded-md"
-      >
-        {category.name}
-      </Link>
+  // const renderCategory = (category) => (
+  //   <li key={category.id} className="relative group">
+  //     <Link
+  //       // 👇 Pass category id in query so products filter correctly
+  //       href={`/product?category=${category.id}`}
+  //       className="block py-1.5 px-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 transition-all rounded-md"
+  //     >
+  //       {category.name}
+  //     </Link>
 
-      {/* Subcategories appear BELOW */}
-      {category.active_children.length > 0 && (
-        <ul className="hidden group-hover:block pl-4 mt-1 space-y-1 border-l border-gray-200">
-          {category.active_children.map((sub) => renderCategory(sub))}
-        </ul>
-      )}
-    </li>
-  );
+  //     {/* Subcategories appear BELOW */}
+  //     {category.active_children.length > 0 && (
+  //       <ul className="hidden group-hover:block pl-4 mt-1 space-y-1 border-l border-gray-200">
+  //         {category.active_children.map((sub) => renderCategory(sub))}
+  //       </ul>
+  //     )}
+  //   </li>
+  // );
 
   // Fetch slides
   useEffect(() => {
@@ -134,13 +139,13 @@ const GargDental = () => {
         const footerLogo = company_logo_footer?.footer_logo_full_url || "";
 
         const freeShippingThreshold = free_shipping_threshold?.value || null;
-        if(freeShippingThreshold && !isNaN(parseFloat(freeShippingThreshold))) {
+        if (freeShippingThreshold && !isNaN(parseFloat(freeShippingThreshold))) {
           const threshold = parseFloat(freeShippingThreshold);
           useFreeShippingStore.getState().setFreeShippingThreshold(threshold);
         }
-        
-const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
-console.log("Current Free Shipping Threshold:", currentThreshold);
+
+        const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
+        console.log("Current Free Shipping Threshold:", currentThreshold);
         setSettings({
           company_name: companyName,
           timezone: timezone?.value || null,
@@ -258,11 +263,10 @@ console.log("Current Free Shipping Threshold:", currentThreshold);
             return (
               <div
                 key={slide.id || index}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                  isActive
-                    ? "opacity-100 z-10 pointer-events-auto"
-                    : "opacity-0 z-0 pointer-events-none"
-                }`}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive
+                  ? "opacity-100 z-10 pointer-events-auto"
+                  : "opacity-0 z-0 pointer-events-none"
+                  }`}
                 style={{ willChange: "opacity" }}
               >
                 <img
@@ -395,33 +399,41 @@ console.log("Current Free Shipping Threshold:", currentThreshold);
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
             {/* Sidebar */}
             <aside
-              className={`lg:block ${
-                sidebarOpen ? "block" : "hidden"
-              } lg:w-64 xl:w-72`}
+              className={`lg:block ${sidebarOpen ? "block" : "hidden"
+                } lg:w-64 xl:w-72`}
             >
               <div className="bg-gray-50 h-full flex flex-row sm:flex-col flex-wrap gap-2 rounded-lg p-3 sm:p-4 lg:p-5 shadow ">
-                <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
+                {/* <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
                   Categories
                 </h3>
 
                 <ul className="mb-6 sm:mb-8 space-y-1 overflow-y-scroll h-48 sm:h-180 hide-scrollbar">
-                    {categories.length > 0 ? (
-                      categories.map((category) => renderCategory(category))
-                    ) : (
-                      <li className="text-gray-500 text-sm">No categories found</li>
-                    )}
-                  </ul>
+                  {categories.length > 0 ? (
+                    categories.map((category) => renderCategory(category))
+                  ) : (
+                    <li className="text-gray-500 text-sm">No categories found</li>
+                  )}
+                </ul> */}
+                <div className="mb sm:mb-8 ">
+                  <CategoryMenu />
+                </div>
 
-                <h3 className="text-blue-900 text-base sm:text-lg font-semibold mb-3 sm:mb-4 pb-2 border-b-2 border-blue-900">
-                  Manufacturers
-                </h3>
+                {/* Manufacturers */}
+
+                <div className="px-6 py-5 border-b border-gray-100 rounded-t-xl">
+                  <div className="flex items-center space-x-3">
+                    <Grid3X3 className="h-6 w-6 text-blue-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">Manufacturers</h3>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">Explore our dental supplies</p>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs overflow-y-scroll h-48 sm:h-180 hide-scrollbar">
                   {manufacturers.map((manufacturer, index) => (
                     <Link
                       key={manufacturer.id || index}
                       href="#"
-                      className="block py-1 sm:py-1.5 px-2 hover:border-l-2 text-gray-700 hover:bg-gray-50 hover:text-red-600 transition-colors duration-200"
+                      className="block py-1 sm:py-1.5 px-2 hover:border-l-2 text-gray-700 text-lg font-semibold hover:bg-gray-50 hover:text-blue-700 transition-colors duration-200 text-gray-500 text-sm px-4 py-3 flex items-center space-x-2"
                     >
                       {manufacturer.brand_name}
                     </Link>
