@@ -68,28 +68,33 @@ const CACHE_DURATION = 2 * 60 * 1000;
   const data = await apiRequest(`/products/all`, false);
 
   const transformedProducts =
-    data.products?.map((product) => ({
-      id: product.id,
-      product_name: product.product_name,
-      stock_quantity: product.stock_quantity,
-      available_quantity: product.available_quantity,
-      product_code: product.product_code,
-      has_variations: product.has_variations,
-      starting_price: product.starting_price,
-      brand: product.brand?.brand_name || "No Brand",
-      category: product.category?.category_name || "Uncategorized",
-      item_number: `#${product.product_code}`,
-      actual_price: product.actual_price,
-      sell_price: product.sell_price,
-      image_url:
-        product.main_image_full_url ||
-        product.image_full_url ||
-        `/assets/logo.png`,
-      description: product.product_description,
-      unit_info: product.unit_info,
-      flash_sale: product.flash_sale,
-      delivery_days: product.delivery_target_days,
-    })) || [];
+  data.products?.map((product) => ({
+    id: product.id,
+    product_name: product.product_name,
+    stock_quantity: product.stock_quantity,
+    available_quantity: product.available_quantity,
+    product_code: product.product_code,
+    has_variations: product.has_variations,
+    starting_price: product.starting_price,
+    brand: product.brand?.brand_name || "No Brand",
+
+    // 👇 include both id and name
+    category_id: product.category?.id || null,
+    category: product.category?.category_name || "Uncategorized",
+
+    item_number: `#${product.product_code}`,
+    actual_price: product.actual_price,
+    sell_price: product.sell_price,
+    image_url:
+      product.main_image_full_url ||
+      product.image_full_url ||
+      `/assets/logo.png`,
+    description: product.product_description,
+    unit_info: product.unit_info,
+    flash_sale: product.flash_sale,
+    delivery_days: product.delivery_target_days,
+  })) || [];
+
 
   // ⏺ Save to localStorage for caching
   if (typeof window !== "undefined") {
@@ -108,9 +113,26 @@ const CACHE_DURATION = 2 * 60 * 1000;
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 1000);
+      }, 4000);
     }
   };
+
+  // Recursive mapper function
+const mapCategory = (category) => {
+  return {
+    id: category.id,
+    name: category.category_name,
+    parent_id: category.parent_id,
+    image: category.image_full_url,
+    children: category.active_children?.map(mapCategory) || [],
+  };
+};
+
+// Main mapper for the API response
+const mapCategories = (categories) => {
+  return categories.map(mapCategory);
+};
+
 
   // Fetch categories
   useEffect(() => {
@@ -118,16 +140,17 @@ const CACHE_DURATION = 2 * 60 * 1000;
 
       const response = await apiRequest("/categories", false);
       if (response.success) {
-        const mapCategory = (category) => {
-          return {
-            id: category.id,
-            name: category.category_name,
-            image: category.image_full_url,
-            parent_id: category.parent_id,
-            active_children: category.active_children?.map(mapCategory) || [],
-          };
-        };
-        const mappedCategories = response.categories.map(mapCategory);
+        // const mapCategory = (category) => {
+        //   return {
+        //     id: category?.id,
+        //     name: category?.category_name,
+        //     image: category?.image_full_url,
+        //     parent_id: category?.parent_id,
+        //     active_children: category?.active_children?.map(mapCategory) || [],
+        //   };
+        // };
+        // const mappedCategories = response.categories.map(mapCategory);
+        const mappedCategories = mapCategories(response.categories);
         console.log("mappedCategories", mappedCategories);
         setCategories(mappedCategories);
       }
@@ -197,60 +220,86 @@ const CACHE_DURATION = 2 * 60 * 1000;
     { label: "Above Rs.100000", min: 100000, max: Infinity },
   ];
 
+  // Collect all descendant ids of a category
+const getAllChildCategoryIds = (category) => {
+  if (!category) return [];
+  let ids = [category.id];
+  category.children.forEach((child) => {
+    ids = [...ids, ...getAllChildCategoryIds(child)];
+  });
+  return ids;
+};
+
+
   // Filter and sort products
-  // const filteredAndSortedProducts = useMemo(() => {
-  //   let filtered = products.filter((product) => {
-  //     if (
-  //       filters.category &&
-  //       product.category.toLowerCase() !== filters.category.toLowerCase()
-  //     ) {
-  //       return false;
-  //     }
 
-  //     if (
-  //       filters.brand &&
-  //       product.brand.toLowerCase() !== filters.brand.toLowerCase()
-  //     ) {
-  //       return false;
-  //     }
+//   const filteredAndSortedProducts = useMemo(() => {
+//   let filtered = products.filter((product) => {
+//     if (
+//       filters.category &&
+//       String(product.category_id) !== String(filters.category)
+//     ) {
+//       return false;
+//     }
 
-  //     if (filters.priceRange) {
-  //       const priceRange = priceRanges.find(
-  //         (range) => range.label === filters.priceRange
-  //       );
-  //       const price = parseFloat(product.sell_price);
-  //       if (priceRange && (price < priceRange.min || price > priceRange.max)) {
-  //         return false;
-  //       }
-  //     }
+//     if (
+//       filters.brand &&
+//       product.brand.toLowerCase() !== filters.brand.toLowerCase()
+//     ) {
+//       return false;
+//     }
 
-  //     return true;
-  //   });
+//     if (filters.priceRange) {
+//       const priceRange = priceRanges.find(
+//         (range) => range.label === filters.priceRange
+//       );
+//       const price = parseFloat(product.sell_price);
+//       if (priceRange && (price < priceRange.min || price > priceRange.max)) {
+//         return false;
+//       }
+//     }
 
-  //   filtered.sort((a, b) => {
-  //     switch (sortBy) {
-  //       case "price-low-high":
-  //         return parseFloat(a.sell_price) - parseFloat(b.sell_price);
-  //       case "price-high-low":
-  //         return parseFloat(b.sell_price) - parseFloat(a.sell_price);
-  //       case "name-a-z":
-  //         return a.product_name.localeCompare(b.product_name);
-  //       case "name-z-a":
-  //         return b.product_name.localeCompare(a.product_name);
-  //       default:
-  //         return 0; // or sort by relevance
-  //     }
-  //   });
+//     return true;
+//   });
 
-  //   return filtered;
-  // }, [products, filters, sortBy]);
-  const filteredAndSortedProducts = useMemo(() => {
+//   filtered.sort((a, b) => {
+//     switch (sortBy) {
+//       case "price-low-high":
+//         return parseFloat(a.sell_price) - parseFloat(b.sell_price);
+//       case "price-high-low":
+//         return parseFloat(b.sell_price) - parseFloat(a.sell_price);
+//       case "name-a-z":
+//         return a.product_name.localeCompare(b.product_name);
+//       case "name-z-a":
+//         return b.product_name.localeCompare(a.product_name);
+//       default:
+//         return 0;
+//     }
+//   });
+
+//   return filtered;
+// }, [products, filters, sortBy]);
+const filteredAndSortedProducts = useMemo(() => {
   let filtered = products.filter((product) => {
-    if (
-      filters.category &&
-      String(product.category_id) !== String(filters.category)
-    ) {
-      return false;
+    if (filters.category) {
+      // find the category object first
+      const findCategoryById = (cats, id) => {
+        for (let c of cats) {
+          if (String(c.id) === String(id)) return c;
+          const found = findCategoryById(c.children || [], id);
+          if (found) return found;
+        }
+        return null;
+      };
+
+      const selectedCat = findCategoryById(categories, filters.category);
+
+      if (selectedCat) {
+        const allowedIds = getAllChildCategoryIds(selectedCat);
+        if (!allowedIds.includes(product.category_id)) {
+          return false;
+        }
+      }
     }
 
     if (
@@ -273,6 +322,7 @@ const CACHE_DURATION = 2 * 60 * 1000;
     return true;
   });
 
+  // sorting
   filtered.sort((a, b) => {
     switch (sortBy) {
       case "price-low-high":
@@ -289,8 +339,7 @@ const CACHE_DURATION = 2 * 60 * 1000;
   });
 
   return filtered;
-}, [products, filters, sortBy]);
-
+}, [products, filters, sortBy, categories]);
 
   const handleFilterChange = (filterType, value) => {
     setfilterON(true);
@@ -313,14 +362,24 @@ const CACHE_DURATION = 2 * 60 * 1000;
     return `Rs.${parseFloat(price).toFixed(2)}`;
   };
 
-  const renderCategoryOptions = (categories, prefix = "") => {
+//   const renderCategoryOptions = (categories, prefix = "") => {
+//   return categories.flatMap((category) => [
+//     <option key={category.id} value={category.id}>
+//       {prefix + category.name}
+//     </option>,
+//     ...renderCategoryOptions(category.active_children || [], prefix + "-- ")
+//   ]);
+// };
+
+const renderCategoryOptions = (categories, level = 0) => {
   return categories.flatMap((category) => [
     <option key={category.id} value={category.id}>
-      {prefix + category.name}
+      {"— ".repeat(level)}{category.name}
     </option>,
-    ...renderCategoryOptions(category.active_children || [], prefix + "-- ")
+    ...renderCategoryOptions(category.children, level + 1),
   ]);
 };
+
 
 
   // if (!isReady) return null; //check for persist zustand to load
@@ -362,18 +421,33 @@ const CACHE_DURATION = 2 * 60 * 1000;
 
             {/* Category Filter */}
             <div className="relative w-full sm:w-auto">
-             <select
-  value={filters.category}
-  onChange={(e) => handleFilterChange("category", e.target.value)}
-  className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
->
-  <option value="">All Categories</option>
-  {categories.length === 0 ? (
-    <option disabled>Loading...</option>
-  ) : (
-    renderCategoryOptions(categories)
-  )}
-</select>
+             {/* <select
+                value={filters.category}
+                onChange={(e) => handleFilterChange("category", e.target.value)}
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
+              >
+                <option value="">All Categories</option>
+                {categories.length === 0 ? (
+                  <option disabled>Loading...</option>
+                ) : (
+                  renderCategoryOptions(categories)
+                )}
+              </select> */}
+
+          <select
+            value={filters.category}
+            onChange={(e) => handleFilterChange("category", e.target.value)}
+            className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
+          >
+            <option value="">All Categories</option>
+            {categories.length === 0 ? (
+              <option disabled>Loading...</option>
+            ) : (
+              renderCategoryOptions(categories)
+            )}
+          </select>
+
+
 
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
