@@ -157,6 +157,7 @@ export default function OrderSummaryBuyNow() {
     (sum, item) => sum - item.price * item.quantity,
     0
   );
+  const taxtotal = subtotal -  totalVatAmount;
 
   useEffect(() => {
     if (subtotal >= currentThreshold) {
@@ -169,7 +170,7 @@ export default function OrderSummaryBuyNow() {
   }, [subtotal, currentThreshold]);
 
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
+  const total = subtotal  + (subtotal >= currentThreshold ? 0 : shipping);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -320,15 +321,14 @@ export default function OrderSummaryBuyNow() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">
-                    SUBTOTAL
+                    TAXABLE TOTAL
                   </span>
                   <span className="font-semibold text-gray-800">
                     Rs.{" "}
-                    {subtotal.toLocaleString("en-IN", {
+                   {taxtotal.toLocaleString("en-IN", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
-                    })}
-                  </span>
+                    })}                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">
@@ -359,11 +359,10 @@ export default function OrderSummaryBuyNow() {
                   </span>
                   <span className="text-lg font-bold text-gray-800">
                     Rs.{" "}
-                    {total.toLocaleString("en-IN", {
+                   {total.toLocaleString("en-IN", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
-                    })}
-                  </span>
+                    })}                  </span>
                 </div>
                 <label htmlFor="terms" className="text-sm text-gray-700">
                   By Continuing, you agree to our{" "}
