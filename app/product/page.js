@@ -78,10 +78,11 @@ const ProductAPIRequest = () => {
     try {
       if (typeof window !== "undefined") {
         const cached = localStorage.getItem(CACHE_KEY);
-        if (cached) {
-          const { data, expiry } = JSON.parse(cached);
+        const { data, expiry } = JSON.parse(cached);
+        if (cached && data.length > 0) {
           if (Date.now() < expiry) {
             console.log("Returning cached data");
+            console.log(data);
             setProducts(data);
             return;
           }
@@ -133,6 +134,10 @@ const ProductAPIRequest = () => {
     }
   };
 
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
@@ -150,7 +155,7 @@ const ProductAPIRequest = () => {
       }
     };
     fetchCategories();
-    fetchProducts();
+   
   }, []);
 
 
