@@ -55,13 +55,13 @@ const CACHE_DURATION = 2 * 60 * 1000;
     setError(null);
 
   try{
-      // ✅ Client-side check to avoid hydration issues
+      //  Client-side check to avoid hydration issues
   if (typeof window !== "undefined") {
-    const cached = localStorage.getItem(CACHE_KEY);
-    if (cached) {
+    const cached = localStorage.getItem(CACHE_KEY);  
       const { data, expiry } = JSON.parse(cached);
+        if (cached && data.length > 0) {
       if (Date.now() < expiry) {
-        console.log("✅ Returning cached data");
+        console.log("Returning cached data");
         setProducts([...products, ...data]); // directly set from cache
         return; // stop execution, use cached data
       }
@@ -117,7 +117,7 @@ const CACHE_DURATION = 2 * 60 * 1000;
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 4000);
+      }, 3000);
     }
   };
 
@@ -393,7 +393,7 @@ const renderCategoryOptions = (categories, level = 0) => {
                 onSelect={(cat) => handleFilterChange("category", cat.id)}
               />
             
-              <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+              {/* <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" /> */}
             </div>
 
             {/* Brand Filter */}
@@ -445,7 +445,9 @@ const renderCategoryOptions = (categories, level = 0) => {
         </div>
 
         {loading ? (
+          <div className="flex justify-center items-center h-48">
           <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
+          </div>
         ) : (
           <div>
             {/* Results Count */}
@@ -458,7 +460,8 @@ const renderCategoryOptions = (categories, level = 0) => {
             {/* Product Grid */}
             <div className="max-w-7xl mx-auto px-2 sm:px-4">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4 ">
-                {filteredAndSortedProducts
+                
+                {  filteredAndSortedProducts
                   .slice(0, visibleCount)
                   .map((product, index) =>
                     product.has_variations ? null : (
