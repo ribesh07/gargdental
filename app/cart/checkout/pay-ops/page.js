@@ -112,11 +112,10 @@ const PayOpsPage = () => {
   //   0
   // );
   // const total = subtotal + shipping;
-  const itemsWithVat = selectedItems.map((item) => ({
-  ...item,
-  vatAmount: Number((item.price * item.quantity * 0.13).toFixed(3)),
-}));
-
+const itemsWithVat = selectedItems.map((item) => ({
+    ...item,
+    vatAmount: Number((item.price * item.quantity * 0.13).toFixed(3)),
+  }));
 
   const totalVatAmount = itemsWithVat.reduce(
     (sum, item) => sum + item.vatAmount,
@@ -127,6 +126,10 @@ const PayOpsPage = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+
+
+  const taxtotal = subtotal - totalVatAmount;
 
     useEffect(() => {
       if (subtotal >= currentThreshold) {
@@ -140,7 +143,7 @@ const PayOpsPage = () => {
     }, [subtotal, currentThreshold]);
   
     // const total = subtotal + totalVatAmount + shipping;
-    const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
+    const total = subtotal  + (subtotal >= currentThreshold ? 0 : shipping);
   
 
   const handleConfirmOrder = async () => {
@@ -310,10 +313,10 @@ const PayOpsPage = () => {
               <span className="font-bold text-lg">SUBTOTAL</span>
               <span className="font-bold text-lg">Rs. {FormatCurrencyNPR(subtotal)}</span>
             </div>
-            <div className="flex justify-between mb-4">
+            {/* <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">VAT {"13%"}</span>
               <span className="font-bold text-lg">Rs. {FormatCurrencyNPR(totalVatAmount)}</span>
-            </div>
+            </div> */}
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">SHIPPING</span>
               <span
