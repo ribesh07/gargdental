@@ -220,7 +220,7 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
               <Package className="h-8 w-8 text-blue-600" />
               Product Catalog
             </h1>
-            <button
+            {/* <button
               onClick={() => fetchProducts()}
               disabled={loading}
               className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
@@ -231,7 +231,7 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
                 <RotateCcw className="h-4 w-4" />
               )}
               Refresh
-            </button>
+            </button> */}
           </div>
         </div>
 

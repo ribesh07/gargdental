@@ -67,14 +67,14 @@ const PayOpsPageBuyNow = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const [shipping, setShipping] = useState(50);
-  const [isFreeShipping , setisFreeShipping ] = useState(false);
+  const [isFreeShipping, setisFreeShipping] = useState(false);
   const selectedShippingAddress = useCartStore(
     (state) => state.selectedShippingAddress
   );
   const selectedBillingAddress = useCartStore(
     (state) => state.selectedBillingAddress
   );
-  
+
   const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
 
   console.log("selectedShippingAddress", selectedShippingAddress);
@@ -92,10 +92,9 @@ const PayOpsPageBuyNow = () => {
   // const total = subtotal + shipping;
 
   const itemsWithVat = selectedItems.map((item) => ({
-  ...item,
-  vatAmount: Number((item.price * item.quantity * 0.13).toFixed(3)),
-}));
-
+    ...item,
+    vatAmount: Number((item.price * item.quantity * 0.13).toFixed(3)),
+  }));
 
   const totalVatAmount = itemsWithVat.reduce(
     (sum, item) => sum + item.vatAmount,
@@ -107,19 +106,22 @@ const PayOpsPageBuyNow = () => {
     0
   );
 
+
+
+  const taxtotal = subtotal - totalVatAmount;
   useEffect(() => {
     if (subtotal >= currentThreshold) {
-      
+
       setisFreeShipping(true);
       // setShipping(0);
       console.log("current threshold : ", currentThreshold);
-    }else{
+    } else {
       setisFreeShipping(false);
     }
   }, [subtotal, currentThreshold]);
 
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
+  const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
   useEffect(() => {
     if (email === null || email === "") {
       toast.error("Please don't refresh the page.");
@@ -189,11 +191,10 @@ const PayOpsPageBuyNow = () => {
               <button
                 key={method.id}
                 onClick={() => setSelected(method.id)}
-                className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 cursor-pointer ${
-                  selected === method.id
+                className={`flex-1 border rounded-lg p-6 flex flex-col items-center justify-center transition-colors duration-150 cursor-pointer ${selected === method.id
                     ? "border-blue-700 bg-blue-50 shadow"
                     : "border-gray-200 bg-gray-50 hover:bg-gray-50"
-                }`}
+                  }`}
               >
                 {method.icon}
                 <span className="mt-3 font-medium text-lg text-gray-800">
@@ -209,11 +210,10 @@ const PayOpsPageBuyNow = () => {
               {esewaDescription}
               <button
                 disabled={isProcessing}
-                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
-                  isProcessing
+                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${isProcessing
                     ? "bg-green-500 text-white cursor-not-allowed"
                     : "bg-blue-500 text-white hover:bg-gray-50-300"
-                }`}
+                  }`}
                 onClick={() => toast.error("Under Development !")}
               >
                 Pay Now
@@ -226,11 +226,10 @@ const PayOpsPageBuyNow = () => {
               <button
                 disabled={isProcessing}
                 onClick={handleConfirmOrderBuyNow}
-                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
-                  isProcessing
+                className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${isProcessing
                     ? "bg-green-500 text-white cursor-not-allowed"
                     : "bg-blue-500 text-white hover:bg-gray-50-300"
-                }`}
+                  }`}
               >
                 {isProcessing ? "Processing..." : "Confirm Order"}
               </button>
@@ -311,20 +310,19 @@ const PayOpsPageBuyNow = () => {
               <span className="font-bold text-lg">SUBTOTAL</span>
               <span className="font-bold text-lg">Rs. {FormatCurrencyNPR(subtotal)}</span>
             </div>
-            <div className="flex justify-between mb-4">
+            {/* <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">VAT {"13%"}</span>
               <span className="font-bold text-lg">
                 Rs. {totalVatAmount.toLocaleString("en-IN", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-          })}
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </span>
-            </div>
+            </div> */}
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">SHIPPING</span>
-              <span    className={`font-semibold text-gray-800 ${
-        isFreeShipping ? "line-through text-gray-500" : ""
-      }`}>Rs. {shipping}</span>
+              <span className={`font-semibold text-gray-800 ${isFreeShipping ? "line-through text-gray-500" : ""
+                }`}>Rs. {shipping}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span className="font-bold text-xl">GRAND TOTAL</span>

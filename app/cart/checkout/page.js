@@ -8,7 +8,7 @@ import useInfoModalStore from "@/stores/infoModalStore";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { useFreeShippingStore } from "@/stores/ShippingThreshold";
-import FormatCurrencyNPR from "@/components/NprStyleBalance"; 
+import FormatCurrencyNPR from "@/components/NprStyleBalance";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -18,12 +18,12 @@ export default function OrderSummary() {
   const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
-  const [isFreeShipping , setisFreeShipping ] = useState(false);
+  const [isFreeShipping, setisFreeShipping] = useState(false);
   const [shipping, setShipping] = useState(50);
   const { setSelectedShippingAddress, setSelectedBillingAddress } =
     useCartStore();
-  
-const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
+
+  const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
   const router = useRouter();
   const setEmail = useCartStore((state) => state.setEmail);
   // Get selected items from Zustand store
@@ -48,18 +48,18 @@ const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshol
     const fetchAddresses = async () => {
       const { allAddresses, defaultBillingAddress, defaultShippingAddress } =
         await getAddress();
-      if(allAddresses){
+      if (allAddresses) {
         setAddresses(allAddresses);
-        
+
         setDefaultBillingAddress(defaultBillingAddress);
         if (defaultShippingAddress?.city?.shipping_cost) {
           const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
-  
+
           setShipping(cost);
         }
         setDefaultShippingAddress(defaultShippingAddress);
       }
-      else{
+      else {
         setAddresses(null);
 
       }
@@ -156,19 +156,27 @@ const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshol
     0
   );
 
+
+
+  const taxtotal = subtotal - totalVatAmount;
+
+
+
+
+
   useEffect(() => {
     if (subtotal >= currentThreshold) {
-      
+
       setisFreeShipping(true);
       // setShipping(0);
       console.log("current threshold : ", currentThreshold);
-    }else{
+    } else {
       setisFreeShipping(false);
     }
   }, [subtotal, currentThreshold]);
 
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
+  const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
 
 
   return (
@@ -340,31 +348,30 @@ const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshol
                   </span>
                   <span className="font-semibold text-gray-800">
                     Rs. {subtotal.toLocaleString("en-IN", {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-})}
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
+                {/* <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">
                     VAT {"13%"}
                   </span>
                   <span className="font-semibold text-gray-800">
                     Rs. {totalVatAmount.toLocaleString("en-IN", {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-})}
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
-                </div>
+                </div> */}
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">
                     SHIPPING
                   </span>
-                 <span
-      className={`font-semibold text-gray-800 ${
-        isFreeShipping ? "line-through text-gray-500" : ""
-      }`}
-    >
+                  <span
+                    className={`font-semibold text-gray-800 ${isFreeShipping ? "line-through text-gray-500" : ""
+                      }`}
+                  >
                     Rs. {shipping.toFixed(2)}
                   </span>
                 </div>
@@ -375,9 +382,9 @@ const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshol
                   </span>
                   <span className="text-lg font-bold text-gray-800">
                     Rs. {total.toLocaleString("en-IN", {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-})}
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
                 <label htmlFor="terms" className="text-sm text-gray-700">
@@ -410,11 +417,10 @@ const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshol
                 <button
                   onClick={handleProceedToPay}
                   disabled={isProcessing}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
-                    isProcessing
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${isProcessing
                       ? "bg-green-500 text-white cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-gray-50-300"
-                  }`}
+                    }`}
                 >
                   {isProcessing ? "Processing..." : "Proceed to Pay"}
                 </button>
