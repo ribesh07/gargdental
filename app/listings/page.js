@@ -230,55 +230,7 @@ const getAllChildCategoryIds = (category) => {
   return ids;
 };
 
-
-  // Filter and sort products
-
-//   const filteredAndSortedProducts = useMemo(() => {
-//   let filtered = products.filter((product) => {
-//     if (
-//       filters.category &&
-//       String(product.category_id) !== String(filters.category)
-//     ) {
-//       return false;
-//     }
-
-//     if (
-//       filters.brand &&
-//       product.brand.toLowerCase() !== filters.brand.toLowerCase()
-//     ) {
-//       return false;
-//     }
-
-//     if (filters.priceRange) {
-//       const priceRange = priceRanges.find(
-//         (range) => range.label === filters.priceRange
-//       );
-//       const price = parseFloat(product.sell_price);
-//       if (priceRange && (price < priceRange.min || price > priceRange.max)) {
-//         return false;
-//       }
-//     }
-
-//     return true;
-//   });
-
-//   filtered.sort((a, b) => {
-//     switch (sortBy) {
-//       case "price-low-high":
-//         return parseFloat(a.sell_price) - parseFloat(b.sell_price);
-//       case "price-high-low":
-//         return parseFloat(b.sell_price) - parseFloat(a.sell_price);
-//       case "name-a-z":
-//         return a.product_name.localeCompare(b.product_name);
-//       case "name-z-a":
-//         return b.product_name.localeCompare(a.product_name);
-//       default:
-//         return 0;
-//     }
-//   });
-
-//   return filtered;
-// }, [products, filters, sortBy]);
+  // Apply filters and sorting
 const filteredAndSortedProducts = useMemo(() => {
   let filtered = products.filter((product) => {
     if (filters.category) {
@@ -362,14 +314,6 @@ const filteredAndSortedProducts = useMemo(() => {
     return `Rs.${parseFloat(price).toFixed(2)}`;
   };
 
-//   const renderCategoryOptions = (categories, prefix = "") => {
-//   return categories.flatMap((category) => [
-//     <option key={category.id} value={category.id}>
-//       {prefix + category.name}
-//     </option>,
-//     ...renderCategoryOptions(category.active_children || [], prefix + "-- ")
-//   ]);
-// };
 
 const renderCategoryOptions = (categories, level = 0) => {
   return categories.flatMap((category) => [
@@ -421,20 +365,9 @@ const renderCategoryOptions = (categories, level = 0) => {
 
             {/* Category Filter */}
             <div className="relative w-full sm:w-auto">
-             {/* <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange("category", e.target.value)}
-                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
-              >
-                <option value="">All Categories</option>
-                {categories.length === 0 ? (
-                  <option disabled>Loading...</option>
-                ) : (
-                  renderCategoryOptions(categories)
-                )}
-              </select> */}
+             
 
-          <select
+          {/* <select
             value={filters.category}
             onChange={(e) => handleFilterChange("category", e.target.value)}
             className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
@@ -445,8 +378,8 @@ const renderCategoryOptions = (categories, level = 0) => {
             ) : (
               renderCategoryOptions(categories)
             )}
-          </select>
-
+          </select> */}
+      
 
 
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
