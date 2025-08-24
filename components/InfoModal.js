@@ -1,5 +1,5 @@
 "use client";
-import { Info, X } from "lucide-react";
+import { CheckCircle, X } from "lucide-react";
 import useInfoModalStore from "@/stores/infoModalStore";
 
 const InfoModal = () => {
@@ -12,7 +12,7 @@ const InfoModal = () => {
       <div className="bg-[#8fd0fa] rounded-t-xl rounded-b-lg shadow-xl mx-auto max-w-xs sm:max-w-sm w-full">
         <div className="flex flex-col items-center p-4 sm:p-6 pb-0">
           <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full bg-[#8fd0fa] mt-2">
-            <Info className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
           </div>
           <button onClick={close} className="absolute top-2 right-2 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600">
             <X className="w-5 h-5 sm:w-6 sm:h-6" />
