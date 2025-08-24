@@ -414,9 +414,14 @@ const GargDental = () => {
                     <li className="text-gray-500 text-sm">No categories found</li>
                   )}
                 </ul> */}
-                <div className="mb sm:mb-8 ">
+
+
+                {/* <div className="mb sm:mb-8 ">
                   <CategoryMenu />
-                </div>
+                </div> */}
+
+
+
 
                 {/* Manufacturers */}
 
@@ -433,7 +438,7 @@ const GargDental = () => {
                     <Link
                       key={manufacturer.id || index}
                       href="#"
-                      className="block py-1 sm:py-1.5 px-2 hover:border-l-2 text-gray-700 text-lg font-semibold hover:bg-gray-50 hover:text-blue-700 transition-colors duration-200 text-gray-500 text-sm px-4 py-3 flex items-center space-x-2"
+                      className="block py-1   sm:py-1.5 px-2 hover:border-l-2 text-gray-700 text-lg font-semibold hover:bg-gray-50 hover:text-blue-700 transition-colors duration-200 text-gray-500 text-sm px-4 py-3 flex items-center space-x-2"
                     >
                       {manufacturer.brand_name}
                     </Link>

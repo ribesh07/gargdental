@@ -34,8 +34,8 @@ export default function OrderSummaryBuyNow() {
     (state) => state.selectedShippingAddress
   );
   const [userProfile, setUserProfile] = useState(null);
-  const [isFreeShipping , setisFreeShipping] = useState(false);
-  
+  const [isFreeShipping, setisFreeShipping] = useState(false);
+
   const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
 
   useEffect(() => {
@@ -157,19 +157,20 @@ export default function OrderSummaryBuyNow() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  const taxtotal = subtotal - totalVatAmount;
 
   useEffect(() => {
     if (subtotal >= currentThreshold) {
       setisFreeShipping(true);
       // setShipping(0);
       console.log("current threshold : ", currentThreshold);
-    }else{
+    } else {
       setisFreeShipping(false);
     }
   }, [subtotal, currentThreshold]);
 
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + totalVatAmount + (subtotal >= currentThreshold ? 0 : shipping);
+  const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -327,10 +328,9 @@ export default function OrderSummaryBuyNow() {
                     {subtotal.toLocaleString("en-IN", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
-                    })}
-                  </span>
+                    })}                  </span>
                 </div>
-                <div className="flex justify-between items-center">
+                {/* <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">
                     VAT {"13%"}
                   </span>
@@ -341,14 +341,13 @@ export default function OrderSummaryBuyNow() {
                       maximumFractionDigits: 2,
                     })}
                   </span>
-                </div>
+                </div> */}
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">
                     SHIPPING
                   </span>
-                  <span    className={`font-semibold text-gray-800 ${
-        isFreeShipping ? "line-through text-gray-500" : ""
-      }`}>
+                  <span className={`font-semibold text-gray-800 ${isFreeShipping ? "line-through text-gray-500" : ""
+                    }`}>
                     Rs. {shipping.toFixed(2)}
                   </span>
                 </div>
@@ -362,8 +361,7 @@ export default function OrderSummaryBuyNow() {
                     {total.toLocaleString("en-IN", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
-                    })}
-                  </span>
+                    })}                  </span>
                 </div>
                 <label htmlFor="terms" className="text-sm text-gray-700">
                   By Continuing, you agree to our{" "}
@@ -393,11 +391,10 @@ export default function OrderSummaryBuyNow() {
                 <button
                   onClick={handleProceedToPay}
                   disabled={isProcessing}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
-                    isProcessing
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${isProcessing
                       ? "bg-green-500 text-white cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-gray-50-300"
-                  }`}
+                    }`}
                 >
                   {isProcessing ? "Processing..." : "Proceed to Pay"}
                 </button>

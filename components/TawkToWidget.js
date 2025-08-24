@@ -72,7 +72,7 @@ export default function TawkToWidget() {
   return (
     <>
       {/* Chat Icon */}
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-center justify-center">
+      <div className="fixed bottom-2 right-3 z-50 flex flex-col items-center justify-center">
         <button
           onClick={handleChatIconClick}
           className="hover:scale-110 transform text-white p-3 rounded-full flex items-center justify-center transition-all duration-300 animate-bounce"
@@ -80,7 +80,7 @@ export default function TawkToWidget() {
           <img
             src="/assets/chatboticon.webp"
             alt="ChatApp"
-            className="w-25 h-25 pointer-events-none -mb-2"
+            className="w-20 h-20 pointer-events-none -mb-2"
           />
         </button>
         <span className="text-[18px] text-gray-700 font-bold mb-4">Contact Us</span>
