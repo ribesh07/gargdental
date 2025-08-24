@@ -19,6 +19,7 @@ import Link from "next/link";
 import { userDetails } from "@/utils/apiHelper";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 import useConfirmModalStore from "@/stores/confirmModalStore";
+import SearchBar from "@/components/SearchBar";
 const HeaderBarNew = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -252,7 +253,7 @@ const HeaderBarNew = () => {
             </div>
 
             {/* Desktop Search Bar */}
-            {pathname !== "/product" && (
+            {/* {pathname !== "/product" && (
               <div className="hidden md:block flex-1 max-w-2xl mx-8">
                 <div className="relative flex">
                   <input
@@ -270,7 +271,10 @@ const HeaderBarNew = () => {
                   </button>
                 </div>
               </div>
-            )}
+            )} */}
+
+
+            <SearchBar />
 
             {/* Desktop Right Side Actions */}
             <div className="hidden md:flex items-center space-x-4">
