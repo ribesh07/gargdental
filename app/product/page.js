@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 
- function Page() {
+function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ProductAPIRequest />
@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import {
   Search,
   Package,
+  ChevronDown,
   Tag,
   Loader2,
   AlertCircle,
@@ -335,10 +336,13 @@ const ProductAPIRequest = () => {
     (state) => state.setSelectedProduct
   );
 
-    const searchParams = useSearchParams();
-  const categoryFromUrl = searchParams.get("category"); 
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category");
 
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [manufacturers, setManufacturers] = useState([]);
+  const [offset, setOffset] = useState(0);
+    const [filterON, setfilterON] = useState(false);
 
   //  set initial category from URL
   useEffect(() => {
@@ -435,6 +439,25 @@ const ProductAPIRequest = () => {
     fetchProducts();
   }, []);
 
+
+  // Fetch manufacturers
+  const fetchManufacturers = async () => {
+    const response = await apiRequest("/brands", false);
+    if (response.success) {
+      console.log("response.brands", response);
+      const simplifiedBrands = response.brands.map((brand) => ({
+        id: brand.id,
+        brand_name: brand.brand_name,
+      }));
+      setManufacturers(simplifiedBrands);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    setLoading(true);
+    fetchManufacturers();
+  }, []);
+
   // Recursive function: collect selected category + its children ids
   const getAllChildCategoryIds = (category) => {
     if (!category) return [];
@@ -443,6 +466,14 @@ const ProductAPIRequest = () => {
       ids = [...ids, ...getAllChildCategoryIds(child)];
     });
     return ids;
+  };
+
+  const handleFilterChange = (filterType, value) => {
+    setfilterON(true);
+    setFilters((prev) => ({
+      ...prev,
+      [filterType]: value,
+    }));
   };
 
   // Filtering products
@@ -457,6 +488,11 @@ const ProductAPIRequest = () => {
     const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
     return matchesSearch && allowedCategoryIds.includes(product.category_id);
   });
+
+    const [filters, setFilters] = useState({
+      category: "",
+      brand: "",
+    });
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -485,7 +521,7 @@ const ProductAPIRequest = () => {
 
         {/* Filters  part*/}
         <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-300 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -499,34 +535,59 @@ const ProductAPIRequest = () => {
             </div>
 
            
-             <select
-      value={selectedCategory?.id || ""}
-      onChange={(e) => {
-        const selected = categories
-          .flatMap((cat) => [cat, ...(cat.active_children || [])])
-          .flatMap((c) => [c, ...(c.active_children || [])])
-          .find((c) => c.id === parseInt(e.target.value));
-        setSelectedCategory(selected || null);
-      }}
-      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-    >
-      <option value="">All Categories</option>
-      {categories.map((category) => (
-        <React.Fragment key={category.id}>
-          <option value={category.id}>{category.name}</option>
-          {category.active_children.map((sub) => (
-            <React.Fragment key={sub.id}>
-              <option value={sub.id}>-- {sub.name}</option>
-              {sub.active_children.map((subsub) => (
-                <option key={subsub.id} value={subsub.id}>
-                  ---- {subsub.name}
-                </option>
+          {/* Brand Filter */}
+            <div className="relative w-full sm:w-auto">
+              <select
+                value={filters.brand}
+                onChange={(e) => handleFilterChange("brand", e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">All Brands</option>
+                {manufacturers.map((brand) => (
+                  <option key={brand.id} value={brand.brand_name}>
+                    {brand.brand_name}
+                  </option>
+                ))}
+              </select>
+             
+            </div>
+
+
+
+
+
+            <select
+              value={selectedCategory?.id || ""}
+              onChange={(e) => {
+                const selected = categories
+                  .flatMap((cat) => [cat, ...(cat.active_children || [])])
+                  .flatMap((c) => [c, ...(c.active_children || [])])
+                  .find((c) => c.id === parseInt(e.target.value));
+                setSelectedCategory(selected || null);
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">All Categories</option>
+              {categories.map((category) => (
+                <React.Fragment key={category.id}>
+                  <option value={category.id}>{category.name}</option>
+                  {category.active_children.map((sub) => (
+                    <React.Fragment key={sub.id}>
+                      <option value={sub.id}>-- {sub.name}</option>
+                      {sub.active_children.map((subsub) => (
+                        <option key={subsub.id} value={subsub.id}>
+                          ---- {subsub.name}
+                        </option>
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
               ))}
-            </React.Fragment>
-          ))}
-        </React.Fragment>
-      ))}
-    </select>
+            </select>
+
+
+            
+
           </div>
           <br />
           <p className="text-sm text-gray-600">
@@ -633,7 +694,7 @@ function ProductCardMain({ product, showDiscount }) {
               {product.actual_price &&
                 product.actual_price !== "0.00" &&
                 parseFloat(product.actual_price) >
-                  parseFloat(product.sell_price) && (
+                parseFloat(product.sell_price) && (
                   <span className="text-[14px] text-gray-400 line-through">
                     Rs.{" "}
                     {Number(product.actual_price).toLocaleString("en-IN", {

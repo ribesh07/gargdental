@@ -34,7 +34,7 @@ const DentalSuppliesListing = () => {
   const [filterON, setfilterON] = useState(false);
 
   const CACHE_KEY = "productsCache";
-const CACHE_DURATION = 2 * 60 * 1000;
+  const CACHE_DURATION = 2 * 60 * 1000;
   // console.warn(`Base Api Url: ${baseUrl}`);
 
   // const API_URL = `${baseUrl}/products/latest`;
@@ -50,60 +50,60 @@ const CACHE_DURATION = 2 * 60 * 1000;
     setLoading(true);
     setError(null);
 
-  try{
+    try {
       // ✅ Client-side check to avoid hydration issues
-  if (typeof window !== "undefined") {
-    const cached = localStorage.getItem(CACHE_KEY);
-    if (cached) {
-      const { data, expiry } = JSON.parse(cached);
-      if (Date.now() < expiry) {
-        console.log("✅ Returning cached data");
-        setProducts([...products, ...data]); // directly set from cache
-        return; // stop execution, use cached data
+      if (typeof window !== "undefined") {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const { data, expiry } = JSON.parse(cached);
+          if (Date.now() < expiry) {
+            console.log("✅ Returning cached data");
+            setProducts([...products, ...data]); // directly set from cache
+            return; // stop execution, use cached data
+          }
+        }
       }
-    }
-  }
 
-  // 🌐 Fetch new data
-  const data = await apiRequest(`/products/all`, false);
+      // 🌐 Fetch new data
+      const data = await apiRequest(`/products/all`, false);
 
-  const transformedProducts =
-    data.products?.map((product) => ({
-      id: product.id,
-      product_name: product.product_name,
-      stock_quantity: product.stock_quantity,
-      available_quantity: product.available_quantity,
-      product_code: product.product_code,
-      has_variations: product.has_variations,
-      starting_price: product.starting_price,
-      brand: product.brand?.brand_name || "No Brand",
-      category: product.category?.category_name || "Uncategorized",
-      item_number: `#${product.product_code}`,
-      actual_price: product.actual_price,
-      sell_price: product.sell_price,
-      image_url:
-        product.main_image_full_url ||
-        product.image_full_url ||
-        `/assets/logo.png`,
-      description: product.product_description,
-      unit_info: product.unit_info,
-      flash_sale: product.flash_sale,
-      delivery_days: product.delivery_target_days,
-    })) || [];
+      const transformedProducts =
+        data.products?.map((product) => ({
+          id: product.id,
+          product_name: product.product_name,
+          stock_quantity: product.stock_quantity,
+          available_quantity: product.available_quantity,
+          product_code: product.product_code,
+          has_variations: product.has_variations,
+          starting_price: product.starting_price,
+          brand: product.brand?.brand_name || "No Brand",
+          category: product.category?.category_name || "Uncategorized",
+          item_number: `#${product.product_code}`,
+          actual_price: product.actual_price,
+          sell_price: product.sell_price,
+          image_url:
+            product.main_image_full_url ||
+            product.image_full_url ||
+            `/assets/logo.png`,
+          description: product.product_description,
+          unit_info: product.unit_info,
+          flash_sale: product.flash_sale,
+          delivery_days: product.delivery_target_days,
+        })) || [];
 
-  // ⏺ Save to localStorage for caching
-  if (typeof window !== "undefined") {
-    localStorage.setItem(
-      CACHE_KEY,
-      JSON.stringify({
-        data: transformedProducts,
-        expiry: Date.now() + CACHE_DURATION,
-      })
-    );
-  }
+      // ⏺ Save to localStorage for caching
+      if (typeof window !== "undefined") {
+        localStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({
+            data: transformedProducts,
+            expiry: Date.now() + CACHE_DURATION,
+          })
+        );
+      }
 
-  setProducts([...products, ...transformedProducts]);
-  }catch (err) {
+      setProducts([...products, ...transformedProducts]);
+    } catch (err) {
       setError(err.message);
     } finally {
       setTimeout(() => {
@@ -134,6 +134,9 @@ const CACHE_DURATION = 2 * 60 * 1000;
     };
     fetchCategories();
   }, []);
+
+
+
 
   // Fetch manufacturers
   const fetchManufacturers = async () => {
@@ -245,51 +248,51 @@ const CACHE_DURATION = 2 * 60 * 1000;
   //   return filtered;
   // }, [products, filters, sortBy]);
   const filteredAndSortedProducts = useMemo(() => {
-  let filtered = products.filter((product) => {
-    if (
-      filters.category &&
-      String(product.category_id) !== String(filters.category)
-    ) {
-      return false;
-    }
-
-    if (
-      filters.brand &&
-      product.brand.toLowerCase() !== filters.brand.toLowerCase()
-    ) {
-      return false;
-    }
-
-    if (filters.priceRange) {
-      const priceRange = priceRanges.find(
-        (range) => range.label === filters.priceRange
-      );
-      const price = parseFloat(product.sell_price);
-      if (priceRange && (price < priceRange.min || price > priceRange.max)) {
+    let filtered = products.filter((product) => {
+      if (
+        filters.category &&
+        String(product.category_id) !== String(filters.category)
+      ) {
         return false;
       }
-    }
 
-    return true;
-  });
+      if (
+        filters.brand &&
+        product.brand.toLowerCase() !== filters.brand.toLowerCase()
+      ) {
+        return false;
+      }
 
-  filtered.sort((a, b) => {
-    switch (sortBy) {
-      case "price-low-high":
-        return parseFloat(a.sell_price) - parseFloat(b.sell_price);
-      case "price-high-low":
-        return parseFloat(b.sell_price) - parseFloat(a.sell_price);
-      case "name-a-z":
-        return a.product_name.localeCompare(b.product_name);
-      case "name-z-a":
-        return b.product_name.localeCompare(a.product_name);
-      default:
-        return 0;
-    }
-  });
+      if (filters.priceRange) {
+        const priceRange = priceRanges.find(
+          (range) => range.label === filters.priceRange
+        );
+        const price = parseFloat(product.sell_price);
+        if (priceRange && (price < priceRange.min || price > priceRange.max)) {
+          return false;
+        }
+      }
 
-  return filtered;
-}, [products, filters, sortBy]);
+      return true;
+    });
+
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "price-low-high":
+          return parseFloat(a.sell_price) - parseFloat(b.sell_price);
+        case "price-high-low":
+          return parseFloat(b.sell_price) - parseFloat(a.sell_price);
+        case "name-a-z":
+          return a.product_name.localeCompare(b.product_name);
+        case "name-z-a":
+          return b.product_name.localeCompare(a.product_name);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  }, [products, filters, sortBy]);
 
 
   const handleFilterChange = (filterType, value) => {
@@ -314,13 +317,13 @@ const CACHE_DURATION = 2 * 60 * 1000;
   };
 
   const renderCategoryOptions = (categories, prefix = "") => {
-  return categories.flatMap((category) => [
-    <option key={category.id} value={category.id}>
-      {prefix + category.name}
-    </option>,
-    ...renderCategoryOptions(category.active_children || [], prefix + "-- ")
-  ]);
-};
+    return categories.flatMap((category) => [
+      <option key={category.id} value={category.id}>
+        {prefix + category.name}
+      </option>,
+      ...renderCategoryOptions(category.active_children || [], prefix + "-- ")
+    ]);
+  };
 
 
   // if (!isReady) return null; //check for persist zustand to load
@@ -362,18 +365,21 @@ const CACHE_DURATION = 2 * 60 * 1000;
 
             {/* Category Filter */}
             <div className="relative w-full sm:w-auto">
-             <select
-  value={filters.category}
-  onChange={(e) => handleFilterChange("category", e.target.value)}
-  className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
->
-  <option value="">All Categories</option>
-  {categories.length === 0 ? (
-    <option disabled>Loading...</option>
-  ) : (
-    renderCategoryOptions(categories)
-  )}
-</select>
+              <select
+                value={filters.category}
+                onChange={(e) => handleFilterChange("category", e.target.value)}
+                className="appearance-none border border-gray-300 rounded-lg px-3 sm:px-4 py-2 pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-sm w-full sm:w-auto"
+              >
+                <option value="">All Categories</option>
+                {categories.length === 0 ? (
+                  <option disabled>Loading...</option>
+                ) : (
+                  renderCategoryOptions(categories)
+                )}
+              </select>
+
+
+
 
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
@@ -542,19 +548,19 @@ function ProductCardMain({ product, showDiscount }) {
                   {product.actual_price &&
                     product.actual_price !== "0.00" &&
                     parseFloat(product.actual_price) >
-                      parseFloat(product.sell_price) && (
+                    parseFloat(product.sell_price) && (
                       <span className="text-[14px] text-gray-400 line-through">
                         Rs. {Number(product.actual_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </span>
                     )}
                   <span className="text-[14px] sm:text-base font-bold text-red-600">
                     Rs. {Number(product.sell_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
               </div>

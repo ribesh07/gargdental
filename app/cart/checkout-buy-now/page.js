@@ -149,12 +149,12 @@ export default function OrderSummaryBuyNow() {
   }));
 
   const totalVatAmount = itemsWithVat.reduce(
-    (sum, item) => sum + item.vatAmount,
+    (sum, item) => sum - item.vatAmount,
     0
   );
 
   const subtotal = selectedItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum - item.price * item.quantity,
     0
   );
 
