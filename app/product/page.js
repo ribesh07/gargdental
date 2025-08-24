@@ -34,6 +34,7 @@ import { apiRequest } from "@/utils/ApiSafeCalls";
 import ProductImageZoom from "@/components/ProductImageZoom";
 
 import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
+import MultiLevelDropdown from "./MultiLevelDropDown";
 
 
 
@@ -88,6 +89,7 @@ const ProductAPIRequest = () => {
           }
         }
       }
+      console.log("Fetching new data from API");
 
       const data = await apiRequest(`/products/all`, false);
       const transformedProducts =
@@ -138,54 +140,76 @@ const ProductAPIRequest = () => {
     fetchProducts();
   }, []);
 
+// Recursive mapper function
+const mapCategory = (category) => {
+  return {
+    id: category.id,
+    name: category.category_name,
+    parent_id: category.parent_id,
+    image: category.image_full_url,
+    children: category.active_children?.map(mapCategory) || [],
+  };
+};
+
+// Main mapper for the API response
+const mapCategories = (categories) => {
+  return categories.map(mapCategory);
+};
+
+
+
   // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
+
       const response = await apiRequest("/categories", false);
       if (response.success) {
-        const mapCategory = (category) => ({
-          id: category.id,
-          name: category.category_name,
-          image: category.image_full_url,
-          parent_id: category.parent_id,
-          active_children: category.active_children?.map(mapCategory) || [],
-        });
-        const mappedCategories = response.categories.map(mapCategory);
+       
+        const mappedCategories = mapCategories(response.categories);
+        console.log("mappedCategories", mappedCategories);
         setCategories(mappedCategories);
       }
     };
     fetchCategories();
-   
   }, []);
 
 
   // Fetch manufacturers
   const fetchManufacturers = async () => {
-    const response = await apiRequest("/brands", false);
-    if (response.success) {
-      console.log("response.brands", response);
-      const simplifiedBrands = response.brands.map((brand) => ({
-        id: brand.id,
-        brand_name: brand.brand_name,
-      }));
-      setManufacturers(simplifiedBrands);
+     setLoading(true);
+    try{
+      const response = await apiRequest("/brands", false);
+      if (response.success) {
+        console.log("response.brands", response);
+        const simplifiedBrands = response.brands.map((brand) => ({
+          id: brand.id,
+          brand_name: brand.brand_name,
+        }));
+        setManufacturers(simplifiedBrands);
+        console.log("simplifiedBrands", simplifiedBrands);
+      }
+    }catch(err){
+      setError(err.message);
+      setLoading(false);
+    }finally{
       setLoading(false);
     }
   };
   useEffect(() => {
-    setLoading(true);
+   
     fetchManufacturers();
   }, []);
 
   // Recursive function: collect selected category + its children ids
   const getAllChildCategoryIds = (category) => {
-    if (!category) return [];
-    let ids = [category.id];
-    category.active_children.forEach((child) => {
-      ids = [...ids, ...getAllChildCategoryIds(child)];
-    });
-    return ids;
-  };
+  if (!category) return [];
+  let ids = [category.id];
+  category.children.forEach((child) => {
+    ids = [...ids, ...getAllChildCategoryIds(child)];
+  });
+  return ids;
+};
+
 
   const handleFilterChange = (filterType, value) => {
     setfilterON(true);
@@ -194,26 +218,33 @@ const ProductAPIRequest = () => {
       [filterType]: value,
     }));
   };
-
-  // Filtering products
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
-    if (!selectedCategory) return matchesSearch;
-
-    // const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
-    // return matchesSearch && allowedCategoryIds.includes(product.category_id);
-    const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
-return matchesSearch && allowedCategoryIds.includes(product.category_id);
-
-  });
-
-    const [filters, setFilters] = useState({
+   const [filters, setFilters] = useState({
       category: "",
       brand: "",
     });
+
+  // Filtering products
+ const filteredProducts = products.filter((product) => {
+  const matchesSearch =
+    product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+
+  const matchesBrand =
+    !filters.brand || product.brand === filters.brand;
+
+  if (!selectedCategory) return matchesSearch && matchesBrand;
+
+  const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
+  return (
+    matchesSearch &&
+    matchesBrand &&
+    allowedCategoryIds.includes(product.category_id)
+  );
+});
+
+
+   
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -251,12 +282,28 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
                 placeholder="Search products, codes, or brands..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300  focus:border-transparent"
               />
             </div>
 
            
-          {/* Brand Filter */}
+         {/* Category Filter */}
+            <div className="relative w-full sm:w-auto flex flex-row  border-gray-300 rounded border-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent ">
+
+
+           <MultiLevelDropdown
+            categories={categories}
+            onSelect={(cat) => {
+              setSelectedCategory(cat); // set selected category state
+              handleFilterChange("category", cat.id); // apply your filter
+            }}
+          />
+            
+              {/* <ChevronDown className=" transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" /> */}
+            </div>
+
+
+                  {/* Brand Filter */}
             <div className="relative w-full sm:w-auto">
               <select
                 value={filters.brand}
@@ -271,13 +318,10 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
                 ))}
               </select>
              
-            </div>
+            </div>           
 
 
-
-
-
-            <select
+            {/* <select
               value={selectedCategory?.id || ""}
               onChange={(e) => {
                 const selected = categories
@@ -304,7 +348,7 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
                   ))}
                 </React.Fragment>
               ))}
-            </select>
+            </select> */}
 
 
             

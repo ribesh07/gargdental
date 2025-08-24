@@ -393,7 +393,7 @@ const renderCategoryOptions = (categories, level = 0) => {
                 onSelect={(cat) => handleFilterChange("category", cat.id)}
               />
             
-              <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+              {/* <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" /> */}
             </div>
 
             {/* Brand Filter */}
