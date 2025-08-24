@@ -17,6 +17,9 @@ import { BuyNow } from "@/components/BuyNow";
 import { Loader2 } from "lucide-react";
 import WishListHeart from "@/components/WishListHeart";
 import Link from "next/link";
+import MultiLevelDropdown from "./CategoryDropdown";
+
+
 
 const DentalSuppliesListing = () => {
   const [products, setProducts] = useState([]);
@@ -32,6 +35,7 @@ const DentalSuppliesListing = () => {
   const [manufacturers, setManufacturers] = useState([]);
   const [offset, setOffset] = useState(0);
   const [filterON, setfilterON] = useState(false);
+  //  const [selected, setSelected] = useState(null);
 
   const CACHE_KEY = "productsCache";
 const CACHE_DURATION = 2 * 60 * 1000;
@@ -117,6 +121,9 @@ const CACHE_DURATION = 2 * 60 * 1000;
     }
   };
 
+  
+
+
   // Recursive mapper function
 const mapCategory = (category) => {
   return {
@@ -132,6 +139,7 @@ const mapCategory = (category) => {
 const mapCategories = (categories) => {
   return categories.map(mapCategory);
 };
+
 
 
   // Fetch categories
@@ -326,7 +334,7 @@ const renderCategoryOptions = (categories, level = 0) => {
 
 
 
-  // if (!isReady) return null; //check for persist zustand to load
+  if (!isReady) return null; //check for persist zustand to load
 
   return (
     <>
@@ -379,9 +387,12 @@ const renderCategoryOptions = (categories, level = 0) => {
               renderCategoryOptions(categories)
             )}
           </select> */}
-      
 
-
+            <MultiLevelDropdown
+                categories={categories}
+                onSelect={(cat) => handleFilterChange("category", cat.id)}
+              />
+            
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
 

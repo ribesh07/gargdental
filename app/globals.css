@@ -107,6 +107,10 @@ ul li {
   color: white; /* Tailwind's text-gray-700 */
   font-size: 1rem;
 }
+
+.category-list {
+ list-style-type: none;
+}
 .Main-Footer-title {
   /* margin-top: -1.25rem; */
   list-style-type: none;
