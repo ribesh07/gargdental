@@ -56,8 +56,12 @@ const ProductAPIRequest = () => {
 
   const searchParams = useSearchParams();
   const categoryFromUrl = searchParams.get("category");
+  const manufacturerFromUrl = searchParams.get("manufacturer");
+  const queryFromUrl = searchParams.get("query");
 
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedManufacturer, setSelectedManufacturer] = useState(null);
+
   const [manufacturers, setManufacturers] = useState([]);
   const [offset, setOffset] = useState(0);
     const [filterON, setfilterON] = useState(false);
@@ -72,6 +76,27 @@ const ProductAPIRequest = () => {
       setSelectedCategory(selected || null);
     }
   }, [categoryFromUrl, categories]);
+
+  useEffect(() => {
+    if (queryFromUrl) {
+      setSearchTerm(queryFromUrl);
+    }
+  }, [queryFromUrl]);
+
+  //  set initial manufacturer from URL
+useEffect(() => {
+  if (manufacturerFromUrl && manufacturers.length > 0) {
+    // Find manufacturer by ID
+    const selected = manufacturers.find(
+      (m) => m.id.toString() === manufacturerFromUrl // convert to string
+    );
+    if (selected) {
+      setSelectedManufacturer(selected);
+      setFilters((prev) => ({ ...prev, brand: selected.brand_name })); // set select value
+    }
+  }
+}, [manufacturerFromUrl, manufacturers]);
+
 
   const CACHE_KEY = "productsCache";
   const CACHE_DURATION = 5 * 60 * 1000;
@@ -324,6 +349,7 @@ const mapCategories = (categories) => {
                   </option>
                 ))}
               </select>
+
              
             </div>           
 
