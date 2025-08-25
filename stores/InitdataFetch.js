@@ -27,26 +27,36 @@ export const useProductStore = create((set, get) => ({
   fetchProducts: async () => {
     if (get().loading) return;
 
-    const cached = typeof window !== "undefined" && localStorage.getItem("productsCache");
-    const { data, expiry } = JSON.parse(cached);
-        if (cached && data.length > 0) {
-        if (Date.now() < expiry) {
-            set({ products: data, lastFetched: Date.now() });
-            return;
+    let data = [];
+    let expiry = 0;
+
+    if (typeof window !== "undefined") {
+    const cached = localStorage.getItem("productsCache");
+    if (cached) {
+        try {
+        const parsed = JSON.parse(cached);
+        data = parsed.data || [];
+        expiry = parsed.expiry || 0;
+        console.log("Cached Products:", data);
+        } catch {
+        data = [];
+        expiry = 0;
         }
     }
+    }
+
+    // Only use cache if it exists AND is not expired
+    if (data.length > 0 && Date.now() < expiry) {
+        set({ products: data, lastFetched: Date.now() });
+        return;
+    }
+
+    // If expired, remove from localStorage
     if (Date.now() >= expiry) {
         localStorage.removeItem("productsCache");
     }
 
-
-
-    // ✅ Use cache if still valid
     const now = Date.now();
-    if (get().products && get().lastFetched && now - get().lastFetched < CACHE_DURATION) {
-      return;
-    }
-
     set({ loading: true, error: null });
     try {
       const data = await apiRequest(`/products/all`, false);
@@ -116,8 +126,8 @@ if (typeof window !== "undefined") {
     try {
       const parsed = JSON.parse(cached);
       data = parsed.data || [];
-      console.log("Cached Categories:", data);
       expiry = parsed.expiry || 0;
+      console.log("Cached Categories:", data);
     } catch {
       data = [];
       expiry = 0;
@@ -125,22 +135,17 @@ if (typeof window !== "undefined") {
   }
 }
 
-       
-        if ( data) {
-            set({ categories: data, lastFetchedcategory: Date.now() });
-            return;
-        }
-        
-        if (Date.now() >= expiry) {
-        localStorage.removeItem("categoriesCache");
-        }
+// Only use cache if it exists AND is not expired
+if (data.length > 0 && Date.now() < expiry) {
+  set({ categories: data, lastFetched: Date.now() });
+  return;
+}
 
-
-    // ✅ Use cache if still valid
+// If expired, remove from localStorage
+if (Date.now() >= expiry) {
+  localStorage.removeItem("categoriesCache");
+}
     const now = Date.now();
-    if (get().categories && get().lastFetchedcategory && now - get().lastFetchedcategory < CACHE_DURATION) {
-      return;
-    }
 
     set({ loadingcategory: true, errorcategory: null });
     try {

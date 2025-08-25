@@ -112,9 +112,8 @@ export default async function ProductPage({ params }) {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-5 h-5 ${
-          i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-        }`}
+        className={`w-5 h-5 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+          }`}
       />
     ));
   };
@@ -151,20 +150,20 @@ export default async function ProductPage({ params }) {
             </div>
             <div className="flex items-baseline space-x-4 mb-2">
               <span className="text-2xl font-semibold text-red-600">
-               Rs. {Number(product.sell_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
+                Rs. {Number(product.sell_price).toLocaleString("en-IN", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </span>
               {parseFloat(product.actual_price) >
                 parseFloat(product.sell_price) && (
-                <span className="text-sm text-gray-500 line-through">
-                  {Number(product.actual_price).toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}
-                </span>
-              )}
+                  <span className="text-sm text-gray-500 line-through">
+                    {Number(product.actual_price).toLocaleString("en-IN", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                )}
             </div>
 
             {product.catalogue_url && <CatalogButton product={product} />}

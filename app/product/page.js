@@ -248,11 +248,7 @@ const mapCategories = (categories) => {
   );
 });
 
-if(loading || loadings || loadingcategory) return  (
-    <div className="flex justify-center items-center h-48">
-          <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
-          </div>
-          );
+
 
 
    
@@ -375,7 +371,7 @@ if(loading || loadings || loadingcategory) return  (
         </div>
 
         {/* Error State */}
-        {error && (
+        {/* {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
             <div className="flex items-center gap-2 text-red-700">
               <AlertCircle className="h-5 w-5" />
@@ -383,20 +379,18 @@ if(loading || loadings || loadingcategory) return  (
             </div>
             <p className="text-red-600 mt-1">{error}</p>
           </div>
-        )}
+        )} */}
 
         {/* Loading */}
-        {loading && (
-          <div className="flex items-center justify-center py-12">
-            <div className="flex items-center gap-3 text-gray-600">
-              <Loader2 className="h-6 w-6 animate-spin" />
-              <span>Loading products...</span>
-            </div>
-          </div>
-        )}
+        { (loading || loadings || loadingcategory) && (
+              <div className="flex justify-center items-center h-48">
+                <Loader2 className="flex justify-center self-center h-4 w-4 animate-spin" />
+                <span className="ml-2">Loading products...</span>
+              </div>
+            )}
 
         {/* Product Grid */}
-        {!loading && (
+        {!loading && !loadings && !loadingcategory  && (
           <div className="max-w-7xl mx-auto px-4 mt-10">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-4 gap-y-4">
               {filteredProducts.map((product) => (

@@ -112,9 +112,9 @@ export default function SearchBar() {
                     onClick={() => handleSelect(product)}
                   >
                     {product.product_name}{" "}
-                    <span className="text-gray-400 text-xs">
+                    {/* <span className="text-gray-400 text-xs">
                       ({product.product_code})
-                    </span>
+                    </span> */}
                   </div>
                 ))
               ) : (

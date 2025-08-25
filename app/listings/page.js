@@ -330,11 +330,11 @@ const renderCategoryOptions = (categories, level = 0) => {
 
 
   // if (!isReady) return null; //check for persist zustand to load
-  if(loading || loadings || loadingcategory) return  (
-    <div className="flex justify-center items-center h-48">
-          <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
-          </div>
-          );
+  // if(loadingcategory) return  (
+  //   <div className="flex justify-center items-center h-48">
+  //         <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
+  //         </div>
+  //         );
 
   return (
     <>
@@ -444,11 +444,16 @@ const renderCategoryOptions = (categories, level = 0) => {
           </div>
         </div>
 
-        {loading ? (
-          <div className="flex justify-center items-center h-48">
-          <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
-          </div>
-        ) : (
+       { (loading || loadings || loadingcategory) && (
+        <div className="flex justify-center items-center h-48">
+          <Loader2 className="flex justify-center self-center h-4 w-4 animate-spin" />
+          <span className="ml-2">Loading products...</span>
+        </div>
+      )}
+
+
+         { !loading && !loadings && !loadingcategory &&  filteredAndSortedProducts.length > 0 &&   
+         (
           <div>
             {/* Results Count */}
             <div className="mb-4 sm:mb-6">
