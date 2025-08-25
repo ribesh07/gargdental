@@ -2,6 +2,8 @@
 import { create } from "zustand";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 
+import { persist } from "zustand/middleware";
+
 
 // Category mapping functions
 const mapCategory = (category) => ({
@@ -172,3 +174,63 @@ if (Date.now() >= expiry) {
     }
   },
 }));
+
+
+// store/manufacturerStore.js
+const FIVE_MINUTES = 5 * 60 * 1000;
+
+export const useManufacturerStore = create(
+  persist(
+    (set, get) => ({
+      manufacturers: [],
+      lastFetchedmanufacturer: null,
+      loadingmanufacturer: false,
+      errormanufacturer: null,
+
+      fetchManufacturers: async (force = false) => {
+        const { manufacturers, lastFetchedmanufacturer } = get();
+        const now = Date.now();
+
+        // If not forced, and cache exists and is still valid → return cached
+        if (
+          !force &&
+          manufacturers.length > 0 &&
+          lastFetchedmanufacturer &&
+          now - lastFetchedmanufacturer < FIVE_MINUTES
+        ) {
+          console.log("Using cached manufacturers", manufacturers);
+          return;
+        }
+
+        set({ loadingmanufacturer: true, errormanufacturer: null });
+        try {
+          const response = await apiRequest("/brands", false);
+          if (response.success) {
+            const simplifiedBrands = response.brands.map((brand) => ({
+              id: brand.id,
+              brand_name: brand.brand_name,
+            }));
+            console.log("Fetched manufacturers", simplifiedBrands);
+            
+            set({
+              manufacturers: simplifiedBrands,
+              lastFetchedmanufacturer: now,
+            });
+          }
+        } catch (err) {
+          set({ errormanufacturer: err.message || "Failed to fetch manufacturers" });
+        } finally {
+          set({ loadingmanufacturer: false });
+        }
+      },
+
+      clearManufacturers: () => {
+        set({ manufacturers: [], lastFetchedmanufacturer: null });
+      },
+    }),
+    {
+      name: "manufacturerstorage",
+      getStorage: () => localStorage,
+    }
+  )
+);

@@ -21,6 +21,7 @@ import {
   AlertCircle,
   RotateCcw,
 } from "lucide-react";
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import useSelectedProductStore from "@/stores/sendingProduct";
 import { BuyNow } from "@/components/BuyNow";
@@ -35,7 +36,7 @@ import ProductImageZoom from "@/components/ProductImageZoom";
 
 import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
 import MultiLevelDropdown from "./MultiLevelDropDown";
-import { useProductStore , useCategoryStore} from "@/stores/InitdataFetch";
+import { useProductStore , useCategoryStore ,useManufacturerStore} from "@/stores/InitdataFetch";
 
 
 const ProductAPIRequest = () => {
@@ -56,9 +57,15 @@ const ProductAPIRequest = () => {
 
   const searchParams = useSearchParams();
   const categoryFromUrl = searchParams.get("category");
+  const manufacturerFromUrl = searchParams.get("manufacturer");
+  const queryFromUrl = searchParams.get("query");
 
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [manufacturers, setManufacturers] = useState([]);
+  const [selectedManufacturer, setSelectedManufacturer] = useState(null);
+
+  // const [manufacturers, setManufacturers] = useState([]);
+  const { manufacturers, loadingmanufacturer, errormanufacturer } = useManufacturerStore();
+
   const [offset, setOffset] = useState(0);
     const [filterON, setfilterON] = useState(false);
 
@@ -72,6 +79,27 @@ const ProductAPIRequest = () => {
       setSelectedCategory(selected || null);
     }
   }, [categoryFromUrl, categories]);
+
+  useEffect(() => {
+    if (queryFromUrl) {
+      setSearchTerm(queryFromUrl);
+    }
+  }, [queryFromUrl]);
+
+  //  set initial manufacturer from URL
+useEffect(() => {
+  if (manufacturerFromUrl && manufacturers.length > 0) {
+    // Find manufacturer by ID
+    const selected = manufacturers.find(
+      (m) => m.id.toString() === manufacturerFromUrl // convert to string
+    );
+    if (selected) {
+      setSelectedManufacturer(selected);
+      setFilters((prev) => ({ ...prev, brand: selected.brand_name })); // set select value
+    }
+  }
+}, [manufacturerFromUrl, manufacturers]);
+
 
   const CACHE_KEY = "productsCache";
   const CACHE_DURATION = 5 * 60 * 1000;
@@ -180,30 +208,31 @@ const mapCategories = (categories) => {
 
 
   // Fetch manufacturers
-  const fetchManufacturers = async () => {
-     setLoading(true);
-    try{
-      const response = await apiRequest("/brands", false);
-      if (response.success) {
-        console.log("response.brands", response);
-        const simplifiedBrands = response.brands.map((brand) => ({
-          id: brand.id,
-          brand_name: brand.brand_name,
-        }));
-        setManufacturers(simplifiedBrands);
-        console.log("simplifiedBrands", simplifiedBrands);
-      }
-    }catch(err){
-      setError(err.message);
-      setLoading(false);
-    }finally{
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
+  
+  // const fetchManufacturers = async () => {
+  //    setLoading(true);
+  //   try{
+  //     const response = await apiRequest("/brands", false);
+  //     if (response.success) {
+  //       console.log("response.brands", response);
+  //       const simplifiedBrands = response.brands.map((brand) => ({
+  //         id: brand.id,
+  //         brand_name: brand.brand_name,
+  //       }));
+  //       setManufacturers(simplifiedBrands);
+  //       console.log("simplifiedBrands", simplifiedBrands);
+  //     }
+  //   }catch(err){
+  //     setError(err.message);
+  //     setLoading(false);
+  //   }finally{
+  //     setLoading(false);
+  //   }
+  // };
+  // useEffect(() => {
    
-    fetchManufacturers();
-  }, []);
+  //   fetchManufacturers();
+  // }, []);
 
   // Recursive function: collect selected category + its children ids
   const getAllChildCategoryIds = (category) => {
@@ -229,26 +258,53 @@ const mapCategories = (categories) => {
     });
 
   // Filtering products
- const filteredProducts = products.filter((product) => {
-  const matchesSearch =
-    product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+//  const filteredProducts = products.filter((product) => {
+//   const matchesSearch =
+//     product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//     product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//     product.brand.toLowerCase().includes(searchTerm.toLowerCase());
 
-  const matchesBrand =
-    !filters.brand || product.brand === filters.brand;
+//   const matchesBrand =
+//     !filters.brand || product.brand === filters.brand;
 
-  if (!selectedCategory) return matchesSearch && matchesBrand;
+//   if (!selectedCategory) return matchesSearch && matchesBrand;
 
-  const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
-  return (
-    matchesSearch &&
-    matchesBrand &&
-    allowedCategoryIds.includes(product.category_id)
-  );
-});
+//   const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
+//   return (
+//     matchesSearch &&
+//     matchesBrand &&
+//     allowedCategoryIds.includes(product.category_id)
+//   );
+// });
+
+const categoryMap = useMemo(() => {
+  const map = {};
+  const fillMap = (cat) => {
+    map[cat.id] = [cat.id, ...(cat.children.flatMap((c) => fillMap(c)))];
+    return map[cat.id];
+  };
+  categories.forEach(fillMap);
+  return map;
+}, [categories]);
 
 
+const filteredProducts = useMemo(() => {
+  return products.filter((product) => {
+    const matchesSearch =
+      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesBrand = !filters.brand || product.brand === filters.brand;
+
+    if (!selectedCategory) return matchesSearch && matchesBrand;
+
+    // const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
+    const allowedCategoryIds = selectedCategory ? categoryMap[selectedCategory.id] : [];
+
+    return matchesSearch && matchesBrand && allowedCategoryIds.includes(product.category_id);
+  });
+}, [products, searchTerm, filters.brand, selectedCategory]);
 
 
    
@@ -324,6 +380,7 @@ const mapCategories = (categories) => {
                   </option>
                 ))}
               </select>
+
              
             </div>           
 
@@ -372,7 +429,7 @@ const mapCategories = (categories) => {
 
 
         {/* Loading */}
-        { (loading || loadings || loadingcategory) && (
+        { (loading || loadings || loadingcategory || loadingmanufacturer) && (
               <div className="flex justify-center items-center h-48">
                 <Loader2 className="flex justify-center self-center h-4 w-4 animate-spin" />
                 <span className="ml-2">Loading products...</span>
@@ -380,7 +437,7 @@ const mapCategories = (categories) => {
             )}
 
         {/* Product Grid */}
-        {!loading && !loadings && !loadingcategory  && (
+        {!loading && !loadings && !loadingcategory && !loadingmanufacturer && (
           <div className="max-w-7xl mx-auto px-4 mt-10">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-4 gap-y-4">
               {filteredProducts.map((product) => (
