@@ -47,8 +47,9 @@ function FlashSaleProductPage() {
             actual_price: product.actual_price,
             sell_price: product.sell_price,
             image_url:
+             product.main_image_full_url ||
               product.image_full_url ||
-              "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
+              "/assets/logo.png",
             description: product.product_description,
             available_quantity: product.available_quantity,
             unit_info: product.unit_info,

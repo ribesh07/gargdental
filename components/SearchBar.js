@@ -111,10 +111,8 @@ export default function SearchBar() {
                     className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
                     onClick={() => handleSelect(product)}
                   >
-                    {product.product_name}{" "}
-                    {/* <span className="text-gray-400 text-xs">
-                      ({product.product_code})
-                    </span> */}
+                    {/* {product.product_name}{" "} */}
+                   <span className="text-gray-400 text-xs">( {product.product_name} )</span>
                   </div>
                 ))
               ) : (

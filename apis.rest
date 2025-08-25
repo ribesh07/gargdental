@@ -397,7 +397,7 @@ GET https://gargdental.omsok.com/api/v1/products/brand-wise-products?brand_id=2&
 Content-Type: application/json
 
 ### flash sale products
-GET https://gargdental.omsok.com/api/v1/products/flash-sale
+GET https://gargdental.omsok.com/api/v1/products/flash-sale?limit=10&offset=0
 Content-Type: application/json
 
 ### Complaint list
