@@ -108,11 +108,12 @@ export default function SearchBar() {
                 suggestions.map((product) => (
                   <div
                     key={product.id || product.product_code}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm border-b border-gray-200 flex items-center"
                     onClick={() => handleSelect(product)}
                   >
-                    {/* {product.product_name}{" "} */}
-                   <span className="text-gray-400 text-xs">( {product.product_name} )</span>
+                 
+                   <img src={product.main_image_full_url || "/assets/logo.png"} alt={product.product_name} className="inline-block border-1 border-blue-300 h-10 w-10 object-cover ml-2 rounded" />
+                   <span className="text-black text-xs px-2 py-2">{"  "}{product.product_name} </span>
                   </div>
                 ))
               ) : (
