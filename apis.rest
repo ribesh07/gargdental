@@ -453,3 +453,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 ### search
 GET https://gargdental.omsok.com/api/v1/products/search?name=aka&limit=10&offset=0
 Content-Type: application/json
+
+### contact us - our team
+GET https://gargdental.omsok.com/api/v1/our-team/active
+Content-Type: application/json
