@@ -1,11 +1,27 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState , useEffect
+, useRef
+ } from "react";
 import { ChevronDown } from "lucide-react";
+
 
 const MultiLevelDropdown = ({ categories, onSelect, value }) => {
     const [menuOpen, setMenuOpen] = useState(false); 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+    const dropdownRef = useRef(null);
     const [selected, setSelected] = useState( value ?? null);
+
+     // Close dropdown when clicking outside
+      useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setMenuOpen(false);
+          }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+      }, []);
 
     const DropdownItem = ({ category, onSelect }) => {
   const [open, setOpen] = useState(false);
@@ -18,12 +34,13 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
 
   return (
     <li
-      className="relative group"
+      className="relative group hover:border-l-2 hover:border-blue-500"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
+     
       <button
-        className="px-4 py-2 hover:bg-gray-100 w-full text-left"
+        className="py-2 px-2 max-w-[150px] hover:bg-gray-100 w-full text-left break-words whitespace-normal hover:border-l-2 hover:border-blue-500"
         onClick={() => {
             onSelect(category);
             handleSelect(category);
@@ -47,13 +64,13 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
   );
 };
   return (
-       <div className="relative inline-block w-full">
+       <div ref={dropdownRef} className="relative inline-block w-full">
         <button
             onClick={toggleMenu}
             className="w-full px-4 py-2 bg-gray-50 rounded flex justify-between items-center  border-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
             <span className="text-left">
-            {selected ? selected.name : "Select Category"}
+            {selected ? selected.name : "All Categories"}
             </span>
             <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${menuOpen ? "rotate-180" : ""}`} />
         </button>
