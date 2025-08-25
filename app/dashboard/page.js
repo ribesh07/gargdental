@@ -433,12 +433,12 @@ const GargDental = () => {
                   <p className="text-sm text-gray-600 mt-1">Explore our dental supplies</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs overflow-y-scroll h-48 sm:h-180 hide-scrollbar">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs overflow-y-scroll h-48 sm:h-340 hide-scrollbar">
                   {manufacturers.map((manufacturer, index) => (
                     <Link
                       key={manufacturer.id || index}
                        href={`/product?manufacturer=${manufacturer.id}`} 
-                      className="block py-1   sm:py-1.5 px-2 hover:border-l-2 text-gray-700 text-lg font-semibold hover:bg-gray-50 hover:text-blue-700 transition-colors duration-200 text-gray-500 text-sm px-4 py-3 flex items-center space-x-2"
+                      className="block break-words py-1 text-sm sm:py-1.5 px-2 hover:border-l-2 text-gray-700 font-semibold hover:bg-gray-50 hover:text-blue-700 transition-colors duration-200 items-center space-x-2"
                     >
                       {manufacturer.brand_name}
                     </Link>
