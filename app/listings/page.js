@@ -18,13 +18,15 @@ import { Loader2 } from "lucide-react";
 import WishListHeart from "@/components/WishListHeart";
 import Link from "next/link";
 import MultiLevelDropdown from "./CategoryDropdown";
+import { useProductStore } from "@/stores/InitdataFetch";
 
 
 
 const DentalSuppliesListing = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [products, setProducts] = useState([]); 
+   const { products, loading, error } = useProductStore();
+  const [loadings, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isReady, setIsReady] = useState(false);
@@ -50,82 +52,83 @@ const CACHE_DURATION = 2 * 60 * 1000;
     setVisibleCount((prev) => prev + 8);
     // router.push("/product");
   };
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
+  // const fetchProducts = async () => {
+  //   setLoading(true);
+  //   setError(null);
 
-  try{
-      //  Client-side check to avoid hydration issues
-  if (typeof window !== "undefined") {
-    const cached = localStorage.getItem(CACHE_KEY);  
-      const { data, expiry } = JSON.parse(cached);
-        if (cached && data.length > 0) {
-      if (Date.now() < expiry) {
-        console.log("Returning cached data");
-        setProducts([...products, ...data]); // directly set from cache
-        return; // stop execution, use cached data
-      }
-    }
-  }
+  // try{
+  //     //  Client-side check to avoid hydration issues
+  // if (typeof window !== "undefined") {
+  //   const cached = localStorage.getItem(CACHE_KEY);  
+  //     const { data, expiry } = JSON.parse(cached);
+  //       if (cached && data.length > 0) {
+  //     if (Date.now() < expiry) {
+  //       console.log("Returning cached data");
+  //       setProducts([...products, ...data]); // directly set from cache
+  //       return; // stop execution, use cached data
+  //     }
+  //   }
+  // }
 
-  // 🌐 Fetch new data
-  const data = await apiRequest(`/products/all`, false);
+  // // 🌐 Fetch new data
+  // const data = await apiRequest(`/products/all`, false);
 
-  const transformedProducts =
-  data.products?.map((product) => ({
-    id: product.id,
-    product_name: product.product_name,
-    stock_quantity: product.stock_quantity,
-    available_quantity: product.available_quantity,
-    product_code: product.product_code,
-    has_variations: product.has_variations,
-    starting_price: product.starting_price,
-    brand: product.brand?.brand_name || "No Brand",
+  // const transformedProducts =
+  // data.products?.map((product) => ({
+  //   id: product.id,
+  //   product_name: product.product_name,
+  //   stock_quantity: product.stock_quantity,
+  //   available_quantity: product.available_quantity,
+  //   product_code: product.product_code,
+  //   has_variations: product.has_variations,
+  //   starting_price: product.starting_price,
+  //   brand: product.brand?.brand_name || "No Brand",
 
-    // 👇 include both id and name
-    category_id: product.category?.id || null,
-    category: product.category?.category_name || "Uncategorized",
+  //   // 👇 include both id and name
+  //   category_id: product.category?.id || null,
+  //   category: product.category?.category_name || "Uncategorized",
 
-    item_number: `#${product.product_code}`,
-    actual_price: product.actual_price,
-    sell_price: product.sell_price,
-    image_url:
-      product.main_image_full_url ||
-      product.image_full_url ||
-      `/assets/logo.png`,
-    description: product.product_description,
-    unit_info: product.unit_info,
-    flash_sale: product.flash_sale,
-    delivery_days: product.delivery_target_days,
-  })) || [];
+  //   item_number: `#${product.product_code}`,
+  //   actual_price: product.actual_price,
+  //   sell_price: product.sell_price,
+  //   image_url:
+  //     product.main_image_full_url ||
+  //     product.image_full_url ||
+  //     `/assets/logo.png`,
+  //   description: product.product_description,
+  //   unit_info: product.unit_info,
+  //   flash_sale: product.flash_sale,
+  //   delivery_days: product.delivery_target_days,
+  // })) || [];
 
 
-  // ⏺ Save to localStorage for caching
-  if (typeof window !== "undefined") {
-    localStorage.setItem(
-      CACHE_KEY,
-      JSON.stringify({
-        data: transformedProducts,
-        expiry: Date.now() + CACHE_DURATION,
-      })
-    );
-  }
+  // // ⏺ Save to localStorage for caching
+  // if (typeof window !== "undefined") {
+  //   localStorage.setItem(
+  //     CACHE_KEY,
+  //     JSON.stringify({
+  //       data: transformedProducts,
+  //       expiry: Date.now() + CACHE_DURATION,
+  //     })
+  //   );
+  // }
 
-  setProducts([...products, ...transformedProducts]);
-  }catch (err) {
-      setError(err.message);
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 3000);
-    }
-  };
+  // setProducts([...products, ...transformedProducts]);
+  // }catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setTimeout(() => {
+  //       setLoading(false);
+  //     }, 3000);
+  //   }
+  // };
 
   
 
 
   // Recursive mapper function
-const mapCategory = (category) => {
+
+  const mapCategory = (category) => {
   return {
     id: category.id,
     name: category.category_name,
@@ -184,10 +187,10 @@ const mapCategories = (categories) => {
     fetchManufacturers();
   }, []);
 
-  useEffect(() => {
-    setIsReady(true);
-    fetchProducts();
-  }, [offset]);
+  // useEffect(() => {
+  //   setIsReady(true);
+  //   fetchProducts();
+  // }, [offset]);
 
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
@@ -334,7 +337,7 @@ const renderCategoryOptions = (categories, level = 0) => {
 
 
 
-  if (!isReady) return null; //check for persist zustand to load
+  // if (!isReady) return null; //check for persist zustand to load
 
   return (
     <>

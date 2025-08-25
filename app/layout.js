@@ -1,3 +1,5 @@
+// "use client";
+// import { useEffect } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import Toast from "@/components/Toast";
 import { Toaster } from "react-hot-toast";
@@ -6,6 +8,8 @@ import "./globals.css";
 import HeaderBarNew from "@/components/HeaderBarNew";
 import TawkToWidget from "@/components/TawkToWidget";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import ClientLayout from "./ClientLayout";
+// import { useProductStore } from "@/stores/InitdataFetch";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -87,6 +91,9 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
+   
+
   return (
     <html lang="en">
       <head>
@@ -114,7 +121,8 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
       >
         <HeaderBarNew />
-        <div className="w-full">{children}</div>
+           <ClientLayout>{children}</ClientLayout>
+     
         <CookieConsentBanner />
         <FooterBar />
         <TawkToWidget />
