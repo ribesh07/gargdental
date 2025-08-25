@@ -66,7 +66,7 @@ export default function AboutUsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="max-w-7xl mx-auto min-h-screen bg-gray-50">
       {/* Video Section (if present) */}
       {aboutData.introduction_video_url && (
         <div className="max-w-7xl mx-auto h-100 relative overflow-hidden">
