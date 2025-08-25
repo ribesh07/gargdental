@@ -114,12 +114,26 @@ export default function FooterBar() {
                 Contact Us
               </h3>
               <div className="space-y-2 sm:space-y-3">
-                <div className="flex items-start space-x-2 sm:space-x-3">
-                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-1 text-blue-200 flex-shrink-0" />
-                  <span className="text-xs sm:text-sm leading-relaxed">
-                    {settings.address || "No address provided"}
-                  </span>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-1 text-blue-200 flex-shrink-0" />
+                    {settings.address ? (
+                      <a
+                        href={`https://www.google.com/maps/search/?q=${encodeURIComponent(settings.address)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs sm:text-sm leading-relaxed  hover:underline "
+                      >
+                        {settings.address}
+                      </a>
+                    ) : (
+                      <span className="text-xs sm:text-sm leading-relaxed text-gray-500">
+                        No address provided
+                      </span>
+                    )}
+                  </div>
                 </div>
+
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200 flex-shrink-0" />
                   <span className="text-xs sm:text-sm">

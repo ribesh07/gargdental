@@ -16,7 +16,7 @@ import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import useInfoModalStore from "@/stores/infoModalStore";
 import toast from "react-hot-toast";
-import FormatCurrencyNPR from "@/components/NprStyleBalance"; 
+import FormatCurrencyNPR from "@/components/NprStyleBalance";
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -52,7 +52,8 @@ export default function ShoppingCart() {
         try {
           setIsLoading(true);
           const response = await apiRequest(`/customer/cart/list`, true);
-          if (response) {
+          console.log("Cart API response:", response);
+          if (response?.cart?.items) {
             const mappedCartItems = response.cart.items.map((item) => ({
               id: item.id,
               image:
@@ -64,13 +65,15 @@ export default function ShoppingCart() {
               quantity: item.quantity,
               price: item.price,
               category: item.product.category_id,
+              stock_quantity: item.product.stock_quantity,
+              available_quantity: item.product.available_quantity,
             }));
 
-            console.log(mappedCartItems);
             setCartItems(mappedCartItems);
+          } else {
+            console.error("Cart response invalid:", response);
+            toast.error("Cart is empty or response invalid");
           }
-        } catch (error) {
-          toast.error("Failed to fetch cart items. Please try again later.");
         } finally {
           setIsLoading(false);
         }
@@ -80,63 +83,63 @@ export default function ShoppingCart() {
       // setIsLoading(false);
       setAdded(false);
 
-      // Fetch addresses from server
-      const fetchAddresses = async () => {
-        try {
-          setIsLoading(true);
-          const {
-            defaultBillingAddress,
-            defaultShippingAddress,
-            allAddresses,
-          } = await getAddress();
-          console.log("all addresses", allAddresses);
-          console.log("default billing", defaultBillingAddress);
-          console.log("default shipping", defaultShippingAddress);
-          console.log(
-            "shipping cost ",
-            defaultShippingAddress.city?.shipping_cost
-          );
-          if (allAddresses && defaultBillingAddress && defaultShippingAddress) {
-            setHomeAddress(defaultShippingAddress);
-            if (defaultShippingAddress.city?.shipping_cost) {
-              const cost = parseFloat(
-                defaultShippingAddress.city?.shipping_cost
-              );
-              setShipping(cost);
+        // Fetch addresses from server
+        const fetchAddresses = async () => {
+          try {
+            setIsLoading(true);
+            const {
+              defaultBillingAddress,
+              defaultShippingAddress,
+              allAddresses,
+            } = await getAddress();
+            console.log("all addresses", allAddresses);
+            console.log("default billing", defaultBillingAddress);
+            console.log("default shipping", defaultShippingAddress);
+            console.log(
+              "shipping cost ",
+              defaultShippingAddress.city?.shipping_cost
+            );
+            if (allAddresses && defaultBillingAddress && defaultShippingAddress) {
+              setHomeAddress(defaultShippingAddress);
+              if (defaultShippingAddress.city?.shipping_cost) {
+                const cost = parseFloat(
+                  defaultShippingAddress.city?.shipping_cost
+                );
+                setShipping(cost);
+              }
+              setBillingAddress(defaultBillingAddress);
             }
-            setBillingAddress(defaultBillingAddress);
-          }
-        } catch (error) {
-          console.log("Error fetching addresses:", error);
+          } catch (error) {
+            console.log("Error fetching addresses:", error);
             if (error) {
-      useInfoModalStore.getState().open({
-        title: "Info",
-        message: (
-          <span>
-            Please Add Address.{" "}
-            <a
-              href="/myaccount"
-              className="text-blue-600 underline hover:text-blue-800"
-              style={{ cursor: "pointer" }}
-            >
-              Go to My Account
-            </a>{" "}
-            to add your address.
-          </span>
-        ),
-      });
-      return;
-    }
- 
-          // toast.error("Failed to fetch addresses. Please try again later.");
-        } finally {
-          setIsLoading(false);
-        }
-        // const result = await getFullInfo();
-      };
-      fetchAddresses();
-    }
-  }, [added]);
+              useInfoModalStore.getState().open({
+                title: "Info",
+                message: (
+                  <span>
+                    Please Add Address.{" "}
+                    <a
+                      href="/myaccount"
+                      className="text-blue-600 underline hover:text-blue-800"
+                      style={{ cursor: "pointer" }}
+                    >
+                      Go to My Account
+                    </a>{" "}
+                    to add your address.
+                  </span>
+                ),
+              });
+              return;
+            }
+
+            // toast.error("Failed to fetch addresses. Please try again later.");
+          } finally {
+            setIsLoading(false);
+          }
+          // const result = await getFullInfo();
+        };
+        fetchAddresses();
+      }
+    }, [added]);
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
@@ -160,14 +163,23 @@ export default function ShoppingCart() {
   };
 
   const updateQuantity = async (id, newQuantity) => {
-    // setIsLoading(true);
+    const currentItem = cartItems.find((item) => item.id === id);
+
+    if (!currentItem) return;
+
+    // Minimum check
     if (newQuantity < 1) {
       toast.error("Quantity cannot be less than 1");
       return;
     }
-    // setIsLoading(true);
+
+    // Stock check
+    if (newQuantity > currentItem.available_quantity) {
+      toast.error(`Only ${currentItem.available_quantity} items available in stock`);
+      return;
+    }
+
     await handleUpdateCartItems(id, newQuantity);
-    // setIsLoading(false);
   };
 
   const removeItem = async (id) => {
@@ -237,7 +249,7 @@ export default function ShoppingCart() {
       });
       return;
     }
-      if (!homeAddress) {
+    if (!homeAddress) {
       useInfoModalStore.getState().open({
         title: "Info",
         message: (
@@ -256,7 +268,7 @@ export default function ShoppingCart() {
       });
       return;
     }
-  
+
 
     setIsProcessing(true);
 
@@ -373,13 +385,11 @@ export default function ShoppingCart() {
                           <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                             <div className="flex items-center space-x-2">
                               <button
-                                onClick={() =>
-                                  updateQuantity(item.id, item.quantity - 1)
-                                }
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                 className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-50 cursor-pointer"
-                                disabled={item.quantity <= 1}
+                                disabled={item.quantity >= item.available_quantity} // 👈 disabled if stock reached
                               >
-                                <Minus className="w-4 h-4" />
+                                <Plus className="w-4 h-4" />
                               </button>
                               <input
                                 type="number"
@@ -599,20 +609,19 @@ export default function ShoppingCart() {
                     <span className="font-bold">GRAND TOTAL</span>
                     <div className="text-right">
                       <div className="font-bold">Rs. {total.toLocaleString("en-IN", {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-})}</div>
-                      
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}</div>
+
                     </div>
                   </div>
                   <div className="flex justify-center mt-6">
                     <button
                       disabled={isProcessing}
-                      className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${
-                        isProcessing
-                          ? "bg-green-500 text-white cursor-not-allowed"
-                          : "bg-blue-500 text-white hover:bg-gray-50-300"
-                      }`}
+                      className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${isProcessing
+                        ? "bg-green-500 text-white cursor-not-allowed"
+                        : "bg-blue-500 text-white hover:bg-gray-50-300"
+                        }`}
                       onClick={handleProceedToCheckout}
                     >
                       {isProcessing ? "Processing..." : "PROCEED TO CHECKOUT"}
