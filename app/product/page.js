@@ -312,6 +312,7 @@ const filteredProducts = useMemo(() => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl my-6 mx-auto">
+        <div className="max-w-7xl mx-auto bg-gray-50 sticky top-30 z-10 ">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -319,23 +320,11 @@ const filteredProducts = useMemo(() => {
               <Package className="h-8 w-8 text-blue-600" />
               Product Catalog
             </h1>
-            {/* <button
-              onClick={() => fetchProducts()}
-              disabled={loading}
-              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
-            >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <RotateCcw className="h-4 w-4" />
-              )}
-              Refresh
-            </button> */}
           </div>
         </div>
 
         {/* Filters  part*/}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-300 mb-6">
+        <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-300 mb-2">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div className="relative">
@@ -426,7 +415,7 @@ const filteredProducts = useMemo(() => {
             </span>
           </p>
         </div>
-
+        </div>
 
         {/* Loading */}
         { (loading || loadings || loadingcategory || loadingmanufacturer) && (
@@ -439,7 +428,7 @@ const filteredProducts = useMemo(() => {
         {/* Product Grid */}
         {!loading && !loadings && !loadingcategory && !loadingmanufacturer && (
           <div className="max-w-7xl mx-auto px-4 mt-10">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-4 gap-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-4">
               {filteredProducts.map((product) => (
                 <ProductCardMain
                   key={product.id}

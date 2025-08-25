@@ -47,8 +47,9 @@ function FlashSaleProductPage() {
             actual_price: product.actual_price,
             sell_price: product.sell_price,
             image_url:
+             product.main_image_full_url ||
               product.image_full_url ||
-              "https://garg.omsok.com/storage/app/public/backend/productimages/werfas/2025_04_09_67f642c43e68d_removebg_preview_1.png",
+              "/assets/logo.png",
             description: product.product_description,
             available_quantity: product.available_quantity,
             unit_info: product.unit_info,
@@ -112,7 +113,7 @@ function FlashSaleProductPage() {
 
         {/* Products Grid */}
         <div className="max-w-7xl mx-auto px-4 mt-10">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm-gap-x-6 gap-x-4 gap-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6 sm-gap-x-6 gap-x-4 gap-y-4">
             {products.map((product) => (
               <ProductCardMain
                 key={product.id}
