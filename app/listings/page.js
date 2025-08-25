@@ -18,13 +18,15 @@ import { Loader2 } from "lucide-react";
 import WishListHeart from "@/components/WishListHeart";
 import Link from "next/link";
 import MultiLevelDropdown from "./CategoryDropdown";
-import { useProductStore } from "@/stores/InitdataFetch";
+import { useProductStore , useCategoryStore } from "@/stores/InitdataFetch";
 
 
 
 const DentalSuppliesListing = () => {
   // const [products, setProducts] = useState([]); 
    const { products, loading, error } = useProductStore();
+
+     const { categories, loadingcategory, errorcategory } = useCategoryStore();
   const [loadings, setLoading] = useState(false);
   // const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,7 +34,7 @@ const DentalSuppliesListing = () => {
   const [isReady, setIsReady] = useState(false);
   const [visibleCount, setVisibleCount] = useState(17); // Number of products to display initially
   var visibleProducts = [];
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
 
   const [manufacturers, setManufacturers] = useState([]);
   const [offset, setOffset] = useState(0);
@@ -146,28 +148,18 @@ const mapCategories = (categories) => {
 
 
   // Fetch categories
-  useEffect(() => {
-    const fetchCategories = async () => {
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
 
-      const response = await apiRequest("/categories", false);
-      if (response.success) {
-        // const mapCategory = (category) => {
-        //   return {
-        //     id: category?.id,
-        //     name: category?.category_name,
-        //     image: category?.image_full_url,
-        //     parent_id: category?.parent_id,
-        //     active_children: category?.active_children?.map(mapCategory) || [],
-        //   };
-        // };
-        // const mappedCategories = response.categories.map(mapCategory);
-        const mappedCategories = mapCategories(response.categories);
-        console.log("mappedCategories", mappedCategories);
-        setCategories(mappedCategories);
-      }
-    };
-    fetchCategories();
-  }, []);
+  //     const response = await apiRequest("/categories", false);
+  //     if (response.success) {
+  //       const mappedCategories = mapCategories(response.categories);
+  //       console.log("mappedCategories", mappedCategories);
+  //       setCategories(mappedCategories);
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
 
   // Fetch manufacturers
   const fetchManufacturers = async () => {
@@ -338,6 +330,11 @@ const renderCategoryOptions = (categories, level = 0) => {
 
 
   // if (!isReady) return null; //check for persist zustand to load
+  if(loading || loadings || loadingcategory) return  (
+    <div className="flex justify-center items-center h-48">
+          <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
+          </div>
+          );
 
   return (
     <>

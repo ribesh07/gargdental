@@ -1,21 +1,27 @@
 "use client";
-import { useProductStore } from "@/stores/InitdataFetch";
+import { useProductStore , useCategoryStore } from "@/stores/InitdataFetch";
 
 export default function ProductList() {
   const { products, loading, error } = useProductStore();
-  console.log("Products from store:", products);
+  const { categories, loadingcategory, errorcategory } = useCategoryStore();
+  // console.log("Products from store:", products);
+  // console.log("Categories from store:", categories);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
   if (!products) return <p>No products available</p>;
+  if (loadingcategory) return <p>Loading categories...</p>;
+  if (errorcategory) return <p className="text-red-500">Error: {errorcategory}</p>;
+  if(!categories) return <p>No categories available</p>;
 
   return (
     <ul>
-      {products.map((p) => (
+      {categories.map((p) => (
         <li key={p.id}>
-          {p.product_name} - {p.sell_price}
+          {p.id} 
         </li>
       ))}
+
     </ul>
   );
 }

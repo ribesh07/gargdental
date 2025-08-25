@@ -2,29 +2,44 @@
 import { create } from "zustand";
 import { apiRequest } from "@/utils/ApiSafeCalls";
 
-export const useCategoryStore = create((set, get) => ({
-  categories: null,
-  fetchCategories: async () => {
-    if (get().categories) return; // already cached
-    const res = await fetch("/api/categories");
-    const data = await res.json();
-    set({ categories: data });
-  },
-}));
 
+// Category mapping functions
+const mapCategory = (category) => ({
+  id: category.id,
+  name: category.category_name,
+  parent_id: category.parent_id,
+  image: category.image_full_url,
+  children: category.active_children?.map(mapCategory) || [],
+});
+
+const mapCategories = (categories) => categories.map(mapCategory);
 
 // stores/useProductStore.js
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 min
 
 export const useProductStore = create((set, get) => ({
-  products: [],
-  lastFetched: null,
-  loading: false,
-  error: null,
+    products: [],
+    lastFetched: null,
+    loading: false,
+    error: null,
 
   fetchProducts: async () => {
     if (get().loading) return;
+
+    const cached = typeof window !== "undefined" && localStorage.getItem("productsCache");
+    const { data, expiry } = JSON.parse(cached);
+        if (cached && data.length > 0) {
+        if (Date.now() < expiry) {
+            set({ products: data, lastFetched: Date.now() });
+            return;
+        }
+    }
+    if (Date.now() >= expiry) {
+        localStorage.removeItem("productsCache");
+    }
+
+
 
     // ✅ Use cache if still valid
     const now = Date.now();
@@ -62,15 +77,93 @@ export const useProductStore = create((set, get) => ({
           delivery_days: product.delivery_target_days,
         })) || [];
 
+      if (typeof window !== "undefined") {
+        localStorage.setItem(
+            "productsCache",
+            JSON.stringify({ data: transformedProducts, expiry: now + CACHE_DURATION })
+        );
+        }
+
       set({
         products: transformedProducts,
         lastFetched: now,
       });
     } catch (err) {
-      set({ error: err.message });
+        set({ error: 'Data not fetched !' });
     } finally {
       set({ loading: false });
     }
   },
+
+
 }));
 
+export const useCategoryStore = create((set, get) => ({
+    categories: [],
+    lastFetchedcategory: null,
+    loadingcategory: false,
+    errorcategory: null,
+       // Fetch categories
+  fetchCategories: async () => {
+     if (get().loadingcategory) return;
+
+     let data = [];
+let expiry = 0;
+
+if (typeof window !== "undefined") {
+  const cached = localStorage.getItem("categoriesCache");
+  if (cached) {
+    try {
+      const parsed = JSON.parse(cached);
+      data = parsed.data || [];
+      console.log("Cached Categories:", data);
+      expiry = parsed.expiry || 0;
+    } catch {
+      data = [];
+      expiry = 0;
+    }
+  }
+}
+
+       
+        if ( data) {
+            set({ categories: data, lastFetchedcategory: Date.now() });
+            return;
+        }
+        
+        if (Date.now() >= expiry) {
+        localStorage.removeItem("categoriesCache");
+        }
+
+
+    // ✅ Use cache if still valid
+    const now = Date.now();
+    if (get().categories && get().lastFetchedcategory && now - get().lastFetchedcategory < CACHE_DURATION) {
+      return;
+    }
+
+    set({ loadingcategory: true, errorcategory: null });
+    try {
+      const response = await apiRequest("/categories", false);
+      if (response.success) {
+        const mappedCategories = mapCategories(response.categories);
+        console.log("Mapped Categories:", mappedCategories);
+
+        if (typeof window !== "undefined") {
+            localStorage.setItem(
+                "categoriesCache",
+                JSON.stringify({ data: mappedCategories, expiry: now + CACHE_DURATION })
+            );
+            }
+
+        set({ categories: mappedCategories ,
+             lastFetchedcategory: now
+        });
+      }
+    } catch (err) {
+      set({ errorcategory: 'Data not fetched !' });
+    }finally {
+      set({ loadingcategory: false });
+    }
+  },
+}));
