@@ -35,15 +35,18 @@ import ProductImageZoom from "@/components/ProductImageZoom";
 
 import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
 import MultiLevelDropdown from "./MultiLevelDropDown";
-
+import { useProductStore , useCategoryStore} from "@/stores/InitdataFetch";
 
 
 const ProductAPIRequest = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  
+     const { products, loading, error } = useProductStore();
+  // const [products, setProducts] = useState([]);
+  const [loadings, setLoading] = useState(false);
+  const [errors, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [categories, setCategories] = useState([]);
+  
+  const { categories, loadingcategory, errorcategory } = useCategoryStore();
 
   const pathname = usePathname();
   const router = useRouter();
@@ -73,74 +76,76 @@ const ProductAPIRequest = () => {
   const CACHE_KEY = "productsCache";
   const CACHE_DURATION = 5 * 60 * 1000;
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      if (typeof window !== "undefined") {
-        const cached = localStorage.getItem(CACHE_KEY);
-        const { data, expiry } = JSON.parse(cached);
-        if (cached && data.length > 0) {
-          if (Date.now() < expiry) {
-            console.log("Returning cached data");
-            console.log(data);
-            setProducts(data);
-            return;
-          }
-        }
-      }
-      console.log("Fetching new data from API");
+  // const fetchProducts = async () => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     if (typeof window !== "undefined") {
+  //       const cached = localStorage.getItem(CACHE_KEY);
+  //       const { data, expiry } = JSON.parse(cached);
+  //       if (cached && data.length > 0) {
+  //         if (Date.now() < expiry) {
+  //           console.log("Returning cached data");
+  //           console.log(data);
+  //           setProducts(data);
+  //           return;
+  //         }
+  //       }
+  //     }
+  //     console.log("Fetching new data from API");
 
-      const data = await apiRequest(`/products/all`, false);
-      const transformedProducts =
-        data.products?.map((product) => ({
-          id: product.id,
-          product_name: product.product_name,
-          stock_quantity: product.stock_quantity,
-          available_quantity: product.available_quantity,
-          product_code: product.product_code,
-          has_variations: product.has_variations,
-          starting_price: product.starting_price,
-          brand: product.brand?.brand_name || "No Brand",
-          category: product.category?.category_name || "Uncategorized",
-          category_id: product.category?.id || null,
-          parent_id: product.category?.parent_id || null,
-          item_number: `#${product.product_code}`,
-          actual_price: product.actual_price,
-          sell_price: product.sell_price,
-          image_url:
-            product.main_image_full_url ||
-            product.image_full_url ||
-            `assets/logo.png`,
-          description: product.product_description,
-          unit_info: product.unit_info,
-          flash_sale: product.flash_sale,
-          delivery_days: product.delivery_target_days,
-        })) || [];
+  //     const data = await apiRequest(`/products/all`, false);
+  //     const transformedProducts =
+  //       data.products?.map((product) => ({
+  //         id: product.id,
+  //         product_name: product.product_name,
+  //         stock_quantity: product.stock_quantity,
+  //         available_quantity: product.available_quantity,
+  //         product_code: product.product_code,
+  //         has_variations: product.has_variations,
+  //         starting_price: product.starting_price,
+  //         brand: product.brand?.brand_name || "No Brand",
+  //         category: product.category?.category_name || "Uncategorized",
+  //         category_id: product.category?.id || null,
+  //         parent_id: product.category?.parent_id || null,
+  //         item_number: `#${product.product_code}`,
+  //         actual_price: product.actual_price,
+  //         sell_price: product.sell_price,
+  //         image_url:
+  //           product.main_image_full_url ||
+  //           product.image_full_url ||
+  //           `assets/logo.png`,
+  //         description: product.product_description,
+  //         unit_info: product.unit_info,
+  //         flash_sale: product.flash_sale,
+  //         delivery_days: product.delivery_target_days,
+  //       })) || [];
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem(
-          CACHE_KEY,
-          JSON.stringify({
-            data: transformedProducts,
-            expiry: Date.now() + CACHE_DURATION,
-          })
-        );
-      }
+  //     if (typeof window !== "undefined") {
+  //       localStorage.setItem(
+  //         CACHE_KEY,
+  //         JSON.stringify({
+  //           data: transformedProducts,
+  //           expiry: Date.now() + CACHE_DURATION,
+  //         })
+  //       );
+  //     }
 
-      setProducts(transformedProducts);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setProducts(transformedProducts);
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
+
 
 // Recursive mapper function
+//map category and its children
 const mapCategory = (category) => {
   return {
     id: category.id,
@@ -159,19 +164,19 @@ const mapCategories = (categories) => {
 
 
   // Fetch categories
-  useEffect(() => {
-    const fetchCategories = async () => {
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
 
-      const response = await apiRequest("/categories", false);
-      if (response.success) {
+  //     const response = await apiRequest("/categories", false);
+  //     if (response.success) {
        
-        const mappedCategories = mapCategories(response.categories);
-        console.log("mappedCategories", mappedCategories);
-        setCategories(mappedCategories);
-      }
-    };
-    fetchCategories();
-  }, []);
+  //       const mappedCategories = mapCategories(response.categories);
+  //       console.log("mappedCategories", mappedCategories);
+  //       setCategories(mappedCategories);
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
 
 
   // Fetch manufacturers
@@ -242,6 +247,12 @@ const mapCategories = (categories) => {
     allowedCategoryIds.includes(product.category_id)
   );
 });
+
+if(loading || loadings || loadingcategory) return  (
+    <div className="flex justify-center items-center h-48">
+          <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
+          </div>
+          );
 
 
    
