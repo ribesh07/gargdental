@@ -34,15 +34,19 @@ import { apiRequest } from "@/utils/ApiSafeCalls";
 import ProductImageZoom from "@/components/ProductImageZoom";
 
 import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
-
+import MultiLevelDropdown from "./MultiLevelDropDown";
+import { useProductStore , useCategoryStore} from "@/stores/InitdataFetch";
 
 
 const ProductAPIRequest = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  
+     const { products, loading, error } = useProductStore();
+  // const [products, setProducts] = useState([]);
+  const [loadings, setLoading] = useState(false);
+  const [errors, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [categories, setCategories] = useState([]);
+  
+  const { categories, loadingcategory, errorcategory } = useCategoryStore();
 
   const pathname = usePathname();
   const router = useRouter();
@@ -72,120 +76,145 @@ const ProductAPIRequest = () => {
   const CACHE_KEY = "productsCache";
   const CACHE_DURATION = 5 * 60 * 1000;
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      if (typeof window !== "undefined") {
-        const cached = localStorage.getItem(CACHE_KEY);
-        const { data, expiry } = JSON.parse(cached);
-        if (cached && data.length > 0) {
-          if (Date.now() < expiry) {
-            console.log("Returning cached data");
-            console.log(data);
-            setProducts(data);
-            return;
-          }
-        }
-      }
+  // const fetchProducts = async () => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     if (typeof window !== "undefined") {
+  //       const cached = localStorage.getItem(CACHE_KEY);
+  //       const { data, expiry } = JSON.parse(cached);
+  //       if (cached && data.length > 0) {
+  //         if (Date.now() < expiry) {
+  //           console.log("Returning cached data");
+  //           console.log(data);
+  //           setProducts(data);
+  //           return;
+  //         }
+  //       }
+  //     }
+  //     console.log("Fetching new data from API");
 
-      const data = await apiRequest(`/products/all`, false);
-      const transformedProducts =
-        data.products?.map((product) => ({
-          id: product.id,
-          product_name: product.product_name,
-          stock_quantity: product.stock_quantity,
-          available_quantity: product.available_quantity,
-          product_code: product.product_code,
-          has_variations: product.has_variations,
-          starting_price: product.starting_price,
-          brand: product.brand?.brand_name || "No Brand",
-          category: product.category?.category_name || "Uncategorized",
-          category_id: product.category?.id || null,
-          parent_id: product.category?.parent_id || null,
-          item_number: `#${product.product_code}`,
-          actual_price: product.actual_price,
-          sell_price: product.sell_price,
-          image_url:
-            product.main_image_full_url ||
-            product.image_full_url ||
-            `assets/logo.png`,
-          description: product.product_description,
-          unit_info: product.unit_info,
-          flash_sale: product.flash_sale,
-          delivery_days: product.delivery_target_days,
-        })) || [];
+  //     const data = await apiRequest(`/products/all`, false);
+  //     const transformedProducts =
+  //       data.products?.map((product) => ({
+  //         id: product.id,
+  //         product_name: product.product_name,
+  //         stock_quantity: product.stock_quantity,
+  //         available_quantity: product.available_quantity,
+  //         product_code: product.product_code,
+  //         has_variations: product.has_variations,
+  //         starting_price: product.starting_price,
+  //         brand: product.brand?.brand_name || "No Brand",
+  //         category: product.category?.category_name || "Uncategorized",
+  //         category_id: product.category?.id || null,
+  //         parent_id: product.category?.parent_id || null,
+  //         item_number: `#${product.product_code}`,
+  //         actual_price: product.actual_price,
+  //         sell_price: product.sell_price,
+  //         image_url:
+  //           product.main_image_full_url ||
+  //           product.image_full_url ||
+  //           `assets/logo.png`,
+  //         description: product.product_description,
+  //         unit_info: product.unit_info,
+  //         flash_sale: product.flash_sale,
+  //         delivery_days: product.delivery_target_days,
+  //       })) || [];
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem(
-          CACHE_KEY,
-          JSON.stringify({
-            data: transformedProducts,
-            expiry: Date.now() + CACHE_DURATION,
-          })
-        );
-      }
+  //     if (typeof window !== "undefined") {
+  //       localStorage.setItem(
+  //         CACHE_KEY,
+  //         JSON.stringify({
+  //           data: transformedProducts,
+  //           expiry: Date.now() + CACHE_DURATION,
+  //         })
+  //       );
+  //     }
 
-      setProducts(transformedProducts);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+  //     setProducts(transformedProducts);
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
+
+
+// Recursive mapper function
+//map category and its children
+const mapCategory = (category) => {
+  return {
+    id: category.id,
+    name: category.category_name,
+    parent_id: category.parent_id,
+    image: category.image_full_url,
+    children: category.active_children?.map(mapCategory) || [],
   };
+};
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+// Main mapper for the API response
+const mapCategories = (categories) => {
+  return categories.map(mapCategory);
+};
+
+
 
   // Fetch categories
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await apiRequest("/categories", false);
-      if (response.success) {
-        const mapCategory = (category) => ({
-          id: category.id,
-          name: category.category_name,
-          image: category.image_full_url,
-          parent_id: category.parent_id,
-          active_children: category.active_children?.map(mapCategory) || [],
-        });
-        const mappedCategories = response.categories.map(mapCategory);
-        setCategories(mappedCategories);
-      }
-    };
-    fetchCategories();
-   
-  }, []);
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+
+  //     const response = await apiRequest("/categories", false);
+  //     if (response.success) {
+       
+  //       const mappedCategories = mapCategories(response.categories);
+  //       console.log("mappedCategories", mappedCategories);
+  //       setCategories(mappedCategories);
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
 
 
   // Fetch manufacturers
   const fetchManufacturers = async () => {
-    const response = await apiRequest("/brands", false);
-    if (response.success) {
-      console.log("response.brands", response);
-      const simplifiedBrands = response.brands.map((brand) => ({
-        id: brand.id,
-        brand_name: brand.brand_name,
-      }));
-      setManufacturers(simplifiedBrands);
+     setLoading(true);
+    try{
+      const response = await apiRequest("/brands", false);
+      if (response.success) {
+        console.log("response.brands", response);
+        const simplifiedBrands = response.brands.map((brand) => ({
+          id: brand.id,
+          brand_name: brand.brand_name,
+        }));
+        setManufacturers(simplifiedBrands);
+        console.log("simplifiedBrands", simplifiedBrands);
+      }
+    }catch(err){
+      setError(err.message);
+      setLoading(false);
+    }finally{
       setLoading(false);
     }
   };
   useEffect(() => {
-    setLoading(true);
+   
     fetchManufacturers();
   }, []);
 
   // Recursive function: collect selected category + its children ids
   const getAllChildCategoryIds = (category) => {
-    if (!category) return [];
-    let ids = [category.id];
-    category.active_children.forEach((child) => {
-      ids = [...ids, ...getAllChildCategoryIds(child)];
-    });
-    return ids;
-  };
+  if (!category) return [];
+  let ids = [category.id];
+  category.children.forEach((child) => {
+    ids = [...ids, ...getAllChildCategoryIds(child)];
+  });
+  return ids;
+};
+
 
   const handleFilterChange = (filterType, value) => {
     setfilterON(true);
@@ -194,26 +223,39 @@ const ProductAPIRequest = () => {
       [filterType]: value,
     }));
   };
-
-  // Filtering products
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
-    if (!selectedCategory) return matchesSearch;
-
-    // const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
-    // return matchesSearch && allowedCategoryIds.includes(product.category_id);
-    const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
-return matchesSearch && allowedCategoryIds.includes(product.category_id);
-
-  });
-
-    const [filters, setFilters] = useState({
+   const [filters, setFilters] = useState({
       category: "",
       brand: "",
     });
+
+  // Filtering products
+ const filteredProducts = products.filter((product) => {
+  const matchesSearch =
+    product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+
+  const matchesBrand =
+    !filters.brand || product.brand === filters.brand;
+
+  if (!selectedCategory) return matchesSearch && matchesBrand;
+
+  const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
+  return (
+    matchesSearch &&
+    matchesBrand &&
+    allowedCategoryIds.includes(product.category_id)
+  );
+});
+
+if(loading || loadings || loadingcategory) return  (
+    <div className="flex justify-center items-center h-48">
+          <Loader2 className=" flex justify-center self-center h-4 w-4 animate-spin" />
+          </div>
+          );
+
+
+   
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -251,12 +293,28 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
                 placeholder="Search products, codes, or brands..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300  focus:border-transparent"
               />
             </div>
 
            
-          {/* Brand Filter */}
+         {/* Category Filter */}
+            <div className="relative w-full sm:w-auto flex flex-row  border-gray-300 rounded border-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent ">
+
+
+           <MultiLevelDropdown
+            categories={categories}
+            onSelect={(cat) => {
+              setSelectedCategory(cat); // set selected category state
+              handleFilterChange("category", cat.id); // apply your filter
+            }}
+          />
+            
+              {/* <ChevronDown className=" transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" /> */}
+            </div>
+
+
+                  {/* Brand Filter */}
             <div className="relative w-full sm:w-auto">
               <select
                 value={filters.brand}
@@ -271,13 +329,10 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
                 ))}
               </select>
              
-            </div>
+            </div>           
 
 
-
-
-
-            <select
+            {/* <select
               value={selectedCategory?.id || ""}
               onChange={(e) => {
                 const selected = categories
@@ -304,7 +359,7 @@ return matchesSearch && allowedCategoryIds.includes(product.category_id);
                   ))}
                 </React.Fragment>
               ))}
-            </select>
+            </select> */}
 
 
             

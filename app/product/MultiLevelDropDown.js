@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-const MultiLevelDropdown = ({ categories, onSelect }) => {
+const MultiLevelDropdown = ({ categories, onSelect, value }) => {
     const [menuOpen, setMenuOpen] = useState(false); 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState( value ?? null);
 
     const DropdownItem = ({ category, onSelect }) => {
   const [open, setOpen] = useState(false);
@@ -47,25 +47,27 @@ const MultiLevelDropdown = ({ categories, onSelect }) => {
   );
 };
   return (
-    <div className="relative inline-block w-full border-2 border-gray-200 rounded-md">
+       <div className="relative inline-block w-full">
         <button
             onClick={toggleMenu}
-           className="w-full px-4 py-2 bg-gray-50 rounded flex justify-between items-center border-2  border-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 bg-gray-50 rounded flex justify-between items-center  border-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
             <span className="text-left">
             {selected ? selected.name : "Select Category"}
-            </span> 
+            </span>
             <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${menuOpen ? "rotate-180" : ""}`} />
         </button>
 
         {menuOpen && (
-         <ul className="absolute left-0 mt-2 w-full bg-gray-50 rounded shadow-lg z-1000000 category-list">
-      {categories.map((cat) => (
-        <DropdownItem key={cat.id} category={cat} onSelect={onSelect} />
-      ))}
-    </ul>
-      )}
-    </div>
+            <ul className="absolute left-0 mt-2 w-full bg-gray-50 rounded shadow-lg z-50 category-list">
+            {categories.map((cat) => (
+                <DropdownItem key={cat.id} category={cat} onSelect={onSelect} />
+            ))}
+            </ul>
+        )}
+        </div>
+
+
   );
 };
 

@@ -1,3 +1,5 @@
+// "use client";
+// import { useEffect } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import Toast from "@/components/Toast";
 import { Toaster } from "react-hot-toast";
@@ -6,6 +8,8 @@ import "./globals.css";
 import HeaderBarNew from "@/components/HeaderBarNew";
 import TawkToWidget from "@/components/TawkToWidget";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import ClientLayout from "./ClientLayout";
+// import { useProductStore } from "@/stores/InitdataFetch";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -87,34 +91,21 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
+   
+
   return (
     <html lang="en">
       <head>
         <link rel="icon" href="/logo.ico" />
-        {/* <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" /> */}
+       
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
       >
         <HeaderBarNew />
-        <div className="w-full">{children}</div>
+           <ClientLayout>{children}</ClientLayout>
+     
         <CookieConsentBanner />
         <FooterBar />
         <TawkToWidget />
