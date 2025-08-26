@@ -9,17 +9,28 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { useFreeShippingStore } from "@/stores/ShippingThreshold";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
+import { useUserStore } from "@/stores/useUserStore";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   // const [selectedAddressType, setSelectedAddressType] = useState("");
-  const [addresses, setAddresses] = useState(null);
+  // const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
   const [isFreeShipping, setisFreeShipping] = useState(false);
   const [shipping, setShipping] = useState(50);
+
+    const { addresses, fetchUserData } = useUserStore();
+  
+  
+    const [selectedId, setSelectedId] = useState(null);
+    const [selectedId2, setSelectedId2] = useState(null);
+  
+    const selectedShippingAddress = addresses.find(addr => addr.id === selectedId);
+    const selectedBillingAddress = addresses.find(addr => addr.id === selectedId2);
+    
   const { setSelectedShippingAddress, setSelectedBillingAddress } =
     useCartStore();
 
@@ -31,9 +42,9 @@ export default function OrderSummary() {
   console.log("selectedItems in checkout:", selectedItems);
 
   const setSelectedItems = useCartStore((state) => state.setSelectedItems);
-  const selectedShippingAddress = useCartStore(
-    (state) => state.selectedShippingAddress
-  );
+  // const selectedShippingAddress = useCartStore(
+  //   (state) => state.selectedShippingAddress
+  // );
   const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
@@ -44,28 +55,30 @@ export default function OrderSummary() {
       setEmail(email);
     };
     fetchUserProfile();
+    fetchUserData();
 
-    const fetchAddresses = async () => {
-      const { allAddresses, defaultBillingAddress, defaultShippingAddress } =
-        await getAddress();
-      if (allAddresses) {
-        setAddresses(allAddresses);
 
-        setDefaultBillingAddress(defaultBillingAddress);
-        if (defaultShippingAddress?.city?.shipping_cost) {
-          const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
+    // const fetchAddresses = async () => {
+    //   const { allAddresses, defaultBillingAddress, defaultShippingAddress } =
+    //     await getAddress();
+    //   if (allAddresses) {
+    //     setAddresses(allAddresses);
 
-          setShipping(cost);
-        }
-        setDefaultShippingAddress(defaultShippingAddress);
-      }
-      else {
-        setAddresses(null);
+    //     setDefaultBillingAddress(defaultBillingAddress);
+    //     if (defaultShippingAddress?.city?.shipping_cost) {
+    //       const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
 
-      }
-      console.log("result", allAddresses);
-    };
-    fetchAddresses();
+    //       setShipping(cost);
+    //     }
+    //     setDefaultShippingAddress(defaultShippingAddress);
+    //   }
+    //   else {
+    //     setAddresses(null);
+
+    //   }
+    //   console.log("result", allAddresses);
+    // };
+    // fetchAddresses();
   }, []);
 
   useEffect(() => {
@@ -117,6 +130,7 @@ export default function OrderSummary() {
     }
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
+    console.log("defaultShippingAddress", defaultShippingAddress);
     if (defaultShippingAddress.city?.shipping_cost) {
       const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
       setShipping(cost);
@@ -133,6 +147,17 @@ export default function OrderSummary() {
   const handleRemoveItem = () => {
     alert("Item removed from cart");
   };
+
+  useEffect(() => {
+    console.log("currentThreshold:", currentThreshold);
+    console.log("defaukt shippingaddress :", defaultShippingAddress);
+    
+     if ( defaultShippingAddress && defaultShippingAddress.city?.shipping_cost) {
+      console.log("defaultShippingAddress changed:", defaultShippingAddress);
+      const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
+      setShipping(cost);
+    }
+  }, [selectedId]);
 
   // const subtotal = selectedItems.reduce(
   //   (sum, item) => sum + item.price * item.quantity,
@@ -196,9 +221,9 @@ export default function OrderSummary() {
             <div className="space-y-8">
               {/* Shipping Address */}
               <div>
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                {/* <h2 className="text-lg font-semibold text-gray-800 mb-4">
                   SHIPPING ADDRESS
-                </h2>
+                </h2> */}
                 {/* <label
                   htmlFor="shipping-address-select"
                   className="block text-sm font-medium text-gray-600 mb-1"
@@ -216,35 +241,86 @@ export default function OrderSummary() {
                   <option value="office">Office Address</option>
                 </select> */}
 
-                <div className="space-y-2">
-                  {defaultShippingAddress ? (
-                    <div className="bg-gray-50 border-gray-200 border-2 rounded-lg p-3 text-sm text-gray-700">
+                  <div className="mb-6">
+            <h4 className="font-semibold mb-2">Shipping Address</h4>
+            {addresses ? (
+              // <div className="bg-gray-50 border rounded p-3 text-sm text-gray-700 mb-2">
+              //   <div>
+              //     <span className="font-semibold">Name:</span>{" "}
+              //     {selectedShippingAddress.full_name}
+              //   </div>
+              //   <div>
+              //     <span className="font-semibold">Address:</span>{" "}
+              //     {selectedShippingAddress.address},{" "}
+              //     {selectedShippingAddress.landmark},{" "}
+              //     {selectedShippingAddress.zone?.zone_name},{" "}
+              //     {selectedShippingAddress.city?.city},{" "}
+              //     {selectedShippingAddress.province?.province_name}
+              //   </div>
+              //   <div>
+              //     <span className="font-semibold">Phone:</span>{" "}
+              //     {selectedShippingAddress.phone}
+              //   </div>
+              //   {/* <div className="text-gray-500 pt-1">
+              //       {selectedShippingAddress.address_type} Address
+              //     </div> */}
+              // </div>
+                 <div>
+                  {/* Dropdown */}
+                  <select
+                    className="mb-2 p-2 border rounded text-sm w-full"
+                    value={selectedId || ""}
+                    onChange={(e) => {setSelectedId(Number(e.target.value));
+                      setDefaultShippingAddress(addresses.find(addr => addr.id === Number(e.target.value)));
+
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select Shipping Address
+                    </option>
+                    {addresses.map((addr) => (
+                      <option key={addr.id} value={addr.id}>
+                        {addr.full_name} - {addr.address}, {addr.landmark}, {addr.city}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* Display selected address */}
+                  {selectedShippingAddress ? (
+                    <div className="bg-gray-50 border-gray-50 rounded p-3 text-sm text-gray-700 mb-2">
                       <div>
                         <span className="font-semibold">Name:</span>{" "}
-                        {defaultShippingAddress.full_name}
+                        {selectedShippingAddress.full_name}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Address Type:</span>{" "}
+                        {selectedShippingAddress.address_type === "H" ? "Home" : selectedShippingAddress.address_type === "O" ? "Office" : "Other"}
                       </div>
                       <div>
                         <span className="font-semibold">Address:</span>{" "}
-                        {defaultShippingAddress.address},{" "}
-                        {defaultShippingAddress.landmark},{" "}
-                        {defaultShippingAddress.zone?.zone_name},{" "}
-                        {defaultShippingAddress.city?.city},{" "}
-                        {defaultShippingAddress.province?.province_name}
+                        {selectedShippingAddress.address},{" "}
+                        {selectedShippingAddress.landmark},{" "}
+                        {selectedShippingAddress.zone?.zone_name},{" "}
+                        {selectedShippingAddress.city},{" "}
+                        {selectedShippingAddress.province?.province_name}
                       </div>
                       <div>
                         <span className="font-semibold">Phone:</span>{" "}
-                        {defaultShippingAddress.phone}
+                        {selectedShippingAddress.phone}
                       </div>
-                      {/* <div className="text-gray-500 pt-1">
-                        {defaultShippingAddress.address_type} Address
-                      </div> */}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 mt-1">
-                      No Shipping Address available.
-                    </p>
+                    <div className="text-gray-400 text-sm mb-2">
+                      No Shipping Address
+                    </div>
                   )}
                 </div>
+            ) : (
+              <div className="text-gray-400 text-sm mb-2">
+                No Shipping Address
+              </div>
+            )}
+          </div>
               </div>
 
               {/* Product Items */}
@@ -307,36 +383,67 @@ export default function OrderSummary() {
                       />
                     </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-600 mb-1">
-                      Billing Address
-                    </p>
-                    {defaultBillingAddress ? (
-                      <p className="text-sm text-gray-500">
-                        {defaultBillingAddress.address},{" "}
-                        {defaultBillingAddress.landmark},{" "}
-                        {defaultBillingAddress.zone?.zone_name},{" "}
-                        {defaultBillingAddress.city?.city},{" "}
-                        {defaultBillingAddress.province?.province_name} <br />
-                        {defaultBillingAddress.full_name} (
-                        {defaultBillingAddress.phone})
-                      </p>
-                    ) : defaultShippingAddress ? (
-                      <p className="text-sm text-gray-500">
-                        {defaultShippingAddress.address},{" "}
-                        {defaultShippingAddress.landmark},{" "}
-                        {defaultShippingAddress.zone?.zone_name},{" "}
-                        {defaultShippingAddress.city?.city},{" "}
-                        {defaultShippingAddress.province?.province_name} <br />
-                        {defaultShippingAddress.full_name} (
-                        {defaultShippingAddress.phone})
-                      </p>
-                    ) : (
-                      <p className="text-sm text-gray-500">
-                        No Billing Address available.
-                      </p>
-                    )}
-                  </div>
+                 
+                    <div className="mb-6">
+            <h4 className="font-semibold mb-2">Billing Address</h4>
+            {addresses ? (
+            
+                 <div>
+                  {/* Dropdown */}
+                  <select
+                    className="mb-2 p-2 border rounded text-sm w-full"
+                    value={selectedId2 || ""}
+                    onChange={(e) => {setSelectedId2(Number(e.target.value));
+                      setDefaultBillingAddress(addresses.find(addr => addr.id === Number(e.target.value)));
+                      
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select Billing Address
+                    </option>
+                    {addresses.map((addr) => (
+                      <option key={addr.id} value={addr.id}>
+                        {addr.full_name} - {addr.address}, {addr.landmark}, {addr.city}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* Display selected address */}
+                  {selectedBillingAddress ? (
+                    <div className="bg-gray-50 border-gray-50 rounded p-3 text-sm text-gray-700 mb-2">
+                      <div>
+                        <span className="font-semibold">Name:</span>{" "}
+                        {selectedBillingAddress.full_name}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Address Type:</span>{" "}
+                        {selectedBillingAddress.address_type === "H" ? "Home" : selectedBillingAddress.address_type === "O" ? "Office" : "Other"}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Address:</span>{" "}
+                        {selectedBillingAddress.address},{" "}
+                        {selectedBillingAddress.landmark},{" "}
+                        {selectedBillingAddress.zone?.zone_name},{" "}
+                        {selectedBillingAddress.city},{" "}
+                        {selectedBillingAddress.province?.province_name}
+                      </div>
+                      <div>
+                        <span className="font-semibold">Phone:</span>{" "}
+                        {selectedShippingAddress.phone}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-gray-400 text-sm mb-2">
+                      No Billing Address
+                    </div>
+                  )}
+                </div>
+            ) : (
+              <div className="text-gray-400 text-sm mb-2">
+                No Billing Address
+              </div>
+            )}
+          </div>
                 </div>
               </div>
 
