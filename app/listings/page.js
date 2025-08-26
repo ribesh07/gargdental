@@ -54,77 +54,6 @@ const CACHE_DURATION = 2 * 60 * 1000;
     setVisibleCount((prev) => prev + 8);
     // router.push("/product");
   };
-  // const fetchProducts = async () => {
-  //   setLoading(true);
-  //   setError(null);
-
-  // try{
-  //     //  Client-side check to avoid hydration issues
-  // if (typeof window !== "undefined") {
-  //   const cached = localStorage.getItem(CACHE_KEY);  
-  //     const { data, expiry } = JSON.parse(cached);
-  //       if (cached && data.length > 0) {
-  //     if (Date.now() < expiry) {
-  //       console.log("Returning cached data");
-  //       setProducts([...products, ...data]); // directly set from cache
-  //       return; // stop execution, use cached data
-  //     }
-  //   }
-  // }
-
-  // // 🌐 Fetch new data
-  // const data = await apiRequest(`/products/all`, false);
-
-  // const transformedProducts =
-  // data.products?.map((product) => ({
-  //   id: product.id,
-  //   product_name: product.product_name,
-  //   stock_quantity: product.stock_quantity,
-  //   available_quantity: product.available_quantity,
-  //   product_code: product.product_code,
-  //   has_variations: product.has_variations,
-  //   starting_price: product.starting_price,
-  //   brand: product.brand?.brand_name || "No Brand",
-
-  //   // 👇 include both id and name
-  //   category_id: product.category?.id || null,
-  //   category: product.category?.category_name || "Uncategorized",
-
-  //   item_number: `#${product.product_code}`,
-  //   actual_price: product.actual_price,
-  //   sell_price: product.sell_price,
-  //   image_url:
-  //     product.main_image_full_url ||
-  //     product.image_full_url ||
-  //     `/assets/logo.png`,
-  //   description: product.product_description,
-  //   unit_info: product.unit_info,
-  //   flash_sale: product.flash_sale,
-  //   delivery_days: product.delivery_target_days,
-  // })) || [];
-
-
-  // // ⏺ Save to localStorage for caching
-  // if (typeof window !== "undefined") {
-  //   localStorage.setItem(
-  //     CACHE_KEY,
-  //     JSON.stringify({
-  //       data: transformedProducts,
-  //       expiry: Date.now() + CACHE_DURATION,
-  //     })
-  //   );
-  // }
-
-  // setProducts([...products, ...transformedProducts]);
-  // }catch (err) {
-  //     setError(err.message);
-  //   } finally {
-  //     setTimeout(() => {
-  //       setLoading(false);
-  //     }, 3000);
-  //   }
-  // };
-
   
 
 
@@ -145,22 +74,6 @@ const mapCategories = (categories) => {
   return categories.map(mapCategory);
 };
 
-
-
-  // Fetch categories
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-
-  //     const response = await apiRequest("/categories", false);
-  //     if (response.success) {
-  //       const mappedCategories = mapCategories(response.categories);
-  //       console.log("mappedCategories", mappedCategories);
-  //       setCategories(mappedCategories);
-  //     }
-  //   };
-  //   fetchCategories();
-  // }, []);
-
   // Fetch manufacturers
   const fetchManufacturers = async () => {
     const response = await apiRequest("/brands", false);
@@ -178,11 +91,6 @@ const mapCategories = (categories) => {
     setLoading(true);
     fetchManufacturers();
   }, []);
-
-  // useEffect(() => {
-  //   setIsReady(true);
-  //   fetchProducts();
-  // }, [offset]);
 
   const router = useRouter();
   const setSelectedProduct = useSelectedProductStore(
@@ -234,50 +142,111 @@ const getAllChildCategoryIds = (category) => {
 };
 
   // Apply filters and sorting
+// const filteredAndSortedProducts = useMemo(() => {
+//   let filtered = products.filter((product) => {
+//     if (filters.category) {
+//       // find the category object first
+//       const findCategoryById = (cats, id) => {
+//         for (let c of cats) {
+//           if (String(c.id) === String(id)) return c;
+//           const found = findCategoryById(c.children || [], id);
+//           if (found) return found;
+//         }
+//         return null;
+//       };
+
+//       const selectedCat = findCategoryById(categories, filters.category);
+
+//       if (selectedCat) {
+//         const allowedIds = getAllChildCategoryIds(selectedCat);
+//         if (!allowedIds.includes(product.category_id)) {
+//           return false;
+//         }
+//       }
+//     }
+
+//     if (
+//       filters.brand &&
+//       product.brand.toLowerCase() !== filters.brand.toLowerCase()
+//     ) {
+//       return false;
+//     }
+
+//     if (filters.priceRange) {
+//       const priceRange = priceRanges.find(
+//         (range) => range.label === filters.priceRange
+//       );
+//       const price = parseFloat(product.sell_price);
+//       if (priceRange && (price < priceRange.min || price > priceRange.max)) {
+//         return false;
+//       }
+//     }
+
+//     return true;
+//   });
+
+//   // sorting
+//   filtered.sort((a, b) => {
+//     switch (sortBy) {
+//       case "price-low-high":
+//         return parseFloat(a.sell_price) - parseFloat(b.sell_price);
+//       case "price-high-low":
+//         return parseFloat(b.sell_price) - parseFloat(a.sell_price);
+//       case "name-a-z":
+//         return a.product_name.localeCompare(b.product_name);
+//       case "name-z-a":
+//         return b.product_name.localeCompare(a.product_name);
+//       default:
+//         return 0;
+//     }
+//   });
+
+//   return filtered;
+// }, [products, filters, sortBy, categories]);
+
+const categoryMap = useMemo(() => {
+  const map = {};
+  const fillMap = (cat) => {
+    map[cat.id] = [cat.id, ...(cat.children.flatMap((c) => fillMap(c)))];
+    return map[cat.id];
+  };
+  categories.forEach(fillMap);
+  return map;
+}, [categories]);
+
+// Replace the filteredAndSortedProducts useMemo with this fixed version:
+
 const filteredAndSortedProducts = useMemo(() => {
   let filtered = products.filter((product) => {
-    if (filters.category) {
-      // find the category object first
-      const findCategoryById = (cats, id) => {
-        for (let c of cats) {
-          if (String(c.id) === String(id)) return c;
-          const found = findCategoryById(c.children || [], id);
-          if (found) return found;
-        }
-        return null;
-      };
+    // ✅ ADD SEARCH TERM FILTERING (this was missing!)
+    const matchesSearch =
+      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // ✅ Category filter using categoryMap
+    const matchesCategory = !filters.category || 
+      (categoryMap[filters.category] || []).includes(product.category_id);
 
-      const selectedCat = findCategoryById(categories, filters.category);
+    // ✅ Brand filter
+    const matchesBrand = !filters.brand || 
+      product.brand.toLowerCase() === filters.brand.toLowerCase();
 
-      if (selectedCat) {
-        const allowedIds = getAllChildCategoryIds(selectedCat);
-        if (!allowedIds.includes(product.category_id)) {
-          return false;
-        }
-      }
-    }
-
-    if (
-      filters.brand &&
-      product.brand.toLowerCase() !== filters.brand.toLowerCase()
-    ) {
-      return false;
-    }
-
+    // ✅ Price range filter
+    let matchesPrice = true;
     if (filters.priceRange) {
       const priceRange = priceRanges.find(
         (range) => range.label === filters.priceRange
       );
       const price = parseFloat(product.sell_price);
-      if (priceRange && (price < priceRange.min || price > priceRange.max)) {
-        return false;
-      }
+      matchesPrice = priceRange && price >= priceRange.min && price <= priceRange.max;
     }
 
-    return true;
+    // Return true only if ALL conditions match
+    return matchesSearch && matchesCategory && matchesBrand && matchesPrice;
   });
 
-  // sorting
+  // ✅ Sorting
   filtered.sort((a, b) => {
     switch (sortBy) {
       case "price-low-high":
@@ -294,7 +263,7 @@ const filteredAndSortedProducts = useMemo(() => {
   });
 
   return filtered;
-}, [products, filters, sortBy, categories]);
+}, [products, searchTerm, filters, sortBy, categoryMap, priceRanges]); // Added searchTerm to dependencies
 
   const handleFilterChange = (filterType, value) => {
     setfilterON(true);
@@ -484,10 +453,7 @@ const renderCategoryOptions = (categories, level = 0) => {
             </div>
 
             {/* load more */}
-            {filteredAndSortedProducts.length > 0 &&
-              !filters.brand &&
-              !filters.priceRange &&
-              !filters.category && (
+            {filteredAndSortedProducts.length > visibleCount && (
                 <div className="flex justify-center mt-6">
                   <button
                     onClick={handleLoadMore}
