@@ -114,7 +114,7 @@ export default function MyWishlist() {
                         item.product?.image_full_url ||
                         item.product?.main_image_full_url ||
                         item.product?.file_full_url ||
-                        "assets/logo.png"
+                        "/assets/logo.png"
                       }
                       alt={item.product?.product_name || "Product"}
                       className="w-full h-full object-cover"

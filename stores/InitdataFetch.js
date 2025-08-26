@@ -82,7 +82,7 @@ export const useProductStore = create((set, get) => ({
           image_url:
             product.main_image_full_url ||
             product.image_full_url ||
-            `assets/logo.png`,
+            `/assets/logo.png`,
           description: product.product_description,
           unit_info: product.unit_info,
           flash_sale: product.flash_sale,
