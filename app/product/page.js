@@ -104,73 +104,6 @@ useEffect(() => {
   const CACHE_KEY = "productsCache";
   const CACHE_DURATION = 5 * 60 * 1000;
 
-  // const fetchProducts = async () => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     if (typeof window !== "undefined") {
-  //       const cached = localStorage.getItem(CACHE_KEY);
-  //       const { data, expiry } = JSON.parse(cached);
-  //       if (cached && data.length > 0) {
-  //         if (Date.now() < expiry) {
-  //           console.log("Returning cached data");
-  //           console.log(data);
-  //           setProducts(data);
-  //           return;
-  //         }
-  //       }
-  //     }
-  //     console.log("Fetching new data from API");
-
-  //     const data = await apiRequest(`/products/all`, false);
-  //     const transformedProducts =
-  //       data.products?.map((product) => ({
-  //         id: product.id,
-  //         product_name: product.product_name,
-  //         stock_quantity: product.stock_quantity,
-  //         available_quantity: product.available_quantity,
-  //         product_code: product.product_code,
-  //         has_variations: product.has_variations,
-  //         starting_price: product.starting_price,
-  //         brand: product.brand?.brand_name || "No Brand",
-  //         category: product.category?.category_name || "Uncategorized",
-  //         category_id: product.category?.id || null,
-  //         parent_id: product.category?.parent_id || null,
-  //         item_number: `#${product.product_code}`,
-  //         actual_price: product.actual_price,
-  //         sell_price: product.sell_price,
-  //         image_url:
-  //           product.main_image_full_url ||
-  //           product.image_full_url ||
-  //           `assets/logo.png`,
-  //         description: product.product_description,
-  //         unit_info: product.unit_info,
-  //         flash_sale: product.flash_sale,
-  //         delivery_days: product.delivery_target_days,
-  //       })) || [];
-
-  //     if (typeof window !== "undefined") {
-  //       localStorage.setItem(
-  //         CACHE_KEY,
-  //         JSON.stringify({
-  //           data: transformedProducts,
-  //           expiry: Date.now() + CACHE_DURATION,
-  //         })
-  //       );
-  //     }
-
-  //     setProducts(transformedProducts);
-  //   } catch (err) {
-  //     setError(err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
-
 
 // Recursive mapper function
 //map category and its children
@@ -190,49 +123,6 @@ const mapCategories = (categories) => {
 };
 
 
-
-  // Fetch categories
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-
-  //     const response = await apiRequest("/categories", false);
-  //     if (response.success) {
-       
-  //       const mappedCategories = mapCategories(response.categories);
-  //       console.log("mappedCategories", mappedCategories);
-  //       setCategories(mappedCategories);
-  //     }
-  //   };
-  //   fetchCategories();
-  // }, []);
-
-
-  // Fetch manufacturers
-  
-  // const fetchManufacturers = async () => {
-  //    setLoading(true);
-  //   try{
-  //     const response = await apiRequest("/brands", false);
-  //     if (response.success) {
-  //       console.log("response.brands", response);
-  //       const simplifiedBrands = response.brands.map((brand) => ({
-  //         id: brand.id,
-  //         brand_name: brand.brand_name,
-  //       }));
-  //       setManufacturers(simplifiedBrands);
-  //       console.log("simplifiedBrands", simplifiedBrands);
-  //     }
-  //   }catch(err){
-  //     setError(err.message);
-  //     setLoading(false);
-  //   }finally{
-  //     setLoading(false);
-  //   }
-  // };
-  // useEffect(() => {
-   
-  //   fetchManufacturers();
-  // }, []);
 
   // Recursive function: collect selected category + its children ids
   const getAllChildCategoryIds = (category) => {
@@ -257,25 +147,6 @@ const mapCategories = (categories) => {
       brand: "",
     });
 
-  // Filtering products
-//  const filteredProducts = products.filter((product) => {
-//   const matchesSearch =
-//     product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//     product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//     product.brand.toLowerCase().includes(searchTerm.toLowerCase());
-
-//   const matchesBrand =
-//     !filters.brand || product.brand === filters.brand;
-
-//   if (!selectedCategory) return matchesSearch && matchesBrand;
-
-//   const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
-//   return (
-//     matchesSearch &&
-//     matchesBrand &&
-//     allowedCategoryIds.includes(product.category_id)
-//   );
-// });
 
 const categoryMap = useMemo(() => {
   const map = {};
@@ -306,7 +177,14 @@ const filteredProducts = useMemo(() => {
   });
 }, [products, searchTerm, filters.brand, selectedCategory]);
 
-
+const clearFilters = () => {
+  setfilterON(false);
+  setFilters({
+    category: "",
+    brand: "",
+  });
+  setSelectedCategory(null); // Add this line to reset the dropdown
+};
    
 
   return (
@@ -325,7 +203,11 @@ const filteredProducts = useMemo(() => {
 
         {/* Filters  part*/}
         <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-300 mb-2">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className={`grid gap-4 ${
+                (filters.category || filters.brand) 
+                  ? 'grid-cols-2 md:grid-cols-4' 
+                  : 'grid-cols-2 md:grid-cols-3'
+              }`}>
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -339,17 +221,18 @@ const filteredProducts = useMemo(() => {
             </div>
 
            
-         {/* Category Filter */}
-            <div className="relative w-full sm:w-auto flex flex-row  border-gray-300 rounded border-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent ">
+              {/* Category Filter */}
+                  <div className="relative w-full sm:w-auto flex flex-row  border-gray-300 rounded border-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent ">
 
 
-           <MultiLevelDropdown
-            categories={categories}
-            onSelect={(cat) => {
-              setSelectedCategory(cat); // set selected category state
-              handleFilterChange("category", cat.id); // apply your filter
-            }}
-          />
+              <MultiLevelDropdown
+                  categories={categories}
+                  value={selectedCategory?.id || null} // Pass the selected category ID
+                  onSelect={(cat) => {
+                    setSelectedCategory(cat); // set selected category state
+                    handleFilterChange("category", cat.id); // apply your filter
+                  }}
+                />
             
               {/* <ChevronDown className=" transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" /> */}
             </div>
@@ -371,41 +254,17 @@ const filteredProducts = useMemo(() => {
               </select>
 
              
-            </div>           
-
-
-            {/* <select
-              value={selectedCategory?.id || ""}
-              onChange={(e) => {
-                const selected = categories
-                  .flatMap((cat) => [cat, ...(cat.active_children || [])])
-                  .flatMap((c) => [c, ...(c.active_children || [])])
-                  .find((c) => c.id === parseInt(e.target.value));
-                setSelectedCategory(selected || null);
-              }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <React.Fragment key={category.id}>
-                  <option value={category.id}>{category.name}</option>
-                  {category.active_children.map((sub) => (
-                    <React.Fragment key={sub.id}>
-                      <option value={sub.id}>-- {sub.name}</option>
-                      {sub.active_children.map((subsub) => (
-                        <option key={subsub.id} value={subsub.id}>
-                          ---- {subsub.name}
-                        </option>
-                      ))}
-                    </React.Fragment>
-                  ))}
-                </React.Fragment>
-              ))}
-            </select> */}
-
-
-            
-
+            </div>    
+              {/* Clear Filters */}
+            {(filters.category || filters.brand ) && (
+              <button
+                onClick={clearFilters}
+                className="text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base w-full px-3 sm:w-auto text-left sm:text-left"
+              >
+                Clear all filters
+              </button>
+            )}       
+           
           </div>
           <br />
           <p className="text-sm text-gray-600">
