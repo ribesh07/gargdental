@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { HtmlDataConversion } from "@/components/HtmlDataConversion";
 import { apiRequest } from "@/utils/ApiSafeCalls";
+import TeamSection from "@/app/our-team/team-profile";
 
 export default function AboutUsPage() {
   const [aboutData, setAboutData] = useState(null);
@@ -274,6 +275,7 @@ export default function AboutUsPage() {
           </div>
         </div>
       </div>
+      <TeamSection/>
     </div>
   );
 }

@@ -297,7 +297,7 @@ export default function CustomTab({ status }) {
                           item.product?.image_full_url ||
                           item.product?.main_image_full_url ||
                           item.product?.files_full_url?.[0] ||
-                          "assets/logo.png";
+                          "/assets/logo.png";
 
                         // Get product name from the correct path
                         const productName =

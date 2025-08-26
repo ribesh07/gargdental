@@ -218,7 +218,7 @@ export default function ProductTabs({ product }) {
                               <img
                                 src={
                                   item.customer?.image_full_url ||
-                                  "assets/logo.png"
+                                  "/assets/logo.png"
                                 }
                                 alt={item?.customer?.full_name}
                                 className="w-full h-full object-cover p-2 m-2 rounded-full"
