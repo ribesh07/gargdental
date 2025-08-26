@@ -15,6 +15,7 @@ import { baseUrl } from "@/utils/config";
 import Link from "next/link";
 import { useEffect } from "react";
 import { apiRequest } from "@/utils/ApiSafeCalls";
+import MobileAppDownload from "@/app/playstore/playstore";
 
 export default function FooterBar() {
   const [email, setEmail] = useState("");
@@ -178,6 +179,8 @@ export default function FooterBar() {
                   <Instagram className="w-4 h-4" />
                 </Link>
               </div>
+
+              
             </div>
 
             {/* Information Section */}
@@ -318,7 +321,10 @@ export default function FooterBar() {
                 Subscribe to the mailing list to receive updates on promotions,
                 new arrivals, discount and coupons.
               </p>
+              <div className="flex space-x-4 pt-10 ">
+                <MobileAppDownload />
             </div>
+            
           </div>
         </div>
       </div>
@@ -341,6 +347,7 @@ export default function FooterBar() {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </footer>
   );
