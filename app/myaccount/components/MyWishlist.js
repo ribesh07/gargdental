@@ -143,14 +143,14 @@ export default function MyWishlist() {
                 </div>
                 {/* Right: Add to Cart + Remove */}
                 <div className="flex items-center gap-4">
-                  {item.product.available_quantity === 0 &&
-                    item.product.stock_quantity === 0 && (
+                  {item.product?.available_quantity === 0 &&
+                    item.product?.stock_quantity === 0 && (
                       <div className="text-red-600 font-bold text-sm">
-                        Out of Stock !!!{" "}
+                        Out of Stock !!!
                       </div>
                     )}
-                  {item.product.available_quantity > 0 &&
-                    item.product.stock_quantity > 0 && (
+                  {item.product?.available_quantity > 0 &&
+                    item.product?.stock_quantity > 0 && (
                       <button
                         onClick={(e) => handleaddtocart(item, e)}
                         className="bg-[#0072bc] text-white px-4 py-2 text-sm rounded transition cursor-pointer hover:bg-[#005f9a]"
@@ -165,13 +165,10 @@ export default function MyWishlist() {
                     title="Remove"
                     disabled={removingId === item.id}
                   >
-                    {removingId === item.id ? (
-                      "Removing..."
-                    ) : (
-                      <Trash2 className="w-5 h-5" />
-                    )}
+                    {removingId === item.id ? "Removing..." : <Trash2 className="w-5 h-5" />}
                   </button>
                 </div>
+
               </div>
             );
           })}
