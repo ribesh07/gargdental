@@ -141,7 +141,7 @@ export default function AboutUsPage() {
                             <img
                               src={story.image}
                               alt={story.name || `Story ${index + 1}`}
-                              className="w-64 h-64 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
+                              className="w-57 h-57 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
                             />
                             {story.name && (
                               <h3 className="text-xl font-bold text-gray-900 mt-4">
@@ -178,7 +178,7 @@ export default function AboutUsPage() {
                             <img
                               src={story.image}
                               alt={story.name || `Story ${index + 1}`}
-                              className="w-64 h-64 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
+                              className="w-57 h-57 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
                             />
                             {story.name && (
                               <h3 className="text-xl font-bold text-gray-900 mt-4">
