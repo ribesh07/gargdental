@@ -20,7 +20,7 @@ export default function WishListHeart({ product }) {
 
   const pathname = usePathname();
 
-  // ✅ First check if user is logged in
+  //  First check if user is logged in
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem("token");
@@ -32,10 +32,10 @@ export default function WishListHeart({ product }) {
       }
     };
 
-    checkAuth(); // ✅ actually call it
+    checkAuth(); //
   }, [pathname]);
 
-  // ✅ Then check if this product is in wishlist
+  //  Then check if this product is in wishlist
   useEffect(() => {
     const checkWishlist = async () => {
       if (!product || !isLoggedIn) return;
@@ -55,7 +55,7 @@ export default function WishListHeart({ product }) {
     };
 
     checkWishlist();
-  }, [product, isLoggedIn]); // ✅ also depends on isLoggedIn
+  }, [product, isLoggedIn]); // also depends on isLoggedIn
 
   const handleWishlist = async () => {
     if (!product) return;
