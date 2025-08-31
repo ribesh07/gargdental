@@ -115,85 +115,151 @@ export default function AboutUsPage() {
         </div>
       </div>
 
-      {/* Our Story Section (if present) */}
-      {(aboutData.story_title ||
-        aboutData.story_1?.description ||
-        aboutData.story_2?.description) && (
+      {/* Our Story Section (dynamic) */}
+
+      {aboutData.story_title && aboutData.stories?.length > 0 && (
         <div className="bg-gray-50 py-16">
           <div className="max-w-7xl mx-auto px-6">
-            {aboutData.story_title && (
-              <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
-                {aboutData.story_title}
-              </h2>
-            )}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-              {aboutData.story_1?.image_url && (
-                <div className="flex justify-center">
-                  <div className="relative">
-                    <div className="text-center">
-                      <img
-                        src={aboutData.story_1.image_url}
-                        alt={aboutData.story_1.name || "Story 1"}
-                        className="w-64 h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center"
-                      />
-                      {aboutData.story_1.name && (
-                        <h3 className="text-xl font-bold text-gray-900">
-                          {aboutData.story_1.name}
-                        </h3>
+            <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
+              {aboutData.story_title}
+            </h2>
+
+            <div className="space-y-16">
+              {aboutData.stories.map((story, index) => (
+                <div
+                  key={index}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                    }`}
+                >
+                  {/* Left / Right depending on index */}
+                  {index % 2 === 0 ? (
+                    <>
+                      {/* Image & Info */}
+                      {story.image && (
+                        <div className="flex justify-center">
+                          <div className="relative text-center">
+                            <img
+                              src={story.image}
+                              alt={story.name || `Story ${index + 1}`}
+                              className="w-57 h-57 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
+                            />
+                            {story.name && (
+                              <h3 className="text-xl font-bold text-gray-900 mt-4">
+                                {story.name}
+                              </h3>
+                            )}
+                            {story.designation && (
+                              <p className="text-sm text-gray-600">
+                                {story.designation}
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       )}
-                      {aboutData.story_1.designation && (
-                        <p className="text-sm text-gray-600">
-                          {aboutData.story_1.designation}
-                        </p>
+                      {/* Description */}
+                      <div>
+                        {story.description && (
+                          <HtmlDataConversion description={story.description} />
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Description first */}
+                      <div>
+                        {story.description && (
+                          <HtmlDataConversion description={story.description} />
+                        )}
+                      </div>
+                      {/* Image & Info */}
+                      {story.image && (
+                        <div className="flex justify-center">
+                          <div className="relative text-center">
+                            <img
+                              src={story.image}
+                              alt={story.name || `Story ${index + 1}`}
+                              className="w-57 h-57 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
+                            />
+                            {story.name && (
+                              <h3 className="text-xl font-bold text-gray-900 mt-4">
+                                {story.name}
+                              </h3>
+                            )}
+                            {story.designation && (
+                              <p className="text-sm text-gray-600">
+                                {story.designation}
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       )}
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </div>
-              )}
-              <div>
-                {aboutData.story_1?.description && (
-                  <HtmlDataConversion
-                    description={aboutData.story_1.description}
-                  />
-                )}
-              </div>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                {aboutData.story_2?.description && (
-                  <HtmlDataConversion
-                    description={aboutData.story_2.description}
-                  />
-                )}
-              </div>
-              {aboutData.story_2?.image_url && (
-                <div className="flex justify-center">
-                  <div className="relative">
-                    <div className="text-center">
-                      <img
-                        src={aboutData.story_2.image_url}
-                        alt={aboutData.story_2.name || "Story 2"}
-                        className="w-64 h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center"
-                      />
-                      {aboutData.story_2.name && (
-                        <h3 className="text-xl font-bold text-gray-900">
-                          {aboutData.story_2.name}
-                        </h3>
-                      )}
-                      {aboutData.story_2.designation && (
-                        <p className="text-sm text-gray-600">
-                          {aboutData.story_2.designation}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
+              ))}
             </div>
           </div>
         </div>
       )}
 
+
+      {/* arko design to show image 
+
+
+      {aboutData.story_title && aboutData.stories?.length > 0 && (
+        <div className="bg-gray-50 py-16">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
+              {aboutData.story_title}
+            </h2>
+
+            <div className="space-y-16">
+              {aboutData.stories.map((story, index) => (
+                <div
+                  key={index}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+                    index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                  }`}
+                >
+                  
+                  <div className="flex justify-center">
+                    <div className="relative text-center">
+                      {story.image && (
+                        <img
+                          src={story.image}
+                          alt={story.name || `Story ${index + 1}`}
+                          className="w-64 h-64 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
+                        />
+                      )}
+                      {story.name && (
+                        <h3 className="text-xl font-bold text-gray-900 mt-4">
+                          {story.name}
+                        </h3>
+                      )}
+                      {story.designation && (
+                        <p className="text-sm text-gray-600">
+                          {story.designation}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  
+                  <div>
+                    {story.description && (
+                      <HtmlDataConversion description={story.description} />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )} */}
+
+
+
+      {/* Stats Section */}
       <div className="bg-blue-900 py-8">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -275,7 +341,9 @@ export default function AboutUsPage() {
           </div>
         </div>
       </div>
-      <TeamSection/>
+
+      {/* Team Section */}
+      <TeamSection />
     </div>
   );
 }
