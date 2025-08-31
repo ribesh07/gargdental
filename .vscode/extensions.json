@@ -1,13 +1,27 @@
 {
-	// See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
-	// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
+  "recommendations": [
+    // --- Code Quality & Formatting ---
+    "dbaeumer.vscode-eslint",          // ESLint
+    "esbenp.prettier-vscode",          // Prettier - Code formatter
 
-	// List of extensions which should be recommended for users of this workspace.
-	"recommendations": [
-		
-	],
-	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
-	"unwantedRecommendations": [
-		
-	]
+    // --- React / Next.js Helpers ---
+    "dsznajder.es7-react-js-snippets", // React/Redux/Next.js snippets
+    "formulahendry.auto-rename-tag",   // Auto rename paired HTML/JSX tags
+    "formulahendry.auto-close-tag",    // Auto close HTML/JSX tags
+    "bradlc.vscode-tailwindcss",       // Tailwind CSS IntelliSense
+    "xabikos.javascriptsnippets",      // JavaScript snippets
+
+    // --- Navigation & Productivity ---
+    "eamodio.gitlens",                 // Git supercharged
+    "yoavbls.pretty-ts-errors",        // Pretty TypeScript errors (if you use TS)
+    "wix.vscode-import-cost",          // Shows import sizes in JS/TS files
+    "streetsidesoftware.code-spell-checker", // Spell checker (avoids typos in code/comments)
+
+    // --- Debugging & API ---
+    "rangav.vscode-thunder-client",    // API testing inside VS Code
+    "ms-vscode.js-debug-nightly"       // Better JS/TS debugging
+  ],
+  "unwantedRecommendations": [
+    "hookyqr.beautify"                 // Conflicts with Prettier
+  ]
 }
