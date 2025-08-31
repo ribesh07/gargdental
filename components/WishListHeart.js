@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import {
   addToWishlist,
@@ -12,88 +12,92 @@ import { usePathname } from "next/navigation";
 const FilledHeart = (props) => (
   <Heart stroke="red" size={25} fill="red" {...props} />
 );
+
 export default function WishListHeart({ product }) {
   const [wishlisted, setWishlisted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const pathname = usePathname();
-  const [isloggedin, setIsloggedin] = useState(false);
 
-  React.useEffect(() => {
+  // ✅ First check if user is logged in
+  useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem("token");
-
       if (token) {
-        setIsloggedin(true);
-        const details = await userDetails();
+        setIsLoggedIn(true);
+        // you can fetch user details if needed
       } else {
-        setIsloggedin(false);
-        // setUser({});
+        setIsLoggedIn(false);
       }
     };
 
-    // document.addEventListener("mousedown", handleClickOutside);
-    // return () => document.removeEventListener("mousedown", handleClickOutside);
+    checkAuth(); // ✅ actually call it
   }, [pathname]);
 
-  React.useEffect(() => {
+  // ✅ Then check if this product is in wishlist
+  useEffect(() => {
     const checkWishlist = async () => {
-      if (!product) return;
-      if (!isloggedin) {
-        return;
+      if (!product || !isLoggedIn) return;
+
+      try {
+        const res = await getWishlist();
+        const wishlistArray = res?.wishlist || [];
+
+        const isWishlisted = wishlistArray.some(
+          (item) => item.product_code === product.product_code
+        );
+
+        setWishlisted(isWishlisted);
+      } catch (error) {
+        console.error("Error checking wishlist:", error);
       }
-
-      const res = await getWishlist();
-
-      // Correctly extract the array
-      const wishlistArray = res?.wishlist || [];
-
-      console.log("Wishlisted", wishlistArray); // Should show 3 items
-
-      const isWishlisted = wishlistArray.some(
-        (item) => item.product_code === product.product_code
-      );
-
-      setWishlisted(isWishlisted);
     };
 
     checkWishlist();
-  }, [product]);
+  }, [product, isLoggedIn]); // ✅ also depends on isLoggedIn
+
   const handleWishlist = async () => {
     if (!product) return;
     setLoading(true);
 
-    const res = await getWishlist();
-    const wishlistArray = res?.wishlist || [];
+    try {
+      const res = await getWishlist();
+      const wishlistArray = res?.wishlist || [];
 
-    if (wishlisted) {
-      const item = wishlistArray.find(
-        (item) => item.product_code === product.product_code
-      );
-      if (!item) {
-        toast.error("Item not found in wishlist");
-        setLoading(false);
-        return;
-      }
-      const removeRes = await removeFromWishlist(item.id);
-      if (removeRes.success) {
-        setWishlisted(false);
-        toast.success("Removed from wishlist");
+      if (wishlisted) {
+        const item = wishlistArray.find(
+          (item) => item.product_code === product.product_code
+        );
+        if (!item) {
+          toast.error("Item not found in wishlist");
+          setLoading(false);
+          return;
+        }
+        const removeRes = await removeFromWishlist(item.id);
+        if (removeRes.success) {
+          setWishlisted(false);
+          toast.success("Removed from wishlist");
+        } else {
+          toast.error(removeRes.message || "Failed to remove from wishlist");
+        }
       } else {
-        toast.error(removeRes.message || "Failed to remove from wishlist");
+        const addRes = await addToWishlist(product.product_code);
+        if (addRes.success) {
+          setWishlisted(true);
+          toast.success("Added to wishlist");
+        } else {
+          toast.error(addRes.message || "Failed to add to wishlist");
+        }
       }
-    } else {
-      const addRes = await addToWishlist(product.product_code);
-      if (addRes.success) {
-        setWishlisted(true);
-        toast.success("Added to wishlist");
-      } else {
-        toast.error(addRes.message || "Failed to add to wishlist");
-      }
+    } catch (error) {
+      console.error("Wishlist error:", error);
+      toast.error("Something went wrong");
     }
 
     setLoading(false);
   };
+
   return (
     <button
       onClick={handleWishlist}
