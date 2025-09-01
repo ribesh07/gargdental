@@ -14,7 +14,7 @@ import {
 } from "@/utils/apiHelper";
 import useCartStore from "@/stores/useCartStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
-import useInfoModalStore from "@/stores/infoModalStore";
+import useInfoModalStore from "@/stores/warningModalStore";
 import toast from "react-hot-toast";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
 
