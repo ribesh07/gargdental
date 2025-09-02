@@ -132,6 +132,7 @@ export default function OrderSummary() {
     setSelectedShippingAddress(defaultShippingAddress);
     console.log("defaultShippingAddress", defaultShippingAddress);
     if (defaultShippingAddress.city?.shipping_cost) {
+      console.log("defaultShippingAddress changed:", defaultShippingAddress.city?.shipping_cost);
       const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
       setShipping(cost);
     }
@@ -152,9 +153,10 @@ export default function OrderSummary() {
     console.log("currentThreshold:", currentThreshold);
     console.log("defaukt shippingaddress :", defaultShippingAddress);
     
-     if ( defaultShippingAddress && defaultShippingAddress.city?.shipping_cost) {
+     if ( defaultShippingAddress && defaultShippingAddress?.shipping_cost) {
       console.log("defaultShippingAddress changed:", defaultShippingAddress);
-      const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
+      console.log("defaultShippingAddress cost:", defaultShippingAddress?.shipping_cost);
+      const cost = parseFloat(defaultShippingAddress?.shipping_cost);
       setShipping(cost);
     }
   }, [selectedId]);

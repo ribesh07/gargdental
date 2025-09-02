@@ -134,7 +134,7 @@ const PayOpsPageBuyNow = () => {
       return;
     }
     if (selectedShippingAddress?.city?.shipping_cost !== null) {
-      const cost = parseFloat(selectedShippingAddress?.city?.shipping_cost);
+      const cost = parseFloat(selectedShippingAddress?.shipping_cost);
       setShipping(cost);
     } else {
       toast.error("Please don't refresh the page.");
@@ -253,9 +253,7 @@ const PayOpsPageBuyNow = () => {
                   <span className="font-semibold">Address:</span>{" "}
                   {selectedShippingAddress.address},{" "}
                   {selectedShippingAddress.landmark},{" "}
-                  {selectedShippingAddress.zone?.zone_name},{" "}
-                  {selectedShippingAddress.city?.city},{" "}
-                  {selectedShippingAddress.province?.province_name}
+                  {selectedShippingAddress?.province_name}
                 </div>
                 <div>
                   <span className="font-semibold">Phone:</span>{" "}

@@ -457,3 +457,30 @@ Content-Type: application/json
 ### contact us - our team
 GET https://gargdental.omsok.com/api/v1/our-team/active
 Content-Type: application/json
+
+### getcatsuball
+GET http://192.168.1.85:8000/api/getCateSubAll
+
+
+# const categoriesWithSubcategories = response.data.map(item => ({
+#           category: {
+#             CategoryId: item.category.CategoryId,
+           
+#            CategoryDesc: item.category.CategoryDesc,
+#             Status: item.category.Status,
+#             EnterDate: item.category.EnterDate,
+#             CategoryImg: item.category.CategoryImg,
+#           },
+#           subcategories: item.subcategories.map(sub => ({
+#             ProductSubGrpId: sub.ProductSubGrpId,
+#             ProductSubGrpDesc: sub.ProductSubGrpDesc,
+#             ProductSubGrpShortName: sub.ProductSubGrpShortName,
+#             Status: sub.Status,
+#             EnterDate: item.category.EnterDate,
+#             PSGImg: sub.PSGImg,
+#           }))
+#         }));
+#        alert(subcategories.length.toString())
+#       setSubCategories(categoriesWithSubcategories);
+
+# >hi

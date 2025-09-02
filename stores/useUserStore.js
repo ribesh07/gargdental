@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { getFullInfo } from "@/utils/apiHelper"
+import { getFullInfo , getAddress} from "@/utils/apiHelper"
 import { toast } from "react-hot-toast";
 // import { useRouter } from "next/router";
+//add mapp to use deliery cost based on city
 
 export const useUserStore = create(
   persist(
@@ -41,16 +42,20 @@ export const useUserStore = create(
 
           try {
             const result = await getFullInfo();
+           
             console.log("response", result);
 
             if (result.success) {
               const {
                 data: userData,
-                allAddresses,
+                
                 homeAddress,
-                defaultBillingAddress,
+                
                 officeAddress,
               } = result;
+
+                const { allAddresses, defaultBillingAddress } =
+                    await getAddress();
 
               set({
                 user: {
