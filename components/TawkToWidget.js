@@ -30,7 +30,7 @@ export default function TawkToWidget() {
     fetchSettings();
   }, []);
 
-  const message = "Hello! I'm intere in your products.";
+  const message = "Hello! I'm interested in your products !";
 
   const handleChatIconClick = (e) => {
     e.preventDefault();
