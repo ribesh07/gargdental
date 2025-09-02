@@ -22,7 +22,7 @@ export default function CustomTab({ status }) {
   const [ischanged, setIsChanged] = useState(false);
   useEffect(() => {
     fetchOrders(status);
-  }, [status, ischanged]);
+  }, [status, ischanged , cancellationModal.isOpen]);
 
   const fetchOrders = async (status) => {
     try {
