@@ -19,6 +19,8 @@
     "lucide-react": "^0.517.0",
     "next": "^15.3.4",
     "next-auth": "^4.24.11",
+    "node-rsa": "^1.1.1",
+    "pem": "^1.14.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
