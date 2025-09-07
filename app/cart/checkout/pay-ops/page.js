@@ -8,16 +8,19 @@ import useWarningModalStore from "@/stores/warningModalStore";
 import {useFreeShippingStore} from "@/stores/ShippingThreshold"
 import toast from "react-hot-toast";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
+import { CONNECTIPS_BASE_URL , CONNECTIPS_API_URL , APPNAME ,APPID ,MERCHANTID } from "@/utils/config"
+import { generateUniqueId  } from '@/utils/payments/generateUniqueId'
+import { getDate  } from '@/utils/payments/getDate'
 // import { Toaster } from "react-hot-toast";
 
 const paymentMethods = [
   {
-    id: "E",
-    label: "eSewa Mobile Wallet",
+    id: "IPS",
+    label: "Nepal Pay",
     icon: (
       <img
-        src="https://cdn.esewa.com.np/ui/images/esewa_og.png?111"
-        alt="eSewa"
+        src="/connectIPS.png"
+        alt="IPS"
         className="h-10 mx-auto"
       />
     ), // You can use a local asset if you want
@@ -29,21 +32,36 @@ const paymentMethods = [
   },
 ];
 
-const esewaDescription = (
+// const esewaDescription = (
+//   <div className="mt-6 text-gray-700 text-sm">
+//     <p className="mb-2">
+//       You will be redirected to your eSewa account to complete your payment:
+//     </p>
+//     <ol className="list-decimal ml-5 mb-2">
+//       <li>Login to your eSewa account using your eSewa ID and Password.</li>
+//       <li>Ensure your eSewa account is active and has sufficient balance.</li>
+//       <li>
+//         Enter OTP (one-time password) sent to your registered mobile number.
+//       </li>
+//     </ol>
+//     <p className="font-bold text-gray-800 mb-2">
+//       ***Login with your eSewa mobile and PASSWORD (not MPin)***
+//     </p>
+//   </div>
+// );
+const connectIPSDescprition = (
   <div className="mt-6 text-gray-700 text-sm">
     <p className="mb-2">
-      You will be redirected to your eSewa account to complete your payment:
+      You will be redirected to ConnnectIPS Page to complete your payment:
     </p>
     <ol className="list-decimal ml-5 mb-2">
-      <li>Login to your eSewa account using your eSewa ID and Password.</li>
-      <li>Ensure your eSewa account is active and has sufficient balance.</li>
+      <li>Login to your connectIPS account using your ID and Password.</li>
+      <li>Ensure your account is active and has sufficient balance.</li>
       <li>
         Enter OTP (one-time password) sent to your registered mobile number.
       </li>
     </ol>
-    <p className="font-bold text-gray-800 mb-2">
-      ***Login with your eSewa mobile and PASSWORD (not MPin)***
-    </p>
+   
   </div>
 );
 
@@ -63,7 +81,7 @@ const codDescription = (
 );
 
 const PayOpsPage = () => {
-  const [selected, setSelected] = useState("E");
+  const [selected, setSelected] = useState("C");
   const [shipping, setShipping] = useState(50);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const selectedShippingAddress = useCartStore(
@@ -134,7 +152,7 @@ const itemsWithVat = selectedItems.map((item) => ({
     useEffect(() => {
       if (subtotal >= currentThreshold) {
         
-        setisFreeShipping(true);
+        setisFreeShipping(false);
         // setShipping(0);
         console.log("current threshold : ", currentThreshold);
       }else{
@@ -143,7 +161,8 @@ const itemsWithVat = selectedItems.map((item) => ({
     }, [subtotal, currentThreshold]);
   
     // const total = subtotal + totalVatAmount + shipping;
-    const total = subtotal  + (subtotal >= currentThreshold ? 0 : shipping);
+    const total = subtotal  + (isFreeShipping ? 0 : shipping);
+    // const total = subtotal  + ( shipping);
   
 
   const handleConfirmOrder = async () => {
@@ -160,7 +179,7 @@ const itemsWithVat = selectedItems.map((item) => ({
       };
       console.log("orderData", orderData);
       const result = await handleOrder(orderData);
-      console.log("result", result);
+      console.log("result from order create", result);
 
       if (result && result.success) {
         // Add order to local store
@@ -186,6 +205,90 @@ const itemsWithVat = selectedItems.map((item) => ({
       toast.error("An unexpected error occurred. Please try again.");
     }
   };
+
+
+  //Initiate payment connectIPS
+  const handleOrderWallet = async ( amount,
+  remarks,
+  particulars) => {
+    
+  try {
+    const transId = `Tx${generateUniqueId()}`;
+    const refId = `Rf${generateUniqueId()}`
+
+     const orderData = {
+        payment_method: selected,
+        billing_address: selectedBillingAddress.id,
+        shipping_address: selectedShippingAddress.id,
+        invoice_email: email,
+        subtotal: subtotal,
+        grandtotal: total,
+        shipping: shipping,
+        selected_items: selectedItems.map((item) => item.id),
+        transaction_id : transId
+      };
+      console.log("orderData in ips", orderData);
+      const result = await handleOrder(orderData);
+      console.log("result in ips", result);
+        if( result && result.success){
+           addOrder({
+              items: selectedItems,
+              address: selectedShippingAddress,
+              paymentMethod: selected,
+              total,
+              date: new Date().toISOString(),
+            });
+
+                // Clear selected items from cart
+              useCartStore.getState().setSelectedItems([]); 
+
+          const transactionDetails = {
+                MERCHANTID,
+                APPID,
+                APPNAME,
+                TXNID: transId,
+                TXNDATE: getDate(),
+                TXNCRNCY: 'NPR',
+                TXNAMT: total*100,                                 
+                REFERENCEID: refId,
+                REMARKS: remarks,
+                PARTICULARS: result.order_id,
+                TOKEN: 'TOKEN',
+
+              };
+
+          const tokenResponse = await fetch('/connectips/get_token', {
+            method: 'POST',
+            body: JSON.stringify(transactionDetails),
+          });
+
+          if (!tokenResponse.ok) {
+            throw new Error('Failed to get payment token');
+          }
+
+          const { TOKEN } = await tokenResponse.json();
+
+          const payload = { ...transactionDetails, TOKEN };
+
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = CONNECTIPS_API_URL;
+
+          Object.entries(payload).forEach(([key, value]) => {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = key;
+            hiddenField.value = value;
+            form.appendChild(hiddenField);
+          });
+
+          document.body.appendChild(form);
+          form.submit();
+        }
+  } catch (error) {
+    console.error('ConnectIPS Initiate payment error:', error);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-2 sm:px-6 flex flex-col items-center">
@@ -216,12 +319,12 @@ const itemsWithVat = selectedItems.map((item) => ({
           </div>
 
           {/* Description and Button */}
-          {selected === "E" && (
+          {selected === "IPS" && (
             <>
-              {esewaDescription}
+              {connectIPSDescprition}
               <button
                 className="mt-6 w-full bg-blue-900 text-white py-3 rounded font-semibold text-lg hover:bg-blue-800 transition-colors"
-                onClick={() => toast.error("Under Development !")}
+                onClick={()=>{handleOrderWallet(total,'test','Goods from GargDental!')}}
               >
                 Pay Now
               </button>

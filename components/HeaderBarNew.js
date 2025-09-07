@@ -252,95 +252,16 @@ const HeaderBarNew = () => {
               </button>
             </div>
 
-            {/* Desktop Search Bar */}
-            {/* {pathname !== "/product" && (
-              <div className="hidden md:block flex-1 max-w-2xl mx-8">
-                <div className="relative flex">
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="What can we help you find?"
-                    className="w-full px-4 py-2 flex items-center border border-gray-300 rounded-l-md focus:outline-none focus:border-gray-300"
-                  />
-                  <button
-                    onClick={() => handleSearch()}
-                    className="absolute right-0 top-0 bg-[#0072bc] text-white px-4 py-2 flex items-center justify-center rounded-r-md hover:bg-[#0072bc] transition-colors"
-                  >
-                    <Search />
-                  </button>
-                </div>
-              </div>
-            )} */}
-
-
-            <SearchBar />
+            
+            {/* Desktop View */}
+            <div className="hidden md:flex items-center justify-between space-x-4 w-full max-w-2xl">
+              <SearchBar />
+            </div>
 
             {/* Desktop Right Side Actions */}
             <div className="hidden md:flex items-center space-x-4">
               {/* Menu Button with Dropdown */}
-              {/* <div className="relative transform hover:scale-105" ref={menuRef}>
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer"
-                >
-                  <div className="bg-blue-100 p-2 rounded-lg mb-1">
-                    <Menu className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <span className="text-xs">Menu</span>
-                </button>
-
-                {isMenuOpen && (
-                  <div className="absolute left-full top-full mt-2 w-64 bg-gray-50 border-gray-100 rounded-lg shadow-lg z-50">
-                    <div className="py-2">
-                      {menuItems.map((item, index) => (
-                        <div key={index} className="relative">
-                          <Link
-                            href={item.href}
-                            className={`flex items-center justify-between px-4 py-2 text-gray-700 transition-all duration-200 ${
-                              item.hasSubmenu && isSuppliesDropdownOpen
-                                ? "border-l-2 border-blue-500 text-red-600"
-                                : " hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500"
-                            }`}
-                            onClick={() =>
-                              item.hasSubmenu &&
-                              setIsSuppliesDropdownOpen(!isSuppliesDropdownOpen)
-                            }
-                          >
-                            <span>{item.label}</span>
-                            {item.hasSubmenu && (
-                              <ChevronDown className="w-4 h-4" />
-                            )}
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {isSuppliesDropdownOpen && (
-                  <div
-                    ref={suppliesRef}
-                    className="absolute top-full right-0 mt-2 w-56 bg-gray-50 border-2 border-gray-100 shadow-lg z-50"
-                    onClick={() => setIsMenuOpen(!isSuppliesDropdownOpen)}
-                  >
-                    <div className="py-2">
-                      <div className="px-4 py-2 bg-gray-50 font-semibold text-red-600">
-                        Supplies & Small Equipment
-                      </div>
-                      {suppliesSubmenu.map((item, index) => (
-                        <Link
-                          key={index}
-                          href={item.href}
-                          className={`block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-red-600 hover:border-l-2 hover:border-blue-500 transition-all duration-200 ${item.color}`}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div> */}
+              
 
               {/* Login and Signup Button */}
               {!isloggedin && (
@@ -416,26 +337,11 @@ const HeaderBarNew = () => {
           </div>
 
           {/* Mobile Search Bar - Always visible on mobile when not on product page */}
-          {pathname !== "/product" && (
-            <div className="md:hidden px-2 pb-4">
-              <div className="relative flex">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="What can we help you find?"
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-l-md focus:outline-none focus:border-gray-300"
-                />
-                <button
-                  onClick={() => handleSearch()}
-                  className="bg-[#0072bc] text-white px-3 py-2 flex items-center justify-center rounded-r-md hover:bg-[#0072bc] transition-colors"
-                >
-                  <Search className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
+          <div className="flex md:hidden items-center w-full px-4">
+            <SearchBar className="w-full" />
+          </div>
+          
+         
           {/* Desktop Login Section */}
           <div className="sm:block w-full bg-gray-50 border-t border-b border-gray-200 rounded-lg px-2 sm:px-6 py-3">
             <div className="max-w-7xl mx-auto flex justify-center">
@@ -623,7 +529,7 @@ const HeaderBarNew = () => {
                 </div> */}
 
                 {/* Mobile Menu Items */}
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   {menuItems.map((item, index) => (
                     <Link
                       key={index}
@@ -634,7 +540,7 @@ const HeaderBarNew = () => {
                       {item.label}
                     </Link>
                   ))}
-                </div>
+                </div> */}
 
                 {/* Mobile Contact Info */}
                 {/* <div className="mt-6 pt-4 border-t space-y-3">

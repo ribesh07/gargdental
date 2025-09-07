@@ -194,7 +194,7 @@ export default function OrderSummary() {
   useEffect(() => {
     if (subtotal >= currentThreshold) {
 
-      setisFreeShipping(true);
+      setisFreeShipping(false);
       // setShipping(0);
       console.log("current threshold : ", currentThreshold);
     } else {
@@ -203,7 +203,7 @@ export default function OrderSummary() {
   }, [subtotal, currentThreshold]);
 
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
+  const total = subtotal + (isFreeShipping ? 0 : shipping);
 
 
   return (
@@ -282,7 +282,7 @@ export default function OrderSummary() {
                     </option>
                     {addresses.map((addr) => (
                       <option key={addr.id} value={addr.id}>
-                        {addr.full_name} - {addr.address}, {addr.landmark}, {addr.city}
+                        {addr.full_name} - {addr.address}, {addr.landmark}, {addr.province_name}
                       </option>
                     ))}
                   </select>
@@ -302,9 +302,8 @@ export default function OrderSummary() {
                         <span className="font-semibold">Address:</span>{" "}
                         {selectedShippingAddress.address},{" "}
                         {selectedShippingAddress.landmark},{" "}
-                        {selectedShippingAddress.zone?.zone_name},{" "}
-                        {selectedShippingAddress.city},{" "}
-                        {selectedShippingAddress.province?.province_name}
+                        {selectedShippingAddress?.zone_name},{" "}
+                        {selectedShippingAddress?.province_name}
                       </div>
                       <div>
                         <span className="font-semibold">Phone:</span>{" "}
@@ -405,7 +404,7 @@ export default function OrderSummary() {
                     </option>
                     {addresses.map((addr) => (
                       <option key={addr.id} value={addr.id}>
-                        {addr.full_name} - {addr.address}, {addr.landmark}, {addr.city}
+                        {addr.full_name} - {addr.address}, {addr.landmark}, {addr.province_name}
                       </option>
                     ))}
                   </select>
@@ -425,13 +424,13 @@ export default function OrderSummary() {
                         <span className="font-semibold">Address:</span>{" "}
                         {selectedBillingAddress.address},{" "}
                         {selectedBillingAddress.landmark},{" "}
-                        {selectedBillingAddress.zone?.zone_name},{" "}
+                        {selectedBillingAddress?.zone_name},{" "}
                         {selectedBillingAddress.city},{" "}
-                        {selectedBillingAddress.province?.province_name}
+                        {selectedBillingAddress.province_name}
                       </div>
                       <div>
                         <span className="font-semibold">Phone:</span>{" "}
-                        {selectedShippingAddress.phone}
+                        {selectedBillingAddress.phone}
                       </div>
                     </div>
                   ) : (
