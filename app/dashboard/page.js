@@ -365,7 +365,7 @@ const GargDental = () => {
         {/* Main Content */}
         <div className="max-w-7xl mx-auto p-2 sm:p-3 lg:p-5">
           {/* Mobile Menu Button */}
-          <div className="lg:hidden mb-4">
+          {/* <div className="lg:hidden mb-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="w-full bg-[#0072bc] text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors"
@@ -394,7 +394,7 @@ const GargDental = () => {
                 )}
               </svg>
             </button>
-          </div>
+          </div> */}
 
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
             {/* Sidebar */}

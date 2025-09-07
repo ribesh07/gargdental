@@ -623,7 +623,7 @@ const HeaderBarNew = () => {
                 </div> */}
 
                 {/* Mobile Menu Items */}
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   {menuItems.map((item, index) => (
                     <Link
                       key={index}
@@ -634,7 +634,7 @@ const HeaderBarNew = () => {
                       {item.label}
                     </Link>
                   ))}
-                </div>
+                </div> */}
 
                 {/* Mobile Contact Info */}
                 {/* <div className="mt-6 pt-4 border-t space-y-3">
