@@ -81,7 +81,7 @@ const codDescription = (
 );
 
 const PayOpsPage = () => {
-  const [selected, setSelected] = useState("IPS");
+  const [selected, setSelected] = useState("C");
   const [shipping, setShipping] = useState(50);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const selectedShippingAddress = useCartStore(
@@ -152,7 +152,7 @@ const itemsWithVat = selectedItems.map((item) => ({
     useEffect(() => {
       if (subtotal >= currentThreshold) {
         
-        setisFreeShipping(true);
+        setisFreeShipping(false);
         // setShipping(0);
         console.log("current threshold : ", currentThreshold);
       }else{
@@ -161,7 +161,8 @@ const itemsWithVat = selectedItems.map((item) => ({
     }, [subtotal, currentThreshold]);
   
     // const total = subtotal + totalVatAmount + shipping;
-    const total = subtotal  + (subtotal >= currentThreshold ? 0 : shipping);
+    const total = subtotal  + (isFreeShipping ? 0 : shipping);
+    // const total = subtotal  + ( shipping);
   
 
   const handleConfirmOrder = async () => {
@@ -178,7 +179,7 @@ const itemsWithVat = selectedItems.map((item) => ({
       };
       console.log("orderData", orderData);
       const result = await handleOrder(orderData);
-      console.log("result", result);
+      console.log("result from order create", result);
 
       if (result && result.success) {
         // Add order to local store
@@ -210,48 +211,80 @@ const itemsWithVat = selectedItems.map((item) => ({
   const handleOrderWallet = async ( amount,
   remarks,
   particulars) => {
-    const transactionDetails = {
-    MERCHANTID,
-    APPID,
-    APPNAME,
-    TXNID: `Tx${generateUniqueId()}`,
-    TXNDATE: getDate(),
-    TXNCRNCY: 'NPR',
-    TXNAMT: amount,
-    REFERENCEID: `Re${generateUniqueId()}`,
-    REMARKS: remarks,
-    PARTICULARS: particulars,
-    TOKEN: 'TOKEN',
-
-  };
+    
   try {
-    const tokenResponse = await fetch('/connectips/get_token', {
-      method: 'POST',
-      body: JSON.stringify(transactionDetails),
-    });
+    const transId = `Tx${generateUniqueId()}`;
+    const refId = `Rf${generateUniqueId()}`
 
-    if (!tokenResponse.ok) {
-      throw new Error('Failed to get payment token');
-    }
+     const orderData = {
+        payment_method: selected,
+        billing_address: selectedBillingAddress.id,
+        shipping_address: selectedShippingAddress.id,
+        invoice_email: email,
+        subtotal: subtotal,
+        grandtotal: total,
+        shipping: shipping,
+        selected_items: selectedItems.map((item) => item.id),
+        transaction_id : transId
+      };
+      console.log("orderData in ips", orderData);
+      const result = await handleOrder(orderData);
+      console.log("result in ips", result);
+        if( result && result.success){
+           addOrder({
+              items: selectedItems,
+              address: selectedShippingAddress,
+              paymentMethod: selected,
+              total,
+              date: new Date().toISOString(),
+            });
 
-    const { TOKEN } = await tokenResponse.json();
+                // Clear selected items from cart
+              useCartStore.getState().setSelectedItems([]); 
 
-    const payload = { ...transactionDetails, TOKEN };
+          const transactionDetails = {
+                MERCHANTID,
+                APPID,
+                APPNAME,
+                TXNID: transId,
+                TXNDATE: getDate(),
+                TXNCRNCY: 'NPR',
+                TXNAMT: total*100,                                 
+                REFERENCEID: refId,
+                REMARKS: remarks,
+                PARTICULARS: result.order_id,
+                TOKEN: 'TOKEN',
 
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = CONNECTIPS_API_URL;
+              };
 
-    Object.entries(payload).forEach(([key, value]) => {
-      const hiddenField = document.createElement('input');
-      hiddenField.type = 'hidden';
-      hiddenField.name = key;
-      hiddenField.value = value;
-      form.appendChild(hiddenField);
-    });
+          const tokenResponse = await fetch('/connectips/get_token', {
+            method: 'POST',
+            body: JSON.stringify(transactionDetails),
+          });
 
-    document.body.appendChild(form);
-    form.submit();
+          if (!tokenResponse.ok) {
+            throw new Error('Failed to get payment token');
+          }
+
+          const { TOKEN } = await tokenResponse.json();
+
+          const payload = { ...transactionDetails, TOKEN };
+
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = CONNECTIPS_API_URL;
+
+          Object.entries(payload).forEach(([key, value]) => {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = key;
+            hiddenField.value = value;
+            form.appendChild(hiddenField);
+          });
+
+          document.body.appendChild(form);
+          form.submit();
+        }
   } catch (error) {
     console.error('ConnectIPS Initiate payment error:', error);
   }

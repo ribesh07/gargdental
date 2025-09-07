@@ -194,7 +194,7 @@ export default function OrderSummary() {
   useEffect(() => {
     if (subtotal >= currentThreshold) {
 
-      setisFreeShipping(true);
+      setisFreeShipping(false);
       // setShipping(0);
       console.log("current threshold : ", currentThreshold);
     } else {
@@ -203,7 +203,7 @@ export default function OrderSummary() {
   }, [subtotal, currentThreshold]);
 
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
+  const total = subtotal + (isFreeShipping ? 0 : shipping);
 
 
   return (

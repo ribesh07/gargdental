@@ -80,7 +80,7 @@ const PayWithConnectIPS = ({
     TXNDATE: getDate(),
     TXNCRNCY: 'NPR',
     TXNAMT: amount as unknown as string,
-    REFERENCEID: `Re${generateUniqueId()}`,
+    REFERENCEID: `${generateUniqueId()}`,
     REMARKS: remarks,
     PARTICULARS: particulars,
     TOKEN: 'TOKEN',
