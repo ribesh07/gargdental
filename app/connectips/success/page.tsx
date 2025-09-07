@@ -114,7 +114,7 @@ const validateConnectIPSTransaction = async (refId: string) => {
           <div className="px-8 py-6">
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="flex justify-between items-center py-2 gap-2 border-b border-gray-200 last:border-b-0">
-                <span className="text-gray-600 font-medium">Transaction ID </span>
+                <span className="text-gray-600 font-medium py-2">Transaction ID </span>
                 <span className="text-gray-900 font-mono text-sm bg-gray-200 px-2 py-1 rounded">{TXNID}</span>
               </div>
              

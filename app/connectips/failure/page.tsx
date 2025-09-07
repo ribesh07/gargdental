@@ -1,11 +1,23 @@
+"use client"
 import Link from 'next/link';
+import { Suspense } from "react";
 
-const FailurePage = ({
-  searchParams,
-}: {
-  searchParams: { TXNID?: string };
+import { useSearchParams } from 'next/navigation';
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FailurePage />
+    </Suspense>
+  );
+}
+
+export const FailurePage = ({
+  
 }) => {
-  const TXNID = searchParams.TXNID;
+ 
+   const searchParams = useSearchParams();
+   const TXNID = searchParams.get('TXNID') || null;
 
   return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center p-4">
@@ -26,8 +38,8 @@ const FailurePage = ({
           {/* Error Content */}
           <div className="px-8 py-6">
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
-              <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                <span className="text-gray-600 font-medium">Transaction ID</span>
+              <div className="flex justify-between items-center py-2 gap-2 border-b border-gray-200">
+                <span className="text-gray-600 font-medium py-2">Transaction ID</span>
                 <span className="text-gray-900 font-mono text-sm bg-gray-200 px-2 py-1 rounded">{TXNID}</span>
               </div>
               <div className="flex justify-between items-start py-2">
@@ -60,4 +72,4 @@ const FailurePage = ({
     );
 };
 
-export default FailurePage;
+// export default FailurePage;
