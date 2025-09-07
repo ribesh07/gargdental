@@ -9,15 +9,18 @@ import { handleOrderBuyNow } from "@/utils/apiHelper";
 import toast from "react-hot-toast";
 import { useFreeShippingStore } from "@/stores/ShippingThreshold";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
+import { CONNECTIPS_BASE_URL , CONNECTIPS_API_URL , APPNAME ,APPID ,MERCHANTID } from "@/utils/config"
+import { generateUniqueId  } from '@/utils/payments/generateUniqueId'
+import { getDate  } from '@/utils/payments/getDate'
 
 const paymentMethods = [
-  {
-    id: "E",
-    label: "eSewa Mobile Wallet",
+    {
+    id: "IPS",
+    label: "Nepal Pay",
     icon: (
       <img
-        src="https://cdn.esewa.com.np/ui/images/esewa_og.png?111"
-        alt="eSewa"
+        src="/connectIPS.png"
+        alt="IPS"
         className="h-10 mx-auto"
       />
     ), // You can use a local asset if you want
@@ -29,21 +32,37 @@ const paymentMethods = [
   },
 ];
 
-const esewaDescription = (
+// const esewaDescription = (
+//   <div className="mt-6 text-gray-700 text-sm">
+//     <p className="mb-2">
+//       You will be redirected to your eSewa account to complete your payment:
+//     </p>
+//     <ol className="list-decimal ml-5 mb-2">
+//       <li>Login to your eSewa account using your eSewa ID and Password.</li>
+//       <li>Ensure your eSewa account is active and has sufficient balance.</li>
+//       <li>
+//         Enter OTP (one-time password) sent to your registered mobile number.
+//       </li>
+//     </ol>
+//     <p className="font-bold text-gray-800 mb-2">
+//       ***Login with your eSewa mobile and PASSWORD (not MPin)***
+//     </p>
+//   </div>
+// );
+
+const connectIPSDescprition = (
   <div className="mt-6 text-gray-700 text-sm">
     <p className="mb-2">
-      You will be redirected to your eSewa account to complete your payment:
+      You will be redirected to ConnnectIPS Page to complete your payment:
     </p>
     <ol className="list-decimal ml-5 mb-2">
-      <li>Login to your eSewa account using your eSewa ID and Password.</li>
-      <li>Ensure your eSewa account is active and has sufficient balance.</li>
+      <li>Login to your connectIPS account using your ID and Password.</li>
+      <li>Ensure your account is active and has sufficient balance.</li>
       <li>
         Enter OTP (one-time password) sent to your registered mobile number.
       </li>
     </ol>
-    <p className="font-bold text-gray-800 mb-2">
-      ***Login with your eSewa mobile and PASSWORD (not MPin)***
-    </p>
+   
   </div>
 );
 
@@ -63,7 +82,7 @@ const codDescription = (
 );
 
 const PayOpsPageBuyNow = () => {
-  const [selected, setSelected] = useState("E");
+  const [selected, setSelected] = useState("IPS");
   const [isProcessing, setIsProcessing] = useState(false);
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const [shipping, setShipping] = useState(50);
@@ -77,12 +96,12 @@ const PayOpsPageBuyNow = () => {
 
   const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
 
-  console.log("selectedShippingAddress", selectedShippingAddress);
-  console.log("selectedBillingAddress", selectedBillingAddress);
+  // console.log("selectedShippingAddress", selectedShippingAddress);
+  // console.log("selectedBillingAddress", selectedBillingAddress);
   const email = useCartStore((state) => state.email);
   const addOrder = useCartStore((state) => state.addOrder);
   const router = useRouter();
-  console.log("email", email);
+  // console.log("email", email);
 
   // Calculate totals from selected items
   // const subtotal = selectedItems.reduce(
@@ -177,6 +196,77 @@ const PayOpsPageBuyNow = () => {
     }, 400);
   };
 
+
+  const handleConfirmOrderIPS = async () =>{
+    const transId = `Tx${generateUniqueId()}`;
+    const refId = `Rf${generateUniqueId()}`
+    const orderData = {
+      payment_method: selected,
+      billing_address: selectedBillingAddress.id,
+      shipping_address: selectedShippingAddress.id,
+      invoice_email: email,
+      transaction_id : transId,
+      buy_now_item: {
+        product_code: selectedItems[0].product_code,
+        quantity: selectedItems[0].quantity,
+      }
+    };
+    console.log("orderData", orderData);
+    const result = await handleOrderBuyNow(orderData);
+    addOrder({
+        items: selectedItems,
+        address: selectedShippingAddress,
+        paymentMethod: selected,
+        total,
+        date: new Date().toISOString(),
+      });
+
+        const transactionDetails = {
+              MERCHANTID,
+              APPID,
+              APPNAME,
+              TXNID: transId,
+              TXNDATE: getDate(),
+              TXNCRNCY: 'NPR',
+              TXNAMT: total*100,                                 
+              REFERENCEID: refId,
+              REMARKS:   "Garg dental Services !",
+              PARTICULARS: result.order_id,
+              TOKEN: 'TOKEN',
+
+            };
+
+        const tokenResponse = await fetch('/connectips/get_token', {
+          method: 'POST',
+          body: JSON.stringify(transactionDetails),
+        });
+
+          if (!tokenResponse.ok) {
+                    throw new Error('Failed to get payment token');
+                  }
+        
+          const { TOKEN } = await tokenResponse.json();
+
+          const payload = { ...transactionDetails, TOKEN };
+
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = CONNECTIPS_API_URL;
+
+          Object.entries(payload).forEach(([key, value]) => {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = key;
+            hiddenField.value = value;
+            form.appendChild(hiddenField);
+          });
+
+          document.body.appendChild(form);
+          // form.submit();
+
+
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-2 sm:px-6 flex flex-col items-center">
       <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-900 mb-8 uppercase">
@@ -205,16 +295,16 @@ const PayOpsPageBuyNow = () => {
           </div>
 
           {/* Description and Button */}
-          {selected === "E" && (
+          {selected === "IPS" && (
             <>
-              {esewaDescription}
+              {connectIPSDescprition}
               <button
                 disabled={isProcessing}
                 className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${isProcessing
                     ? "bg-green-500 text-white cursor-not-allowed"
                     : "bg-blue-500 text-white hover:bg-gray-50-300"
                   }`}
-                onClick={() => toast.error("Under Development !")}
+                onClick={() => handleConfirmOrderIPS()}
               >
                 Pay Now
               </button>
