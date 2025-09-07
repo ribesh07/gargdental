@@ -1,11 +1,21 @@
-import Link from "next/link";
+"use client"
 
-const FailurePage = ({
-  searchParams,
-}: {
-  searchParams: { TXNID?: string };
-}) => {
-  const TXNID = searchParams.TXNID;
+import Link from "next/link";
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FailurePage />
+    </Suspense>
+  );
+}
+
+const FailurePage = () => {
+  const searchParams = useSearchParams();
+  const TXNID = searchParams.get("TXNID") || null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center p-4">
@@ -96,4 +106,3 @@ const FailurePage = ({
   );
 };
 
-export default FailurePage;
