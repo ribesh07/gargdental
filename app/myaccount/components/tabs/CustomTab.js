@@ -455,9 +455,24 @@ export default function CustomTab({ status }) {
 
                     {/* Order Summary */}
                     <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-green-50 rounded-lg border border-green-200">
-                      <h4 className="font-semibold text-green-900 mb-2 sm:mb-3 text-sm sm:text-base">
-                        Order Summary:
-                      </h4>
+                      <div className="flex items-center justify-between mb-2 sm:mb-3">
+                        <h4 className="font-semibold text-green-900 text-sm sm:text-base">
+                          Order Summary:
+                        </h4>
+                        { order.payment_status === 'paid' ? 
+
+                        <span className="text-sm sm:text-base font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                          PAID
+                        </span>
+                        :
+                        <span className="text-sm sm:text-base font-medium 
+                          px-3 py-1 rounded-full
+                          bg-red-100 text-red-600">
+                          Unpaid
+                        </span>
+                      }
+                      </div>
+
                       <div className="space-y-1 sm:space-y-2">
                         <div className="flex justify-between text-xs sm:text-sm">
                           <span className="text-green-700 font-medium">
