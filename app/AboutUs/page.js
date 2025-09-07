@@ -67,6 +67,7 @@ export default function AboutUsPage() {
   }
 
   return (
+    <>
     <div className="max-w-7xl mx-auto min-h-screen bg-gray-50">
       {/* Video Section (if present) */}
       {aboutData.introduction_video_url && (
@@ -340,10 +341,12 @@ export default function AboutUsPage() {
             </div>
           </div>
         </div>
+      
       </div>
-
-      {/* Team Section */}
-      <TeamSection />
+    
     </div>
+     {/* Team Section */}
+      <TeamSection />
+    </>
   );
 }
