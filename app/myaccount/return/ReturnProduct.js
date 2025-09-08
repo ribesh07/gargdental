@@ -28,6 +28,7 @@ export default function ReturnProduct() {
     reason_description: "",
     images: [],
   });
+  const [data , setData ] = useState([]);
 
   //   const selectedItems = useCartStore((state) => state.selectedItems);
   const router = useRouter();
@@ -108,8 +109,9 @@ export default function ReturnProduct() {
 
       const data = await response.json();
       console.log("API response:", data);
-
+      
       if (data.success) {
+        setData(data);
         toast.success("Return request submitted!");
         setStep(2); // show renderStep2 instead of redirect
       } else {
@@ -290,7 +292,7 @@ export default function ReturnProduct() {
         </p>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-800">
-            <strong>ORDER ID: #</strong> {order_id}
+            <strong>RETURN ID: #</strong> {data.return_id}
           </p>
           <p className="text-sm text-blue-800 mt-1">
             You'll receive an email with return instructions and a prepaid
