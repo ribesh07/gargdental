@@ -317,7 +317,7 @@ const renderCategoryOptions = (categories, level = 0) => {
             <span className="text-gray-600 text-sm sm:text-base">
               Showing dental supplies and equipment
             </span>
-            <div className="flex items-center w-full sm:w-auto">
+            {/* <div className="flex items-center w-full sm:w-auto">
               <span className="mr-2 m-1 text-sm">Sort by :</span>
               <select
                 value={sortBy}
@@ -329,7 +329,7 @@ const renderCategoryOptions = (categories, level = 0) => {
                 <option>Price: High to Low</option>
                 <option>Name: A to Z</option>
               </select>
-            </div>
+            </div> */}
           </div>
         </div>
 

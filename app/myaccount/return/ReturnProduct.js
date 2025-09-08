@@ -8,7 +8,7 @@ import {
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
-import { baseUrl } from "@/utils/config"
+import { baseUrl } from "@/utils/config";
 import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -72,58 +72,56 @@ export default function ReturnProduct() {
       [name]: name === "reason_id" ? Number(value) : value,
     }));
   };
-  
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!formData.reason_id) {
-    toast.error("Please select a reason");
-    return;
-  }
-
-  if (!formData.reason_description.trim()) {
-    toast.error("Please enter a description");
-    return;
-  }
-
-  try {
-    setIsSubmitting(true);
-
-    const fd = new FormData();
-    fd.append("order_id", formData.order_id);
-    fd.append("reason_id", formData.reason_id.toString());
-    fd.append("reason_description", formData.reason_description);
-
-    formData.images.forEach((imgObj, index) => {
-      fd.append("images[]", imgObj.file || imgObj); // safer: works for both {file} and File
-    });
-      console.log("fd data :",fd)
-    const response = await fetch(`${baseUrl}/customer/order/return`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      
-      },
-      body: fd,
-    });
-
-    const data = await response.json();
-    console.log("API response:", data);
-
-    if (data.success) {
-      toast.success("Return request submitted!");
-      router.push("/myaccount");
-    } else {
-      toast.error(data.message || "Something went wrong");
+    if (!formData.reason_id) {
+      toast.error("Please select a reason");
+      return;
     }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    toast.error("Failed to submit request");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
 
+    if (!formData.reason_description.trim()) {
+      toast.error("Please enter a description");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const fd = new FormData();
+      fd.append("order_id", formData.order_id);
+      fd.append("reason_id", formData.reason_id.toString());
+      fd.append("reason_description", formData.reason_description);
+
+      formData.images.forEach((imgObj, index) => {
+        fd.append("images[]", imgObj.file || imgObj); // safer: works for both {file} and File
+      });
+      console.log("fd data :", fd);
+      const response = await fetch(`${baseUrl}/customer/order/return`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: fd,
+      });
+
+      const data = await response.json();
+      console.log("API response:", data);
+
+      if (data.success) {
+        toast.success("Return request submitted!");
+        setStep(2); // show renderStep2 instead of redirect
+      } else {
+        toast.error(data.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to submit request");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -141,9 +139,7 @@ export default function ReturnProduct() {
   const removeFile = (indexToRemove) => {
     setFormData((prevData) => ({
       ...prevData,
-      images: prevData.images.filter(
-        (_, index) => index !== indexToRemove
-      ),
+      images: prevData.images.filter((_, index) => index !== indexToRemove),
     }));
   };
 
