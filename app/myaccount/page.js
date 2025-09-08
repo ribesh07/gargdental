@@ -25,7 +25,7 @@ import AddressBook from "./components/AddressBook";
 import MyOrders from "./components/MyOrders";
 import MyWishlist from "./components/MyWishlist";
 import MyReviews from "./components/MyReview";
-
+import Returnlist from "@/app/Return-list/Returnlist";
 import Complains from "./components/Complains";
 import { getWishlist } from "@/utils/apiHelper";
 
@@ -65,6 +65,7 @@ const AccountPage = () => {
     { key: "address", label: "Address Book", icon: MapPin },
     { key: "orders", label: "My Orders", icon: List },
     { key: "wishlist", label: "My Wishlist", icon: Heart },
+    { key: "returnlist", label: "Return List", icon: RotateCcw },
     { key: "reviews", label: "My Reviews", icon: MessageSquare },
     { key: "complaint", label: "Complaint", icon: RotateCcw },
   ];
@@ -406,6 +407,7 @@ const AccountPage = () => {
           )}
           {activeTab === "orders" && <MyOrders />}
           {activeTab === "wishlist" && <MyWishlist />}
+          {activeTab === "returnlist" && <Returnlist/>}
           {activeTab === "reviews" && <MyReviews />}
           {activeTab === "complaint" && <Complains />}
         </main>
