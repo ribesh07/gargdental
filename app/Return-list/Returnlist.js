@@ -46,7 +46,6 @@ export default function DynamicReturnStatus() {
   ];
 
   useEffect(() => {
-    // Simulate API call
     setTimeout(() => {
       setReturnItems(mockReturnData);
       setLoading(false);
@@ -63,7 +62,6 @@ export default function DynamicReturnStatus() {
           disabled: true,
           onClick: null,
         };
-
       case "approved":
         return {
           text: "Download Label",
@@ -73,8 +71,8 @@ export default function DynamicReturnStatus() {
           onClick: () =>
             alert(`Downloading return label for ${item.returnNumber}`),
         };
-
       case "label_sent":
+      case "in_transit":
         return {
           text: "Track Package",
           className: "bg-purple-600 hover:bg-purple-700 text-white",
@@ -82,16 +80,6 @@ export default function DynamicReturnStatus() {
           disabled: false,
           onClick: () => alert(`Tracking ${item.trackingNumber}`),
         };
-
-      case "in_transit":
-        return {
-          text: "Track Package",
-          className: "bg-blue-500 hover:bg-blue-600 text-white",
-          icon: <Truck className="w-4 h-4" />,
-          disabled: false,
-          onClick: () => alert(`Tracking ${item.trackingNumber}`),
-        };
-
       case "received":
         return {
           text: "Under Inspection",
@@ -100,7 +88,6 @@ export default function DynamicReturnStatus() {
           disabled: true,
           onClick: null,
         };
-
       case "rejected":
         return {
           text: "Return Rejected",
@@ -109,7 +96,6 @@ export default function DynamicReturnStatus() {
           disabled: true,
           onClick: null,
         };
-
       case "refunded":
         return {
           text: "Refund Complete",
@@ -118,7 +104,6 @@ export default function DynamicReturnStatus() {
           disabled: true,
           onClick: null,
         };
-
       case "escalated":
         return {
           text: "Contact Support",
@@ -127,7 +112,6 @@ export default function DynamicReturnStatus() {
           disabled: false,
           onClick: () => alert(`Contacting support for ${item.returnNumber}`),
         };
-
       default:
         return {
           text: "View Details",
@@ -165,7 +149,6 @@ export default function DynamicReturnStatus() {
         className: "bg-indigo-100 text-indigo-800",
       },
     };
-
     const badge = badges[item.status] || badges.pending_approval;
     return (
       <span
@@ -215,8 +198,12 @@ export default function DynamicReturnStatus() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Title */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-blue-900 mb-2">MY RETURNS</h2>
-          <p className="text-gray-600">Track and manage your return requests</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">
+            MY RETURNS
+          </h2>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Track and manage your return requests
+          </p>
         </div>
 
         {/* Return Items */}
@@ -224,10 +211,10 @@ export default function DynamicReturnStatus() {
           {returnItems.length === 0 ? (
             <div className="text-center py-12">
               <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-medium text-gray-600 mb-2">
+              <h3 className="text-lg sm:text-xl font-medium text-gray-600 mb-2">
                 No returns found
               </h3>
-              <p className="text-gray-500">
+              <p className="text-gray-500 text-sm sm:text-base">
                 You haven't initiated any returns yet
               </p>
             </div>
@@ -239,31 +226,30 @@ export default function DynamicReturnStatus() {
               return (
                 <div
                   key={item.id}
-                  className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+                  className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    {/* Left Section: Image + Info */}
+                    <div className="flex flex-col sm:flex-row items-start gap-4 w-full">
                       {/* Product Image */}
-                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center self-center sm:self-start">
                         <div className="text-2xl">🦷</div>
                       </div>
 
                       {/* Product Info */}
                       <div className="flex-1">
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="text-lg font-semibold text-gray-800 leading-tight">
-                            {item.productName}
-                          </h3>
-                        </div>
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-800 leading-tight mb-1">
+                          {item.productName}
+                        </h3>
 
-                        <div className="flex items-center space-x-3 mb-2">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className="text-sm text-gray-600">
                             Brand: {item.brand}
                           </span>
                           {getStatusBadge(item)}
                         </div>
 
-                        <div className="text-sm text-gray-600 mb-2">
+                        <div className="text-xs sm:text-sm text-gray-600 mb-2 space-y-1">
                           <div>
                             Return #:{" "}
                             <span className="font-medium">
@@ -284,12 +270,12 @@ export default function DynamicReturnStatus() {
                           </div>
                         </div>
 
-                        <div className="text-xl font-bold text-green-600 mb-2">
+                        <div className="text-lg sm:text-xl font-bold text-green-600 mb-2">
                           {item.returnAmount}
                         </div>
 
                         {additionalInfo && (
-                          <div className="text-sm text-gray-600 mb-3">
+                          <div className="text-xs sm:text-sm text-gray-600 mb-3">
                             {additionalInfo}
                           </div>
                         )}
@@ -297,11 +283,11 @@ export default function DynamicReturnStatus() {
                     </div>
 
                     {/* Action Button */}
-                    <div className="ml-6 flex-shrink-0">
+                    <div className="sm:ml-6 flex-shrink-0 w-full sm:w-auto">
                       <button
                         onClick={buttonConfig.onClick}
                         disabled={buttonConfig.disabled}
-                        className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-colors ${buttonConfig.className}`}
+                        className={`flex justify-center sm:justify-start items-center space-x-2 w-full sm:w-auto px-4 py-2 rounded-lg font-medium transition-colors ${buttonConfig.className}`}
                       >
                         {buttonConfig.icon}
                         <span>{buttonConfig.text}</span>
