@@ -93,7 +93,7 @@ export default async function ProductPage({ params }) {
   params = await params;
   console.log("Server-side params:", params.code);
   console.info("Data fetch started");
-  console.warn(`(Link) : ${baseUrl}/products/details/${params.code}`);
+  // console.warn(`(Link) : ${baseUrl}/products/details/${params.code}`);
 
   // 1const quantity = useQuantityStore((state) => state.quantity);
   // console.log("quantity", quantity);

@@ -48,19 +48,18 @@ export default function ReviewPage({
   };
 
   const handlePhotoUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const photoPromises = files.map((file) => {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
-        reader.readAsDataURL(file);
-      });
-    });
+  const files = Array.from(e.target.files);
 
-    Promise.all(photoPromises).then((photos) => {
-      setSelectedPhotos(photos);
-    });
-  };
+  files.forEach((file) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result; // base64 string
+      setSelectedPhotos((prev) => [...prev, base64String]); // append to existing array
+    };
+    reader.readAsDataURL(file);
+  });
+};
+
 
   const submitReview = async () => {
     if (currentRating === 0) {
@@ -81,15 +80,27 @@ export default function ReviewPage({
       console.log("reviewText", reviewText);
       console.log("productId", productId);
       console.log("orderNumber", orderNumber);
+      // const response = await apiRequest(`/customer/reviews/add`, true, {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     rating: currentRating,
+      //     review_detail: reviewText,
+      //     product_code: productId,
+      //     order_id: orderNumber.toString(),
+      //     image_path : selectedPhotos
+      //   }),
+      //   // photos: selectedPhotos,
+      // });
+
       const response = await apiRequest(`/customer/reviews/add`, true, {
         method: "POST",
         body: JSON.stringify({
           rating: currentRating,
           review_detail: reviewText,
           product_code: productId,
-          order_id: orderNumber,
+          order_id: orderNumber.toString(),
+          image_path: selectedPhotos[0] || "", 
         }),
-        // photos: selectedPhotos,
       });
 
       // const response = await apiRequest("/customer/reviews/add", true, {
@@ -213,15 +224,29 @@ export default function ReviewPage({
                 {selectedPhotos.length > 0 && (
                   <div className="flex gap-2 mt-3 flex-wrap">
                     {selectedPhotos.map((photo, index) => (
-                      <img
-                        key={index}
-                        src={photo}
-                        alt={`Preview ${index + 1}`}
-                        className="w-12 h-12 rounded-lg object-cover border-2 border-blue-100"
-                      />
+                      <div key={index} className="relative w-12 h-12">
+                        <img
+                          src={photo}
+                          alt={`Preview ${index + 1}`}
+                          className="w-12 h-12 rounded-lg object-cover border-2 border-blue-100"
+                        />
+                        {/* Remove button */}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSelectedPhotos((prev) =>
+                              prev.filter((_, i) => i !== index)
+                            )
+                          }
+                          className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shadow-lg hover:bg-red-700 transition-colors"
+                        >
+                          ×
+                        </button>
+                      </div>
                     ))}
                   </div>
                 )}
+
               </div>
 
               {/* Submit Button */}
