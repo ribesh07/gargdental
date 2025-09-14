@@ -86,7 +86,7 @@ const Complains = () => {
   return (
     <div>
       <div className="max-w-6xl mx-auto py-10 px-4 flex flex-col items-center mt-2">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8">
+        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8 text-blue-900">
           Customer Grievance Form
         </h2>
         <div className="mx-auto">

@@ -8,6 +8,7 @@ import {
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
+import { baseUrl } from "@/utils/config";
 import useCartStore from "@/stores/useCartStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,8 +26,9 @@ export default function ReturnProduct() {
     order_id: "",
     reason_id: "",
     reason_description: "",
-    returnFiles: [],
+    images: [],
   });
+  const [data , setData ] = useState([]);
 
   //   const selectedItems = useCartStore((state) => state.selectedItems);
   const router = useRouter();
@@ -74,6 +76,7 @@ export default function ReturnProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.reason_id) {
       toast.error("Please select a reason");
       return;
@@ -84,55 +87,44 @@ export default function ReturnProduct() {
       return;
     }
 
-    console.log(
-      "Form data:",
-      formData.order_id,
-      formData.reason_id,
-      formData.reason_description
-    );
     try {
       setIsSubmitting(true);
-      const response = await apiRequest(`/customer/order/return`, true, {
-        method: "POST",
-        body: JSON.stringify({
-          order_id: formData.order_id,
-          reason_id: formData.reason_id,
-          reason_description: formData.reason_description,
-        }),
+
+      const fd = new FormData();
+      fd.append("order_id", formData.order_id);
+      fd.append("reason_id", formData.reason_id.toString());
+      fd.append("reason_description", formData.reason_description);
+
+      formData.images.forEach((imgObj, index) => {
+        fd.append("images[]", imgObj.file || imgObj); // safer: works for both {file} and File
       });
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Response:", response);
-      if (response.success) {
-        toast.success(response.message);
-        setIsSubmitting(false);
-        setFormData({
-          order_id: "",
-          reason_id: "",
-          reason_description: "",
-          returnFiles: [],
-        });
-        setStep(2);
+      console.log("fd data :", fd);
+      const response = await fetch(`${baseUrl}/customer/order/return`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: fd,
+      });
+
+      const data = await response.json();
+      console.log("API response:", data);
+      
+      if (data.success) {
+        setData(data);
+        toast.success("Return request submitted!");
+        setStep(2); // show renderStep2 instead of redirect
       } else {
-        toast.error(
-          response.message || "Failed to return product , Try again later !"
-        );
-        setIsSubmitting(false);
+        toast.error(data.message || "Something went wrong");
       }
     } catch (error) {
-      console.log(error);
-      //   toast.error(error.message);
+      console.error("Error submitting form:", error);
+      toast.error("Failed to submit request");
     } finally {
-      setFormData({
-        order_id: "",
-        reason_id: "",
-        reason_description: "",
-        returnFiles: [],
-      });
       setIsSubmitting(false);
     }
-
-    // Reset form data
   };
+
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     const previewFiles = files.map((file) => ({
@@ -142,16 +134,14 @@ export default function ReturnProduct() {
 
     setFormData((prev) => ({
       ...prev,
-      returnFiles: previewFiles,
+      images: previewFiles,
     }));
   };
 
   const removeFile = (indexToRemove) => {
     setFormData((prevData) => ({
       ...prevData,
-      returnFiles: prevData.returnFiles.filter(
-        (_, index) => index !== indexToRemove
-      ),
+      images: prevData.images.filter((_, index) => index !== indexToRemove),
     }));
   };
 
@@ -228,7 +218,7 @@ export default function ReturnProduct() {
               Attach File
               <input
                 type="file"
-                name="returnFiles"
+                name="images"
                 accept="image/*,video/*"
                 multiple
                 onChange={handleFileChange}
@@ -241,9 +231,9 @@ export default function ReturnProduct() {
           </div>
 
           {/* Previews */}
-          {formData.returnFiles?.length > 0 && (
+          {formData.images?.length > 0 && (
             <div className="mt-4 grid grid-cols-3 gap-4">
-              {formData.returnFiles.map(({ file, previewUrl }, index) => (
+              {formData.images.map(({ file, previewUrl }, index) => (
                 <div key={index} className="relative group">
                   {/* ❌ Remove button */}
                   <button
@@ -302,7 +292,7 @@ export default function ReturnProduct() {
         </p>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-800">
-            <strong>ORDER ID: #</strong> {order_id}
+            <strong>RETURN ID: #</strong> {data.return_id}
           </p>
           <p className="text-sm text-blue-800 mt-1">
             You'll receive an email with return instructions and a prepaid

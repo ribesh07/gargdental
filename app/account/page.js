@@ -52,7 +52,7 @@ export default function AuthPage() {
     setIsLoading(true);
 
     try {
-      console.log("Base URL:", baseUrl);
+      // console.log("Base URL:", baseUrl);
 
       const response = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
