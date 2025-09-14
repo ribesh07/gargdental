@@ -57,59 +57,70 @@ export default function MyReturns() {
   };
 
   return (
-  <>
-    {loading ? (
-      <FullScreenLoader />
-    ) : (
-      <div className="w-full flex flex-col items-center px-4 py-6">
-        <h2 className="text-2xl font-bold text-blue-900 mb-6">MY RETURNS</h2>
+    <>
+      {loading ? (
+        <FullScreenLoader />
+      ) : (
+        <div className="w-full flex flex-col items-center px-4 py-6">
+          <h2 className="text-2xl font-bold text-blue-900 mb-6">MY RETURNS</h2>
 
-        {returns.length === 0 ? (
-          <div className="text-gray-400 text-lg mt-12">No return records.</div>
-        ) : (
-          <div className="w-full flex flex-col items-center overflow-y-scroll h-96 sm:h-148 hide-scrollbar">
-            <div className="w-full max-w-5xl space-y-6">
-              {returns.map((item) => {
-                const statusInfo = mapStatus(item.return_status);
+          {returns.length === 0 ? (
+            <div className="text-gray-400 text-lg mt-12">No return records.</div>
+          ) : (
+            <div className="w-full flex flex-col items-center overflow-y-scroll h-96 sm:h-148 hide-scrollbar">
+              <div className="w-full max-w-5xl space-y-6">
+                {returns.map((item) => {
+                  const statusInfo = mapStatus(item.return_status);
 
-                return (
-                  <div
-                    key={item.id}
-                    className="bg-gray-50 shadow rounded-xl p-4 hover:shadow-md transition"
-                  >
-                    {/* Header Row → Title + Status */}
-                    <div className="flex items-start justify-between w-full">
-                      <h3 className="text-base font-semibold text-gray-800">
-                        Return ID: {item.return_id}
-                      </h3>
-                      <span
-                        className={`text-sm font-semibold ${statusInfo.className}`}
-                      >
-                        {statusInfo.text}
-                      </span>
+                  return (
+                    <div
+                      key={item.id}
+                      className="bg-gray-50 shadow rounded-xl p-4 hover:shadow-md transition"
+                    >
+                      {/* Header Row → Title + Status */}
+                      <div className="flex items-start justify-between w-full">
+                        <h3 className="text-base font-semibold text-gray-800">
+                          Return ID: {item.return_id}
+                        </h3>
+                        <span
+                          className={`text-sm font-semibold ${statusInfo.className}`}
+                        >
+                          {statusInfo.text}
+                        </span>
+                      </div>
+
+                      {/* Details */}
+                      <p className="text-sm text-gray-500 mt-1">
+                        Order ID: {item.order_id}
+                      </p>
+                      <p className="text-sm mt-1 text-gray-700">
+                        Reason: {item.return_description}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Created: {item.created_at.split("T")[0]}
+                      </p>
+
+                      {/* Images */}
+                      {item.image_full_url && item.image_full_url.length > 0 && (
+                        <div className="flex flex-wrap gap-3 mt-4">
+                          {item.image_full_url.map((image, index) => (
+                            <img
+                              key={index}
+                              src={image}
+                              alt={`Return image ${index + 1}`}
+                              className="w-20 h-20 object-cover rounded-lg border"
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
-
-                    {/* Details */}
-                    <p className="text-sm text-gray-500 mt-1">
-                      Order ID: {item.order_id}
-                    </p>
-                    <p className="text-sm mt-1 text-gray-700">
-                      Reason: {item.return_description}
-                    </p>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Created: {item.created_at.split("T")[0]}
-                    </p>
-                    {/* <p className="text-lg font-bold text-green-600 mt-2">
-                      Rs. {item.return_amount}
-                    </p> */}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-    )}
-  </>
-  )
+          )}
+        </div>
+      )}
+    </>
+  );
 }
