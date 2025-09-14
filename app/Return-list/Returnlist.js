@@ -108,7 +108,7 @@ export default function MyReturns() {
                               key={index}
                               src={image}
                               alt={`Return image ${index + 1}`}
-                              className="w-20 h-20 object-cover rounded-lg border"
+                              className="w-20 h-20 object-cover rounded-lg "
                             />
                           ))}
                         </div>
