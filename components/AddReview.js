@@ -99,7 +99,7 @@ export default function ReviewPage({
           review_detail: reviewText,
           product_code: productId,
           order_id: orderNumber.toString(),
-          image_path: selectedPhotos[0] || "", 
+          image_path: selectedPhotos|| "", 
         }),
       });
 
