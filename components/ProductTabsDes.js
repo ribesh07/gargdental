@@ -200,13 +200,13 @@ export default function ProductTabs({ product }) {
               (console.log("product.reviews", product.reviews),
               (
                 <div className="w-full flex flex-col items-center px-4 py-2">
-                  <h2 className="text-[20px] font-semibold text-gray-800">
+                  <h2 className="text-[20px] self-center py-4 font-semibold text-gray-800">
                     {product.reviews.length} Reviews
                   </h2>
                   {product.reviews.length === 0 ? (
                     <div className="text-gray-400 text-lg mt-12">....</div>
                   ) : (
-                    <div className="w-full max-w-5xl h-80 space-y-6 overflow-y-scroll border-2 border-gray-200 rounded-2xl ">
+                    <div className="w-3/3 max-w-5xl h-80 space-y-6 overflow-y-scroll border-2 border-gray-200 rounded-2xl self-start ">
                       {product.reviews?.map((item) => (
                         <div
                           key={item.id}
@@ -232,7 +232,27 @@ export default function ProductTabs({ product }) {
                               <p className="text-sm m-1 text-yellow-600">
                                 {renderStars(parseInt(item.rating))}
                               </p>
-                              <p className="text-sm m-1 text-gray-600">
+                                 {item?.image_full_url && item?.image_full_url.length > 0 && (
+                              <div className="flex gap-2">
+                                {item?.image_full_url.map((image, index) => (
+                                  <div
+                                    key={index}
+                                    className="w-16 h-16 bg-gray-50 m-1 rounded overflow-hidden"
+                                  >
+                                    <img
+                                      src={image}
+                                      alt={
+                                        item?.product?.product_name ||
+                                        `Image ${index + 1}`
+                                      }
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                              
+                              <p className="text-sm  m-1 text-gray-600">
                                 {" "}
                                 Description : {item.review_detail}
                               </p>

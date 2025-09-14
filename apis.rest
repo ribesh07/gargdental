@@ -26,7 +26,7 @@ GET https://gargdental.omsok.com/api/v1/products/all/?limit=5&offset=400 HTTP/1.
 ###Latest product
 GET https://gargdental.omsok.com/api/v1/products/latest
 ### product details
-GET https://gargdental.omsok.com/api/v1/products/details/P00396
+GET https://gargdental.omsok.com/api/v1/products/details/P00296
 
 ###Get details
 GET https://gargdental.omsok.com/api/v1/products/details/P00022
@@ -372,7 +372,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
     "product_code" : "A00004"
 }
 ###return lists
-GET http://192.168.1.189:8080/api/v1/customer/order/return-list
+GET https://gargdental.omsok.com/api/v1/customer/order/return-list
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZjY5ZDEzNGI5OTMxZmQwMTI4ZWJhY2E2ZDdkNGZkM2Q4ZDhjMjUzYzA2OGMwYmIzM2E2M2NkMmE2ZmQyYjRkMTllZDRjODg4OTI2ZDFkODQiLCJpYXQiOjE3NTIyMzMxOTAuMTkxNDE4ODg2MTg0NjkyMzgyODEyNSwibmJmIjoxNzUyMjMzMTkwLjE5MTQyMTk4NTYyNjIyMDcwMzEyNSwiZXhwIjoxNzgzNzY5MTkwLjE4OTU5OTAzNzE3MDQxMDE1NjI1LCJzdWIiOiI0NSIsInNjb3BlcyI6W119.kzxrQuzhkzGtkyM2np2Rojw0LyIdeBJJB9xDMDVoxxfgzMjaTTBRZE-93aKgAtgPFK9ODfXQanJGVQSoCngyKdSdvds6AYWTk3Wrk1zl4D2KyRl-nFA4JlSrpHDsuSknK23m0kLwN1OARNm8l_puuwExtF08a623JcwTJMWypxmtj8Jn8H20LN75lK_vjNELDIUos2Wqu0TnUpXoV__WvBHjBcuowBXtGCuMtnzEBwqSILlgn2Gexg2huonGnNOXUvqX9YTDkv9P3r1MyjK0rGrPgWvJlkmD_BCOuqIwC1ILRBOoo-50p7XbPHffp4YCeN1B3H_O9RaVsEOPjSHic0MVakJwdCYeXKY5SpbitL6pZ-spM04pIE6cWxMa4AVGtRfY7xJK2ygb51SJlzklccujUwsxAeEPFkni5Zcm5Bp44_4FDA-waGkWf0Dw0BueezscHXZcT50bZ-Fo6GIo9YBVCflod5436ZTNprTceXJYyXGnebB1uexj0hiv5zKXkfx4eZRpb3NEf7pYPrhOnml0odMK8elkIFUv6RZUvnytUYclleDlEtrFLfPlWW4d6AE8FJOYCnyMqKEgl-BCAtJv_K6Bt5F9_OKaPFlPazcchPRhs77hWC2TNdse302t3roTxzJkqwCYPYHb2twFB8x4k9qgkLJrjRUUVZ5L5Io
 
