@@ -203,7 +203,7 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
               {categories.map((category) => (
                 <li
                   key={category.id}
-                  className={`border-b border-gray-100 last:border-b-0 transition-all duration-150  ${
+                  className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
                     isSelected(category) 
                       ? 'bg-blue-400 text-white' 
                       : isInSelectedPath(category)
@@ -237,7 +237,7 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
                 {hoveredCategory.children.map((subcategory) => (
                   <li
                     key={subcategory.id}
-                    className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 ${
+                    className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
                       isSelected(subcategory)
                         ? 'bg-green-400 text-white'
                         : isInSelectedPath(subcategory)
@@ -272,7 +272,7 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
                 {hoveredSubcategory.children.map((subSubcategory) => (
                   <li
                     key={subSubcategory.id}
-                    className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 ${
+                    className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
                       isSelected(subSubcategory)
                         ? 'bg-purple-400 text-white'
                         : 'hover:bg-purple-50'

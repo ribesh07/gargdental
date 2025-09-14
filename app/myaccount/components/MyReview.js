@@ -49,6 +49,8 @@ export default function MyReviews() {
           {reviews.length === 0 ? (
             <div className="text-gray-400 text-lg mt-12">No data record.</div>
           ) : (
+            <div className="w-full flex flex-col items-center overflow-y-scroll h-96 sm:h-148 hide-scrollbar">
+
             <div className="w-full max-w-5xl space-y-6">
               {reviews.map((item) => (
                 <div
@@ -85,6 +87,7 @@ export default function MyReviews() {
                   </div>
                 </div>
               ))}
+            </div>
             </div>
           )}
         </div>

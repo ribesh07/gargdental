@@ -10,20 +10,37 @@ const Complains = () => {
     phone: "",
     city: "",
     remarks: "",
-    returnFiles: "",
+    returnFiles: [],
   });
   const [submitting, setSubmitting] = useState(false);
 
+  // const handleFileChange = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   const previewFiles = files.map((file) => ({
+  //     file,
+  //     previewUrl: URL.createObjectURL(file),
+  //   }));
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     returnFiles: [...prev.returnFiles, ...previewFiles],
+  //   }));
+  // };
+
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    const previewFiles = files.map((file) => ({
-      file,
-      previewUrl: URL.createObjectURL(file),
-    }));
-    setFormData((prev) => ({
-      ...prev,
-      returnFiles: [...prev.returnFiles, ...previewFiles],
-    }));
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result; // base64 string
+        // setFormData.returnFiles((prev) => [...prev, base64String]); // append to existing array
+        setFormData((prev) => ({
+          ...prev,
+          returnFiles: [...prev.returnFiles, base64String],
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   const removeFile = (indexToRemove) => {
@@ -60,8 +77,10 @@ const Complains = () => {
       phone: formData.phone,
       city: formData.city,
       remarks: formData.remarks,
+      document: formData.returnFiles,
       // File upload not sent yet
     };
+    console.log("Submitting grievance:", payload);
     const res = await submitGrievance(payload);
     setSubmitting(false);
     if (res.success) {
@@ -195,31 +214,29 @@ const Complains = () => {
               </div>
               {/* Previews */}
               {formData.returnFiles.length > 0 && (
-                <div className="mt-4 grid grid-cols-3 gap-4">
-                  {formData.returnFiles.map(({ file, previewUrl }, index) => (
-                    <div key={index} className="relative group">
+                <div className="flex gap-2 mt-3 flex-wrap">
+                  {formData.returnFiles.map((photo, index) => (
+                    <div key={index} className="relative w-12 h-12">
+                      <img
+                        src={photo}
+                        alt={`Preview`}
+                        className="w-12 h-12 rounded-lg object-cover border-2 border-blue-100"
+                      />
+                      {/* Remove button */}
                       <button
                         type="button"
-                        onClick={() => removeFile(index)}
-                        className="absolute top-1 right-1 bg-gray-50 text-red-500 border border-red-300 rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
-                        title="Remove file"
+                        onClick={() =>
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            returnFiles: prevData.returnFiles.filter(
+                              (_, i) => i !== index
+                            ),
+                          }))
+                        }
+                        className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shadow-lg hover:bg-red-700 transition-colors"
                       >
                         ×
                       </button>
-                      {/* Image or Video Preview */}
-                      {file.type.startsWith("image/") ? (
-                        <img
-                          src={previewUrl}
-                          alt={`preview-${index}`}
-                          className="w-full h-24 object-cover rounded-md border border-gray-300"
-                        />
-                      ) : file.type.startsWith("video/") ? (
-                        <video
-                          src={previewUrl}
-                          controls
-                          className="w-full h-24 object-cover rounded-md border border-gray-300"
-                        />
-                      ) : null}
                     </div>
                   ))}
                 </div>
