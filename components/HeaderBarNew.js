@@ -216,7 +216,7 @@ const HeaderBarNew = () => {
                         router.push("/cart");
                       }
                     }}
-                    className="flex flex-col items-center p-2 text-gray-600 hover:text-red-600 transition-colors cursor-pointer transform hover:scale-105"
+                    className="flex flex-col items-center p-2 mt-4 text-gray-600 hover:text-red-600 transition-colors cursor-pointer transform hover:scale-105"
                   >
                     <div className="bg-red-100 p-2 rounded-lg mb-1 relative">
                       <ShoppingBag className="w-6 h-6 text-red-600" />
