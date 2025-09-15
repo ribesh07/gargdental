@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useFreeShippingStore } from "@/stores/ShippingThreshold";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
 import { useUserStore } from "@/stores/useUserStore";
+import FullScreenLoader from "@/components/FullScreenLoader";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -21,6 +22,13 @@ export default function OrderSummary() {
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
   const [isFreeShipping, setisFreeShipping] = useState(false);
   const [shipping, setShipping] = useState(50);
+  const [currentThreshold , setcurrentThreshold] = useState(0);
+  const [ loading, setLoading ] = useState(false);
+  const [showShipping , setShowShipping] = useState(0);
+     const {
+    getInsideOfValleyThreshold,
+    getOutOfValleyThreshold,
+  } = useFreeShippingStore();
 
     const { addresses, fetchUserData } = useUserStore();
   
@@ -34,7 +42,7 @@ export default function OrderSummary() {
   const { setSelectedShippingAddress, setSelectedBillingAddress } =
     useCartStore();
 
-  const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
+  // const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
   const router = useRouter();
   const setEmail = useCartStore((state) => state.setEmail);
   // Get selected items from Zustand store
@@ -89,6 +97,45 @@ export default function OrderSummary() {
     }
   }, [selectedItems.length]);
 
+   const fetchShippingCost =async () => {
+      setLoading(true);
+      if(!defaultShippingAddress){
+        setLoading(false);
+        return;
+      }
+      try{
+        const checkCost = await apiRequest(
+          '/customer/check-valley',
+        true , {
+        method: "POST",
+        body: JSON.stringify({
+          address_id: defaultShippingAddress?.id,
+        }),
+      }
+        );
+        if(checkCost && checkCost.success){
+          const { inside_valley } = checkCost;
+          if(inside_valley){
+            const threshold = getInsideOfValleyThreshold();
+            setcurrentThreshold(threshold);
+            console.log("Inside of valley threshold:", threshold);
+          }else{
+            const threshold = getOutOfValleyThreshold();
+            setcurrentThreshold(threshold);
+            console.log("Outside of valley threshold:", threshold);
+          }
+        }
+      }catch(error){
+        console.log("Error fetching shipping cost:", error);
+      }finally{
+        setLoading(false);
+      }
+    }
+  
+      useEffect(() => {
+        fetchShippingCost();
+      }, [selectedId]);
+
   const handleProceedToPay = () => {
     if (!defaultBillingAddress) {
       useInfoModalStore.getState().open({
@@ -135,6 +182,7 @@ export default function OrderSummary() {
       console.log("defaultShippingAddress changed:", defaultShippingAddress.city?.shipping_cost);
       const cost = parseFloat(defaultShippingAddress?.city?.shipping_cost);
       setShipping(cost);
+      setShowShipping(cost);
     }
     setSelectedBillingAddress(defaultBillingAddress);
     console.log("defaultShippingAddress", defaultShippingAddress);
@@ -194,8 +242,8 @@ export default function OrderSummary() {
   useEffect(() => {
     if (subtotal >= currentThreshold) {
 
-      setisFreeShipping(false);
-      // setShipping(0);
+      setisFreeShipping(true);
+      setShipping(0);
       console.log("current threshold : ", currentThreshold);
     } else {
       setisFreeShipping(false);
@@ -205,6 +253,11 @@ export default function OrderSummary() {
   // const total = subtotal + totalVatAmount + shipping;
   const total = subtotal + (isFreeShipping ? 0 : shipping);
 
+  if (loading) {
+    return (
+      <FullScreenLoader />
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -480,7 +533,7 @@ export default function OrderSummary() {
                     className={`font-semibold text-gray-800 ${isFreeShipping ? "line-through text-gray-500" : ""
                       }`}
                   >
-                    Rs. {shipping.toFixed(2)}
+                    Rs. {showShipping.toFixed(2)}
                   </span>
                 </div>
                 <hr className="border-gray-200" />

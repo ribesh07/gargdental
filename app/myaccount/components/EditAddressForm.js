@@ -218,6 +218,7 @@ const EditAddressForm = ({
               Local Address / Tole
             </label>
             <input
+              required
               type="text"
               id="address"
               name="address"
