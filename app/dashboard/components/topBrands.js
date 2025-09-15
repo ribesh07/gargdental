@@ -93,44 +93,45 @@ export default function TopBrandPage() {
           </div>
 
           {/* Left Scroll */}
-          <button
-            onClick={scrollLeft}
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
-          >
-            <svg
-              className="w-6 h-6 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
+<button
+  onClick={scrollLeft}
+  className="hidden md:flex absolute top-1/2 left-0 transform -translate-y-1/2  bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer  hover:bg-gray-50 transition duration-200 z-10 "
+>
+  <svg
+    className="w-6 h-6 text-gray-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M15 19l-7-7 7-7"
+    />
+  </svg>
+</button>
 
-          {/* Right Scroll */}
-          <button
-            onClick={scrollRight}
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
-          >
-            <svg
-              className="w-6 h-6 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+{/* Right Scroll */}
+<button
+  onClick={scrollRight}
+  className="hidden md:flex absolute top-1/2 right-0 transform -translate-y-1/2  bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer  hover:bg-gray-50 transition duration-200 z-10"
+>
+  <svg
+    className="w-6 h-6 text-gray-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 5l7 7-7 7"
+    />
+  </svg>
+</button>
+
         </div>
       </div>
 

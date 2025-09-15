@@ -4,9 +4,8 @@
 //  } from "react";
 // import { ChevronDown } from "lucide-react";
 
-
 // const MultiLevelDropdown = ({ categories, onSelect, value }) => {
-//     const [menuOpen, setMenuOpen] = useState(false); 
+//     const [menuOpen, setMenuOpen] = useState(false);
 //   const toggleMenu = () => setMenuOpen(!menuOpen);
 
 //     const dropdownRef = useRef(null);
@@ -25,7 +24,7 @@
 
 //     const DropdownItem = ({ category, onSelect }) => {
 //   const [open, setOpen] = useState(false);
-  
+
 //   const handleSelect = (item) => {
 //     setSelected(item);
 //     if (onSelect) onSelect(item);
@@ -38,7 +37,7 @@
 //       onMouseEnter={() => setOpen(true)}
 //       onMouseLeave={() => setOpen(false)}
 //     >
-     
+
 //       <button
 //         className="py-2 px-2 max-w-[150px] hover:bg-gray-100 w-full text-left break-words whitespace-normal hover:border-l-2 hover:border-blue-500"
 //         onClick={() => {
@@ -84,7 +83,6 @@
 //         )}
 //         </div>
 
-
 //   );
 // };
 
@@ -97,7 +95,7 @@ import { ChevronDown } from "lucide-react";
 const MultiLevelDropdown = ({ categories, onSelect, value }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  
+
   const dropdownRef = useRef(null);
   const [selected, setSelected] = useState(value ?? null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -154,7 +152,7 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
 
   const isInSelectedPath = (category) => {
     if (!selected) return false;
-    
+
     const findPath = (cats, targetId, path = []) => {
       for (let cat of cats) {
         const currentPath = [...path, cat];
@@ -166,9 +164,9 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
       }
       return null;
     };
-    
+
     const selectedPath = findPath(categories, selected.id);
-    return selectedPath?.some(item => item.id === category.id);
+    return selectedPath?.some((item) => item.id === category.id);
   };
 
   const handleCategoryHover = (category) => {
@@ -184,12 +182,17 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
     <div ref={dropdownRef} className="relative inline-block w-full">
       <button
         onClick={toggleMenu}
-        className="w-full px-4 py-2 bg-gray-50 rounded flex justify-between items-center border-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="relative w-full border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500  px-4 py-2 bg-white   flex justify-between items-center  focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
-        <span className="text-left">
+        <span className="text-left block truncate whitespace-nowrap overflow-hidden">
           {selected ? selected.name : "All Categories"}
         </span>
-        <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${menuOpen ? "rotate-180" : ""}`} />
+
+        <ChevronDown
+          className={`w-4 h-4 text-gray-500 transition-transform ${
+            menuOpen ? "rotate-180" : ""
+          }`}
+        />
       </button>
 
       {menuOpen && (
@@ -204,19 +207,21 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
                 <li
                   key={category.id}
                   className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
-                    isSelected(category) 
-                      ? 'bg-blue-400 text-white' 
+                    isSelected(category)
+                      ? "bg-blue-400 text-white"
                       : isInSelectedPath(category)
-                      ? 'bg-blue-200 border-l-4 border-l-blue-500'
-                      : hoveredCategory?.id === category.id 
-                      ? 'bg-blue-180 border-l-4 border-l-blue-400' 
-                      : 'hover:bg-gray-200'
+                      ? "bg-blue-200 border-l-4 border-l-blue-500"
+                      : hoveredCategory?.id === category.id
+                      ? "bg-blue-180 border-l-4 border-l-blue-400"
+                      : "hover:bg-gray-200"
                   }`}
                   onMouseEnter={() => handleCategoryHover(category)}
                 >
                   <button
                     className={`w-full px-4 py-3 text-left break-words whitespace-normal transition-colors ${
-                      isSelected(category) ? 'text-white font-medium' : 'text-gray-700'
+                      isSelected(category)
+                        ? "text-white font-medium"
+                        : "text-gray-700"
                     }`}
                     onClick={() => handleSelect(category)}
                   >
@@ -228,69 +233,77 @@ const MultiLevelDropdown = ({ categories, onSelect, value }) => {
           </div>
 
           {/* Second Column - Subcategories */}
-          {hoveredCategory && hoveredCategory.children && hoveredCategory.children.length > 0 && (
-            <div className="w-48 border-r border-gray-200">
-              <div className="px-4 py-3 bg-gradient-to-r from-green-50 to-green-100 text-sm font-semibold text-green-800 border-b border-green-200">
-                Subcategories
-              </div>
-              <ul className="max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-gray-100 hide-scrollbar ">
-                {hoveredCategory.children.map((subcategory) => (
-                  <li
-                    key={subcategory.id}
-                    className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
-                      isSelected(subcategory)
-                        ? 'bg-green-400 text-white'
-                        : isInSelectedPath(subcategory)
-                        ? 'bg-green-100 border-l-4 border-l-green-500'
-                        : hoveredSubcategory?.id === subcategory.id
-                        ? 'bg-green-50 border-l-4 border-l-green-400'
-                        : 'hover:bg-gray-50'
-                    }`}
-                    onMouseEnter={() => handleSubcategoryHover(subcategory)}
-                  >
-                    <button
-                      className={`w-full px-4 py-3 text-left break-words whitespace-normal transition-colors ${
-                        isSelected(subcategory) ? 'text-white font-medium' : 'text-gray-700'
+          {hoveredCategory &&
+            hoveredCategory.children &&
+            hoveredCategory.children.length > 0 && (
+              <div className="w-48 border-r border-gray-200">
+                <div className="px-4 py-3 bg-gradient-to-r from-green-50 to-green-100 text-sm font-semibold text-green-800 border-b border-green-200">
+                  Subcategories
+                </div>
+                <ul className="max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-gray-100 hide-scrollbar ">
+                  {hoveredCategory.children.map((subcategory) => (
+                    <li
+                      key={subcategory.id}
+                      className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
+                        isSelected(subcategory)
+                          ? "bg-green-400 text-white"
+                          : isInSelectedPath(subcategory)
+                          ? "bg-green-100 border-l-4 border-l-green-500"
+                          : hoveredSubcategory?.id === subcategory.id
+                          ? "bg-green-50 border-l-4 border-l-green-400"
+                          : "hover:bg-gray-50"
                       }`}
-                      onClick={() => handleSelect(subcategory)}
+                      onMouseEnter={() => handleSubcategoryHover(subcategory)}
                     >
-                      {subcategory.name}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                      <button
+                        className={`w-full px-4 py-3 text-left break-words whitespace-normal transition-colors ${
+                          isSelected(subcategory)
+                            ? "text-white font-medium"
+                            : "text-gray-700"
+                        }`}
+                        onClick={() => handleSelect(subcategory)}
+                      >
+                        {subcategory.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
           {/* Third Column - Sub-subcategories */}
-          {hoveredSubcategory && hoveredSubcategory.children && hoveredSubcategory.children.length > 0 && (
-            <div className="w-48">
-              <div className="px-4 py-3 bg-gradient-to-r from-purple-50 to-purple-100 text-sm font-semibold text-purple-800 border-b border-purple-200">
-                Sub-subcategories
-              </div>
-              <ul className="max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-gray-100">
-                {hoveredSubcategory.children.map((subSubcategory) => (
-                  <li
-                    key={subSubcategory.id}
-                    className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
-                      isSelected(subSubcategory)
-                        ? 'bg-purple-400 text-white'
-                        : 'hover:bg-purple-50'
-                    }`}
-                  >
-                    <button
-                      className={`w-full px-4 py-3 text-left break-words whitespace-normal transition-colors ${
-                        isSelected(subSubcategory) ? 'text-white font-medium' : 'text-gray-700 hover:text-purple-700'
+          {hoveredSubcategory &&
+            hoveredSubcategory.children &&
+            hoveredSubcategory.children.length > 0 && (
+              <div className="w-48">
+                <div className="px-4 py-3 bg-gradient-to-r from-purple-50 to-purple-100 text-sm font-semibold text-purple-800 border-b border-purple-200">
+                  Sub-subcategories
+                </div>
+                <ul className="max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-gray-100">
+                  {hoveredSubcategory.children.map((subSubcategory) => (
+                    <li
+                      key={subSubcategory.id}
+                      className={`border-b border-gray-100 last:border-b-0 transition-all duration-150 category-list ${
+                        isSelected(subSubcategory)
+                          ? "bg-purple-400 text-white"
+                          : "hover:bg-purple-50"
                       }`}
-                      onClick={() => handleSelect(subSubcategory)}
                     >
-                      {subSubcategory.name}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                      <button
+                        className={`w-full px-4 py-3 text-left break-words whitespace-normal transition-colors ${
+                          isSelected(subSubcategory)
+                            ? "text-white font-medium"
+                            : "text-gray-700 hover:text-purple-700"
+                        }`}
+                        onClick={() => handleSelect(subSubcategory)}
+                      >
+                        {subSubcategory.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
         </div>
       )}
     </div>

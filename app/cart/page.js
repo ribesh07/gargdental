@@ -17,6 +17,7 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 import useInfoModalStore from "@/stores/warningModalStore";
 import toast from "react-hot-toast";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
+import { useFreeShippingStore } from "@/stores/ShippingThreshold";
 
 export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -24,8 +25,13 @@ export default function ShoppingCart() {
   const cart = useCartStore((state) => state.getCartCount());
   const cartTotal = useCartStore((state) => state.getCartTotal());
   const router = useRouter();
+  const { getInsideOfValleyThreshold, getOutOfValleyThreshold } = useFreeShippingStore();
 
   const setSelectedItemsStore = useCartStore((state) => state.setSelectedItems);
+
+    const [currentThreshold , setcurrentThreshold] = useState(0);
+    const [isFreeShipping, setisFreeShipping] = useState(false);
+    const [showShipping , setShowShipping] = useState(0);
 
   const [added, setAdded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -101,11 +107,13 @@ export default function ShoppingCart() {
             );
             if (allAddresses && defaultBillingAddress && defaultShippingAddress) {
               setHomeAddress(defaultShippingAddress);
+              console.log("home address", defaultShippingAddress);
               if (defaultShippingAddress.city?.shipping_cost) {
                 const cost = parseFloat(
                   defaultShippingAddress.city?.shipping_cost
                 );
                 setShipping(cost);
+                setShowShipping(cost);
               }
               setBillingAddress(defaultBillingAddress);
             }
@@ -143,6 +151,48 @@ export default function ShoppingCart() {
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
+
+  const fetchShippingCost =async () => {
+    setIsLoading(true);
+    if(!homeAddress){
+      setIsLoading(false);
+      return;
+    }
+    try{
+      console.log("Fetching shipping cost for address id:", homeAddress?.id);
+      const checkCost = await apiRequest(
+        '/customer/check-valley',
+      true , {
+      method: "POST",
+      body: JSON.stringify({
+        address_id: homeAddress?.id,
+      }),
+    }
+      );
+      if(checkCost && checkCost.success){
+        console.log("Check cost response:", getInsideOfValleyThreshold(), getOutOfValleyThreshold(), checkCost);
+        const { inside_valley } = checkCost;
+        if(inside_valley){
+          const threshold = getInsideOfValleyThreshold();
+          setcurrentThreshold(threshold);
+          console.log("Inside of valley threshold:", threshold);
+        }else{
+          const threshold = getOutOfValleyThreshold();
+          setcurrentThreshold(threshold);
+          console.log("Outside of valley threshold:", threshold);
+        }
+      }
+    }catch(error){
+      console.log("Error fetching shipping cost:", error);
+    }finally{
+      setIsLoading(false);
+    }
+    }
+  
+    useEffect(() => {
+      fetchShippingCost();
+    }, [homeAddress]);
+  
 
   //update cartItems
   const handleUpdateCartItems = async (id, quantity) => {
@@ -221,7 +271,22 @@ export default function ShoppingCart() {
     return sum;
   }, 0);
 
-  const total = selectedSubtotal + (selectedItems.size > 0 ? shipping : 0);
+  useEffect(() => {
+    fetchShippingCost();
+  }, [selectedSubtotal]);
+
+    useEffect(() => {
+      if (selectedSubtotal >= currentThreshold) {
+        setisFreeShipping(true);
+        setShipping(0);
+        console.log("current threshold : ", currentThreshold);
+      } else {
+        setisFreeShipping(false);
+      }
+    }, [selectedSubtotal, currentThreshold]);
+
+  // const total = selectedSubtotal + (selectedItems.size > 0 ? shipping : 0);
+    const total = selectedSubtotal + (selectedSubtotal >= currentThreshold ? 0 : shipping);
 
   const handleClearCart = async () => {
     setIsLoading(true);
@@ -597,9 +662,10 @@ export default function ShoppingCart() {
 
                   <div className="flex justify-between">
                     <span className="font-medium">SHIPPING</span>
-                    <span className="font-medium">
+                    <span className={`font-semibold text-gray-800 ${ (isFreeShipping && selectedItems.size > 0) ? "line-through text-gray-500" : ""
+                    }`}>
                       Rs.{" "}
-                      {selectedItems.size > 0 ? shipping.toFixed(2) : "0.00"}
+                      {selectedItems.size > 0 ? showShipping.toFixed(2) : "0.00"}
                     </span>
                   </div>
 

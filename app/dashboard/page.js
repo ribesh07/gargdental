@@ -49,6 +49,12 @@ const GargDental = () => {
   });
   const router = useRouter();
 
+  const {
+  setInsideOfValleyThreshold,
+  setOutOfValleyThreshold,
+  getInsideOfValleyThreshold,
+  getOutOfValleyThreshold,
+} = useFreeShippingStore();
 
   // useEffect(() => {
   //   const fetchCategories = async () => {
@@ -131,21 +137,29 @@ const GargDental = () => {
           secondary_email,
           address,
           whatsapp,
-          free_shipping_threshold
+          free_shipping_threshold,
+          free_shipping_threshold_inside_of_valley,
+          free_shipping_threshold_out_of_valley,
         } = response.settings;
 
         const companyName = company_name?.value || "";
         const headerLogo = company_logo_header?.header_logo_full_url || "";
         const footerLogo = company_logo_footer?.footer_logo_full_url || "";
 
-        const freeShippingThreshold = free_shipping_threshold?.value || null;
-        if (freeShippingThreshold && !isNaN(parseFloat(freeShippingThreshold))) {
-          const threshold = parseFloat(freeShippingThreshold);
-          useFreeShippingStore.getState().setFreeShippingThreshold(threshold);
-        }
+        // const freeShippingThreshold = free_shipping_threshold?.value || null;
+        const freeShipping_threshold_inside_of_valley = free_shipping_threshold_inside_of_valley?.value || null;
+        const freeShipping_threshold_out_of_valley = free_shipping_threshold_out_of_valley?.value || null;
+        if (freeShipping_threshold_inside_of_valley && freeShipping_threshold_out_of_valley && !isNaN(parseFloat(freeShipping_threshold_out_of_valley)) && !isNaN(parseFloat(freeShipping_threshold_inside_of_valley))) {
+          const thresholdInside = parseFloat(freeShipping_threshold_inside_of_valley);
+          const thresholdOutside = parseFloat(freeShipping_threshold_out_of_valley);
+          setInsideOfValleyThreshold(thresholdInside);
+          setOutOfValleyThreshold(thresholdOutside);
+          console.log("Inside of valley threshold from API:", thresholdInside);
+          console.log("Outside of valley threshold from API:", thresholdOutside);
+        } 
 
-        const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
-        console.log("Current Free Shipping Threshold:", currentThreshold);
+        console.log(getInsideOfValleyThreshold());
+        console.log(getOutOfValleyThreshold()); 
         setSettings({
           company_name: companyName,
           timezone: timezone?.value || null,
@@ -300,43 +314,46 @@ const GargDental = () => {
 
           {/* Navigation Buttons */}
           {/* Left Scroll */}
-          <button
-            onClick={slideNavigation.prev}
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
-          >
-            <svg
-              className="w-6 h-6 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          {/* Right Scroll */}
-          <button
-            onClick={slideNavigation.next}
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
-          >
-            <svg
-              className="w-6 h-6 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+          {/* Left Scroll */}
+<button
+  onClick={slideNavigation.prev}
+  className="hidden md:flex absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+>
+  <svg
+    className="w-6 h-6 text-gray-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M15 19l-7-7 7-7"
+    />
+  </svg>
+</button>
+
+{/* Right Scroll */}
+<button
+  onClick={slideNavigation.next}
+  className="hidden md:flex absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+>
+  <svg
+    className="w-6 h-6 text-gray-600"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 5l7 7-7 7"
+    />
+  </svg>
+</button>
+
         </div>
         <TopBrandPage />
         <TopCategoriesPage />

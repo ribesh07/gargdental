@@ -11,16 +11,23 @@ import Link from "next/link";
 import { useFreeShippingStore } from "@/stores/ShippingThreshold";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
 import { useUserStore } from "@/stores/useUserStore";
+import { apiRequest } from "@/utils/ApiSafeCalls";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
 
 export default function OrderSummaryBuyNow() {
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showShipping , setShowShipping] = useState(0);
   // const [selectedAddressType, setSelectedAddressType] = useState("");
   // const [addresses, setAddresses] = useState(null);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(null);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(null);
   const [shipping, setShipping] = useState(50);
+   const {
+  getInsideOfValleyThreshold,
+  getOutOfValleyThreshold,
+} = useFreeShippingStore();
 
   // const { setSelectedShippingAddress, setSelectedBillingAddress } =
   //   useCartStore();
@@ -29,6 +36,7 @@ export default function OrderSummaryBuyNow() {
   
     const [selectedId, setSelectedId] = useState(null);
     const [selectedId2, setSelectedId2] = useState(null);
+    const [ loading, setLoading ] = useState(false);
   
     const selectedShippingAddress = addresses.find(addr => addr.id === selectedId);
     const selectedBillingAddress = addresses.find(addr => addr.id === selectedId2);
@@ -48,7 +56,7 @@ export default function OrderSummaryBuyNow() {
   const [userProfile, setUserProfile] = useState(null);
   const [isFreeShipping, setisFreeShipping] = useState(false);
 
-  const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
+  const [currentThreshold , setcurrentThreshold] = useState(0);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -151,7 +159,7 @@ export default function OrderSummaryBuyNow() {
   };
 
    useEffect(() => {
-      console.log("currentThreshold:", currentThreshold);
+      console.log("currentThreshold:", getInsideOfValleyThreshold(), getOutOfValleyThreshold());
       console.log("defaukt shippingaddress :", defaultShippingAddress);
       
        if ( defaultShippingAddress && defaultShippingAddress?.shipping_cost) {
@@ -159,6 +167,7 @@ export default function OrderSummaryBuyNow() {
         console.log("defaultShippingAddress cost:", defaultShippingAddress?.shipping_cost);
         const cost = parseFloat(defaultShippingAddress?.shipping_cost);
         setShipping(cost);
+        setShowShipping(cost);
       }
     }, [selectedId]);
 
@@ -184,10 +193,49 @@ export default function OrderSummaryBuyNow() {
   );
   const taxtotal = subtotal - totalVatAmount;
 
+  const fetchShippingCost =async () => {
+    setLoading(true);
+    if(!defaultShippingAddress){
+      setLoading(false);
+      return;
+    }
+    try{
+      const checkCost = await apiRequest(
+        '/customer/check-valley',
+      true , {
+      method: "POST",
+      body: JSON.stringify({
+        address_id: defaultShippingAddress?.id,
+      }),
+    }
+      );
+      if(checkCost && checkCost.success){
+        const { inside_valley } = checkCost;
+        if(inside_valley){
+          const threshold = getInsideOfValleyThreshold();
+          setcurrentThreshold(threshold);
+          console.log("Inside of valley threshold:", threshold);
+        }else{
+          const threshold = getOutOfValleyThreshold();
+          setcurrentThreshold(threshold);
+          console.log("Outside of valley threshold:", threshold);
+        }
+      }
+    }catch(error){
+      console.log("Error fetching shipping cost:", error);
+    }finally{
+      setLoading(false);
+    }
+    }
+
+    useEffect(() => {
+      fetchShippingCost();
+    }, [defaultShippingAddress]);
+
   useEffect(() => {
     if (subtotal >= currentThreshold) {
       setisFreeShipping(true);
-      // setShipping(0);
+      setShipping(0);
       console.log("current threshold : ", currentThreshold);
     } else {
       setisFreeShipping(false);
@@ -196,6 +244,12 @@ export default function OrderSummaryBuyNow() {
 
   // const total = subtotal + totalVatAmount + shipping;
   const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
+
+  if( loading ){
+    return (
+      <FullScreenLoader />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -406,7 +460,7 @@ export default function OrderSummaryBuyNow() {
                   </span>
                   <span className={`font-semibold text-gray-800 ${isFreeShipping ? "line-through text-gray-500" : ""
                     }`}>
-                    Rs. {shipping.toFixed(2)}
+                    Rs. {showShipping.toFixed(2)}
                   </span>
                 </div>
                 <hr className="border-gray-200" />

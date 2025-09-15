@@ -27,6 +27,7 @@ import MyWishlist from "./components/MyWishlist";
 import MyReviews from "./components/MyReview";
 import Returnlist from "@/app/Return-list/Returnlist";
 import Complains from "./components/Complains";
+import useInfoModalStore from "@/stores/warningModalStore";
 import { getWishlist } from "@/utils/apiHelper";
 
 const AccountPage = () => {
@@ -79,6 +80,15 @@ const AccountPage = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: "Please login to continue.",
+      });
+      router.push("/account");
+    }
+
     fetchAddressDropdowns();
   }, [fetchAddressDropdowns]);
 

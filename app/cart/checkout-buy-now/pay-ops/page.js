@@ -12,6 +12,9 @@ import FormatCurrencyNPR from "@/components/NprStyleBalance";
 import { CONNECTIPS_BASE_URL , CONNECTIPS_API_URL , APPNAME ,APPID ,MERCHANTID } from "@/utils/config"
 import { generateUniqueId  } from '@/utils/payments/generateUniqueId'
 import { getDate  } from '@/utils/payments/getDate'
+import { apiRequest } from "@/utils/ApiSafeCalls";
+import FullScreenLoader from "@/components/FullScreenLoader";
+import { getToken } from "@/utils/ApiSafeCalls";
 
 const paymentMethods = [
     {
@@ -87,6 +90,8 @@ const PayOpsPageBuyNow = () => {
   const selectedItems = useCartStore((state) => state.selectedItems) || [];
   const [shipping, setShipping] = useState(50);
   const [isFreeShipping, setisFreeShipping] = useState(false);
+  const [currentThreshold , setcurrentThreshold] = useState(0);
+  const [showShipping , setShowShipping] = useState(0);
   const selectedShippingAddress = useCartStore(
     (state) => state.selectedShippingAddress
   );
@@ -94,7 +99,9 @@ const PayOpsPageBuyNow = () => {
     (state) => state.selectedBillingAddress
   );
 
-  const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
+   const { getInsideOfValleyThreshold,
+    getOutOfValleyThreshold,
+  } = useFreeShippingStore();
 
   // console.log("selectedShippingAddress", selectedShippingAddress);
   // console.log("selectedBillingAddress", selectedBillingAddress);
@@ -128,11 +135,48 @@ const PayOpsPageBuyNow = () => {
 
 
   const taxtotal = subtotal - totalVatAmount;
+const [ loading , setLoading ] = useState(false);
+const fetchShippingCost =async () => {
+      setLoading(true);
+     
+      try{
+        const checkCost = await apiRequest(
+          '/customer/check-valley',
+        true , {
+        method: "POST",
+        body: JSON.stringify({
+          address_id: selectedShippingAddress?.id,
+        }),
+      }
+        );
+        if(checkCost && checkCost.success){
+          const { inside_valley } = checkCost;
+          // setIsInsideOfValley(inside_valley);
+          if(inside_valley){
+            const threshold = getInsideOfValleyThreshold();
+            setcurrentThreshold(threshold);
+            console.log("Inside of valley threshold:", threshold);
+          }else{
+            const threshold = getOutOfValleyThreshold();
+            setcurrentThreshold(threshold);
+            console.log("Outside of valley threshold:", threshold);
+          }
+        }
+      }catch(error){
+        console.log("Error fetching shipping cost:", error);
+      }finally{
+        setLoading(false);
+      }
+      }
+  
+
   useEffect(() => {
+    fetchShippingCost();
+    console.log("current  threshold:", currentThreshold);
     if (subtotal >= currentThreshold) {
 
       setisFreeShipping(true);
-      // setShipping(0);
+      setShipping(0);
       console.log("current threshold : ", currentThreshold);
     } else {
       setisFreeShipping(false);
@@ -155,6 +199,7 @@ const PayOpsPageBuyNow = () => {
     if (selectedShippingAddress?.city?.shipping_cost !== null) {
       const cost = parseFloat(selectedShippingAddress?.shipping_cost);
       setShipping(cost);
+      setShowShipping(cost);
     } else {
       toast.error("Please don't refresh the page.");
       router.push("/dashboard");
@@ -168,6 +213,7 @@ const PayOpsPageBuyNow = () => {
       payment_method: selected,
       billing_address: selectedBillingAddress.id,
       shipping_address: selectedShippingAddress.id,
+      token: getToken(),
       invoice_email: email,
       buy_now_item: {
         product_code: selectedItems[0].product_code,
@@ -204,6 +250,7 @@ const PayOpsPageBuyNow = () => {
       payment_method: selected,
       billing_address: selectedBillingAddress.id,
       shipping_address: selectedShippingAddress.id,
+       token: getToken(),
       invoice_email: email,
       transaction_id : transId,
       buy_now_item: {
@@ -266,6 +313,11 @@ const PayOpsPageBuyNow = () => {
 
 
   }
+  if( loading ){
+      return (
+        <FullScreenLoader />
+      );
+    }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-2 sm:px-6 flex flex-col items-center">
@@ -410,7 +462,7 @@ const PayOpsPageBuyNow = () => {
             <div className="flex justify-between mb-4">
               <span className="font-bold text-lg">SHIPPING</span>
               <span className={`font-semibold text-gray-800 ${isFreeShipping ? "line-through text-gray-500" : ""
-                }`}>Rs. {shipping}</span>
+                }`}>Rs. {showShipping}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span className="font-bold text-xl">GRAND TOTAL</span>

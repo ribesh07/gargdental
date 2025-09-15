@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Search } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { apiRequest } from "@/utils/ApiSafeCalls";
-import FullScreenLoader from "./FullScreenLoader";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,7 +13,7 @@ export default function SearchBar() {
   const pathname = usePathname();
   const timeoutRef = useRef(null);
 
-  //  Fetch suggestions
+  // Fetch suggestions
   const fetchSuggestions = async (query) => {
     if (!query) {
       setSuggestions([]);
@@ -25,10 +24,8 @@ export default function SearchBar() {
       const res = await apiRequest(
         `/products/search?name=${encodeURIComponent(query)}&limit=10&offset=0`
       );
-
       if (res?.success) {
-        const items = res.products?.products || [];
-        setSuggestions(items);
+        setSuggestions(res.products?.products || []);
       } else {
         setSuggestions([]);
       }
@@ -52,95 +49,100 @@ export default function SearchBar() {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (suggestions.length > 0) {
-        handleSelect(suggestions[0]); // open first product
+        handleSelect(suggestions[0]);
       } else {
         handleSearch();
       }
     }
   };
 
-  //  Manual search button
+  // Manual search
   const handleSearch = () => {
     if (searchTerm) {
-      setNavLoading(true); // loader while navigating
+      setNavLoading(true);
       router.push(`/product?query=${searchTerm}`);
       setSearchTerm("");
       setSuggestions([]);
-      setNavLoading(false); // stop loader after navigation
+      setNavLoading(false);
     }
   };
 
-  // Select product (go to /dashboard/{product_code})
+  // Select product
   const handleSelect = (product) => {
     setSearchTerm("");
     setSuggestions([]);
     if (product.product_code) {
-      setNavLoading(true); // show loader immediately
+      setNavLoading(true);
       router.push(`/dashboard/${product.product_code}`);
-      setNavLoading(false); // stop loader after navigation
-    } else {
-      console.warn("⚠️ No product_code found for:", product);
+      setNavLoading(false);
     }
   };
 
-  //  Loader overlay
+  // Loader overlay
   if (navloading) {
-    return <div className="w-full h-full text-center flex ">
-      <span className="m-auto">loading....</span>
-    </div> ;
+    return (
+      <div className="w-full h-full text-center flex">
+        <span className="m-auto">loading....</span>
+      </div>
+    );
   }
 
   return (
     <>
-      {pathname !== "/product" && (
-        <div className="flex-1 max-w-2xl mx-8 relative">
-          {/* Input + button */}
-          <div className="relative flex">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="What can we help you find?"
-              className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
-            />
-            <button
-              onClick={handleSearch}
-              className="absolute right-0 top-0 bg-[#0072bc] text-white px-4 py-2 flex items-center justify-center rounded-r-md hover:bg-[#005fa3] transition-colors"
-            >
-              <Search />
-            </button>
-          </div>
+      <div
+  className={`flex-1 relative ${
+    pathname === "/product" ? "md:hidden" : ""
+  }`}
+>
+  {/* Input + button */}
+  <div className="relative flex w-full mx-auto max-w-[210px] sm:max-w-lg">
 
-          {/* Dropdown */}
-          {searchTerm && (
-            <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
-              {loading ? (
-                <div className="p-3 text-gray-500 text-sm">Searching...</div>
-              ) : suggestions.length > 0 ? (
-                suggestions.map((product) => (
-                  <div
-                    key={product.id || product.product_code}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm border-b border-gray-200 flex items-center"
-                    onClick={() => handleSelect(product)}
-                  >
-                    <img
-                      src={product.main_image_full_url || "/assets/logo.png"}
-                      alt={product.product_name}
-                      className="inline-block border-1 border-blue-300 h-10 w-10 object-cover ml-2 rounded"
-                    />
-                    <span className="text-black text-xs px-2 py-2">
-                      {product.product_name}
-                    </span>
-                  </div>
-                ))
-              ) : (
-                <div className="p-3 text-gray-500 text-sm">No results found</div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+    <input
+      type="text"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      onKeyDown={handleKeyDown}
+      placeholder="What can we help you find?"
+      className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none text-sm sm:text-base"
+    />
+    <button
+      onClick={handleSearch}
+      className="absolute right-0 top-0 bg-[#0072bc] text-white px-3 sm:px-4 py-2 flex items-center justify-center rounded-r-md hover:bg-[#005fa3] transition-colors"
+    >
+      <Search className="w-[22px] h-[22px] sm:w-[26px] sm:h-[26px]
+" />
+    </button>
+  </div>
+
+
+        {/* Dropdown */}
+        {searchTerm && (
+          <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-64 sm:max-h-80 overflow-y-auto">
+            {loading ? (
+              <div className="p-3 text-gray-500 text-sm">Searching...</div>
+            ) : suggestions.length > 0 ? (
+              suggestions.map((product) => (
+                <div
+                  key={product.id || product.product_code}
+                  className="px-3 py-2 cursor-pointer hover:bg-gray-100 text-sm border-b border-gray-200 flex items-center"
+                  onClick={() => handleSelect(product)}
+                >
+                  <img
+                    src={product.main_image_full_url || "/assets/logo.png"}
+                    alt={product.product_name}
+                    className="inline-block h-8 w-8 sm:h-10 sm:w-10 object-cover rounded border border-gray-200"
+                  />
+                  <span className="text-black text-xs sm:text-sm px-2">
+                    {product.product_name}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="p-3 text-gray-500 text-sm">No results found</div>
+            )}
+          </div>
+        )}
+      </div>
     </>
   );
 }
