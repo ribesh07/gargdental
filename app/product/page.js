@@ -217,12 +217,12 @@ const ProductAPIRequest = () => {
                   placeholder="Search products, codes, or brands..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2  bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
               {/* Category Filter */}
-              <div className="relative w-full">
+              <div className="relative w-full bg-white">
                 <MultiLevelDropdown
                   categories={categories}
                   value={selectedCategory?.id || null}
@@ -234,11 +234,11 @@ const ProductAPIRequest = () => {
               </div>
 
               {/* Brand Filter */}
-              <div className="relative w-full">
+              <div className="relative w-full border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500">
                 <select
                   value={filters.brand}
                   onChange={(e) => handleFilterChange("brand", e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-white rounded-lg focus:outline-none"
                 >
                   <option value="">All Brands</option>
                   {manufacturers.map((brand) => (
