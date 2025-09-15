@@ -11,6 +11,7 @@ import { useFreeShippingStore } from "@/stores/ShippingThreshold";
 import FormatCurrencyNPR from "@/components/NprStyleBalance";
 import { useUserStore } from "@/stores/useUserStore";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import { apiRequest } from "@/utils/ApiSafeCalls";
 // import MainTopBar from "@/components/mainTopbar";
 
 export default function OrderSummary() {
@@ -23,6 +24,7 @@ export default function OrderSummary() {
   const [isFreeShipping, setisFreeShipping] = useState(false);
   const [shipping, setShipping] = useState(50);
   const [currentThreshold , setcurrentThreshold] = useState(0);
+  
   const [ loading, setLoading ] = useState(false);
   const [showShipping , setShowShipping] = useState(0);
      const {
@@ -132,9 +134,9 @@ export default function OrderSummary() {
       }
     }
   
-      useEffect(() => {
+  useEffect(() => {
         fetchShippingCost();
-      }, [selectedId]);
+    }, [selectedId]);
 
   const handleProceedToPay = () => {
     if (!defaultBillingAddress) {
@@ -206,6 +208,7 @@ export default function OrderSummary() {
       console.log("defaultShippingAddress cost:", defaultShippingAddress?.shipping_cost);
       const cost = parseFloat(defaultShippingAddress?.shipping_cost);
       setShipping(cost);
+      setShowShipping(cost);
     }
   }, [selectedId]);
 
@@ -236,19 +239,15 @@ export default function OrderSummary() {
   const taxtotal = subtotal - totalVatAmount;
 
 
-
-
-
   useEffect(() => {
-    if (subtotal >= currentThreshold) {
-
+    if (subtotal >= currentThreshold && currentThreshold > 0 ) {
       setisFreeShipping(true);
       setShipping(0);
       console.log("current threshold : ", currentThreshold);
     } else {
       setisFreeShipping(false);
     }
-  }, [subtotal, currentThreshold]);
+  }, [subtotal, currentThreshold,selectedId]);
 
   // const total = subtotal + totalVatAmount + shipping;
   const total = subtotal + (isFreeShipping ? 0 : shipping);

@@ -136,7 +136,7 @@ const PayOpsPageBuyNow = () => {
 
   const taxtotal = subtotal - totalVatAmount;
 const [ loading , setLoading ] = useState(false);
-   const fetchShippingCost =async () => {
+const fetchShippingCost =async () => {
       setLoading(true);
      
       try{

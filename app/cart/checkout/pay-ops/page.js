@@ -11,6 +11,9 @@ import FormatCurrencyNPR from "@/components/NprStyleBalance";
 import { CONNECTIPS_BASE_URL , CONNECTIPS_API_URL , APPNAME ,APPID ,MERCHANTID } from "@/utils/config"
 import { generateUniqueId  } from '@/utils/payments/generateUniqueId'
 import { getDate  } from '@/utils/payments/getDate'
+import { apiRequest } from "@/utils/ApiSafeCalls";
+import FullScreenLoader from "@/components/FullScreenLoader";
+import { getToken } from "@/utils/ApiSafeCalls";
 // import { Toaster } from "react-hot-toast";
 
 const paymentMethods = [
@@ -91,10 +94,15 @@ const PayOpsPage = () => {
     (state) => state.selectedBillingAddress
   );
   const [isFreeShipping, setisFreeShipping] = useState(false);
+  const [currentThreshold , setcurrentThreshold] = useState(0);
+  const [showShipping , setShowShipping] = useState(0);
+     const { getInsideOfValleyThreshold,
+    getOutOfValleyThreshold,
+  } = useFreeShippingStore();
 
   
     
-  const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
+  // const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
 
   console.log("selectedShippingAddress", selectedShippingAddress);
 
@@ -118,6 +126,7 @@ const PayOpsPage = () => {
     if (selectedShippingAddress?.city?.shipping_cost !== null) {
       const cost = parseFloat(selectedShippingAddress?.shipping_cost);
       setShipping(cost);
+      setShowShipping(cost);
     } else {
       toast.error("Please don't refresh the page.");
       router.push("/cart");
@@ -149,11 +158,46 @@ const itemsWithVat = selectedItems.map((item) => ({
 
   const taxtotal = subtotal - totalVatAmount;
 
+  const [ loading , setLoading ] = useState(false);
+  const fetchShippingCost =async () => {
+        setLoading(true);
+       
+        try{
+          const checkCost = await apiRequest(
+            '/customer/check-valley',
+          true , {
+          method: "POST",
+          body: JSON.stringify({
+            address_id: selectedShippingAddress?.id,
+          }),
+        }
+          );
+          if(checkCost && checkCost.success){
+            const { inside_valley } = checkCost;
+            // setIsInsideOfValley(inside_valley);
+            if(inside_valley){
+              const threshold = getInsideOfValleyThreshold();
+              setcurrentThreshold(threshold);
+              console.log("Inside of valley threshold:", threshold);
+            }else{
+              const threshold = getOutOfValleyThreshold();
+              setcurrentThreshold(threshold);
+              console.log("Outside of valley threshold:", threshold);
+            }
+          }
+        }catch(error){
+          console.log("Error fetching shipping cost:", error);
+        }finally{
+          setLoading(false);
+        }
+    }
+
     useEffect(() => {
+      fetchShippingCost();
       if (subtotal >= currentThreshold) {
         
-        setisFreeShipping(false);
-        // setShipping(0);
+        setisFreeShipping(true);
+        setShipping(0);
         console.log("current threshold : ", currentThreshold);
       }else{
         setisFreeShipping(false);
@@ -171,6 +215,7 @@ const itemsWithVat = selectedItems.map((item) => ({
         payment_method: selected,
         billing_address: selectedBillingAddress.id,
         shipping_address: selectedShippingAddress.id,
+        token: getToken(),
         invoice_email: email,
         subtotal: subtotal,
         grandtotal: total,
@@ -220,6 +265,7 @@ const itemsWithVat = selectedItems.map((item) => ({
         payment_method: selected,
         billing_address: selectedBillingAddress.id,
         shipping_address: selectedShippingAddress.id,
+        token: getToken(),
         invoice_email: email,
         subtotal: subtotal,
         grandtotal: total,
@@ -289,6 +335,10 @@ const itemsWithVat = selectedItems.map((item) => ({
     console.error('ConnectIPS Initiate payment error:', error);
   }
 };
+
+  if(loading){
+    return <FullScreenLoader />
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-2 sm:px-6 flex flex-col items-center">
@@ -426,7 +476,7 @@ const itemsWithVat = selectedItems.map((item) => ({
                   isFreeShipping ? "line-through text-gray-500" : ""
                 }`}
               >
-                Rs. {shipping}
+                Rs. {showShipping}
               </span>
             </div>
             <div className="flex justify-between mb-2">
