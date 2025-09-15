@@ -240,6 +240,7 @@ export default function OrderSummary() {
 
 
   useEffect(() => {
+    fetchShippingCost();
     if (subtotal >= currentThreshold && currentThreshold > 0 ) {
       setisFreeShipping(true);
       setShipping(0);
@@ -247,10 +248,10 @@ export default function OrderSummary() {
     } else {
       setisFreeShipping(false);
     }
-  }, [subtotal, currentThreshold,selectedId]);
+  }, [currentThreshold,selectedId]);
 
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + (isFreeShipping ? 0 : shipping);
+  const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
 
   if (loading) {
     return (
