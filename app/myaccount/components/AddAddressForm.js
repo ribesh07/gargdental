@@ -86,7 +86,7 @@ export default function AddAddressForm({
   return (
     <div className="bg-gray-50 rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold text-center text-blue-900 mb-8">
-        EDIT ADDRESS
+        ADD ADDRESS
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
