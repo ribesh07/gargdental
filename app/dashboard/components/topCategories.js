@@ -97,8 +97,7 @@ export default function TopCategoriesPage() {
           {/* Left Scroll */}
           <button
             onClick={scrollLeft}
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
-          >
+            className="hidden md:flex absolute top-1/2 right-0 transform -translate-y-1/2  bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer  hover:bg-gray-50 transition duration-200 z-10">
             <svg
               className="w-6 h-6 text-gray-600"
               fill="none"
@@ -117,7 +116,7 @@ export default function TopCategoriesPage() {
           {/* Right Scroll */}
           <button
             onClick={scrollRight}
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer hover:bg-gray-50 transition duration-200 z-10"
+            className="hidden md:flex absolute top-1/2 right-0 transform -translate-y-1/2  bg-gray-50 rounded-full shadow-lg p-2 cursor-pointer  hover:bg-gray-50 transition duration-200 z-10"
           >
             <svg
               className="w-6 h-6 text-gray-600"
