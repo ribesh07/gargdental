@@ -9,8 +9,6 @@ function Page() {
   );
 }
 
-
-
 import React, { useState, useEffect } from "react";
 import {
   Search,
@@ -36,17 +34,19 @@ import ProductImageZoom from "@/components/ProductImageZoom";
 
 import { AddToCart, ViewProducts } from "@/components/addtocartbutton";
 import MultiLevelDropdown from "./MultiLevelDropDown";
-import { useProductStore , useCategoryStore ,useManufacturerStore} from "@/stores/InitdataFetch";
-
+import {
+  useProductStore,
+  useCategoryStore,
+  useManufacturerStore,
+} from "@/stores/InitdataFetch";
 
 const ProductAPIRequest = () => {
-  
-     const { products, loading, error } = useProductStore();
+  const { products, loading, error } = useProductStore();
   // const [products, setProducts] = useState([]);
   const [loadings, setLoading] = useState(false);
   const [errors, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   const { categories, loadingcategory, errorcategory } = useCategoryStore();
 
   const pathname = usePathname();
@@ -64,10 +64,11 @@ const ProductAPIRequest = () => {
   const [selectedManufacturer, setSelectedManufacturer] = useState(null);
 
   // const [manufacturers, setManufacturers] = useState([]);
-  const { manufacturers, loadingmanufacturer, errormanufacturer } = useManufacturerStore();
+  const { manufacturers, loadingmanufacturer, errormanufacturer } =
+    useManufacturerStore();
 
   const [offset, setOffset] = useState(0);
-    const [filterON, setfilterON] = useState(false);
+  const [filterON, setfilterON] = useState(false);
 
   //  set initial category from URL
   useEffect(() => {
@@ -87,53 +88,48 @@ const ProductAPIRequest = () => {
   }, [queryFromUrl]);
 
   //  set initial manufacturer from URL
-useEffect(() => {
-  if (manufacturerFromUrl && manufacturers.length > 0) {
-    // Find manufacturer by ID
-    const selected = manufacturers.find(
-      (m) => m.id.toString() === manufacturerFromUrl // convert to string
-    );
-    if (selected) {
-      setSelectedManufacturer(selected);
-      setFilters((prev) => ({ ...prev, brand: selected.brand_name })); // set select value
+  useEffect(() => {
+    if (manufacturerFromUrl && manufacturers.length > 0) {
+      // Find manufacturer by ID
+      const selected = manufacturers.find(
+        (m) => m.id.toString() === manufacturerFromUrl // convert to string
+      );
+      if (selected) {
+        setSelectedManufacturer(selected);
+        setFilters((prev) => ({ ...prev, brand: selected.brand_name })); // set select value
+      }
     }
-  }
-}, [manufacturerFromUrl, manufacturers]);
-
+  }, [manufacturerFromUrl, manufacturers]);
 
   const CACHE_KEY = "productsCache";
   const CACHE_DURATION = 5 * 60 * 1000;
 
-
-// Recursive mapper function
-//map category and its children
-const mapCategory = (category) => {
-  return {
-    id: category.id,
-    name: category.category_name,
-    parent_id: category.parent_id,
-    image: category.image_full_url,
-    children: category.active_children?.map(mapCategory) || [],
+  // Recursive mapper function
+  //map category and its children
+  const mapCategory = (category) => {
+    return {
+      id: category.id,
+      name: category.category_name,
+      parent_id: category.parent_id,
+      image: category.image_full_url,
+      children: category.active_children?.map(mapCategory) || [],
+    };
   };
-};
 
-// Main mapper for the API response
-const mapCategories = (categories) => {
-  return categories.map(mapCategory);
-};
-
-
+  // Main mapper for the API response
+  const mapCategories = (categories) => {
+    return categories.map(mapCategory);
+  };
 
   // Recursive function: collect selected category + its children ids
   const getAllChildCategoryIds = (category) => {
-  if (!category) return [];
-  let ids = [category.id];
-  category.children.forEach((child) => {
-    ids = [...ids, ...getAllChildCategoryIds(child)];
-  });
-  return ids;
-};
-
+    if (!category) return [];
+    let ids = [category.id];
+    category.children.forEach((child) => {
+      ids = [...ids, ...getAllChildCategoryIds(child)];
+    });
+    return ids;
+  };
 
   const handleFilterChange = (filterType, value) => {
     setfilterON(true);
@@ -142,147 +138,145 @@ const mapCategories = (categories) => {
       [filterType]: value,
     }));
   };
-   const [filters, setFilters] = useState({
-      category: "",
-      brand: "",
-    });
-
-
-const categoryMap = useMemo(() => {
-  const map = {};
-  const fillMap = (cat) => {
-    map[cat.id] = [cat.id, ...(cat.children.flatMap((c) => fillMap(c)))];
-    return map[cat.id];
-  };
-  categories.forEach(fillMap);
-  return map;
-}, [categories]);
-
-
-const filteredProducts = useMemo(() => {
-  return products.filter((product) => {
-    const matchesSearch =
-      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesBrand = !filters.brand || product.brand === filters.brand;
-
-    if (!selectedCategory) return matchesSearch && matchesBrand;
-
-    // const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
-    const allowedCategoryIds = selectedCategory ? categoryMap[selectedCategory.id] : [];
-
-    return matchesSearch && matchesBrand && allowedCategoryIds.includes(product.category_id);
-  });
-}, [products, searchTerm, filters.brand, selectedCategory]);
-
-const clearFilters = () => {
-  setfilterON(false);
-  setFilters({
+  const [filters, setFilters] = useState({
     category: "",
     brand: "",
   });
-  setSelectedCategory(null); // Add this line to reset the dropdown
-};
-   
+
+  const categoryMap = useMemo(() => {
+    const map = {};
+    const fillMap = (cat) => {
+      map[cat.id] = [cat.id, ...cat.children.flatMap((c) => fillMap(c))];
+      return map[cat.id];
+    };
+    categories.forEach(fillMap);
+    return map;
+  }, [categories]);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const matchesSearch =
+        product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.product_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesBrand = !filters.brand || product.brand === filters.brand;
+
+      if (!selectedCategory) return matchesSearch && matchesBrand;
+
+      // const allowedCategoryIds = getAllChildCategoryIds(selectedCategory);
+      const allowedCategoryIds = selectedCategory
+        ? categoryMap[selectedCategory.id]
+        : [];
+
+      return (
+        matchesSearch &&
+        matchesBrand &&
+        allowedCategoryIds.includes(product.category_id)
+      );
+    });
+  }, [products, searchTerm, filters.brand, selectedCategory]);
+
+  const clearFilters = () => {
+    setfilterON(false);
+    setFilters({
+      category: "",
+      brand: "",
+    });
+    setSelectedCategory(null); // Add this line to reset the dropdown
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl my-6 mx-auto">
         <div className="max-w-7xl mx-auto bg-gray-50 sticky top-30 z-10 ">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-              <Package className="h-8 w-8 text-blue-600" />
-              Product Catalog
-            </h1>
-          </div>
-        </div>
-
-        {/* Filters  part*/}
-        <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-300 mb-2">
-          <div className={`grid gap-4 ${
-                (filters.category || filters.brand) 
-                  ? 'grid-cols-2 md:grid-cols-4' 
-                  : 'grid-cols-2 md:grid-cols-3'
-              }`}>
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <input
-                type="text"
-                placeholder="Search products, codes, or brands..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300  focus:border-transparent"
-              />
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <Package className="h-8 w-8 text-blue-600" />
+                Product Catalog
+              </h1>
             </div>
+          </div>
 
-           
+          {/* Filters  part*/}
+          <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-300 mb-2">
+            <div
+              className={`grid gap-4 items-center ${
+                filters.category || filters.brand
+                  ? "grid-cols-2 md:grid-cols-4"
+                  : "grid-cols-2 md:grid-cols-3"
+              }`}
+            >
+              {/* Search - hidden on mobile */}
+              <div className="relative w-full hidden md:block">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <input
+                  type="text"
+                  placeholder="Search products, codes, or brands..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
               {/* Category Filter */}
-                  <div className="relative w-full sm:w-auto flex flex-row  border-gray-300 rounded border-1 focus:ring-2 focus:ring-blue-500 focus:border-transparent ">
-
-
-              <MultiLevelDropdown
+              <div className="relative w-full">
+                <MultiLevelDropdown
                   categories={categories}
-                  value={selectedCategory?.id || null} // Pass the selected category ID
+                  value={selectedCategory?.id || null}
                   onSelect={(cat) => {
-                    setSelectedCategory(cat); // set selected category state
-                    handleFilterChange("category", cat.id); // apply your filter
+                    setSelectedCategory(cat);
+                    handleFilterChange("category", cat.id);
                   }}
                 />
-            
-              {/* <ChevronDown className=" transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" /> */}
+              </div>
+
+              {/* Brand Filter */}
+              <div className="relative w-full">
+                <select
+                  value={filters.brand}
+                  onChange={(e) => handleFilterChange("brand", e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">All Brands</option>
+                  {manufacturers.map((brand) => (
+                    <option key={brand.id} value={brand.brand_name}>
+                      {brand.brand_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Clear Filters */}
+              {(filters.category || filters.brand) && (
+                <button
+                  onClick={clearFilters}
+                  className="text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base w-full sm:w-auto text-left sm:text-left"
+                >
+                  Clear all filters
+                </button>
+              )}
             </div>
 
-
-                  {/* Brand Filter */}
-            <div className="relative w-full sm:w-auto">
-              <select
-                value={filters.brand}
-                onChange={(e) => handleFilterChange("brand", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="">All Brands</option>
-                {manufacturers.map((brand) => (
-                  <option key={brand.id} value={brand.brand_name}>
-                    {brand.brand_name}
-                  </option>
-                ))}
-              </select>
-
-             
-            </div>    
-              {/* Clear Filters */}
-            {(filters.category || filters.brand ) && (
-              <button
-                onClick={clearFilters}
-                className="text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base w-full px-3 sm:w-auto text-left sm:text-left"
-              >
-                Clear all filters
-              </button>
-            )}       
-           
+            {/* Product count */}
+            <p className="mt-3 text-sm text-gray-600">
+              Total Products:{" "}
+              <span className="font-semibold text-blue-600">
+                {filteredProducts.length}
+              </span>
+            </p>
           </div>
-          <br />
-          <p className="text-sm text-gray-600">
-            Total Products:{" "}
-            <span className="font-semibold text-blue-600">
-              {filteredProducts.length}
-            </span>
-          </p>
-        </div>
         </div>
 
         {/* Loading */}
-        { (loading || loadings || loadingcategory || loadingmanufacturer) && (
-              <div className="flex justify-center items-center h-48">
-                <Loader2 className="flex justify-center self-center h-4 w-4 animate-spin" />
-                <span className="ml-2">Loading products...</span>
-              </div>
-            )}
+        {(loading || loadings || loadingcategory || loadingmanufacturer) && (
+          <div className="flex justify-center items-center h-48">
+            <Loader2 className="flex justify-center self-center h-4 w-4 animate-spin" />
+            <span className="ml-2">Loading products...</span>
+          </div>
+        )}
 
         {/* Product Grid */}
         {!loading && !loadings && !loadingcategory && !loadingmanufacturer && (
@@ -359,7 +353,7 @@ function ProductCardMain({ product, showDiscount }) {
               {product.actual_price &&
                 product.actual_price !== "0.00" &&
                 parseFloat(product.actual_price) >
-                parseFloat(product.sell_price) && (
+                  parseFloat(product.sell_price) && (
                   <span className="text-[14px] text-gray-400 line-through">
                     Rs.{" "}
                     {Number(product.actual_price).toLocaleString("en-IN", {

@@ -90,6 +90,63 @@ export default function SearchBar() {
     </div> ;
   }
 
+  if(pathname === "/product"){
+  return (
+
+    <>
+ {pathname === "/product" && (
+        <div className="flex-1 max-w-2xl md:hidden mx-8 relative">
+          {/* Input + button */}
+          <div className="relative flex">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="What can we help you find?"
+              className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
+            />
+            <button
+              onClick={handleSearch}
+              className="absolute right-0 top-0 bg-[#0072bc] text-white px-4 py-2 flex items-center justify-center rounded-r-md hover:bg-[#005fa3] transition-colors"
+            >
+              <Search />
+            </button>
+          </div>
+
+          {/* Dropdown */}
+          {searchTerm && (
+            <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
+              {loading ? (
+                <div className="p-3 text-gray-500 text-sm">Searching...</div>
+              ) : suggestions.length > 0 ? (
+                suggestions.map((product) => (
+                  <div
+                    key={product.id || product.product_code}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm border-b border-gray-200 flex items-center"
+                    onClick={() => handleSelect(product)}
+                  >
+                    <img
+                      src={product.main_image_full_url || "/assets/logo.png"}
+                      alt={product.product_name}
+                      className="inline-block border-1 border-blue-300 h-10 w-10 object-cover ml-2 rounded"
+                    />
+                    <span className="text-black text-xs px-2 py-2">
+                      {product.product_name}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="p-3 text-gray-500 text-sm">No results found</div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+      </>
+  );
+}
+
   return (
     <>
       {pathname !== "/product" && (
