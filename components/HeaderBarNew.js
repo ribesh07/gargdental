@@ -165,7 +165,7 @@ const HeaderBarNew = () => {
         <div className="flex items-center justify-between py-2 md:py-4">
           {/* Logo */}
           {settings.company_logo_header ? (
-            <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-4 ml-1">
               <div className="flex items-center">
                 <img
                   onClick={() => router.push("/dashboard")}
@@ -232,7 +232,7 @@ const HeaderBarNew = () => {
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-gray-600 hover:text-red-600"
+                className="p-2 text-gray-600 hover:text-red-600 mr-1"
               >
                 {isMobileMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -294,9 +294,9 @@ const HeaderBarNew = () => {
               {isloggedin && (
                 <button
                   onClick={() => router.push("/myaccount")}
-                  className="flex flex-col items-center text-gray-600 hover:text-red-600 transform hover:scale-105 transition-colors cursor-pointer"
+                  className="flex flex-col items-center text-gray-600 hover:text-red-600 transform hover:scale-105 transition-colors cursor-pointer mr-1"
                 >
-                  <div className="bg-blue-100 p-2 rounded-lg mb-1">
+                  <div className="bg-blue-100 p-2 rounded-lg mb-1 ">
                     <Settings className="w-6 h-6 text-blue-600" />
                   </div>
                   <span className="text-xs">My Account</span>
