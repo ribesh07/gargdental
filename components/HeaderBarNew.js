@@ -158,65 +158,55 @@ const HeaderBarNew = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto bg-gray-50 sticky top-0 z-50 ">
-      <div className="w-full">
-        {/* Main Header */}
-        <div className="max-w-7xl mx-auto mb-2 bg-gray-50">
-          <div className="flex items-center justify-between py-2 md:py-4">
-            {/* Logo */}
-            {settings.company_logo_header ? (
-              <div className="flex items-center space-x-2 md:space-x-4">
-                <div className="flex items-center">
-                  <img
-                    onClick={() => router.push("/dashboard")}
-                    src={settings.company_logo_header}
-                    alt="Garg Dental Logo"
-                    className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
-                    loading="lazy"
-                    draggable={false}
-                  />
-                </div>
+  <div className="max-w-7xl mx-auto bg-gray-50 sticky top-0 z-50 ">
+    <div className="w-full">
+      {/* Main Header */}
+      <div className="max-w-7xl mx-auto mb-2 bg-gray-50">
+        <div className="flex items-center justify-between py-2 md:py-4">
+          {/* Logo */}
+          {settings.company_logo_header ? (
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <div className="flex items-center">
+                <img
+                  onClick={() => router.push("/dashboard")}
+                  src={settings.company_logo_header}
+                  alt="Garg Dental Logo"
+                  className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
+                  loading="lazy"
+                  draggable={false}
+                />
               </div>
-            ) : (
-              <div className="flex items-center space-x-2 md:space-x-4">
-                <div className="flex items-center">
-                  <img
-                    onClick={() => router.push("/dashboard")}
-                    src="/assets/logo.png"
-                    alt="Garg Dental Logo"
-                    className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
-                    loading="lazy"
-                    draggable={false}
-                  />
-                </div>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <div className="flex items-center">
+                <img
+                  onClick={() => router.push("/dashboard")}
+                  src="/assets/logo.png"
+                  alt="Garg Dental Logo"
+                  className="h-14 w-18 md:h-20 md:w-30 cursor-pointer"
+                  loading="lazy"
+                  draggable={false}
+                />
               </div>
-            )}
+            </div>
+          )}
 
+          {/* Desktop Search */}
+          <div className="hidden md:flex items-center justify-between space-x-4 w-full max-w-2xl">
+            <SearchBar />
+          </div>
+
+          {/* Mobile Row → Logo + Search + Shop/Menu */}
+          <div className="flex items-center space-x-2 md:hidden flex-1 justify-end">
+            {/* Mobile Search */}
+            <div className="flex-1 max-w-[200px] sm:max-w-[200px]">
+              <SearchBar />
+            </div>
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center space-x-2">
               {isloggedin && user && (
                 <>
-                  {/* <div className="flex flex-col items-center space-x-4 cursor-pointer group">
-                    <button
-                      onClick={() => router.push("/account/profile")}
-                      className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
-                    >
-                      {user.image_full_url ? (
-                        <img
-                          src={user.image_full_url}
-                          alt="Profile"
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      ) : (
-                        <User className="w-10 h-10" />
-                      )}
-                    </button>
-
-                    <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
-                      Profile
-                    </span>
-                  </div> */}
-
                   {/* Shop Button */}
                   <button
                     onClick={() => {
@@ -251,12 +241,10 @@ const HeaderBarNew = () => {
                 )}
               </button>
             </div>
+          </div>
 
             
-            {/* Desktop View */}
-            <div className="hidden md:flex items-center justify-between space-x-4 w-full max-w-2xl">
-              <SearchBar />
-            </div>
+            
 
             {/* Desktop Right Side Actions */}
             <div className="hidden md:flex items-center space-x-4">
@@ -278,26 +266,7 @@ const HeaderBarNew = () => {
 
               {isloggedin && user && (
                 <>
-                  {/* <div className="flex flex-col items-center space-x-4 cursor-pointer group">
-                    <button
-                      onClick={() => router.push("/account/profile")}
-                      className="bg-transparent text-white mb-1 mt-1 text-[12px] border-2 border-blue-400 rounded-full hover:scale-105 transition-all transform flex items-center justify-center cursor-pointer"
-                    >
-                      {user.image_full_url ? (
-                        <img
-                          src={user.image_full_url}
-                          alt="Profile"
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      ) : (
-                        <User className="w-10 h-10" />
-                      )}
-                    </button>
-
-                    <span className="text-xs text-gray-600 mr-3 mb-2 group-hover:text-red-600 transition-colors duration-200">
-                      Profile
-                    </span>
-                  </div> */}
+                  
 
                   {/* Shop Button */}
                   <button
@@ -337,9 +306,9 @@ const HeaderBarNew = () => {
           </div>
 
           {/* Mobile Search Bar - Always visible on mobile when not on product page */}
-          <div className="flex md:hidden items-center w-full px-4">
+          {/* <div className="flex md:hidden items-center w-full px-4">
             <SearchBar className="w-full" />
-          </div>
+          </div> */}
           
          
           {/* Desktop Login Section */}
@@ -370,46 +339,10 @@ const HeaderBarNew = () => {
                 >
                   New Clinic Setup
                 </Link>
-                {/* <Link
-                  href="/AboutUs"
-                  className="hover:underline font-semibold hover:text-white hover:scale-105 transition-all duration-200 cursor-pointer"
-                >
-                  About Us
-                </Link> */}
+                
               </div>
 
-              {/* Cart + Logout */}
-              {/* {isloggedin && (
-                <div className="hidden sm:flex items-center justify-between space-x-2 mt-2 md:mt-0">
-                  <div
-                    onClick={() => router.push("/cart")}
-                    className="flex items-center space-x-1 hover:underline cursor-pointer"
-                  >
-                    <span className="text-white text-[12px]">My Cart:</span>
-                    <span className="font-bold text-[12px] text-white">
-                      Rs. {cartTotal}
-                    </span>
-                    <button className="bg-transparent text-white w-5 h-5 rounded hover:text-red-500 transition-colors flex items-center justify-center">
-                      <ShoppingBag className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() =>
-                      useConfirmModalStore.getState().open({
-                        title: "Logout",
-                        message: "Are you sure you want to logout?",
-                        onConfirm: handleLogout,
-                        onCancel: () => {},
-                      })
-                    }
-                    className="bg-[#bf0000] text-white text-[12px] h-8 px-2 rounded hover:bg-red-600 transition-colors flex items-center"
-                  >
-                    <User className="w-3 h-3 mr-1" />
-                    Logout
-                  </button>
-                </div>
-              )} */}
+              
             </div>
           </div>
         </div>
@@ -504,55 +437,7 @@ const HeaderBarNew = () => {
                   </div>
                 )}
 
-                {/* Mobile Cart Summary  remove feature*/}
-                {/* <div
-                  className="mb-6 pb-4 border-b cursor-pointer"
-                  onClick={() => {
-                    router.push("/cart");
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-black text-sm underline">
-                      My Cart:
-                    </span>
-                    <span className="font-bold text-lg text-black underline">
-                      Rs. {cartTotal}
-                    </span>
-                  </div>
-                  <div className="flex items-center mt-2 underline">
-                    <ShoppingBag className="w-4 h-4 mr-2 " />
-                    <span className="text-sm underline text-black">
-                      {cartCount}
-                    </span>
-                  </div>
-                </div> */}
-
-                {/* Mobile Menu Items */}
-                {/* <div className="space-y-2">
-                  {menuItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      href={item.href}
-                      className="block px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-red-600 rounded transition-colors"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div> */}
-
-                {/* Mobile Contact Info */}
-                {/* <div className="mt-6 pt-4 border-t space-y-3">
-                  <div className="flex items-center space-x-2 text-[#0072bc] text-sm">
-                    <Phone className="w-4 h-4" />
-                    <span>Contact Us</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-[#0072bc] text-sm">
-                    <HelpCircle className="w-4 h-4" />
-                    <span>Help</span>
-                  </div>
-                </div> */}
+                
               </div>
             </div>
           </div>
