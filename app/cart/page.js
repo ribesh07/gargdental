@@ -107,6 +107,7 @@ export default function ShoppingCart() {
             );
             if (allAddresses && defaultBillingAddress && defaultShippingAddress) {
               setHomeAddress(defaultShippingAddress);
+              console.log("home address", defaultShippingAddress);
               if (defaultShippingAddress.city?.shipping_cost) {
                 const cost = parseFloat(
                   defaultShippingAddress.city?.shipping_cost
@@ -151,39 +152,46 @@ export default function ShoppingCart() {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
 
-   const fetchShippingCost =async () => {
-      setIsLoading(true);
-     
-      try{
-        const checkCost = await apiRequest(
-          '/customer/check-valley',
-        true , {
-        method: "POST",
-        body: JSON.stringify({
-          address_id: homeAddress?.id,
-        }),
-      }
-        );
-        if(checkCost && checkCost.success){
-          const { inside_valley } = checkCost;
-          // setIsInsideOfValley(inside_valley);
-          if(inside_valley){
-            const threshold = getInsideOfValleyThreshold();
-            setcurrentThreshold(threshold);
-            console.log("Inside of valley threshold:", threshold);
-          }else{
-            const threshold = getOutOfValleyThreshold();
-            setcurrentThreshold(threshold);
-            console.log("Outside of valley threshold:", threshold);
-          }
+  const fetchShippingCost =async () => {
+    setIsLoading(true);
+    if(!homeAddress){
+      setIsLoading(false);
+      return;
+    }
+    try{
+      console.log("Fetching shipping cost for address id:", homeAddress?.id);
+      const checkCost = await apiRequest(
+        '/customer/check-valley',
+      true , {
+      method: "POST",
+      body: JSON.stringify({
+        address_id: homeAddress?.id,
+      }),
+    }
+      );
+      if(checkCost && checkCost.success){
+        console.log("Check cost response:", getInsideOfValleyThreshold(), getOutOfValleyThreshold(), checkCost);
+        const { inside_valley } = checkCost;
+        if(inside_valley){
+          const threshold = getInsideOfValleyThreshold();
+          setcurrentThreshold(threshold);
+          console.log("Inside of valley threshold:", threshold);
+        }else{
+          const threshold = getOutOfValleyThreshold();
+          setcurrentThreshold(threshold);
+          console.log("Outside of valley threshold:", threshold);
         }
-      }catch(error){
-        console.log("Error fetching shipping cost:", error);
-      }finally{
-        setIsLoading(false);
       }
-      }
-
+    }catch(error){
+      console.log("Error fetching shipping cost:", error);
+    }finally{
+      setIsLoading(false);
+    }
+    }
+  
+    useEffect(() => {
+      fetchShippingCost();
+    }, [homeAddress]);
   
 
   //update cartItems
@@ -263,7 +271,7 @@ export default function ShoppingCart() {
     return sum;
   }, 0);
 
-    useEffect(() => {
+  useEffect(() => {
     fetchShippingCost();
   }, [selectedSubtotal]);
 
