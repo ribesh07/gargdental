@@ -399,7 +399,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 
 
 ### Categories lists
-GET https://gargdental.omsok.com/api/v1/products/category-wise-products?category_id=1&limit=10&offset=0
+GET https://gargdental.omsok.com/api/v1/products/category-wise-products?category_id=69&limit=10&offset=0
 Content-Type: application/json
 
 ### product wise products

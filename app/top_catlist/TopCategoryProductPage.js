@@ -16,6 +16,7 @@ function TopCategoryProductPage() {
   const [error, setError] = useState(null);
   const [offset, setOffset] = useState(0);
   const [limit] = useState(20);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     if (!categoryIdFromQuery) return;
@@ -52,6 +53,7 @@ function TopCategoryProductPage() {
         if (transformedProducts.length > 0) {
           setCategoryName(transformedProducts[0].category);
         }
+            setHasMore(transformedProducts.length === limit);
       } catch (err) {
         setError(err.message || "Failed to fetch products");
       } finally {
@@ -63,7 +65,7 @@ function TopCategoryProductPage() {
   }, [categoryIdFromQuery, offset]);
 
   const loadMore = () => setOffset((prev) => prev + limit);
-
+  console.log("Products:", products.length);
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl my-6 mx-auto">
@@ -102,7 +104,8 @@ function TopCategoryProductPage() {
         {!loading && (
           <div className="max-w-7xl mx-auto px-4 mt-10">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6 sm-gap-x-6 gap-x-4 gap-y-4">
-              {products.map((product) => (
+              {products
+              .map((product) => (
                 <ProductCardMain
                   key={product.id}
                   product={product}
@@ -111,7 +114,7 @@ function TopCategoryProductPage() {
               ))}
             </div>
             {/* Load More Button */}
-            {products.length > 0 && (
+            {products.length > 0 && hasMore && (
               <div className="flex justify-center mt-6">
                 <button
                   onClick={loadMore}
