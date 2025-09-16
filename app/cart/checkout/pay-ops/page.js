@@ -194,8 +194,7 @@ const itemsWithVat = selectedItems.map((item) => ({
 
     useEffect(() => {
       fetchShippingCost();
-      if (subtotal >= currentThreshold) {
-        
+      if (subtotal >= currentThreshold && currentThreshold > 0 ) {
         setisFreeShipping(true);
         setShipping(0);
         console.log("current threshold : ", currentThreshold);
@@ -205,7 +204,7 @@ const itemsWithVat = selectedItems.map((item) => ({
     }, [subtotal, currentThreshold]);
   
     // const total = subtotal + totalVatAmount + shipping;
-    const total = subtotal  + (isFreeShipping ? 0 : shipping);
+    const total = subtotal  + (subtotal >= currentThreshold ? 0 : shipping);
     // const total = subtotal  + ( shipping);
   
 

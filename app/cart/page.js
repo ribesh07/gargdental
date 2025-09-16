@@ -286,7 +286,10 @@ export default function ShoppingCart() {
     }, [selectedSubtotal, currentThreshold]);
 
   // const total = selectedSubtotal + (selectedItems.size > 0 ? shipping : 0);
-    const total = selectedSubtotal + (selectedSubtotal >= currentThreshold ? 0 : shipping);
+  var total = selectedSubtotal;
+  if(selectedItems.size > 0){
+     total = selectedSubtotal + (selectedSubtotal >= currentThreshold ? 0 : shipping);
+  }
 
   const handleClearCart = async () => {
     setIsLoading(true);

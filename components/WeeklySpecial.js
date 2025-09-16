@@ -21,7 +21,7 @@ export default function ProductShowcase() {
       sell_price: product.sell_price,
       image_url:
         product.main_image_full_url ||
-        product.image_url ||
+        product.image_url || product.main_image ||
         "/assets/logo.png",
       flash_sale: product.flash_sale,
       weekly_offer: product.weekly_offer,
@@ -43,6 +43,7 @@ export default function ProductShowcase() {
         setLoading(false); // show instantly
       } catch {
         console.warn("Failed to parse cache");
+        localStorage.removeItem("products");
       }
     }
 

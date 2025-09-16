@@ -99,44 +99,8 @@ export default function OrderSummary() {
     }
   }, [selectedItems.length]);
 
-   const fetchShippingCost =async () => {
-      setLoading(true);
-      if(!defaultShippingAddress){
-        setLoading(false);
-        return;
-      }
-      try{
-        const checkCost = await apiRequest(
-          '/customer/check-valley',
-        true , {
-        method: "POST",
-        body: JSON.stringify({
-          address_id: defaultShippingAddress?.id,
-        }),
-      }
-        );
-        if(checkCost && checkCost.success){
-          const { inside_valley } = checkCost;
-          if(inside_valley){
-            const threshold = getInsideOfValleyThreshold();
-            setcurrentThreshold(threshold);
-            console.log("Inside of valley threshold:", threshold);
-          }else{
-            const threshold = getOutOfValleyThreshold();
-            setcurrentThreshold(threshold);
-            console.log("Outside of valley threshold:", threshold);
-          }
-        }
-      }catch(error){
-        console.log("Error fetching shipping cost:", error);
-      }finally{
-        setLoading(false);
-      }
-    }
-  
-  useEffect(() => {
-        fetchShippingCost();
-    }, [selectedId]);
+
+ 
 
   const handleProceedToPay = () => {
     if (!defaultBillingAddress) {
@@ -199,19 +163,22 @@ export default function OrderSummary() {
     alert("Item removed from cart");
   };
 
-  useEffect(() => {
-    console.log("currentThreshold:", currentThreshold);
-    console.log("defaukt shippingaddress :", defaultShippingAddress);
-    
-     if ( defaultShippingAddress && defaultShippingAddress?.shipping_cost) {
-      console.log("defaultShippingAddress changed:", defaultShippingAddress);
-      console.log("defaultShippingAddress cost:", defaultShippingAddress?.shipping_cost);
-      const cost = parseFloat(defaultShippingAddress?.shipping_cost);
-      setShipping(cost);
-      setShowShipping(cost);
-    }
-  }, [selectedId]);
+    useEffect(() => {
+       console.log("currentThreshold:", getInsideOfValleyThreshold(), getOutOfValleyThreshold());
+       console.log("defaukt shippingaddress :", defaultShippingAddress);
+       
+        if ( defaultShippingAddress && defaultShippingAddress?.shipping_cost) {
+         console.log("defaultShippingAddress changed:", defaultShippingAddress);
+         console.log("defaultShippingAddress cost:", defaultShippingAddress?.shipping_cost);
+         const cost = parseFloat(defaultShippingAddress?.shipping_cost);
+         setShipping(cost);
+         setShowShipping(cost);
+       }
+     }, [selectedId]);
 
+  //  useEffect(() => {
+  //       fetchShippingCost();
+  //   }, [selectedId]);
   // const subtotal = selectedItems.reduce(
   //   (sum, item) => sum + item.price * item.quantity,
   //   0
@@ -238,19 +205,56 @@ export default function OrderSummary() {
 
   const taxtotal = subtotal - totalVatAmount;
 
-
-  useEffect(() => {
-    if (subtotal >= currentThreshold && currentThreshold > 0 ) {
-      setisFreeShipping(true);
-      setShipping(0);
-      console.log("current threshold : ", currentThreshold);
-    } else {
-      setisFreeShipping(false);
-    }
-  }, [subtotal, currentThreshold,selectedId]);
-
+  const fetchShippingCost =async () => {
+     setLoading(true);
+     if(!defaultShippingAddress){
+       setLoading(false);
+       return;
+     }
+     try{
+       const checkCost = await apiRequest(
+         '/customer/check-valley',
+       true , {
+       method: "POST",
+       body: JSON.stringify({
+         address_id: defaultShippingAddress?.id,
+       }),
+     }
+       );
+       if(checkCost && checkCost.success){
+         const { inside_valley } = checkCost;
+         if(inside_valley){
+           const threshold = getInsideOfValleyThreshold();
+           setcurrentThreshold(threshold);
+           console.log("Inside of valley threshold:", threshold);
+         }else{
+           const threshold = getOutOfValleyThreshold();
+           setcurrentThreshold(threshold);
+           console.log("Outside of valley threshold:", threshold);
+         }
+       }
+     }catch(error){
+       console.log("Error fetching shipping cost:", error);
+     }finally{
+       setLoading(false);
+     }
+     }
+ 
+     useEffect(() => {
+       fetchShippingCost();
+     }, [defaultShippingAddress]);
+ 
+   useEffect(() => {
+     if (subtotal >= currentThreshold) {
+       setisFreeShipping(true);
+       setShipping(0);
+       console.log("current threshold : ", currentThreshold);
+     } else {
+       setisFreeShipping(false);
+     }
+   }, [subtotal, currentThreshold]);
   // const total = subtotal + totalVatAmount + shipping;
-  const total = subtotal + (isFreeShipping ? 0 : shipping);
+  const total = subtotal + (subtotal >= currentThreshold ? 0 : shipping);
 
   if (loading) {
     return (
