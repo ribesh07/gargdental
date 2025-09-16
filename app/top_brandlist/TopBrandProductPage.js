@@ -21,6 +21,7 @@ function TopBrandProductPage() {
   const [limit] = useState(20);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [hasMore, setHasMore] = useState(true);
 
   // Fetch top brands on mount
   useEffect(() => {
@@ -100,6 +101,7 @@ function TopBrandProductPage() {
             delivery_days: product.delivery_target_days,
           })) || [];
         setProducts((prev) => (offset === 0 ? transformedProducts : [...prev, ...transformedProducts]));
+        setHasMore(transformedProducts.length === limit);
       } catch (err) {
         setError(err.message || "Failed to fetch products");
       } finally {
@@ -118,8 +120,10 @@ function TopBrandProductPage() {
       product.brand.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === "" || product.category === selectedCategory;
+
     return matchesSearch && matchesCategory;
   });
+  console.log("Filtered Products:", filteredProducts.length);
 
   // Handle brand change
   const handleBrandChange = (e) => {
@@ -174,7 +178,8 @@ function TopBrandProductPage() {
         {!loading && (
           <div className="max-w-7xl mx-auto px-4 mt-10">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6 sm-gap-x-6 gap-x-4 gap-y-4">
-              {filteredProducts.map((product) => (
+              {filteredProducts
+              .map((product) => (
                 <ProductCardMain
                   key={product.id}
                   product={product}
@@ -183,7 +188,7 @@ function TopBrandProductPage() {
               ))}
             </div>
             {/* Load More Button */}
-            {filteredProducts.length > 0 && (
+            {filteredProducts.length > 0 && hasMore && (
               <div className="flex justify-center mt-6">
                 <button
                   onClick={loadMore}
