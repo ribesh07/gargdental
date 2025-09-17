@@ -203,63 +203,6 @@ export default function AboutUsPage() {
         </div>
       )}
 
-
-      {/* arko design to show image 
-
-
-      {aboutData.story_title && aboutData.stories?.length > 0 && (
-        <div className="bg-gray-50 py-16">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
-              {aboutData.story_title}
-            </h2>
-
-            <div className="space-y-16">
-              {aboutData.stories.map((story, index) => (
-                <div
-                  key={index}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                    index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                  }`}
-                >
-                  
-                  <div className="flex justify-center">
-                    <div className="relative text-center">
-                      {story.image && (
-                        <img
-                          src={story.image}
-                          alt={story.name || `Story ${index + 1}`}
-                          className="w-64 h-64 object-cover bg-gradient-to-br from-blue-100 to-purple-100 rounded-full mx-auto"
-                        />
-                      )}
-                      {story.name && (
-                        <h3 className="text-xl font-bold text-gray-900 mt-4">
-                          {story.name}
-                        </h3>
-                      )}
-                      {story.designation && (
-                        <p className="text-sm text-gray-600">
-                          {story.designation}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  
-                  <div>
-                    {story.description && (
-                      <HtmlDataConversion description={story.description} />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )} */}
-
-
-
       {/* Stats Section */}
       <div className="bg-blue-900 py-8">
         <div className="max-w-7xl mx-auto px-6">

@@ -4,11 +4,7 @@ import { useEffect, useState } from "react";
 import { useAddressStore } from "@/stores/addressStore";
 
 export default function AddressSelector() {
-  // const [addressDropdowns, setAddressDropdowns] = useState({
-  //   provinces: [],
-  //   cities: [],
-  //   zones: [],
-  // });
+  
 
   const { provinces, cities, zones, loading, error, fetchAddressDropdowns } =
     useAddressStore();
@@ -16,14 +12,7 @@ export default function AddressSelector() {
   const [selectedCityId, setSelectedCityId] = useState("");
   const [selectedZoneId, setSelectedZoneId] = useState("");
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await sortAddressDropdowns();
-  //     console.log("data", data);
-  //     setAddressDropdowns(data);
-  //   };
-  //   fetchData();
-  // }, []);
+  
   useEffect(() => {
     fetchAddressDropdowns();
   }, [fetchAddressDropdowns]);

@@ -245,17 +245,7 @@ export default function CustomerProfilePage() {
                   </div>
                 </div>
 
-                {/* {user.province && (
-                  <div className="flex items-center gap-3">
-                    <div className="bg-red-100 p-2 rounded-full">
-                      <MapPin className="w-5 h-5 text-red-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Province</p>
-                      <p className="font-medium text-gray-800">{user.province}</p>
-                    </div>
-                  </div>
-                )} */}
+                
               </div>
             </div>
           </div>
@@ -288,11 +278,7 @@ export default function CustomerProfilePage() {
 
               {/* Danger Zone */}
               <div className="bg-gray-50 rounded-xl shadow-lg p-6 border border-red-200">
-                {/* <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
-                  <Trash2 className="w-5 h-5 text-red-600" />
-                  Danger Zone
-                </h3> */}
-
+                
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">
