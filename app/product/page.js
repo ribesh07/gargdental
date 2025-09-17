@@ -3,7 +3,9 @@ import { Suspense } from "react";
 
 function Page() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<>
+      <FullScreenLoader />
+    </>}>
       <ProductAPIRequest />
     </Suspense>
   );
@@ -39,6 +41,7 @@ import {
   useCategoryStore,
   useManufacturerStore,
 } from "@/stores/InitdataFetch";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
 const ProductAPIRequest = () => {
   const { products, loading, error } = useProductStore();
