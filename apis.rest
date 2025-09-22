@@ -507,3 +507,13 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpI
 {
 "address_id":39
 }
+
+### validate-ips
+POST https://gargdental.omsok.com/api/v1/payment/ips/validate
+Content-Type: application/json
+Authorization: Bearer eyJpdiI6IkJzQitRczFsMHZWenBxZk1rQkFndmc9PSIsInZhbHVlIjoiUFRhTGdMTmhBYm9PT3hybXJBNXp1OWRFcWdoZFpzaUZDUXdEZW9OcnpTVU1XbXhhOXZGTTVDUlhmaWN5b2RaekZyZzhaNUVla05TV2E0TXZGekJQM1BFT2hpR2RHQjI0YkFOTnRoNXFrbkFSaG1zSThFTGQvYXRSOVNoUWdRVXQiLCJtYWMiOiJlZmRiYjU4YTJjYTczYTIyODYxMzY5NzhlM2VlZjdjNGY4ODRkN2JjZGNjOTlmZDVlY2YxYTAwNDFmNWNkZDFmIiwidGFnIjoiIn0%3D
+
+{
+  "referenceId": "TxyNxFsgyN5VWX4j98xB"
+ 
+}
