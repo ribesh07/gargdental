@@ -291,13 +291,13 @@ export const handleOrderBuyNow = async (orderData) => {
       method: "POST",
       body: JSON.stringify(orderData),
     });
-    console.log("response from handleOrderBuyNow", orderData);
-    console.log("response from handleOrderBuyNow", response);
+    // console.log("response from handleOrderBuyNow", orderData);
+    // console.log("response from handleOrderBuyNow", response);
     if (response.success) {
-      useInfoModalStore.getState().open({
-        title: "Info",
-        message: response.message || "Order placed successfully",
-      });
+      // useInfoModalStore.getState().open({
+      //   title: "Info",
+      //   message: response.message || "Order placed successfully",
+      // });
       return response;
     } else {
       useWarningModalStore.getState().open({

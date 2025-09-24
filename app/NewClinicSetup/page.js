@@ -21,8 +21,8 @@ export default function ClinicSetupPage() {
     full_name: "",
     email: "",
     phone: "",
-    city: "",
     budget: "",
+    city: "",
     remarks: "",
   });
 
@@ -46,9 +46,9 @@ export default function ClinicSetupPage() {
       });
 
       const result = response;
-
-      if (response.status) {
-        toast.success("Form submitted successfully!");
+      console.log("API response formData:", response);
+      if (response.success) {
+        // toast.success("Form submitted successfully!");
         useInfoModalStore.getState().open({
           title: "Success",
           message:
@@ -65,7 +65,7 @@ export default function ClinicSetupPage() {
           remarks: "",
         });
       } else {
-        toast.error(result?.errors[0]?.message || "Submission failed.");
+        toast.error("Submission failed.");
       }
     } catch (err) {
       console.error("Error submitting form:", err);
@@ -291,6 +291,7 @@ export default function ClinicSetupPage() {
           <div>
             <label className="block text-sm font-medium mb-1">City</label>
             <input
+              required
               type="text"
               name="city"
               value={formData.city}
@@ -305,6 +306,7 @@ export default function ClinicSetupPage() {
               Budget (in lakhs)
             </label>
             <input
+              required
               type="text"
               name="budget"
               value={formData.budget}
@@ -325,6 +327,7 @@ export default function ClinicSetupPage() {
           <div>
             <label className="block text-sm font-medium mb-1">Remarks</label>
             <textarea
+              required
               name="remarks"
               value={formData.remarks}
               onChange={handleChange}
