@@ -319,7 +319,7 @@ const HeaderBarNew = () => {
                   href="/dashboard"
                   className="hover:underline font-bold hover:text-[#1FA2FF] hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
-                  Dashboard
+                  Home
                 </Link>
                 <Link
                   href="/product"
