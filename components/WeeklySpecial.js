@@ -20,9 +20,9 @@ export default function ProductShowcase() {
       actual_price: product.actual_price,
       sell_price: product.sell_price,
       image_url:
-        product.main_image_full_url ||
-        product.image_url || product.main_image ||
-        "/assets/logo.png",
+          product.main_image_full_url ||
+            product.image_url || product.main_image || 
+            "/assets/logo.png",
       flash_sale: product.flash_sale,
       weekly_offer: product.weekly_offer,
       special_offer: product.special_offer,
@@ -145,6 +145,7 @@ export default function ProductShowcase() {
                 Flash Products
               </h2>
               <div className="space-y-3">
+                {console.log(flashes)}
                 {flashes.length > 0 ? (
                   flashes.map(ProductCard)
                 ) : (

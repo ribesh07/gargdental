@@ -48,7 +48,7 @@ function FlashSaleProductPage() {
             sell_price: product.sell_price,
             image_url:
              product.main_image_full_url ||
-              product.image_full_url ||
+              product.image_full_url ||  product.main_image ||
               "/assets/logo.png",
             description: product.product_description,
             available_quantity: product.available_quantity,

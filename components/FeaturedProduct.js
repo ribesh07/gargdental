@@ -143,7 +143,7 @@ export default function ProductShowcase() {
           reviews: product.review_count,
           image_url:
             product.main_image_full_url ||
-            product.image_url || product.main_image ||
+            product.image_url || product.main_image || 
             "/assets/logo.png",
           description: product.product_description,
           available_quantity: product.available_quantity,
@@ -156,6 +156,8 @@ export default function ProductShowcase() {
         // const mapSpecial = mappeddata.slice(6, 9);
         // const mapWeekly = mappeddata.slice(9, 12);
         // const mapFlashSale = mappeddata.slice(12, 15);
+
+        // console.log("Mapped latest products:", mapProduct);
         setProducts(mapProduct);
         // setSpecialProducts(mapSpecial);
         // setWeeklyProducts(mapWeekly);

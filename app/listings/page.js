@@ -30,7 +30,7 @@ const DentalSuppliesListing = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isReady, setIsReady] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(17); // Number of products to display initially
+  const [visibleCount, setVisibleCount] = useState(16); // Number of products to display initially
   var visibleProducts = [];
   // const [categories, setCategories] = useState([]);
 
@@ -450,7 +450,8 @@ const DentalSuppliesListing = () => {
                   {filteredAndSortedProducts
                     .slice(0, visibleCount)
                     .map((product, index) =>
-                      product.has_variations ? null : (
+                      // product.has_variations ? null : 
+                    (
                         <ProductCardMain
                           key={product.id || index}
                           product={product}
