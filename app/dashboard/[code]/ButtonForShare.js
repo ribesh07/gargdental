@@ -27,7 +27,7 @@ export default function ButtonForShare({ product }) {
   const [user, setUser] = useState({});
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       if (token) {
         setIsloggedin(true);

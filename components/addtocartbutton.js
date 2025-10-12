@@ -11,7 +11,7 @@ const AddToCartButton = ({ product }) => {
 
   const handleAddToCart = () => {
     const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
     if (!token) {
       window.location.href = "/account";
       return;
@@ -43,7 +43,7 @@ export default AddToCartButton;
 export function AddToCart({ product, quantity = 1 }) {
   const handleAdd = async () => {
     const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
     if (!token) {
       window.location.href = "/account";
       return;
@@ -84,7 +84,7 @@ export function AddToCart({ product, quantity = 1 }) {
 export function AddtoCartFeatured({ product }) {
   const handleAdd = async () => {
     const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
     if (!token) {
       window.location.href = "/account";
       return;

@@ -8,7 +8,7 @@ export function BuyNow({ product }) {
   const setSelectedItemsStore = useCartStore((state) => state.setSelectedItems);
   const handleAdd = async () => {
     const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      typeof window !== "undefined" ? sessionStorage.getItem("token") : null;
     if (!token) {
       window.location.href = "/account";
       return;

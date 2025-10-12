@@ -74,7 +74,8 @@ export default function AuthPage() {
         console.log("Login successful:", data);
 
         if (data.token) {
-          localStorage.setItem("token", data.token);
+          // localStorage.setItem("token", data.token);
+          sessionStorage.setItem("token", data.token);
           await fetch("/api/auth/set-token", {
             method: "POST",
             headers: {

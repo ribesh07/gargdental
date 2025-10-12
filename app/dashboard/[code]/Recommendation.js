@@ -167,7 +167,7 @@ const ProductCard = ({ product, showDiscount = false }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       if (token) {
         setIsloggedin(true);

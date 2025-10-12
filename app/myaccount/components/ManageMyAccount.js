@@ -44,7 +44,7 @@ const handleLogout = async () => {
     const data = await response.json();
 
     if (data.success) {
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
 
       const useCartStore = await import("@/stores/useCartStore");
       useCartStore.default.getState().clearCart();

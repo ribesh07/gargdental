@@ -43,7 +43,7 @@ const HeaderBarNew = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       if (token) {
         setIsloggedin(true);
@@ -127,7 +127,7 @@ const HeaderBarNew = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setIsloggedin(false);
     setUser({});
     useCartStore.getState().clearCart();
