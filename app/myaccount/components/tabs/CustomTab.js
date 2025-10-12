@@ -179,6 +179,7 @@ export default function CustomTab({ status }) {
         <div className="text-center py-16 sm:py-20">
           <div className="text-red-600 text-base sm:text-lg mb-4">{error}</div>
           <button
+            aria-label="Try Again"
             onClick={fetchOrders}
             className="px-4 py-2 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm sm:text-base"
           >
@@ -240,6 +241,7 @@ export default function CustomTab({ status }) {
                   order.order_status !== "shipped" &&
                   order.order_status !== "delivered" && (
                     <button
+                    aria-label="Cancel"
                       className="text-red-600 text-xs sm:text-sm font-bold underline px-3 py-1 rounded hover:bg-red-50 transition w-full sm:w-auto"
                       onClick={() =>
                         handleCancelOrder(order.id, order.order_id)
@@ -357,6 +359,7 @@ export default function CustomTab({ status }) {
                                   {status === "delivered" && (
                                     <div className="text-xs sm:text-sm text-gray-500">
                                       <button
+                                      
                                         disabled={item.reviewed}
                                         onClick={() =>
                                           handleAddReview(
@@ -383,6 +386,7 @@ export default function CustomTab({ status }) {
                                               : "hover:underline"
                                           }
                                           `}
+                                        
                                       >
                                         {item.reviewed
                                           ? "Reviewed"

@@ -15,6 +15,7 @@ import { getDate  } from '@/utils/payments/getDate'
 import { apiRequest } from "@/utils/ApiSafeCalls";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { getToken } from "@/utils/ApiSafeCalls";
+import useInfoModalStore from "@/stores/infoModalStore";
 
 const paymentMethods = [
     {
@@ -222,13 +223,13 @@ const fetchShippingCost =async () => {
     };
     console.log("orderData", orderData);
     const result = await handleOrderBuyNow(orderData);
-    // console.log("result", result.message);
-    // if (result.success) {
-    //    useInfoModalStore.getState().open({
-    //     title: "Info",
-    //     message: result.message || "Order placed successfully",
-    //   });
-    // }
+    console.log("result", result);
+    if (result.success) {
+       useInfoModalStore.getState().open({
+        title: "Info",
+        message: result.message || "Order placed successfully",
+      });
+    }
     addOrder({
       items: selectedItems,
       address: selectedShippingAddress,

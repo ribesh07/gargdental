@@ -191,6 +191,7 @@ export function CategoriesViews() {
             <nav className="-mb-px flex flex-row sm:flex-row space-y-2 sm:space-y-0 sm:space-x-8">
               <div className="flex flex-col items-start">
                 <button
+                aria-label="Categories"
                   onClick={() => setActiveTab("categories")}
                   className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                     activeTab === "categories"
@@ -208,6 +209,7 @@ export function CategoriesViews() {
               </div>
               <div className="flex flex-col items-start">
                 <button
+                aria-label="Companies"
                   onClick={() => setActiveTab("manufacturers")}
                   className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                     activeTab === "manufacturers"

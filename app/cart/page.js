@@ -46,7 +46,7 @@ export default function ShoppingCart() {
   const [billingAddress, setBillingAddress] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       useInfoModalStore.getState().open({
         title: "Info",

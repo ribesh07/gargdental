@@ -92,6 +92,7 @@ export default function SearchBar() {
               className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
             />
             <button
+              aria-label="Search"
               onClick={handleSearch}
               className="absolute right-0 top-0 bg-[#0072bc] text-white px-4 py-2 flex items-center justify-center rounded-r-md hover:bg-[#005fa3] transition-colors"
             >

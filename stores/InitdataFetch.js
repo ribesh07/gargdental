@@ -33,7 +33,7 @@ export const useProductStore = create((set, get) => ({
     let expiry = 0;
 
     if (typeof window !== "undefined") {
-    const cached = localStorage.getItem("productsCache");
+    const cached = sessionStorage.getItem("productsCache");
     if (cached) {
         try {
         const parsed = JSON.parse(cached);
@@ -53,9 +53,9 @@ export const useProductStore = create((set, get) => ({
         return;
     }
 
-    // If expired, remove from localStorage
+    // If expired, remove from sessionStorage
     if (Date.now() >= expiry) {
-        localStorage.removeItem("productsCache");
+        sessionStorage.removeItem("productsCache");
     }
 
     const now = Date.now();
@@ -90,7 +90,7 @@ export const useProductStore = create((set, get) => ({
         })) || [];
 
       if (typeof window !== "undefined") {
-        localStorage.setItem(
+        sessionStorage.setItem(
             "productsCache",
             JSON.stringify({ data: transformedProducts, expiry: now + CACHE_DURATION })
         );
@@ -123,7 +123,7 @@ export const useCategoryStore = create((set, get) => ({
 let expiry = 0;
 
 if (typeof window !== "undefined") {
-  const cached = localStorage.getItem("categoriesCache");
+  const cached = sessionStorage.getItem("categoriesCache");
   if (cached) {
     try {
       const parsed = JSON.parse(cached);
@@ -143,9 +143,9 @@ if (data.length > 0 && Date.now() < expiry) {
   return;
 }
 
-// If expired, remove from localStorage
+// If expired, remove from sessionStorage
 if (Date.now() >= expiry) {
-  localStorage.removeItem("categoriesCache");
+  sessionStorage.removeItem("categoriesCache");
 }
     const now = Date.now();
 
@@ -157,7 +157,7 @@ if (Date.now() >= expiry) {
         console.log("Mapped Categories:", mappedCategories);
 
         if (typeof window !== "undefined") {
-            localStorage.setItem(
+            sessionStorage.setItem(
                 "categoriesCache",
                 JSON.stringify({ data: mappedCategories, expiry: now + CACHE_DURATION })
             );
@@ -230,7 +230,7 @@ export const useManufacturerStore = create(
     }),
     {
       name: "manufacturerstorage",
-      getStorage: () => localStorage,
+      getStorage: () => sessionStorage,
     }
   )
 );

@@ -23,7 +23,7 @@ export default function WishListHeart({ product }) {
   //  First check if user is logged in
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       if (token) {
         setIsLoggedIn(true);
         // you can fetch user details if needed

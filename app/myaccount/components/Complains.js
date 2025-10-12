@@ -234,6 +234,7 @@ const Complains = () => {
                           }))
                         }
                         className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shadow-lg hover:bg-red-700 transition-colors"
+                        aria-label="Remove file"
                       >
                         ×
                       </button>
@@ -250,6 +251,7 @@ const Complains = () => {
             onClick={handleSubmit}
             className="bg-[#0072bc] text-white px-6 py-3 rounded-full hover:opacity-90 transition-all cursor-pointer"
             disabled={submitting}
+            aria-label="Submit Grievance Form"
           >
             {submitting ? "Submitting..." : "Submit"}
           </button>

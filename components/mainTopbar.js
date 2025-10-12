@@ -78,6 +78,7 @@ export default function MainTopBar() {
                 <button
                   onClick={() => handleSearch()}
                   className="absolute right-0 top-0 h-full px-4 bg-blue-900 text-white rounded-r hover:bg-blue-800"
+                  aria-label="Search"
                 >
                   <Search size={16} />
                 </button>
@@ -96,7 +97,7 @@ export default function MainTopBar() {
                   placeholder="Password"
                   className="w-24 py-1.5 px-3 border border-gray-300 rounded text-xs"
                 />
-                <button className="bg-blue-900 text-white px-4 py-1.5 rounded text-xs hover:bg-blue-800">
+                <button className="bg-blue-900 text-white px-4 py-1.5 rounded text-xs hover:bg-blue-800" aria-label="Login">
                   Login
                 </button>
               </div>

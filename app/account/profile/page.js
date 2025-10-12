@@ -75,7 +75,8 @@ export default function CustomerProfilePage() {
 
       if (data.success) {
         // Clear localStorage
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
 
         // Clear cart store
         const useCartStore = await import("@/stores/useCartStore");
@@ -176,7 +177,7 @@ export default function CustomerProfilePage() {
                   </button>
                 </div>
                 <div className="bg-red-500 text-white rounded-lg mb-3 p-2 relative hover:underline hover:scale-105 transition-all duration-300 cursor-pointer">
-                  <button onClick={handleLogout}>Logout</button>
+                  <button onClick={handleLogout} aria-label="Logout">Logout</button>
                 </div>
               </div>
 
