@@ -18,7 +18,7 @@ export default function CartItem({ item }) {
       </div>
       <p className="mr-4">Rs. {item.price.toFixed(2)}</p>
       <div className="flex items-center">
-        <button onClick={handleDecrease} className="px-2 py-1 bg-gray-200">
+        <button onClick={handleDecrease} className="px-2 py-1 bg-gray-200" aria-label="Decrease quantity">
           -
         </button>
         <input
@@ -30,14 +30,14 @@ export default function CartItem({ item }) {
           className="w-12 text-center border mx-2"
           min="1"
         />
-        <button onClick={handleIncrease} className="px-2 py-1 bg-gray-200">
+        <button onClick={handleIncrease} className="px-2 py-1 bg-gray-200" aria-label="Increase quantity">
           +
         </button>
       </div>
       <p className="text-green-600 ml-4">
         Rs. {(item.price * quantity).toFixed(2)}
       </p>
-      <button className="ml-4 text-red-500">🗑️</button>
+      <button className="ml-4 text-red-500" aria-label="Delete item" >🗑️</button>
     </div>
   );
 }

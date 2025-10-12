@@ -502,6 +502,7 @@ export default function OrderSummaryBuyNow() {
               <div className="space-y-4">
                 <button
                   onClick={handleProceedToPay}
+                  aria-label="Proceed to Pay"
                   disabled={isProcessing}
                   className={`w-full py-3 px-6 rounded-lg font-medium transition-colors cursor-pointer ${isProcessing
                       ? "bg-green-500 text-white cursor-not-allowed"

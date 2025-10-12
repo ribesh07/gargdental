@@ -232,6 +232,7 @@ export default function ReviewPage({
                         />
                         {/* Remove button */}
                         <button
+                        
                           type="button"
                           onClick={() =>
                             setSelectedPhotos((prev) =>
@@ -252,6 +253,7 @@ export default function ReviewPage({
               {/* Submit Button */}
               <div className="flex gap-4">
                 <button
+                aria-label="Cancel"
                   onClick={closeModal}
                   className="w-full py-4 bg-[#bc3500] to-red--700 text-white font-semibold rounded-xl text-base uppercase tracking-wide transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
@@ -259,6 +261,7 @@ export default function ReviewPage({
                 </button>
 
                 <button
+                aria-label="Submit Review"
                   onClick={submitReview}
                   disabled={isSubmitting}
                   className="w-full py-4 bg-[#0072bc] to-blue-800 text-white font-semibold rounded-xl text-base uppercase tracking-wide transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"

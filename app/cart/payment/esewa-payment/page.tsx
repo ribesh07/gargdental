@@ -171,6 +171,7 @@ export default function EsewaPayment() {
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               type="submit"
               disabled={isLoading || !amount || !productName || !transactionId}
+              aria-label="Pay with eSewa"
             >
               {isLoading ? "Processing..." : "Pay with eSewa"}
             </button>

@@ -237,6 +237,7 @@ export default function ReturnProduct() {
                 <div key={index} className="relative group">
                   {/* ❌ Remove button */}
                   <button
+                  aria-label="Remove file"
                     type="button"
                     onClick={() => removeFile(index)}
                     className="absolute top-1 right-1 bg-gray-50 text-red-500 border border-red-300 rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
@@ -267,6 +268,7 @@ export default function ReturnProduct() {
 
         <div className="flex space-x-4">
           <button
+          aria-label="Submit Return Request"
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
@@ -301,6 +303,7 @@ export default function ReturnProduct() {
         </div>
       </div>
       <button
+      aria-label="Go to My Account"
         onClick={() => {
           setFormData({
             orderNumber: "",

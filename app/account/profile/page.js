@@ -176,7 +176,7 @@ export default function CustomerProfilePage() {
                   </button>
                 </div>
                 <div className="bg-red-500 text-white rounded-lg mb-3 p-2 relative hover:underline hover:scale-105 transition-all duration-300 cursor-pointer">
-                  <button onClick={handleLogout}>Logout</button>
+                  <button onClick={handleLogout} aria-label="Logout">Logout</button>
                 </div>
               </div>
 
