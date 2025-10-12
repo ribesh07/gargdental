@@ -75,7 +75,8 @@ export default function CustomerProfilePage() {
 
       if (data.success) {
         // Clear localStorage
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
 
         // Clear cart store
         const useCartStore = await import("@/stores/useCartStore");

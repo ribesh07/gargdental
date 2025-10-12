@@ -102,7 +102,7 @@ export default function ReturnProduct() {
       const response = await fetch(`${baseUrl}/customer/order/return`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
         body: fd,
       });

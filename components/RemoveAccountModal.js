@@ -25,7 +25,7 @@ const RemoveAccountModal = ({ isOpen, onClose }) => {
         toast.success("Account removed successfully");
 
         // Clear local storage
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
 
         // Redirect to home page
         router.push("/");
