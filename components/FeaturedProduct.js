@@ -214,8 +214,8 @@ export default function ProductShowcase() {
 
           <FeatureCard
             icon={Mail  }
-            title="Call Our Team For Credit Order"
-            description="Contact us to place your credit order"
+            title="Credit Order"
+            description="Call us to place your credit order"
           />
         </div>
       </div>
