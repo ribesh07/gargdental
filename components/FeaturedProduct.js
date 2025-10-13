@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Star, Truck, Shield, Headphones } from "lucide-react";
+import { Star, Truck, Shield, Headphones, Mail } from "lucide-react";
 import { AddtoCartFeatured } from "./addtocartbutton";
 import { BuyNow } from "./BuyNow";
 import fetchProducts from "@/utils/apiHelper";
@@ -195,7 +195,7 @@ export default function ProductShowcase() {
         <WeeklySpecial />
 
         {/* Features Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 my-6 sm:my-8 pt-4 sm:pt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 my-6 sm:my-8 pt-4 sm:pt-5">
           <FeatureCard
             icon={Truck}
             title="Low Shipping Cost"
@@ -210,6 +210,12 @@ export default function ProductShowcase() {
             icon={Headphones}
             title="24/7 Help Center"
             description="Round-the-clock assistance for a smooth shopping experience"
+          />
+
+          <FeatureCard
+            icon={Mail  }
+            title="Call Our Team For Credit Order"
+            description="Contact us to place your credit order"
           />
         </div>
       </div>
