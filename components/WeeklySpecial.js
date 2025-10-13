@@ -9,6 +9,8 @@ export default function ProductShowcase() {
   const [flashes, setFlashes] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const CACHE_DURATION = 5 * 60 * 1000; // 5 min
+  const now = Date.now();
 
   // Function to process and split products
   const processProducts = (data) => {
@@ -35,15 +37,15 @@ export default function ProductShowcase() {
 
   useEffect(() => {
     // 1. Check cache first
-    const cached = localStorage.getItem("products");
+    const cached = sessionStorage.getItem("products");
     if (cached) {
       try {
         const parsed = JSON.parse(cached);
-        processProducts(parsed);
+        processProducts(parsed.data || []);
         setLoading(false); // show instantly
       } catch {
         console.warn("Failed to parse cache");
-        localStorage.removeItem("products");
+        sessionStorage.removeItem("products");
       }
     }
 
@@ -53,7 +55,7 @@ export default function ProductShowcase() {
         const response = await apiRequest("/products/all", false);
         const data = response?.products || [];
         processProducts(data);
-        localStorage.setItem("products", JSON.stringify(data)); // update cache
+        sessionStorage.setItem("products", JSON.stringify({data , expiry: now + CACHE_DURATION} )); // update cache
       } catch (err) {
         console.error("Failed to fetch products:", err);
       } finally {
