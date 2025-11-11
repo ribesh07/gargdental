@@ -331,7 +331,7 @@ const ProductRequest = () => {
     setError(null);
     try {
       if (typeof window !== "undefined") {
-        const cached = sessionStorage.getItem(CACHE_KEY);
+        const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
           const { data, expiry } = JSON.parse(cached);
           if (Date.now() < expiry) {
@@ -370,7 +370,7 @@ const ProductRequest = () => {
         })) || [];
 
       if (typeof window !== "undefined") {
-        sessionStorage.setItem(
+        localStorage.setItem(
           CACHE_KEY,
           JSON.stringify({
             data: transformedProducts,

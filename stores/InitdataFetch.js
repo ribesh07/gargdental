@@ -33,7 +33,7 @@ export const useProductStore = create((set, get) => ({
     let expiry = 0;
 
     if (typeof window !== "undefined") {
-    const cached = sessionStorage.getItem("productsCache");
+    const cached = localStorage.getItem("productsCache");
     if (cached) {
         try {
         const parsed = JSON.parse(cached);
@@ -53,9 +53,9 @@ export const useProductStore = create((set, get) => ({
         return;
     }
 
-    // If expired, remove from sessionStorage
+    // If expired, remove from localStorage
     if (Date.now() >= expiry) {
-        sessionStorage.removeItem("productsCache");
+        localStorage.removeItem("productsCache");
     }
 
     const now = Date.now();
@@ -90,7 +90,7 @@ export const useProductStore = create((set, get) => ({
         })) || [];
 
       if (typeof window !== "undefined") {
-        sessionStorage.setItem(
+        localStorage.setItem(
             "productsCache",
             JSON.stringify({ data: transformedProducts, expiry: now + CACHE_DURATION })
         );
