@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin
+
+# Host
+Host: https://www.dentalnepal.com
+
+# Sitemaps
+Sitemap: https://www.dentalnepal.com/sitemap.xml
