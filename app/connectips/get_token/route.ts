@@ -28,6 +28,7 @@ const getPrivateKey = async (): Promise<Pkcs12ReadResult['key']> => {
 
 export async function POST(request: Request) {
   const body = await request.json();
+  console.log('Get Token Body:', body);
   const message = objectToKeyValueString(body);
 
   const key = new NodeRSA(await getPrivateKey()).exportKey('pkcs8');
