@@ -20,11 +20,22 @@ const credentials = Buffer.from(`${APPID}:${PASSWORD}`).toString("base64");
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    body.MERCHANTID = Number(MERCHANTID);
+    body.APPID = APPID;
+    body.REFERENCEID = String(body.REFERENCEID);
+    body.TXNAMT = Number(body.TXNAMT);
     console.log('Request Body:', body);
+
+    const signaturePayload = {
+      MERCHANTID: body.MERCHANTID,
+      APPID: body.APPID,
+      REFERENCEID: body.REFERENCEID,
+      TXNAMT: body.TXNAMT,
+    };
 
     const tokenResponse = await fetch(`${hostname}/connectips/get_token`, {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(signaturePayload),
       cache: 'no-cache',
     });
 

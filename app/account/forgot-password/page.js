@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
         if (data.success) {
           setIsCodeSent(true);
           console.log("Verification code sent successfully");
-          console.log(data.code);
+          // console.log(data.code);
           router.push(
             `/account/forgot-password/verify?email=${encodeURIComponent(email)}`
           );

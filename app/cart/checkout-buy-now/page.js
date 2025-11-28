@@ -92,20 +92,43 @@ export default function OrderSummaryBuyNow() {
   }, [selectedItems.length]);
 
   const handleProceedToPay = () => {
+     if (!defaultBillingAddress && !defaultShippingAddress) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please add both billing and shipping addresses.{" "}
+            <a
+              href="/myaccount"
+              className="text-blue-600 underline hover:text-blue-800"
+            >
+              Go to My Account
+            </a>{" "}
+            to add your addresses.
+          </span>
+        ),
+      });
+      return;
+    }
+
     if (!defaultBillingAddress) {
       useInfoModalStore.getState().open({
         title: "Info",
         message: (
           <span>
-            Please Add Address.{" "}
-            <a
-              href="/myaccount"
-              className="text-blue-600 underline hover:text-blue-800"
-              style={{ cursor: "pointer" }}
-            >
-              Go to My Account
-            </a>{" "}
-            to add your address.
+            Please add your billing address !        
+          </span>
+        ),
+      });
+      return;
+    }
+
+    if (!defaultShippingAddress) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please add your shipping address !
           </span>
         ),
       });
