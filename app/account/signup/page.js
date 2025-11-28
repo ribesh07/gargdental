@@ -9,6 +9,8 @@ import { signIn } from "next-auth/react";
 // import toast from "react-hot-toast";
 
 export default function AuthPage() {
+  const nameRegex = /^[A-Za-z\s]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -42,6 +44,57 @@ export default function AuthPage() {
   //account creation
   const handleCreateAccount = async () => {
     try {
+      if (!formData.firstname || !formData.lastname || !formData.email || !formData.password || !formData.confirmPassword || !formData.phone) {
+        return useWarningModalStore.getState().open({
+          title: "Incomplete Form !",
+          message: "Please fill in all required fields.",
+        });
+      }
+
+      if (!nameRegex.test(formData.firstname)) {
+        return useWarningModalStore.getState().open({
+          title: "Invalid First Name !",
+          message: "First name should contain alphabets only.",
+        });
+      }
+
+      if (!nameRegex.test(formData.lastname)) {
+        return useWarningModalStore.getState().open({
+          title: "Invalid Last Name !",
+          message: "Last name should contain alphabets only.",
+        });
+      }
+      if (!emailRegex.test(formData.email)) {
+        return useWarningModalStore.getState().open({
+          title: "Invalid E-mail !",
+          message: "Please enter a valid email address.",
+        });
+      }
+      
+      if (formData.password.length < 6) {
+        return useWarningModalStore.getState().open({
+          title: "Weak Password !",
+          message: "Password should be at least 6 characters long.",
+        });
+      }
+
+      if (formData.password !== formData.confirmPassword) {
+        return useWarningModalStore.getState().open({
+          title: "Password Mismatch !",
+          message: "Password and Confirm Password do not match.",
+        });
+      }
+
+      if (formData.phone.length !== 10) {
+        return useWarningModalStore.getState().open({
+          title: "Invalid Mobile Number !",
+          message: "Mobile number should be exactly 10 digits.",
+        });
+      }
+
+
+      console.log("Registering user with data:", formData);
+
       const response = await fetch(`${baseUrl}/register`, {
         method: "POST",
         headers: {
@@ -63,7 +116,7 @@ export default function AuthPage() {
       if (response.ok) {
         useInfoModalStore.getState().open({
           title: "Success",
-          message: `Account created. Move to Verification ${data.code}!`,
+          message: `Account created, Move to Verification !`,
           onOkay: () =>
             router.push(
               `/account/verify?email=${encodeURIComponent(data.email)}`

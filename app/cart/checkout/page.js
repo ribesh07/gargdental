@@ -103,25 +103,49 @@ export default function OrderSummary() {
  
 
   const handleProceedToPay = () => {
-    if (!defaultBillingAddress) {
+   if (!defaultBillingAddress && !defaultShippingAddress) {
       useInfoModalStore.getState().open({
         title: "Info",
         message: (
           <span>
-            Please Add Address.{" "}
+            Please add both billing and shipping addresses.{" "}
             <a
               href="/myaccount"
               className="text-blue-600 underline hover:text-blue-800"
-              style={{ cursor: "pointer" }}
             >
               Go to My Account
             </a>{" "}
-            to add your address.
+            to add your addresses.
           </span>
         ),
       });
       return;
     }
+
+    if (!defaultBillingAddress) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please add your billing address !        
+          </span>
+        ),
+      });
+      return;
+    }
+
+    if (!defaultShippingAddress) {
+      useInfoModalStore.getState().open({
+        title: "Info",
+        message: (
+          <span>
+            Please add your shipping address !
+          </span>
+        ),
+      });
+      return;
+    }
+
     if (selectedItems.length === 0) {
       useInfoModalStore.getState().open({
         title: "Info",
