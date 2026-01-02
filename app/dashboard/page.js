@@ -107,7 +107,13 @@ const GargDental = () => {
       const data = await apiRequest("/banners", false);
 
       if (data.success) {
-        const mappedSlides = data.banners.map((item) => ({
+        const mappedSlides = data.banners
+        .filter(item =>
+          item.image_full_url != null &&
+          item.id != null &&
+          item.product_code != null
+        )
+        .map(item => ({
           image_full_url: item.image_full_url,
           id: item.id,
           product_code: item.product_code,
