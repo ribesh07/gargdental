@@ -178,6 +178,7 @@ if (Date.now() >= expiry) {
 
 // store/manufacturerStore.js
 const FIVE_MINUTES = 5 * 60 * 1000;
+const isBrowser = typeof window !== "undefined";
 
 export const useManufacturerStore = create(
   persist(
@@ -191,46 +192,42 @@ export const useManufacturerStore = create(
         const { manufacturers, lastFetchedmanufacturer } = get();
         const now = Date.now();
 
-        // If not forced, and cache exists and is still valid → return cached
         if (
           !force &&
           manufacturers.length > 0 &&
           lastFetchedmanufacturer &&
-          now - lastFetchedmanufacturer < FIVE_MINUTES
+          now - lastFetchedmanufacturer < 5 * 60 * 1000
         ) {
-          console.log("Using cached manufacturers", manufacturers);
           return;
         }
 
         set({ loadingmanufacturer: true, errormanufacturer: null });
+
         try {
           const response = await apiRequest("/brands", false);
           if (response.success) {
-            const simplifiedBrands = response.brands.map((brand) => ({
-              id: brand.id,
-              brand_name: brand.brand_name,
-            }));
-            console.log("Fetched manufacturers", simplifiedBrands);
-            
             set({
-              manufacturers: simplifiedBrands,
+              manufacturers: response.brands.map(b => ({
+                id: b.id,
+                brand_name: b.brand_name,
+              })),
               lastFetchedmanufacturer: now,
             });
           }
-        } catch (err) {
-          set({ errormanufacturer: err.message || "Failed to fetch manufacturers" });
         } finally {
           set({ loadingmanufacturer: false });
         }
       },
-
-      clearManufacturers: () => {
-        set({ manufacturers: [], lastFetchedmanufacturer: null });
-      },
     }),
     {
       name: "manufacturerstorage",
-      getStorage: () => sessionStorage,
+      storage: isBrowser
+        ? {
+            getItem: (name) => sessionStorage.getItem(name),
+            setItem: (name, value) => sessionStorage.setItem(name, value),
+            removeItem: (name) => sessionStorage.removeItem(name),
+          }
+        : undefined, // ✅ SSR SAFE
     }
   )
 );
