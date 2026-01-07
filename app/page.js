@@ -283,7 +283,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import GargDental from "./dashboard/page";
+import {GargDental} from "./dashboard/page";
 
 export default function HomePage() {
   const [showSplash, setShowSplash] = useState(true);
