@@ -300,7 +300,7 @@ export default function HomePage() {
       })
       .catch((err) => console.error(err));
 
-    // Auto close splash after 5 seconds
+    // Auto close splash after 15 seconds
     const timer = setTimeout(() => {
       setShowSplash(false);
     }, 15000);
@@ -310,7 +310,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* MAIN WEBSITE (always visible) */}
+      {/* MAIN WEBSITE */}
       <main className="p-6">
         <GargDental />
       </main>
@@ -318,11 +318,12 @@ export default function HomePage() {
       {/* SPLASH OVERLAY */}
       {showSplash && offerImage && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/65">
-          <div className="relative rounded-2xl  p-2 ">
+          <div className="relative rounded-2xl bg-transparent p-2 mx-4 sm:mx-8 md:mx-0">
             {/* Close button */}
             <button
               onClick={() => setShowSplash(false)}
-              className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black text-lg text-white hover:scale-110 transition"
+              className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black text-lg text-white transition hover:scale-110"
+              aria-label="Close"
             >
               ✕
             </button>
@@ -333,8 +334,8 @@ export default function HomePage() {
               alt="Dental Nepal Offer"
               width={1000}
               height={680}
-              className="rounded-xl"
               priority
+              className="rounded-xl max-w-[92vw] sm:max-w-full h-auto"
             />
           </div>
         </div>
