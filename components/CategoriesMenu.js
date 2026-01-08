@@ -25,7 +25,7 @@ export default function CategoryMenu() {
           setCategories(response.categories.map(mapCategory));
         }
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        // console.error("Error fetching categories:", error);
       }
     };
     fetchCategories();

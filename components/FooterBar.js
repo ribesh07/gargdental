@@ -34,7 +34,7 @@ export default function FooterBar() {
       return;
     }
 
-    console.log("Subscribing:", { email });
+    // console.log("Subscribing:", { email });
 
     try {
       const response = await apiRequest("/newsletter-subscriber", false, {
@@ -45,7 +45,7 @@ export default function FooterBar() {
         body: JSON.stringify({ email }),
       });
 
-      console.log("Subscribe API response:", response);
+      // console.log("Subscribe API response:", response);
 
       if (response.success) {
         setEmail("");
@@ -58,7 +58,7 @@ export default function FooterBar() {
         );
       }
     } catch (error) {
-      console.error("Error subscribing:", error);
+      // console.error("Error subscribing:", error);
       toast.error("Something went wrong. Please try again later.");
     }
   };
@@ -93,9 +93,9 @@ export default function FooterBar() {
           address: addressData,
         });
 
-        console.log("settings", response.settings);
+        // console.log("settings", response.settings);
       } else {
-        console.error("Failed to fetch settings:", response.error);
+        // console.error("Failed to fetch settings:", response.error);
         toast.error(response?.errors[0]?.message || "Failed to fetch settings");
         // setSettings();
       }

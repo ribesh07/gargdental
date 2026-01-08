@@ -50,7 +50,7 @@ export default function WishListHeart({ product }) {
 
         setWishlisted(isWishlisted);
       } catch (error) {
-        console.error("Error checking wishlist:", error);
+        // console.error("Error checking wishlist:", error);
       }
     };
 
@@ -91,7 +91,7 @@ export default function WishListHeart({ product }) {
         }
       }
     } catch (error) {
-      console.error("Wishlist error:", error);
+      // console.error("Wishlist error:", error);
       toast.error("Something went wrong");
     }
 

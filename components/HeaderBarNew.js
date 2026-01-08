@@ -79,16 +79,16 @@ const HeaderBarNew = () => {
   const cartTotal = useCartStore((state) => state.getCartTotal());
   useEffect(() => {
     setTimeout(() => {
-      console.log("Waiting for 1 second before fetching cart data");
+      // console.log("Waiting for 1 second before fetching cart data");
     }, 1000);
     if (isloggedin) {
-      console.log("isloggedin", isloggedin);
+      // console.log("isloggedin", isloggedin);
       const fetchCart = async () => {
         const cartResponse = await apiRequest(`/customer/cart/list`, true);
         if (cartResponse && cartResponse.cart) {
           useCartStore.getState().setCart(cartResponse.cart);
         }
-        // console.log("cartResponse from header", cartResponse);
+        // // console.log("cartResponse from header", cartResponse);
       };
       fetchCart();
     }
@@ -147,7 +147,7 @@ const HeaderBarNew = () => {
           company_logo_header: headerLogo,
         });
 
-        console.log("settings", response.settings);
+        // console.log("settings", response.settings);
       } else {
         // console.error("Failed to fetch settings:", response.error);
         toast.error(response?.errors[0]?.message || "Failed to fetch settings");

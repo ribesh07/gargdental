@@ -67,11 +67,11 @@ export default function AuthPage() {
       });
 
       const data = await response.json();
-      console.log(data.message);
+      // console.log(data.message);
 
       if (data.success) {
         router.replace("/dashboard");
-        console.log("Login successful:", data);
+        // console.log("Login successful:", data);
 
         if (data.token) {
           // localStorage.setItem("token", data.token);
@@ -87,14 +87,14 @@ export default function AuthPage() {
           setUserProfile(result.data);
           toast.success("Login successful !");
 
-          console.log("Token saved:", data.token);
+          // console.log("Token saved:", data.token);
         }
         // router.push("/dashboard");
         // router.replace("/dashboard");
 
         // success
       } else {
-        console.warn("Login failed:", data);
+        // console.warn("Login failed:", data);
         useWarningModalStore.getState().open({
           title: "Error",
           message: data.message || "Invalid Gmail or Password",

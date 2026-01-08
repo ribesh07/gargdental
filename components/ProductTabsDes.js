@@ -7,7 +7,7 @@ import HtmlRenderer from "./HtmlDataConversion";
 export default function ProductTabs({ product }) {
   const [activeTab, setActiveTab] = useState("description");
   const [review, setReview] = useState("");
-  console.log("product", product.warranty);
+  // console.log("product", product.warranty);
 
   const renderStars = (count) => {
     return "⭐️".repeat(count) + "☆".repeat(5 - count);
@@ -197,7 +197,7 @@ export default function ProductTabs({ product }) {
         {activeTab === "reviews" && (
           <div className="pl-2 sm:pl-4">
             {product.reviews.length > 0 ? (
-              (console.log("product.reviews", product.reviews),
+              (// console.log("product.reviews", product.reviews),
               (
                 <div className="w-full flex flex-col items-center px-4 py-2">
                   <h2 className="text-[20px] self-center py-4 font-semibold text-gray-800">

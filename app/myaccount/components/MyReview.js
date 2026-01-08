@@ -21,7 +21,7 @@ export default function MyReviews() {
           );
           return;
         }
-        console.log("response from fetchReview", response);
+        // console.log("response from fetchReview", response);
         const data = response.reviews;
         setReviews(data);
       } catch (error) {

@@ -47,7 +47,7 @@ export default function OrderSummaryBuyNow() {
   const setEmail = useCartStore((state) => state.setEmail);
   // Get selected items from Zustand store
   const selectedItems = useCartStore((state) => state.selectedItems);
-  console.log("selectedItems in checkout:", selectedItems);
+  // // console.log("selectedItems in checkout:", selectedItems);
 
   const setSelectedItems = useCartStore((state) => state.setSelectedItems);
   // const selectedShippingAddress = useCartStore(
@@ -61,7 +61,7 @@ export default function OrderSummaryBuyNow() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       const { email } = await userDetails();
-      console.log("email", email);
+      // console.log("email", email);
       setUserProfile(email);
       setEmail(email);
     };
@@ -157,8 +157,8 @@ export default function OrderSummaryBuyNow() {
     setIsProcessing(true);
     setSelectedShippingAddress(defaultShippingAddress);
     setSelectedBillingAddress(defaultBillingAddress);
-    console.log("defaultShippingAddress", defaultShippingAddress);
-    console.log("defaultBillingAddress", defaultBillingAddress);
+    // console.log("defaultShippingAddress", defaultShippingAddress);
+    // console.log("defaultBillingAddress", defaultBillingAddress);
     setTimeout(() => {
       setIsProcessing(false);
     }, 1000);
@@ -182,12 +182,12 @@ export default function OrderSummaryBuyNow() {
   };
 
    useEffect(() => {
-      console.log("currentThreshold:", getInsideOfValleyThreshold(), getOutOfValleyThreshold());
-      console.log("defaukt shippingaddress :", defaultShippingAddress);
+      // console.log("currentThreshold:", getInsideOfValleyThreshold(), getOutOfValleyThreshold());
+      // console.log("defaukt shippingaddress :", defaultShippingAddress);
       
        if ( defaultShippingAddress && defaultShippingAddress?.shipping_cost) {
-        console.log("defaultShippingAddress changed:", defaultShippingAddress);
-        console.log("defaultShippingAddress cost:", defaultShippingAddress?.shipping_cost);
+        // console.log("defaultShippingAddress changed:", defaultShippingAddress);
+        // console.log("defaultShippingAddress cost:", defaultShippingAddress?.shipping_cost);
         const cost = parseFloat(defaultShippingAddress?.shipping_cost);
         setShipping(cost);
         setShowShipping(cost);
@@ -237,15 +237,15 @@ export default function OrderSummaryBuyNow() {
         if(inside_valley){
           const threshold = getInsideOfValleyThreshold();
           setcurrentThreshold(threshold);
-          console.log("Inside of valley threshold:", threshold);
+          // console.log("Inside of valley threshold:", threshold);
         }else{
           const threshold = getOutOfValleyThreshold();
           setcurrentThreshold(threshold);
-          console.log("Outside of valley threshold:", threshold);
+          // console.log("Outside of valley threshold:", threshold);
         }
       }
     }catch(error){
-      console.log("Error fetching shipping cost:", error);
+      // console.log("Error fetching shipping cost:", error);
     }finally{
       setLoading(false);
     }
@@ -259,7 +259,7 @@ export default function OrderSummaryBuyNow() {
     if (subtotal >= currentThreshold) {
       setisFreeShipping(true);
       setShipping(0);
-      console.log("current threshold : ", currentThreshold);
+      // console.log("current threshold : ", currentThreshold);
     } else {
       setisFreeShipping(false);
     }

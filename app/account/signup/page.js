@@ -93,7 +93,7 @@ export default function AuthPage() {
       }
 
 
-      console.log("Registering user with data:", formData);
+      // console.log("Registering user with data:", formData);
 
       const response = await fetch(`${baseUrl}/register`, {
         method: "POST",
@@ -111,7 +111,7 @@ export default function AuthPage() {
       });
 
       const data = await response.json();
-      console.log("Register Response:", data);
+      // console.log("Register Response:", data);
 
       if (response.ok) {
         useInfoModalStore.getState().open({

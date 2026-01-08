@@ -38,13 +38,13 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted with data:", formData);
+    // console.log("Form submitted with data:", formData);
 
     // Validate form data
     const validation = validatePasswordData(formData);
     if (!validation.isValid) {
       setErrors(validation.errors);
-      console.log("Validation errors:", validation.errors);
+      // console.log("Validation errors:", validation.errors);
       return;
     }
 
@@ -52,8 +52,8 @@ const ChangePasswordForm = ({ onCancel, onSuccess }) => {
 
     try {
       const result = await changeCustomerPassword(formData);
-      console.log("Change password result:", result);
-      console.log("Change password inside fun form data:", formData);
+      // console.log("Change password result:", result);
+      // console.log("Change password inside fun form data:", formData);
 
       if (result.success) {
         toast.success(result.message || "Password changed successfully!");

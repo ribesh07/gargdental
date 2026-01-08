@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     const { token } = await req.json();
-    console.log("Token received in set-token route:", token);
+    // console.log("Token received in set-token route:", token);
 
     if (!token) {
       return NextResponse.json({ message: "Token missing" }, { status: 400 });

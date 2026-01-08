@@ -61,7 +61,7 @@ export default function ButtonForShare({ product }) {
       // Correctly extract the array
       const wishlistArray = res?.wishlist || [];
 
-      console.log("Wishlisted", wishlistArray); // Should show 3 items
+      // console.log("Wishlisted", wishlistArray); // Should show 3 items
 
       const isWishlisted = wishlistArray.some(
         (item) => item.product_code === product.product_code
@@ -142,7 +142,8 @@ export default function ButtonForShare({ product }) {
                 text: "Check out this product!",
                 url: window.location.href,
               })
-              .catch((error) => console.log("Error sharing", error));
+              .catch((error) => 
+                console.log("Error sharing", error));
           } else {
             alert("Sharing not supported on this browser.");
           }

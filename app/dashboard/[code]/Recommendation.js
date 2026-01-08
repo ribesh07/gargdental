@@ -18,7 +18,7 @@ export default function RecommendedProducts({ product }) {
         false
       );
       if (response.success) {
-        console.log("Related products:", response.related_products);
+        // console.log("Related products:", response.related_products);
         const mappeddata = response.related_products.map((product) => ({
           id: product.id,
           product_name: product.product_name,
@@ -43,13 +43,13 @@ export default function RecommendedProducts({ product }) {
           delivery_days: product.delivery_target_days,
         }));
         setFeaturedProducts(mappeddata);
-        console.log("Mapped data:", mappeddata);
+        // console.log("Mapped data:", mappeddata);
         // setFeaturedProducts();
       } else {
         setFeaturedProducts([]);
       }
     } catch (err) {
-      console.log("Error fetching related products:", err);
+      // console.log("Error fetching related products:", err);
       return [];
     }
   };

@@ -45,7 +45,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Profile Photo : ",formData.profile_photo_path)
+    // console.log("Profile Photo : ",formData.profile_photo_path)
     // Validate form data
     const validation = validateProfileData(formData);
     if (!validation.isValid) {
@@ -84,7 +84,7 @@ const EditProfileForm = ({ user, onUpdate, onCancel }) => {
   };
 
   useEffect(() => {
-    console.log("user", user);
+    // console.log("user", user);
 
     setFormData({
       full_name: user.full_name || "",

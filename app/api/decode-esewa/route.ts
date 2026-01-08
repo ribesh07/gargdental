@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   try {
     const jsonStr = Buffer.from(data, "base64").toString("utf-8");
     const parsedData = JSON.parse(jsonStr);
-    console.log(parsedData);
+    // console.log(parsedData);
 
     return NextResponse.json({ decoded: parsedData, success: true });
   } catch (error) {

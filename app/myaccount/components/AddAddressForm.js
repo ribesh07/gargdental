@@ -59,12 +59,12 @@ export default function AddAddressForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("formData", formData);
+    // console.log("formData", formData);
     if (address.length === 0) {
       formData.default_shipping = "Y";
       formData.default_billing = "Y";
       const response = await addCustomerAddress(formData);
-      console.log("response from handleSubmit", response);
+      // console.log("response from handleSubmit", response);
       if (response.success === true) {
         toast.success(response.message);
         onUpdate(response.data);
@@ -73,7 +73,7 @@ export default function AddAddressForm({
       }
     } else {
       const response = await addCustomerAddress(formData);
-      console.log("response from handleSubmit", response);
+      // console.log("response from handleSubmit", response);
       if (response.success === true) {
         toast.success(response.message);
         onUpdate(response.data);

@@ -63,7 +63,7 @@ const initiatePayment = async (transactionDetails: TransactionDetails) => {
     document.body.appendChild(form);
     form.submit();
   } catch (error) {
-    console.error('ConnectIPS Initiate payment error:', error);
+    // console.error('ConnectIPS Initiate payment error:', error);
   }
 };
 

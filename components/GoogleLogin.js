@@ -62,9 +62,9 @@ const GoogleLoginButton = () => {
     });
 
     const data = await res.json();
-    console.log("API Response:", data);
+    // console.log("API Response:", data);
     if (data.success) {
-      console.log("Login successful:", data);
+      // console.log("Login successful:", data);
 
       if (data.token) {
         sessionStorage.setItem("token", data.token);
@@ -79,13 +79,13 @@ const GoogleLoginButton = () => {
         setUserProfile(result.data);
         toast.success("Login successful !");
 
-        console.log("Token saved:", data.token);
+        // console.log("Token saved:", data.token);
       }
 
       // success
       router.push("/dashboard");
     } else {
-      console.warn("Login failed:", data);
+      // console.warn("Login failed:", data);
       useWarningModalStore.getState().open({
         title: "Error",
         message: data?.errors[0]?.message || "Server Error !",

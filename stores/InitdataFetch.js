@@ -39,7 +39,7 @@ export const useProductStore = create((set, get) => ({
         const parsed = JSON.parse(cached);
         data = parsed.data || [];
         expiry = parsed.expiry || 0;
-        console.log("Cached Products:", data);
+        // console.log("Cached Products:", data);
         } catch {
         data = [];
         expiry = 0;
@@ -131,7 +131,7 @@ if (typeof window !== "undefined") {
       const parsed = JSON.parse(cached);
       data = parsed.data || [];
       expiry = parsed.expiry || 0;
-      console.log("Cached Categories:", data);
+      // console.log("Cached Categories:", data);
     } catch {
       data = [];
       expiry = 0;
@@ -156,7 +156,7 @@ if (Date.now() >= expiry) {
       const response = await apiRequest("/categories", false);
       if (response.success) {
         const mappedCategories = mapCategories(response.categories);
-        console.log("Mapped Categories:", mappedCategories);
+        // console.log("Mapped Categories:", mappedCategories);
 
         if (typeof window !== "undefined") {
             sessionStorage.setItem(
@@ -201,7 +201,7 @@ const FIVE_MINUTES = 5 * 60 * 1000;
 //           lastFetchedmanufacturer &&
 //           now - lastFetchedmanufacturer < FIVE_MINUTES
 //         ) {
-//           console.log("Using cached manufacturers", manufacturers);
+//           // console.log("Using cached manufacturers", manufacturers);
 //           return;
 //         }
 
@@ -213,7 +213,7 @@ const FIVE_MINUTES = 5 * 60 * 1000;
 //               id: brand.id,
 //               brand_name: brand.brand_name,
 //             }));
-//             console.log("Fetched manufacturers", simplifiedBrands);
+//             // console.log("Fetched manufacturers", simplifiedBrands);
             
 //             set({
 //               manufacturers: simplifiedBrands,

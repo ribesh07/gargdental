@@ -126,7 +126,7 @@ export default function ProductShowcase() {
         const response = await apiRequest("/products/latest", false);
         if (!response.success) return;
         const data = response.products;
-        console.log("Latest products:", data);
+        // console.log("Latest products:", data);
 
         const mappeddata = data.map((product) => ({
           id: product.id,
@@ -157,13 +157,13 @@ export default function ProductShowcase() {
         // const mapWeekly = mappeddata.slice(9, 12);
         // const mapFlashSale = mappeddata.slice(12, 15);
 
-        // console.log("Mapped latest products:", mapProduct);
+        // // console.log("Mapped latest products:", mapProduct);
         setProducts(mapProduct);
         // setSpecialProducts(mapSpecial);
         // setWeeklyProducts(mapWeekly);
         // setFlashSaleProducts(mapFlashSale);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        // console.error("Error fetching products:", error);
       }
     };
 

@@ -10,7 +10,7 @@ const EditAddressForm = ({
   cities,
   zones,
 }) => {
-  console.log("address to edit :", address);
+  // console.log("address to edit :", address);
   const [formData, setFormData] = useState({
     full_name: address.full_name || "",
     phone: address.phone || "",
@@ -62,10 +62,10 @@ const EditAddressForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!address.id) return alert("Address ID is required");
-    console.log("formData", formData);
+    // console.log("formData", formData);
 
     const response = await updateCustomerAddress(address.id, formData);
-    console.log("response from handleSubmit", response);
+    // console.log("response from handleSubmit", response);
     if (response.success) {
       onUpdate(formData);
     }

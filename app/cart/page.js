@@ -58,7 +58,7 @@ export default function ShoppingCart() {
         try {
           setIsLoading(true);
           const response = await apiRequest(`/customer/cart/list`, true);
-          console.log("Cart API response:", response);
+          // console.log("Cart API response:", response);
           if (response?.cart?.items) {
             const mappedCartItems = response.cart.items.map((item) => ({
               id: item.id,
@@ -77,7 +77,7 @@ export default function ShoppingCart() {
 
             setCartItems(mappedCartItems);
           } else {
-            console.error("Cart response invalid:", response);
+            // console.error("Cart response invalid:", response);
             toast.error("Cart is empty or response invalid");
           }
         } finally {
@@ -98,16 +98,16 @@ export default function ShoppingCart() {
               defaultShippingAddress,
               allAddresses,
             } = await getAddress();
-            console.log("all addresses", allAddresses);
-            console.log("default billing", defaultBillingAddress);
-            console.log("default shipping", defaultShippingAddress);
-            console.log(
-              "shipping cost ",
-              defaultShippingAddress.city?.shipping_cost
-            );
+            // console.log("all addresses", allAddresses);
+            // console.log("default billing", defaultBillingAddress);
+            // console.log("default shipping", defaultShippingAddress);
+            // console.log(
+            //   "shipping cost ",
+            //   defaultShippingAddress.city?.shipping_cost
+            // );
             if (allAddresses && defaultBillingAddress && defaultShippingAddress) {
               setHomeAddress(defaultShippingAddress);
-              console.log("home address", defaultShippingAddress);
+              // console.log("home address", defaultShippingAddress);
               if (defaultShippingAddress.city?.shipping_cost) {
                 const cost = parseFloat(
                   defaultShippingAddress.city?.shipping_cost
@@ -118,7 +118,7 @@ export default function ShoppingCart() {
               setBillingAddress(defaultBillingAddress);
             }
           } catch (error) {
-            console.log("Error fetching addresses:", error);
+            // console.log("Error fetching addresses:", error);
             if (error) {
               useInfoModalStore.getState().open({
                 title: "Info",
@@ -159,7 +159,7 @@ export default function ShoppingCart() {
       return;
     }
     try{
-      console.log("Fetching shipping cost for address id:", homeAddress?.id);
+      // console.log("Fetching shipping cost for address id:", homeAddress?.id);
       const checkCost = await apiRequest(
         '/customer/check-valley',
       true , {
@@ -170,20 +170,20 @@ export default function ShoppingCart() {
     }
       );
       if(checkCost && checkCost.success){
-        console.log("Check cost response:", getInsideOfValleyThreshold(), getOutOfValleyThreshold(), checkCost);
+        // console.log("Check cost response:", getInsideOfValleyThreshold(), getOutOfValleyThreshold(), checkCost);
         const { inside_valley } = checkCost;
         if(inside_valley){
           const threshold = getInsideOfValleyThreshold();
           setcurrentThreshold(threshold);
-          console.log("Inside of valley threshold:", threshold);
+          // console.log("Inside of valley threshold:", threshold);
         }else{
           const threshold = getOutOfValleyThreshold();
           setcurrentThreshold(threshold);
-          console.log("Outside of valley threshold:", threshold);
+          // console.log("Outside of valley threshold:", threshold);
         }
       }
     }catch(error){
-      console.log("Error fetching shipping cost:", error);
+      // console.log("Error fetching shipping cost:", error);
     }finally{
       setIsLoading(false);
     }
@@ -202,12 +202,12 @@ export default function ShoppingCart() {
     setIsLoading(false);
 
     if (response.success) {
-      console.log(
-        "Cart updated:",
-        response.cart.items.map((item) => item.quantity)
-      );
+      // console.log(
+      //   "Cart updated:",
+      //   response.cart.items.map((item) => item.quantity)
+      // );
     } else {
-      console.log("Failed to update cart:", response?.errors[0]?.message);
+      // console.log("Failed to update cart:", response?.errors[0]?.message);
       toast.error(response?.errors[0]?.message);
     }
   };
@@ -279,7 +279,7 @@ export default function ShoppingCart() {
       if (selectedSubtotal >= currentThreshold) {
         setisFreeShipping(true);
         setShipping(0);
-        console.log("current threshold : ", currentThreshold);
+        // console.log("current threshold : ", currentThreshold);
       } else {
         setisFreeShipping(false);
       }

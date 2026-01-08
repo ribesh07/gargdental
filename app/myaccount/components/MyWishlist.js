@@ -24,7 +24,7 @@ export default function MyWishlist() {
       setError(null);
       try {
         const data = await getWishlist();
-        console.log(data.wishlist);
+        // console.log(data.wishlist);
         setWishlist(data.wishlist);
       } catch (err) {
         setError("Failed to load wishlist");
@@ -65,11 +65,11 @@ export default function MyWishlist() {
         toast.success("Added to cart!");
         setIsChanged(true);
       } else {
-        console.log(response);
+        // console.log(response);
         toast.error(response?.message || "Failed to add to cart");
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error("Failed to add to cart");
     }
   };

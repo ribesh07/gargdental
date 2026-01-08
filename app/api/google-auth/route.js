@@ -13,7 +13,7 @@ export async function POST(req) {
       `https://oauth2.googleapis.com/tokeninfo?id_token=${token}`
     );
     const googleUser = await googleRes.json();
-    console.log(googleUser);
+    // console.log(googleUser);
     // Forward to your real backend
     const backendRes = await fetch(
       "https://gargdental.omsok.com/api/v1/auth/social/google-register",
@@ -27,20 +27,20 @@ export async function POST(req) {
         }),
       }
     );
-    console.log(googleUser.email);
-    console.log(googleUser.sub);
+    // console.log(googleUser.email);
+    // console.log(googleUser.sub);
     if (backendRes.ok) {
       const data = await backendRes.json();
-      console.warn("Data response !");
-      console.log(data);
+      // console.warn("Data response !");
+      // console.log(data);
       return new Response(JSON.stringify(data), { status: 200, success: true });
     } else {
       // console.log(JSON.stringify(backendRes.error));
-      console.log(backendRes.status);
+      // console.log(backendRes.status);
       const data = await backendRes.json();
-      console.warn("Error response !");
+      // console.warn("Error response !");
       toast.error(data?.errors[0]?.message);
-      console.log(data);
+      // console.log(data);
       return new Response({
         status: backendRes.status,
         success: false,
@@ -48,7 +48,7 @@ export async function POST(req) {
       });
     }
   } catch (error) {
-    console.warn(`Google auth error: ${error}`);
+    // console.warn(`Google auth error: ${error}`);
     return new Response(
       JSON.stringify({ error: "Failed to authenticate", success: false }),
       {

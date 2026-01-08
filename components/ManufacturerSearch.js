@@ -41,7 +41,7 @@ export default function ManufacturerFilter() {
   const fetchManufacturers = async () => {
     const response = await apiRequest("/brands", false);
     if (response.success) {
-      console.log("response.brands", response);
+      // console.log("response.brands", response);
       const simplifiedBrands = response.brands.map((brand) => ({
         id: brand.id,
         brand_name: brand.brand_name,

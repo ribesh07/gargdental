@@ -31,7 +31,7 @@ export default function ProductList() {
   if (isloadingUserData) return <p>Loading user data...</p>;
   if(addresses.length === 0) return <p>No addresses available</p>;
   if(addresses.length > 0) {
-    console.log("User addresses:", addresses);
+    // console.log("User addresses:", addresses);
   }
   const [selectedId, setSelectedId] = useState(null);
   const selectedShippingAddress = addresses.find(addr => addr.id === selectedId);

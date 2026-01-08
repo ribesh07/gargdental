@@ -123,7 +123,7 @@ function TopBrandProductPage() {
 
     return matchesSearch && matchesCategory;
   });
-  console.log("Filtered Products:", filteredProducts.length);
+  // console.log("Filtered Products:", filteredProducts.length);
 
   // Handle brand change
   const handleBrandChange = (e) => {

@@ -40,7 +40,7 @@ const getProductByCode = async (code) => {
     const res = await fetch(`${baseUrl}/products/details/${code}`);
 
     if (!res.ok) {
-      console.log("Failed to fetch product:", res.status);
+      // console.log("Failed to fetch product:", res.status);
       // toast.error()
       return null;
     }
@@ -85,22 +85,22 @@ const getProductByCode = async (code) => {
       files_full_url: product.files_full_url,
     };
   } catch (error) {
-    console.log("API fetch error:", error.message);
+    // console.log("API fetch error:", error.message);
     return null;
   }
 };
 
 export default async function ProductPage({ params }) {
   params = await params;
-  console.log("Server-side params:", params.code);
-  console.info("Data fetch started");
+  // console.log("Server-side params:", params.code);
+  // console.info("Data fetch started");
   // console.warn(`(Link) : ${baseUrl}/products/details/${params.code}`);
 
   // 1const quantity = useQuantityStore((state) => state.quantity);
   // console.log("quantity", quantity);
   const product = await getProductByCode(params.code);
   // const product = transformProduct(saampledata);
-  console.warn(`Server-side product: ${JSON.stringify(product)}`);
+  // console.warn(`Server-side product: ${JSON.stringify(product)}`);
 
   if (!product) {
     return (

@@ -74,12 +74,12 @@ export default function ReviewPage({
 
     setIsSubmitting(true);
     try {
-      console.log("submitting review");
-      console.log("selectedPhotos", selectedPhotos);
-      console.log("currentRating", currentRating);
-      console.log("reviewText", reviewText);
-      console.log("productId", productId);
-      console.log("orderNumber", orderNumber);
+      // console.log("submitting review");
+      // console.log("selectedPhotos", selectedPhotos);
+      // console.log("currentRating", currentRating);
+      // console.log("reviewText", reviewText);
+      // console.log("productId", productId);
+      // console.log("orderNumber", orderNumber);
       // const response = await apiRequest(`/customer/reviews/add`, true, {
       //   method: "POST",
       //   body: JSON.stringify({
@@ -107,7 +107,7 @@ export default function ReviewPage({
       //   method: "POST",
       //   body: JSON.stringify(formData),
       // });
-      console.log("response from submitReview", response);
+      // console.log("response from submitReview", response);
       if (!response.success) {
         toast.error(
           response?.message ||

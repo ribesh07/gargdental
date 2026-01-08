@@ -80,7 +80,7 @@ const Complains = () => {
       document: formData.returnFiles,
       // File upload not sent yet
     };
-    console.log("Submitting grievance:", payload);
+    // console.log("Submitting grievance:", payload);
     const res = await submitGrievance(payload);
     setSubmitting(false);
     if (res.success) {

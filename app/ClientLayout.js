@@ -30,8 +30,8 @@ export default function ClientLayout({ children }) {
           const thresholdOutside = parseFloat(freeShipping_threshold_out_of_valley);
           setInsideOfValleyThreshold(thresholdInside);
           setOutOfValleyThreshold(thresholdOutside);
-          console.log("Inside of valley threshold from API:", thresholdInside);
-          console.log("Outside of valley threshold from API:", thresholdOutside);
+          // console.log("Inside of valley threshold from API:", thresholdInside);
+          // console.log("Outside of valley threshold from API:", thresholdOutside);
         } 
       } else {
         // console.error("Failed to fetch settings:", response.error);

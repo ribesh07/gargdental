@@ -22,9 +22,9 @@ export default function AddressBook({
   const [showEditAddress, setShowEditAddress] = useState(false);
   const router = useRouter();
 
-  console.log("officeAddress", officeAddress);
-  console.log("homeAddress", homeAddress);
-  console.log("address", address);
+  // console.log("officeAddress", officeAddress);
+  // console.log("homeAddress", homeAddress);
+  // console.log("address", address);
   const provinceName =
     provinces.find((p) => p.id === homeAddress?.province_id)?.name || "";
   const cityName = homeAddress?.city?.city || "";
@@ -38,7 +38,7 @@ export default function AddressBook({
     zones.find((z) => z.id === officeAddress?.zone_id)?.zone_name || "";
 
   const handleAddAddress = (newAddress) => {
-    console.log("newAddress", newAddress);
+    // console.log("newAddress", newAddress);
     // fetchUserData();
     setShowEditAddress(false);
     window.location.reload();
@@ -47,7 +47,7 @@ export default function AddressBook({
   };
 
   const handleDelete = async (id) => {
-    console.log("delete", id);
+    // console.log("delete", id);
     if (!id)
       return useInfoModalStore
         .getState()
@@ -57,7 +57,7 @@ export default function AddressBook({
       message: "Are you sure you want to delete this address?",
       onConfirm: async () => {
         const response = await deleteCustomerAddress(id);
-        console.log("response from handleDelete", response);
+        // console.log("response from handleDelete", response);
         if (response.success) {
           router.refresh();
           window.location.reload();
@@ -100,7 +100,7 @@ export default function AddressBook({
   };
 
   const handleSetDefaultBilling = async (id) => {
-    console.log("set default address", id);
+    // console.log("set default address", id);
     if (!id)
       return useInfoModalStore
         .getState()
@@ -112,7 +112,7 @@ export default function AddressBook({
       { method: "POST", body: JSON.stringify({}) }
     );
     const { success, message } = response;
-    console.log("response from handleSetDefault", response);
+    // console.log("response from handleSetDefault", response);
     if (success) {
       router.refresh();
       window.location.reload();
@@ -124,7 +124,7 @@ export default function AddressBook({
     }
   };
   const handleSetDefaultShipping = async (id) => {
-    console.log("set default address", id);
+    // console.log("set default address", id);
     if (!id)
       return useInfoModalStore
         .getState()
@@ -136,7 +136,7 @@ export default function AddressBook({
       { method: "POST", body: JSON.stringify({}) }
     );
     const { success, message } = response;
-    console.log("response from handleSetDefault", response);
+    // console.log("response from handleSetDefault", response);
     if (success) {
       router.refresh();
       window.location.reload();

@@ -44,11 +44,11 @@ export default function EsewaPayment() {
         setProductName(data.productName);
         setTransactionId(data.transactionId);
 
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "An unknown error occurred";
-        console.error("Error fetching dummy data:", errorMessage);
+        // console.error("Error fetching dummy data:", errorMessage);
 
         toast.error(
            "Error loading data"
@@ -83,7 +83,7 @@ export default function EsewaPayment() {
 
       const paymentData: PaymentResponse = await response.json();
      toast.success("Payment initiated successfully!");
-     console.log(paymentData);
+     // console.log(paymentData);
 
       const form = document.createElement("form");
       form.method = "POST";
@@ -103,7 +103,7 @@ export default function EsewaPayment() {
         signed_field_names: paymentData.esewaConfig.signed_field_names,
         signature: paymentData.esewaConfig.signature,
       };
-      console.log({ esewaPayload });
+      // console.log({ esewaPayload });
       Object.entries(esewaPayload).forEach(([key, value]) => {
         const input = document.createElement("input");
         input.type = "hidden";
@@ -118,7 +118,7 @@ export default function EsewaPayment() {
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
-      console.error("Payment error:", errorMessage);
+      // console.error("Payment error:", errorMessage);
       setError("Payment initiation failed. Please try again.");
       toast.error("Payment initiation failed. Please try again.");
     } finally {

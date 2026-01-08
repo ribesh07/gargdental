@@ -28,7 +28,7 @@ export default function VerifyAccountPage() {
       return;
     }
     setIsLoading(true);
-    console.log("Verification attempt:", { email, code: verificationCode });
+    // console.log("Verification attempt:", { email, code: verificationCode });
 
     // Simulate API call
     setTimeout(async () => {
@@ -47,7 +47,7 @@ export default function VerifyAccountPage() {
           }),
         });
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (response.ok) {
           useInfoModalStore.getState().open({
             title: "Success",
@@ -72,7 +72,7 @@ export default function VerifyAccountPage() {
 
   const handleResendCode = () => {
     setIsLoading(true);
-    console.log("Resending verification code to:", email);
+    // console.log("Resending verification code to:", email);
 
     // Simulate API call
     setTimeout(async () => {
@@ -91,7 +91,7 @@ export default function VerifyAccountPage() {
           }),
         });
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (response.ok) {
           // alert(
           //   `Verification code has been resent to your email ${data.code}!`
@@ -107,7 +107,7 @@ export default function VerifyAccountPage() {
   };
 
   const handleLoginNow = () => {
-    console.log("Redirecting to login page");
+    // console.log("Redirecting to login page");
     router.push("/account");
   };
 

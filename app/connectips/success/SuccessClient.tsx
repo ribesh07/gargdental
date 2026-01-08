@@ -27,7 +27,7 @@ export default function SuccessClient() {
     }
     if (response.success) {
       const data = response.response;
-      console.log(data);
+      // console.log(data);
       return data;
     }
     return response;

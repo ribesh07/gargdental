@@ -22,7 +22,7 @@ export default function KhaltiPayment() {
         setProductName(data.productName);
         setTransactionId(data.transactionId);
       } catch (error) {
-        console.error("Error fetching dummy data:", error);
+        // console.error("Error fetching dummy data:", error);
       }
     };
 
@@ -52,14 +52,14 @@ export default function KhaltiPayment() {
       }
 
       const data = await response.json();
-      console.log("Payment data:", data.khaltiPaymentUrl);
+      // console.log("Payment data:", data.khaltiPaymentUrl);
 
       if (!data.khaltiPaymentUrl) {
         throw new Error("Khalti payment URL not received");
       }
       window.location.href = data.khaltiPaymentUrl;
     } catch (error) {
-      console.error("Payment error:", error);
+      // console.error("Payment error:", error);
       alert("Payment initiation failed. Please try again.");
     } finally {
       setIsLoading(false);
