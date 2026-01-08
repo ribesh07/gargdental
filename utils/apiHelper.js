@@ -56,14 +56,14 @@ const fetchProducts = async (count) => {
     visibleProducts = transformedProducts.slice(0, visibleCount);
     // setProducts(visibleProducts);
 
-    console.warn(
-      `Transformed products: ${JSON.stringify(transformedProducts)}`
-    );
+    // console.warn(
+    //   `Transformed products: ${JSON.stringify(transformedProducts)}`
+    // );
     return visibleProducts;
   } catch (err) {
     return [{ error: err.message }];
   } finally {
-    console.warn(`Visible products: ${JSON.stringify(visibleProducts)}`);
+    // console.warn(`Visible products: ${JSON.stringify(visibleProducts)}`);
   }
 };
 
@@ -88,15 +88,15 @@ export const userDetails = async () => {
       return null;
     }
   } catch (err) {
-    console.log(err);
-    console.log(
-      "Something went wrong. Please try again. Error: " + err.message
-    );
+    // console.log(err);
+    // console.log(
+    //   "Something went wrong. Please try again. Error: " + err.message
+    // );
   }
 };
 
 //  const test = await userDetails();
-//     console.log(test.phone + "test");
+//     // console.log(test.phone + "test");
 
 //for related products
 export const fetchRelatedProducts = async (product_code) => {
@@ -123,7 +123,7 @@ export const fetchRelatedProducts = async (product_code) => {
       return [];
     }
   } catch (err) {
-    console.error("Error fetching related products:", err);
+    // console.error("Error fetching related products:", err);
     return [{ error: err.message }];
   }
 };
@@ -143,13 +143,13 @@ export const getCartSummary = (cartResponse) => {
     (sum, item) => sum + item.quantity,
     0
   );
-  console.log(subtotal, totalItems);
+  // console.log(subtotal, totalItems);
   return { subtotal, totalItems }; //return subtotal and total items
 };
 
 export const addToCart = async (product_code, quantity, price) => {
   try {
-    console.log(product_code, quantity, price);
+    // console.log(product_code, quantity, price);
     const response = await apiPostRequest("/customer/cart/add", {
       product_code: product_code,
       quantity: quantity,
@@ -173,10 +173,10 @@ export const addToCart = async (product_code, quantity, price) => {
       // toast.success(response.message);
       return response;
     } else {
-      console.log(response.message);
+      // console.log(response.message);
     }
   } catch (err) {
-    console.error("Error adding to cart:", err);
+    // console.error("Error adding to cart:", err);
     return [{ error: err.message }];
   }
 };
@@ -186,10 +186,10 @@ export const getCart = async () => {
   try {
     const response = await apiRequest(`/customer/cart/list`, true);
     const cartResponse = getCartSummary(response);
-    console.log(cartResponse);
+    // console.log(cartResponse);
     return cartResponse;
   } catch (err) {
-    console.error("Error getting cart:", err);
+    // console.error("Error getting cart:", err);
     return [{ error: err.message }];
   }
 };
@@ -219,11 +219,11 @@ export const updateCart = async (id, quantity) => {
 
       return response;
     } else {
-      console.error("Failed to update cart:", response.message);
+      // console.error("Failed to update cart:", response.message);
       return response;
     }
   } catch (err) {
-    console.error("Error updating cart:", err);
+    // console.error("Error updating cart:", err);
     return { error: err.message };
   }
 };
@@ -254,11 +254,11 @@ export const removeCartItem = async (item_id) => {
       toast.success(response.message);
       return response;
     } else {
-      console.error("Failed to remove cart item:", response.message);
+      // console.error("Failed to remove cart item:", response.message);
       return response;
     }
   } catch (err) {
-    console.error("Error removing cart item:", err);
+    // console.error("Error removing cart item:", err);
     return { error: err.message };
   }
 };
@@ -275,11 +275,11 @@ export const clearCart = async () => {
       toast.success(response.message);
       return response;
     } else {
-      console.error("Failed to clear cart:", response.message);
+      // console.error("Failed to clear cart:", response.message);
       return response;
     }
   } catch (err) {
-    console.error("Error clearing cart:", err);
+    // console.error("Error clearing cart:", err);
     return { error: err.message };
   }
 };
@@ -291,8 +291,8 @@ export const handleOrderBuyNow = async (orderData) => {
       method: "POST",
       body: JSON.stringify(orderData),
     });
-    // console.log("response from handleOrderBuyNow", orderData);
-    // console.log("response from handleOrderBuyNow", response);
+    // // console.log("response from handleOrderBuyNow", orderData);
+    // // console.log("response from handleOrderBuyNow", response);
     if (response.success) {
       // useInfoModalStore.getState().open({
       //   title: "Info",
@@ -310,7 +310,7 @@ export const handleOrderBuyNow = async (orderData) => {
       };
     }
   } catch (err) {
-    console.error("Error handling order buy now:", err);
+    // console.error("Error handling order buy now:", err);
     useWarningModalStore.getState().open({
       title: "Error",
       message: err.message || "Something went wrong. Please try again.",
@@ -329,8 +329,8 @@ export const handleOrder = async (orderData) => {
       method: "POST",
       body: JSON.stringify(orderData),
     });
-    console.log("Order data in api :", orderData);
-    console.log("response from handleOrder", response);
+    // console.log("Order data in api :", orderData);
+    // console.log("response from handleOrder", response);
     if (response.success) {
       useInfoModalStore.getState().open({
         title: "Info",
@@ -348,7 +348,7 @@ export const handleOrder = async (orderData) => {
       };
     }
   } catch (err) {
-    console.error("Error handling order:", err);
+    // console.error("Error handling order:", err);
     useWarningModalStore.getState().open({
       title: "Error",
       message: err.message || "Something went wrong. Please try again.",
@@ -367,10 +367,10 @@ export const getAddressDropdowns = async () => {
       `/customer/address/load-address-dropdowns`,
       true
     );
-    console.log("response from getAddressDropdowns", response);
+    // console.log("response from getAddressDropdowns", response);
     return response;
   } catch (err) {
-    console.error("Error getting address dropdowns:", err);
+    // console.error("Error getting address dropdowns:", err);
     return { error: err.message };
   }
 };
@@ -378,7 +378,7 @@ export const getAddressDropdowns = async () => {
 //sort address dropdowns
 export const sortAddressDropdowns = async () => {
   const response = await getAddressDropdowns();
-  console.log("response from fetchAddressDropdowns", response);
+  // console.log("response from fetchAddressDropdowns", response);
   if (response.success && response.data) {
     // Transform the data to get provinces, cities, and zones
     const provinces = response.data.map((province) => ({
@@ -411,11 +411,11 @@ export const sortAddressDropdowns = async () => {
       zones,
     };
 
-    console.log("Transformed data:", transformedData);
+    // console.log("Transformed data:", transformedData);
     // setAddressDropdowns(transformedData);
     return transformedData;
   } else {
-    console.error("Failed to fetch address dropdowns:", response.message);
+    // console.error("Failed to fetch address dropdowns:", response.message);
     // setAddressDropdowns({});
     return { error: response.message };
   }
@@ -451,10 +451,10 @@ export const getFullInfo = async () => {
         default_shipping: addr.default_shipping,
       }));
 
-      console.log("All addresses:", allAddresses);
-      console.log("\nhome address", homeAddress);
-      console.log("\noffice address", officeAddress);
-      console.log("\ndefault billing address", defaultBillingAddress);
+      // console.log("All addresses:", allAddresses);
+      // console.log("\nhome address", homeAddress);
+      // console.log("\noffice address", officeAddress);
+      // console.log("\ndefault billing address", defaultBillingAddress);
 
       return {
         success: true,
@@ -468,7 +468,7 @@ export const getFullInfo = async () => {
       return { error: response.message };
     }
   } catch (err) {
-    console.error("Error getting full info:", err);
+    // console.error("Error getting full info:", err);
     return { error: err.message };
   }
 };
@@ -483,7 +483,7 @@ export const deleteCustomerAddress = async (addressId) => {
         method: "DELETE",
       }
     );
-    console.log("response from deleteCustomerAddress", response);
+    // console.log("response from deleteCustomerAddress", response);
     if (response.success) {
       return {
         success: true,
@@ -496,7 +496,7 @@ export const deleteCustomerAddress = async (addressId) => {
       };
     }
   } catch (err) {
-    console.error("Error deleting address:", err);
+    // console.error("Error deleting address:", err);
     return { success: false, message: "An unexpected error occurred" };
   }
 };
@@ -526,7 +526,7 @@ export const updateCustomerAddress = async (addressId, addressData) => {
         body: JSON.stringify(payload),
       }
     );
-    console.log("response from updateCustomerAddress", response);
+    // console.log("response from updateCustomerAddress", response);
     if (response.success) {
       toast.success(response.message);
       return {
@@ -541,7 +541,7 @@ export const updateCustomerAddress = async (addressId, addressData) => {
       };
     }
   } catch (err) {
-    console.error("Error updating address:", err);
+    // console.error("Error updating address:", err);
     return { success: false, message: "An unexpected error occurred" };
   }
 };
@@ -565,12 +565,12 @@ export const addCustomerAddress = async (addressData) => {
       method: "POST",
       body: JSON.stringify(payload),
     });
-    console.log("response from addCustomerAddress", response);
-    console.log("response.success", response.success);
+    // console.log("response from addCustomerAddress", response);
+    // console.log("response.success", response.success);
     // const responseData = await response.json();
-    // console.log("responseData", responseData);
+    // // console.log("responseData", responseData);
     if (response.success) {
-      // console.log("response.message", response.message);
+      // // console.log("response.message", response.message);
       toast.success(response.message);
       return {
         success: true,
@@ -587,7 +587,7 @@ export const addCustomerAddress = async (addressData) => {
           "Something went wrong";
 
         toast.error(errorMessage);
-        console.log("errorMessage", errorMessage);
+        // console.log("errorMessage", errorMessage);
         return {
           success: false,
           message: errorMessage,
@@ -595,7 +595,7 @@ export const addCustomerAddress = async (addressData) => {
       }
     }
   } catch (err) {
-    console.error("Error adding address:", err);
+    // console.error("Error adding address:", err);
     return { success: false, message: "An unexpected error occurred" };
   }
 };
@@ -606,7 +606,7 @@ export const getAddress = async () => {
     const response = await apiRequest("/customer/address/list", true);
     // return response;
     if (response.success) {
-      console.log("response from getAddress", response.addresses);
+      // console.log("response from getAddress", response.addresses);
       const allAddresses = response.addresses.map((addr) => ({
         id: addr.id,
         full_name: addr.full_name,
@@ -640,7 +640,7 @@ export const getAddress = async () => {
       return { error: response.message };
     }
   } catch (err) {
-    console.error("Error getting address:", err);
+    // console.error("Error getting address:", err);
     return { error: err.message };
   }
 };
@@ -649,7 +649,7 @@ export const getAddress = async () => {
 export const getCustomerOrders = async () => {
   try {
     const response = await apiRequest("/customer/order/list", true);
-    console.log("response from getCustomerOrders", response);
+    // console.log("response from getCustomerOrders", response);
     if (response.success) {
       return {
         success: true,
@@ -662,7 +662,7 @@ export const getCustomerOrders = async () => {
       };
     }
   } catch (err) {
-    console.error("Error getting customer orders:", err);
+    // console.error("Error getting customer orders:", err);
     return {
       success: false,
       error: err.message || "An unexpected error occurred",
@@ -685,7 +685,7 @@ export const fetchCompliances = async () => {
     }
     return await response.json();
   } catch (err) {
-    console.error("Error fetching compliances:", err);
+    // console.error("Error fetching compliances:", err);
     return { error: err.message };
   }
 };
@@ -706,7 +706,7 @@ export const getCancellationReasons = async () => {
       };
     }
   } catch (err) {
-    console.error("Error getting cancellation reasons:", err);
+    // console.error("Error getting cancellation reasons:", err);
     return {
       success: false,
       error: err.message || "An unexpected error occurred",
@@ -722,8 +722,8 @@ export const cancelOrder = async (
   iAgree
 ) => {
   try {
-    console.log("Cancelling order with details:");
-    console.log(orderId, reasonId, reasonDescription, iAgree);
+    // console.log("Cancelling order with details:");
+    // console.log(orderId, reasonId, reasonDescription, iAgree);
     const response = await apiRequest("/customer/order/cancel", true, {
       method: "POST",
       body: JSON.stringify({
@@ -742,7 +742,7 @@ export const cancelOrder = async (
         order_id: response.order_id,
       };
     } else {
-      console.log("Failed to cancel order:", response);
+      // console.log("Failed to cancel order:", response);
       toast.error(response?.errors[0].message || "Failed to cancel order");
       return {
         success: false,
@@ -761,7 +761,7 @@ export const cancelOrder = async (
 
 // Get cancelled orders
 export const getCancelledOrders = async (status) => {
-  console.log("Inside function :", status);
+  // console.log("Inside function :", status);
   try {
     const response = await apiRequest(
       `/customer/order/list?status=${status}`,
@@ -779,7 +779,7 @@ export const getCancelledOrders = async (status) => {
       };
     }
   } catch (err) {
-    console.error("Error getting cancelled orders:", err);
+    // console.error("Error getting cancelled orders:", err);
     return {
       success: false,
       error: err.message || "An unexpected error occurred",
@@ -822,7 +822,7 @@ export const submitGrievance = async (formData) => {
 export const getWishlist = async () => {
   try {
     const response = await apiRequest("/customer/wishlist/list", true);
-    console.log("response from getWishlist", response);
+    // console.log("response from getWishlist", response);
     if (response.success) {
       return response;
     } else {
@@ -830,7 +830,7 @@ export const getWishlist = async () => {
       return [];
     }
   } catch (err) {
-    console.error("Error fetching wishlist:", err);
+    // console.error("Error fetching wishlist:", err);
     return [];
   }
 };
@@ -846,7 +846,7 @@ export const addToWishlist = async (product_code) => {
     );
     return response;
   } catch (err) {
-    console.error("Error adding to wishlist:", err);
+    // console.error("Error adding to wishlist:", err);
     return { success: false, message: err.message };
   }
 };
@@ -859,7 +859,7 @@ export const removeFromWishlist = async (item_id) => {
     });
     return response;
   } catch (err) {
-    console.error("Error removing from wishlist:", err);
+    // console.error("Error removing from wishlist:", err);
     return { success: false, message: err.message };
   }
 };

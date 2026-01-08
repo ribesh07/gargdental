@@ -335,7 +335,7 @@ const ProductRequest = () => {
         if (cached) {
           const { data, expiry } = JSON.parse(cached);
           if (Date.now() < expiry) {
-            console.log("Returning cached data");
+            // console.log("Returning cached data");
             setProducts(data);
             return;
           }

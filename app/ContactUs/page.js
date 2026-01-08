@@ -44,16 +44,16 @@ export default function ContactUs() {
             map: response.settings.map_url?.value || null,
           });
 
-          console.log("settings", response.settings);
+          // console.log("settings", response.settings);
         } else {
-          console.error("Failed to fetch settings:", response.error);
+          // console.error("Failed to fetch settings:", response.error);
           toast.error(
             response?.errors[0]?.message || "Failed to fetch settings"
           );
           // setSettings();
         }
       } catch (err) {
-        console.error("Error fetching settings:", err);
+        // console.error("Error fetching settings:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -77,7 +77,7 @@ export default function ContactUs() {
       return;
     }
     try {
-      console.log("Submitting form with data:", formData);
+      // console.log("Submitting form with data:", formData);
       const response = await apiRequest("/contact-us", false, {
         method: "POST",
         body: JSON.stringify({
@@ -98,7 +98,7 @@ export default function ContactUs() {
             response.message ||
             "Your form has been submitted successfully. We will get back to you shortly.",
         });
-        console.log("Form submitted:", formData);
+        // console.log("Form submitted:", formData);
         setSubmitted(true);
         setFormData({ name: "", email: "", message: "" });
       } else {
@@ -106,10 +106,10 @@ export default function ContactUs() {
           response?.errors[0]?.message ||
             "Failed to submit the form! Please try again later."
         );
-        console.log("Form submission error:", response);
+        // console.log("Form submission error:", response);
       }
     } catch (error) {
-      console.log("Error submitting form:", error);
+      // console.log("Error submitting form:", error);
       toast.error("Failed to submit the form. Please try again later.");
     } finally {
       setTimeout(() => {

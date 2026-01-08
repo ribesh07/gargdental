@@ -14,7 +14,7 @@ export const getCustomerInfo = async () => {
       data: response.data || response,
     };
   } catch (error) {
-    console.error("Error fetching customer info:", error);
+    // console.error("Error fetching customer info:", error);
     return {
       success: false,
       error: error.message || "Failed to fetch customer information",
@@ -30,8 +30,8 @@ export const updateCustomerProfile = async (profileData) => {
       profileData,
       true
     );
-    console.log("Update profile response:", response);
-    console.log("Update profile data:", profileData);
+    // console.log("Update profile response:", response);
+    // console.log("Update profile data:", profileData);
     // const res = await apiPostRequest("/customer/update-profile", profileData, true);
     if (response.success) {
       return {
@@ -46,7 +46,7 @@ export const updateCustomerProfile = async (profileData) => {
       };
     }
   } catch (error) {
-    console.error("Error updating profile:", error);
+    // console.error("Error updating profile:", error);
     return {
       success: false,
       error: error.message || "Failed to update profile",
@@ -62,15 +62,15 @@ export const changeCustomerPassword = async (passwordData) => {
       passwordData,
       true
     );
-    console.log("Change password response:", response);
-    console.log("Change password data:", passwordData);
+    // console.log("Change password response:", response);
+    // console.log("Change password data:", passwordData);
     return {
       success: true,
       data: response,
       message: response.message || "Password changed successfully",
     };
   } catch (error) {
-    console.error("Error changing password:", error);
+    // console.error("Error changing password:", error);
     return {
       success: false,
       error: error.message || "Failed to change password",
@@ -90,7 +90,7 @@ export const removeCustomerAccount = async () => {
       message: response.message || "Account removed successfully",
     };
   } catch (error) {
-    console.error("Error removing account:", error);
+    // console.error("Error removing account:", error);
     return {
       success: false,
       error: error.message || "Failed to remove account",

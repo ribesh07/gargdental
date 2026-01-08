@@ -23,7 +23,7 @@ export default function TopCategoriesPage() {
           };
         };
         const mappedCategories = response.categories.map(mapCategory);
-        console.log("mappedCategories", mappedCategories);
+        // console.log("mappedCategories", mappedCategories);
         setCategories(mappedCategories);
       }
     };

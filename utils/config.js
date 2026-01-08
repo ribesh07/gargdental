@@ -6,7 +6,7 @@ export const CONNECTIPS_API_URL = process.env.NEXT_PUBLIC_CONNECTIPS_API_URL ;
 export const CONNECTIPS_BASE_URL = process.env.NEXT_PUBLIC_CONNECTIPS_BASE_URL ;
 
 if (!baseUrl) {
-  console.error("Missing NEXT_PUBLIC_API_URL environment variable!");
+  // console.error("Missing NEXT_PUBLIC_API_URL environment variable!");
 }
 
 // import Cookies from "js-cookie";

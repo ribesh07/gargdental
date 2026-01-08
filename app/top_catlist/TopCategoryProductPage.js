@@ -65,7 +65,7 @@ function TopCategoryProductPage() {
   }, [categoryIdFromQuery, offset]);
 
   const loadMore = () => setOffset((prev) => prev + limit);
-  console.log("Products:", products.length);
+  // console.log("Products:", products.length);
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl my-6 mx-auto">

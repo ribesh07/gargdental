@@ -31,7 +31,7 @@ export default function SearchBar() {
         setSuggestions([]);
       }
     } catch (err) {
-      console.error("Search error:", err);
+      // console.error("Search error:", err);
       setSuggestions([]);
     } finally {
       setLoading(false);

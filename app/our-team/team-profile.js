@@ -10,18 +10,18 @@ export default function TeamSection() {
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        console.log("Fetching team data...");
+        // console.log("Fetching team data...");
         const response = await apiRequest("/our-team/active", false);
 
         if (!response?.teams || !Array.isArray(response.teams)) {
-          console.warn("Team data is missing or not an array");
+          // console.warn("Team data is missing or not an array");
           return;
         }
 
-        console.log("Team API Response:", response.teams);
+        // console.log("Team API Response:", response.teams);
         setTeam(response.teams);
       } catch (error) {
-        console.error("Error fetching team data:", error);
+        // console.error("Error fetching team data:", error);
       }
     };
 

@@ -16,9 +16,9 @@ export default function ManageMyAccount({
   cities,
   zones,
 }) {
-  console.log("homeAddress", homeAddress);
-  console.log("defaultBillingAddress", defaultBillingAddress);
-  console.log("user", user);
+  // console.log("homeAddress", homeAddress);
+  // console.log("defaultBillingAddress", defaultBillingAddress);
+  // console.log("user", user);
   const provinceName =
     provinces.find((p) => p.id === homeAddress?.province_id)?.name || "";
   const cityName =
@@ -55,7 +55,7 @@ const handleLogout = async () => {
       toast.error("Logout failed");
     }
   } catch (error) {
-    console.error("Logout error:", error);
+    // console.error("Logout error:", error);
     toast.error("An error occurred during logout");
   } finally {
     setIsLoading(false);

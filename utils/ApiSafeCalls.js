@@ -12,7 +12,7 @@ import { baseUrl } from "./config";
 //   };
 //   const response = await fetch(url, { ...options, headers });
 //   let data;
-//   // console.log("data", data);
+//   // // console.log("data", data);
 //   try {
 //     data = await response.json();
 //   } catch (e) {
@@ -48,8 +48,8 @@ export const apiRequest = async (url, tokenReq = true, options = {}) => {
   try {
     response = await fetch(url, { ...options, headers });
   } catch (err) {
-    console.log("Network error:", err);
-    console.warn(err);
+    // console.log("Network error:", err);
+    // console.warn(err);
     return {
       success: false,
       message: "Network error or server unreachable.",
@@ -60,8 +60,8 @@ export const apiRequest = async (url, tokenReq = true, options = {}) => {
   try {
     data = await response.json();
   } catch (e) {
-    console.log("Invalid JSON from server:", e);
-    console.warn(e);
+    // console.log("Invalid JSON from server:", e);
+    // console.warn(e);
     return {
       success: false,
       message: "Server sent invalid JSON.",
@@ -72,8 +72,8 @@ export const apiRequest = async (url, tokenReq = true, options = {}) => {
     return data;
   } else {
     // Log detailed error
-    console.log("API error response:", data);
-    console.warn(data);
+    // console.log("API error response:", data);
+    // console.warn(data);
     return data;
   }
 };

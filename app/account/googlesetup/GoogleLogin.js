@@ -29,7 +29,7 @@ const GoogleLoginButton = () => {
     });
 
     const data = await res.json();
-    console.log("API Response:", data);
+    // console.log("API Response:", data);
   };
 
   return (

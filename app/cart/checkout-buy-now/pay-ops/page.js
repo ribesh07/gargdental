@@ -156,15 +156,15 @@ const fetchShippingCost =async () => {
           if(inside_valley){
             const threshold = getInsideOfValleyThreshold();
             setcurrentThreshold(threshold);
-            console.log("Inside of valley threshold:", threshold);
+            // console.log("Inside of valley threshold:", threshold);
           }else{
             const threshold = getOutOfValleyThreshold();
             setcurrentThreshold(threshold);
-            console.log("Outside of valley threshold:", threshold);
+            // console.log("Outside of valley threshold:", threshold);
           }
         }
       }catch(error){
-        console.log("Error fetching shipping cost:", error);
+        // console.log("Error fetching shipping cost:", error);
       }finally{
         setLoading(false);
       }
@@ -173,12 +173,12 @@ const fetchShippingCost =async () => {
 
   useEffect(() => {
     fetchShippingCost();
-    console.log("current  threshold:", currentThreshold);
+    // console.log("current  threshold:", currentThreshold);
     if (subtotal >= currentThreshold) {
 
       setisFreeShipping(true);
       setShipping(0);
-      console.log("current threshold : ", currentThreshold);
+      // console.log("current threshold : ", currentThreshold);
     } else {
       setisFreeShipping(false);
     }
@@ -221,9 +221,9 @@ const fetchShippingCost =async () => {
         quantity: selectedItems[0].quantity,
       },
     };
-    console.log("orderData", orderData);
+    // console.log("orderData", orderData);
     const result = await handleOrderBuyNow(orderData);
-    console.log("result", result);
+    // console.log("result", result);
     if (result.success) {
        useInfoModalStore.getState().open({
         title: "Info",
@@ -259,7 +259,7 @@ const fetchShippingCost =async () => {
         quantity: selectedItems[0].quantity,
       }
     };
-    console.log("orderData", orderData);
+    // console.log("orderData", orderData);
     const result = await handleOrderBuyNow(orderData);
     addOrder({
         items: selectedItems,

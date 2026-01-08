@@ -96,7 +96,7 @@ const AccountPage = () => {
     setIsLoading(true);
     try {
       const result = await getFullInfo();
-      console.log("response", result);
+      // console.log("response", result);
 
       if (result.success) {
         const {
@@ -115,7 +115,7 @@ const AccountPage = () => {
           profileImage: userData.image_full_url || "",
           profile_image: userData.image_full_url || "",
         });
-        console.log("defaultBillingAddress", defaultBillingAddress);
+        // console.log("defaultBillingAddress", defaultBillingAddress);
 
         setAddress(allAddresses);
         setHomeAddress(homeAddress);
@@ -141,10 +141,10 @@ const AccountPage = () => {
       setError(null);
       const result = await getCustomerOrders();
 
-      console.log("API Response:", result);
+      // console.log("API Response:", result);
 
       if (result.success) {
-        console.log("Orders data:", result.orders);
+        // console.log("Orders data:", result.orders);
 
         // Log the first order's complete structure
         if (result.orders.orders && result.orders.orders.length > 0) {
@@ -154,18 +154,18 @@ const AccountPage = () => {
           // );
 
           if (result.orders.orders[0].items) {
-            console.log("First order items:", result.orders.orders[0].items);
+            // console.log("First order items:", result.orders.orders[0].items);
             if (result.orders.orders[0].items.length > 0) {
-              console.log(
-                "First item complete structure:",
-                JSON.stringify(result.orders.orders[0].items[0], null, 2)
-              );
+              // console.log(
+              //   "First item complete structure:",
+              //   JSON.stringify(result.orders.orders[0].items[0], null, 2)
+              // );
             }
           }
         }
 
         setOrderlength(result.orders.count || 0);
-        console.log("orderlength", result.orders.count);
+        // console.log("orderlength", result.orders.count);
         // setOrders(result.orders.orders);
       } else {
         setError(result.error);
@@ -264,14 +264,14 @@ const AccountPage = () => {
   };
 
   const handleAddAddress = (newAddress) => {
-    console.log("newAddress", newAddress);
+    // console.log("newAddress", newAddress);
     fetchUserData();
     setShowEditAddress(false);
     toast.success("Address added successfully!");
   };
 
   const handleUpdateAddress = (updatedData) => {
-    console.log("updatedData", updatedData);
+    // console.log("updatedData", updatedData);
     fetchUserData();
     setAddressToEdit(null);
     setShowEditAddress(false);

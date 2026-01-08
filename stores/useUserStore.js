@@ -43,7 +43,7 @@ export const useUserStore = create(
           try {
             const result = await getFullInfo();
            
-            console.log("response", result);
+            // console.log("response", result);
 
             if (result.success) {
               const {

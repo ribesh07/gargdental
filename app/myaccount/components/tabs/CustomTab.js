@@ -31,7 +31,7 @@ export default function CustomTab({ status }) {
       const result = await getCancelledOrders(status);
 
       if (result.success) {
-        console.log("Cancelled orders:", result.orders);
+        // console.log("Cancelled orders:", result.orders);
         setOrders(result.orders.orders || []);
         setOrderlength(result.orders.count || 0);
       } else {
@@ -39,7 +39,7 @@ export default function CustomTab({ status }) {
         toast.error(result.error);
       }
     } catch (err) {
-      console.error("Error fetching cancelled orders:", err);
+      // console.error("Error fetching cancelled orders:", err);
       setError("Failed to load cancelled orders");
       toast.error("Failed to load cancelled orders");
     } finally {
@@ -102,7 +102,7 @@ export default function CustomTab({ status }) {
     iAgree
   ) => {
     try {
-      console.log(orderId, reasonId, reasonDescription, iAgree);
+      // console.log(orderId, reasonId, reasonDescription, iAgree);
       const result = await cancelOrder(
         orderId,
         reasonId,
@@ -124,7 +124,7 @@ export default function CustomTab({ status }) {
         toast.error(result.error || "Failed to cancel order");
       }
     } catch (error) {
-      console.error("Error cancelling order:", error);
+      // console.error("Error cancelling order:", error);
       toast.error("An unexpected error occurred");
     }
   };
@@ -146,12 +146,12 @@ export default function CustomTab({ status }) {
 
   const handleReturnOrder = (orderId, orderNumber) => {
     // Logic for handling return order can be added here
-    console.log("Return order clicked for:", orderId, orderNumber);
+    // console.log("Return order clicked for:", orderId, orderNumber);
     toast.error(`Return request for Order is not implemented yet.`);
   };
 
   const handleAddReview = (orderId, orderNumber, productId) => {
-    console.log("Add review clicked for:", orderId, orderNumber, productId);
+    // console.log("Add review clicked for:", orderId, orderNumber, productId);
     const key = orderId + "-" + productId;
     setShowAddReview((prev) => ({
       ...prev,
@@ -292,7 +292,7 @@ export default function CustomTab({ status }) {
                     <div className="space-y-3 sm:space-y-4">
                       {order.order_items.map((item, idx) => {
                         // Debug: Log the item structure to console
-                        console.log(`Item ${idx}:`, item);
+                        // console.log(`Item ${idx}:`, item);
 
                         // Get image URL from the correct path
                         const imageUrl =
@@ -322,10 +322,10 @@ export default function CustomTab({ status }) {
                                 alt={productName}
                                 className="w-full h-full object-contain rounded-lg"
                                 onLoad={() => {
-                                  console.log(
-                                    `Image loaded successfully for item ${idx}:`,
-                                    imageUrl
-                                  );
+                                  // console.log(
+                                  //   `Image loaded successfully for item ${idx}:`,
+                                  //   imageUrl
+                                  // );
                                 }}
                               />
                             </div>

@@ -120,7 +120,7 @@ import { Grid3X3, ChevronRight } from 'lucide-react';
           product_code: item.product_code,
           is_offer: item.is_offer,
         }));
-        console.log("mappedSlides", mappedSlides);
+        // console.log("mappedSlides", mappedSlides);
         setSlides(mappedSlides);
       }
     };
@@ -161,12 +161,12 @@ import { Grid3X3, ChevronRight } from 'lucide-react';
           const thresholdOutside = parseFloat(freeShipping_threshold_out_of_valley);
           setInsideOfValleyThreshold(thresholdInside);
           setOutOfValleyThreshold(thresholdOutside);
-          console.log("Inside of valley threshold from API:", thresholdInside);
-          console.log("Outside of valley threshold from API:", thresholdOutside);
+          // console.log("Inside of valley threshold from API:", thresholdInside);
+          // console.log("Outside of valley threshold from API:", thresholdOutside);
         } 
 
-        console.log(getInsideOfValleyThreshold());
-        console.log(getOutOfValleyThreshold()); 
+        // console.log(getInsideOfValleyThreshold());
+        // console.log(getOutOfValleyThreshold()); 
         setSettings({
           company_name: companyName,
           timezone: timezone?.value || null,
@@ -180,11 +180,11 @@ import { Grid3X3, ChevronRight } from 'lucide-react';
           whatsapp: whatsapp?.value || "",
         });
 
-        console.log("settings", response.settings);
+        // console.log("settings", response.settings);
       } else {
         // console.error("Failed to fetch settings:", response.error);
         toast.error(response?.errors[0]?.message || "Failed to fetch settings");
-        console.log("Response error:", response);
+        // console.log("Response error:", response);
 
         // setSettings();
       }

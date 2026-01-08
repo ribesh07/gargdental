@@ -46,7 +46,7 @@ export default function ClinicSetupPage() {
       });
 
       const result = response;
-      console.log("API response formData:", response);
+      // console.log("API response formData:", response);
       if (response.success) {
         // toast.success("Form submitted successfully!");
         useInfoModalStore.getState().open({
@@ -55,7 +55,7 @@ export default function ClinicSetupPage() {
             response.message ||
             "Your form has been submitted successfully. We will get back to you shortly.",
         });
-        console.log("Form submitted successfully:", result);
+        // console.log("Form submitted successfully:", result);
         setFormData({
           full_name: "",
           email: "",
@@ -68,7 +68,7 @@ export default function ClinicSetupPage() {
         toast.error("Submission failed.");
       }
     } catch (err) {
-      console.error("Error submitting form:", err);
+      // console.error("Error submitting form:", err);
       toast.error("Something went wrong.");
     }
   };
@@ -99,13 +99,13 @@ export default function ClinicSetupPage() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        console.log("Fetching clinic setup...");
+        // console.log("Fetching clinic setup...");
         const response = await apiRequest("/clinic/clinic-setup", false);
 
-        console.log("API response received:", response);
+        // console.log("API response received:", response);
 
         if (!response?.clinic || !Array.isArray(response.clinic)) {
-          console.warn("Clinic data is missing or not an array");
+          // console.warn("Clinic data is missing or not an array");
           return;
         }
 
@@ -119,12 +119,12 @@ export default function ClinicSetupPage() {
         const videoUrl = clinicMap["clinic_video_link"]?.value;
         const videoDesc = clinicMap["clinic_video_description"]?.value;
 
-        console.log("Parsed Data:", {
-          imageUrl,
-          videoTitle,
-          videoUrl,
-          videoDesc,
-        });
+        // console.log("Parsed Data:", {
+        //   imageUrl,
+        //   videoTitle,
+        //   videoUrl,
+        //   videoDesc,
+        // });
 
         setClinicData({
           imageUrl,
@@ -133,7 +133,7 @@ export default function ClinicSetupPage() {
           videoDesc,
         });
       } catch (error) {
-        console.log("Error fetching clinic setup data:", error);
+        // console.log("Error fetching clinic setup data:", error);
         setClinicData({
           imageUrl: null,
           videoTitle: "Watch Our Clinic Setup Video",

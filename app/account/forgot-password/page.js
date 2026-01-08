@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
         const data = await response.json();
         if (data.success) {
           setIsCodeSent(true);
-          console.log("Verification code sent successfully");
+          // console.log("Verification code sent successfully");
           // console.log(data.code);
           router.push(
             `/account/forgot-password/verify?email=${encodeURIComponent(email)}`
@@ -70,7 +70,7 @@ export default function ForgotPasswordPage() {
   };
 
   const handleCancel = () => {
-    console.log("Cancelling password reset");
+    // console.log("Cancelling password reset");
     router.push("/account");
   };
 

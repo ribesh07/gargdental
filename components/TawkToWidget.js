@@ -17,14 +17,14 @@ export default function TawkToWidget() {
       if (response.success) {
         const { whatsapp } = response.settings;
         const number = whatsapp?.value || "98"; // fallback number
-        console.log("Fetched settings:", number);
+        // console.log("Fetched settings:", number);
 
         setSettings({
           whatsapp: number,
           viber: number, // match viber with whatsapp
         });
       } else {
-        console.log("Failed to fetch settings:", response.message);
+        // console.log("Failed to fetch settings:", response.message);
       }
     };
     fetchSettings();

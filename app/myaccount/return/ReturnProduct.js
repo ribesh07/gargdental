@@ -49,7 +49,7 @@ export default function ReturnProduct() {
           true
         );
 
-        console.log(response);
+        // console.log(response);
         if (response.success) {
           const data = await response.reasons;
           setReasons(data);
@@ -60,7 +60,7 @@ export default function ReturnProduct() {
           );
         }
       } catch (error) {
-        console.log("Error fetching reason:", error);
+        // console.log("Error fetching reason:", error);
       }
     };
     fetchReason();
@@ -98,7 +98,7 @@ export default function ReturnProduct() {
       formData.images.forEach((imgObj, index) => {
         fd.append("images[]", imgObj.file || imgObj); // safer: works for both {file} and File
       });
-      console.log("fd data :", fd);
+      // console.log("fd data :", fd);
       const response = await fetch(`${baseUrl}/customer/order/return`, {
         method: "POST",
         headers: {
@@ -108,7 +108,7 @@ export default function ReturnProduct() {
       });
 
       const data = await response.json();
-      console.log("API response:", data);
+      // console.log("API response:", data);
       
       if (data.success) {
         setData(data);
@@ -118,7 +118,7 @@ export default function ReturnProduct() {
         toast.error(data.message || "Something went wrong");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      // console.error("Error submitting form:", error);
       toast.error("Failed to submit request");
     } finally {
       setIsSubmitting(false);
@@ -147,7 +147,7 @@ export default function ReturnProduct() {
 
   const returnReasons = reasons.map((reason) => {
     const { id, reason_name, reason_type, reason_for } = reason;
-    console.log(reason);
+    // console.log(reason);
     return {
       id,
       reason_name,

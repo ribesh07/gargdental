@@ -31,7 +31,7 @@ export default function SearchBar() {
         setSuggestions([]);
       }
     } catch (err) {
-      console.error("Search error:", err);
+      // console.error("Search error:", err);
       setSuggestions([]);
     } finally {
       setLoading(false);
@@ -73,7 +73,7 @@ export default function SearchBar() {
     if (product.product_code) {
       router.push(`/dashboard/${product.product_code}`);
     } else {
-      console.warn("⚠️ No product_code found for:", product);
+      // console.warn("⚠️ No product_code found for:", product);
     }
   };
 

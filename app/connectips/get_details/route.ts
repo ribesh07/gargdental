@@ -115,7 +115,7 @@ export async function POST(request: Request) {
     body.APPID = APPID;
     body.REFERENCEID = String(body.REFERENCEID);
     body.TXNAMT = Number(body.TXNAMT);
-    console.log('Request Body:', body);
+    // console.log('Request Body:', body);
 
     const signaturePayload = {
       MERCHANTID: body.MERCHANTID,
@@ -144,8 +144,8 @@ export async function POST(request: Request) {
         token: TOKEN,
       };
 
-console.log('Payload:', payload);
-console.log('Details URL:', DETAILS_URL);
+// console.log('Payload:', payload);
+// console.log('Details URL:', DETAILS_URL);
   const response = await fetch(DETAILS_URL as string, {
       method: 'POST',
       headers: {
@@ -156,7 +156,7 @@ console.log('Details URL:', DETAILS_URL);
       cache: 'no-cache',
     });
 
-  console.log('Response Status:', response);
+  // console.log('Response Status:', response);
    
   if (!response.ok) {
         return NextResponse.json({
@@ -166,11 +166,11 @@ console.log('Details URL:', DETAILS_URL);
       });
     }
   const data = await response.json();
-  console.log('Validation Response:', data);
+  // console.log('Validation Response:', data);
 
     return NextResponse.json(data);
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     return NextResponse.json({
       status: 'ERROR',
       statusDesc: 'Internal Error',

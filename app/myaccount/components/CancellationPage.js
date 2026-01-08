@@ -16,14 +16,14 @@ export default function MyCancellations() {
       const result = await getCancelledOrders("cancelled");
 
       if (result.success) {
-        console.log("Cancelled orders:", result.orders);
+        // console.log("Cancelled orders:", result.orders);
         setCancelledOrders(result.orders.orders || []);
       } else {
         setError(result.error);
         toast.error(result.error);
       }
     } catch (err) {
-      console.error("Error fetching cancelled orders:", err);
+      // console.error("Error fetching cancelled orders:", err);
       setError("Failed to load cancelled orders");
       toast.error("Failed to load cancelled orders");
     } finally {

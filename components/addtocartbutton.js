@@ -57,7 +57,7 @@ export function AddToCart({ product, quantity = 1 }) {
     );
     if (response && response.success) {
       useCartStore.getState().setCart(response.cart);
-      console.log(response);
+      // console.log(response);
       toast.success(`${product.product_name} added to cart!`);
     }
   };
@@ -90,7 +90,7 @@ export function AddtoCartFeatured({ product }) {
       return;
     }
     // addToCart(product);
-    console.warn(product.sell_price + " inside add to cart featured");
+    // console.warn(product.sell_price + " inside add to cart featured");
     const response = await addToCart(
       product.product_code,
       1,
@@ -99,7 +99,7 @@ export function AddtoCartFeatured({ product }) {
 
     if (response && response.success) {
       useCartStore.getState().setCart(response.cart);
-      console.log(response);
+      // console.log(response);
       toast.success(`${product.product_name} added to cart!`);
     }
   };

@@ -147,7 +147,7 @@ export default function ProductShowcase() {
                 Flash Products
               </h2>
               <div className="space-y-3">
-                {console.log(flashes)}
+                
                 {flashes.length > 0 ? (
                   flashes.map(ProductCard)
                 ) : (

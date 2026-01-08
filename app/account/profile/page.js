@@ -34,7 +34,7 @@ export default function CustomerProfilePage() {
     try {
       setIsLoading(true);
       const result = await getCustomerInfo();
-      console.log("Fetched user profile:", result);
+      // console.log("Fetched user profile:", result);
 
       if (result.success) {
         setUser(result.data);
@@ -44,7 +44,7 @@ export default function CustomerProfilePage() {
       }
     } catch (error) {
       toast.error("An error occurred while loading profile");
-      console.error("Error fetching profile:", error);
+      // console.error("Error fetching profile:", error);
     } finally {
       setIsLoading(false);
     }

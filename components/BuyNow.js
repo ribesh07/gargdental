@@ -26,7 +26,7 @@ export function BuyNow({ product }) {
       stock_quantity: product.stock_quantity,
     };
     setSelectedItemsStore([formattedProduct]);
-    console.log("selectedItems after", formattedProduct);
+    // console.log("selectedItems after", formattedProduct);
     router.push("/cart/checkout-buy-now");
   };
   if (product.available_quantity === 0 && product.stock_quantity === 0) {

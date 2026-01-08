@@ -104,13 +104,13 @@ const PayOpsPage = () => {
     
   // const currentThreshold = useFreeShippingStore.getState().getFreeShippingThreshold();
 
-  console.log("selectedShippingAddress", selectedShippingAddress);
+  // console.log("selectedShippingAddress", selectedShippingAddress);
 
-  console.log("selectedBillingAddress", selectedBillingAddress);
+  // console.log("selectedBillingAddress", selectedBillingAddress);
   const email = useCartStore((state) => state.email);
   const addOrder = useCartStore((state) => state.addOrder);
   const router = useRouter();
-  console.log("email", email);
+  // console.log("email", email);
 
   useEffect(() => {
     if (email === null || email === "") {
@@ -178,15 +178,15 @@ const itemsWithVat = selectedItems.map((item) => ({
             if(inside_valley){
               const threshold = getInsideOfValleyThreshold();
               setcurrentThreshold(threshold);
-              console.log("Inside of valley threshold:", threshold);
+              // console.log("Inside of valley threshold:", threshold);
             }else{
               const threshold = getOutOfValleyThreshold();
               setcurrentThreshold(threshold);
-              console.log("Outside of valley threshold:", threshold);
+              // console.log("Outside of valley threshold:", threshold);
             }
           }
         }catch(error){
-          console.log("Error fetching shipping cost:", error);
+          // console.log("Error fetching shipping cost:", error);
         }finally{
           setLoading(false);
         }
@@ -197,7 +197,7 @@ const itemsWithVat = selectedItems.map((item) => ({
       if (subtotal >= currentThreshold && currentThreshold > 0 ) {
         setisFreeShipping(true);
         setShipping(0);
-        console.log("current threshold : ", currentThreshold);
+        // console.log("current threshold : ", currentThreshold);
       }else{
         setisFreeShipping(false);
       }
@@ -221,9 +221,9 @@ const itemsWithVat = selectedItems.map((item) => ({
         shipping: shipping,
         selected_items: selectedItems.map((item) => item.id),
       };
-      console.log("orderData", orderData);
+      // console.log("orderData", orderData);
       const result = await handleOrder(orderData);
-      console.log("result from order create", result);
+      // console.log("result from order create", result);
 
       if (result && result.success) {
         // Add order to local store
@@ -242,10 +242,10 @@ const itemsWithVat = selectedItems.map((item) => ({
         router.push("/product");
       } else {
         // Error is already handled by the modal in handleOrder function
-        console.error("Order failed:", result?.message || "Unknown error");
+        // console.error("Order failed:", result?.message || "Unknown error");
       }
     } catch (error) {
-      console.error("Error in handleConfirmOrder:", error);
+      // console.error("Error in handleConfirmOrder:", error);
       toast.error("An unexpected error occurred. Please try again.");
     }
   };
@@ -272,9 +272,9 @@ const itemsWithVat = selectedItems.map((item) => ({
         selected_items: selectedItems.map((item) => item.id),
         transaction_id : transId
       };
-      console.log("orderData in ips", orderData);
+      // console.log("orderData in ips", orderData);
       const result = await handleOrder(orderData);
-      console.log("result in ips", result);
+      // console.log("result in ips", result);
         if( result && result.success){
            addOrder({
               items: selectedItems,
@@ -331,7 +331,7 @@ const itemsWithVat = selectedItems.map((item) => ({
           form.submit();
         }
   } catch (error) {
-    console.error('ConnectIPS Initiate payment error:', error);
+    // console.error('ConnectIPS Initiate payment error:', error);
   }
 };
 

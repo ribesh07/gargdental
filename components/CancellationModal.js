@@ -35,10 +35,10 @@ export default function CancellationModal({
       if (result.success) {
         setReasons(result.reasons);
       } else {
-        console.error("Failed to fetch reasons:", result.error);
+        // console.error("Failed to fetch reasons:", result.error);
       }
     } catch (error) {
-      console.error("Error fetching reasons:", error);
+      // console.error("Error fetching reasons:", error);
     } finally {
       setReasonsLoading(false);
     }
@@ -60,7 +60,7 @@ export default function CancellationModal({
       await onConfirm(orderNumber, reasonId, description, iAgree);
       onClose();
     } catch (error) {
-      console.error("Error cancelling order:", error);
+      // console.error("Error cancelling order:", error);
     } finally {
       setLoading(false);
     }

@@ -21,7 +21,7 @@ export default function TopBrandPage() {
           };
         };
         const mappedbrand = response.brands.map(mapBrand);
-        console.log("mappedCategories", mappedbrand);
+        // console.log("mappedCategories", mappedbrand);
         setCategories(mappedbrand);
       }
     };

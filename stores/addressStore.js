@@ -17,7 +17,7 @@ export const useAddressStore = create(
         const response = await sortAddressDropdowns();
 
         if (response.provinces.length > 0) {
-          console.log("response", response);
+          // console.log("response", response);
           set({
             provinces: response.provinces,
             cities: response.cities,

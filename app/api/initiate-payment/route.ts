@@ -19,7 +19,7 @@ function validateEnvironmentVariables() {
 }
 
 export async function POST(req: Request) {
-  console.log("Received POST request to /api/checkout-session");
+  // // // console.log("Received POST request to /api/checkout-session");
 
   try {
     validateEnvironmentVariables();
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     const { amount, productName, transactionId, method } = paymentData;
 
     if (!amount || !productName || !transactionId || !method) {
-      console.error("Missing required fields:", paymentData);
+      // console.error("Missing required fields:", paymentData);
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -38,9 +38,9 @@ export async function POST(req: Request) {
 
     switch (method as PaymentMethod) {
       case "esewa": {
-        console.log("Initiating eSewa payment");
+        // console.log("Initiating eSewa payment");
         const transactionUuid = `${Date.now()}-${uuidv4()}`;
-        console.log("Transaction UUID:", transactionUuid);
+        // console.log("Transaction UUID:", transactionUuid);
 
         const esewaConfig = {
           amount: amount,
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
           signatureString
         );
 
-        console.log("eSewa config:", { ...esewaConfig, signature });
+        // console.log("eSewa config:", { ...esewaConfig, signature });
         return NextResponse.json({
           amount: amount,
           esewaConfig: {
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
         });
       }
       case "khalti": {
-        console.log("Initiating Khalti payment");
+        // console.log("Initiating Khalti payment");
         const khaltiConfig = {
           return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart/payment/success?method=khalti`,
           website_url: process.env.NEXT_PUBLIC_BASE_URL!,
@@ -105,28 +105,28 @@ export async function POST(req: Request) {
 
         if (!response.ok) {
           const errorData = await response.json();
-          console.error("Khalti API Error:", errorData);
+          // console.error("Khalti API Error:", errorData);
           throw new Error(
             `Khalti payment initiation failed: ${JSON.stringify(errorData)}`
           );
         }
 
         const khaltiResponse = await response.json();
-        console.log("Khalti payment initiated:", khaltiResponse);
+        // console.log("Khalti payment initiated:", khaltiResponse);
         return NextResponse.json({
           khaltiPaymentUrl: khaltiResponse.payment_url,
         });
       }
 
       default:
-        console.error("Invalid payment method:", method);
+        // console.error("Invalid payment method:", method);
         return NextResponse.json(
           { error: "Invalid payment method" },
           { status: 400 }
         );
     }
   } catch (err) {
-    console.error("Payment API Error:", err);
+    // console.error("Payment API Error:", err);
     return NextResponse.json(
       {
         error: "Error creating payment session",
