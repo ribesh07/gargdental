@@ -20,6 +20,7 @@ const RemoveAccountModal = ({ isOpen, onClose }) => {
 
     try {
       const result = await removeCustomerAccount();
+      // console.log("Account removal result:", result);
 
       if (result.success) {
         toast.success("Account removed successfully");
