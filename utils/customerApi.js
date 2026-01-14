@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { apiRequest, apiPostRequest } from "./ApiSafeCalls";
 
 /**
@@ -84,11 +85,22 @@ export const removeCustomerAccount = async () => {
     const response = await apiRequest("/customer/remove-account", true, {
       method: "DELETE",
     });
-    return {
-      success: true,
-      data: response.data || response,
-      message: response.message || "Account removed successfully",
-    };
+
+    // console.log("Remove account response:", response);
+    if (!response.success) {
+      // toast.error(response?.errors[0].message || "Failed to remove account");
+      return {
+        success: false,
+        error: response?.errors[0].message || "Failed to remove account",
+      };
+    }
+    else{
+
+      return {
+        success: true,
+        message: response.message || "Account removed successfully",
+      };
+    }
   } catch (error) {
     // console.error("Error removing account:", error);
     return {
