@@ -3,10 +3,10 @@ const { parse } = require("url");
 const next = require("next");
 
 const dev = process.env.NODE_ENV !== "production";
-// console.log(dev)
-const hostname = "localhost";
 const port = process.env.PORT || 4444;
-const app = next({ dev, hostname, port });
+
+// IMPORTANT: no hostname, no port here
+const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -15,22 +15,22 @@ app.prepare().then(() => {
       const parsedUrl = parse(req.url, true);
       const { pathname, query } = parsedUrl;
 
-      if (pathname === "/a") {
+      // dynamic routing
+      if (pathname === "/") {
+        await app.render(req, res, "/dashboard", query);
+      } else if (pathname === "/a") {
         await app.render(req, res, "/a", query);
       } else if (pathname === "/b") {
         await app.render(req, res, "/b", query);
-      } else if (pathname === "/") {
-        await app.render(req, res, "/dashboard", query);
       } else {
         await handle(req, res, parsedUrl);
       }
     } catch (err) {
-      // console.error("Error occurred handling", req.url, err);
+      console.error("Server error:", err);
       res.statusCode = 500;
-      res.end("internal server error");
+      res.end("Internal Server Error");
     }
-  }).listen(port, (err) => {
-    if (err) throw err;
-    // console.log(`> Ready on http://${hostname}:${port}`);
+  }).listen(port, "127.0.0.1", () => {
+    console.log(`> Ready on http://127.0.0.1:${port}`);
   });
 });

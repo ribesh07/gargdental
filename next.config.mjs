@@ -49,6 +49,16 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "gargdental.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "gargdental.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "gargdental.vercel.app",
         pathname: "/**",
       },
