@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "radhe-radhe": "next build && pm2 restart garg && pm2 logs garg",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint"
   },

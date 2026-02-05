@@ -277,7 +277,7 @@ import { Grid3X3, ChevronRight } from 'lucide-react';
         {/* Top Bar */}
 
         {/* Image Slider */}
-        <div className="max-w-7xl mb-4 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg">
+        <div className="max-w-7xl mb-0 sm:mb-4 h-[200px] sm:h-[400px] lg:mb-4 relative overflow-hidden rounded-lg shadow-lg">
           {/* Slides */}
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;
@@ -298,7 +298,14 @@ import { Grid3X3, ChevronRight } from 'lucide-react';
                   }}
                   src={slide.image_full_url}
                   alt={`Slide ${index + 1}`}
-                  className="w-full h-full object-cover cursor-pointer select-none"
+                    className="
+                          w-full h-full
+                          object-contain
+                          
+                          lg:object-cover
+                          
+                          cursor-pointer select-none
+                        "
                   loading="eager"
                   draggable={false}
                 />

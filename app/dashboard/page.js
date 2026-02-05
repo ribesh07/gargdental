@@ -33,7 +33,7 @@ export default function Page() {
   return (
     <>
       {/* MAIN WEBSITE */}
-      <main className="p-6">
+      <main>
         <GargDental />
       </main>
 

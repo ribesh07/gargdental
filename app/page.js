@@ -311,7 +311,7 @@ export default function HomePage() {
   return (
     <>
       {/* MAIN WEBSITE */}
-      <main className="p-6">
+      <main className="">
         <GargDental />
       </main>
 
